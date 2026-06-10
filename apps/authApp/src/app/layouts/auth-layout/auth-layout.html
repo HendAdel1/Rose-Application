@@ -1,0 +1,13 @@
+<div class="min-h-screen flex flex-col lg:flex-row bg-white">
+  <!-- Content -->
+  <div class="flex-1 flex items-center justify-center py-12">
+    <div class="w-full max-w-md px-6">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- Right Side - image -->
+  <div class="hidden lg:flex flex-1 h-screen sticky top-0 overflow-hidden">
+    <img src="/images/auth-background.png" alt="Gifts Cover" class="w-full h-full object-cover" />
+  </div>
+</div>

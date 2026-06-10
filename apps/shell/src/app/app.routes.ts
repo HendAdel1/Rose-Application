@@ -1,4 +1,3 @@
-import { NxWelcome } from './nx-welcome';
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 
@@ -26,6 +25,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: '',
-    component: NxWelcome,
+    pathMatch: 'full',
+    redirectTo: 'authApp',
   },
 ];
