@@ -1,4 +1,4 @@
 import { Route } from '@angular/router';
-import { RemoteEntry } from './entry';
+import { AuthLayout } from '../layouts/auth-layout/auth-layout';
 
-export const remoteRoutes: Route[] = [{ path: '', component: RemoteEntry }];
+export const remoteRoutes: Route[] = [{ path: '', component: AuthLayout }];
