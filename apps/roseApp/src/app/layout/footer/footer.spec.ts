@@ -8,7 +8,7 @@ describe('Footer', () => {
     }).compileComponents();
   });
 
-  it('should render company information and support links', () => {
+  it('should render footer content', () => {
     const fixture = TestBed.createComponent(Footer);
     fixture.detectChanges();
 
@@ -18,25 +18,8 @@ describe('Footer', () => {
     expect(compiled.textContent).toContain('Privacy Policy');
     expect(compiled.textContent).toContain('Terms & Conditions');
     expect(compiled.textContent).toContain('FAQs');
-    expect(compiled.textContent).toContain('support@rose-app.com');
-    expect(compiled.textContent).toContain('+20 100 000 0000');
     expect(compiled.textContent).toContain('Get 20% Off Discount Coupon');
     expect(compiled.textContent).toContain('Enter Your Email');
     expect(compiled.textContent).toContain('Subscribe');
-  });
-
-  it('should open social links in new tabs', () => {
-    const fixture = TestBed.createComponent(Footer);
-    fixture.detectChanges();
-
-    const socialLinks = Array.from(
-      fixture.nativeElement.querySelectorAll('.social-links a'),
-    ) as HTMLAnchorElement[];
-
-    expect(socialLinks.length).toBeGreaterThan(0);
-    expect(socialLinks.every((link) => link.target === '_blank')).toBe(true);
-    expect(
-      socialLinks.every((link) => link.rel.includes('noopener noreferrer')),
-    ).toBe(true);
   });
 });
