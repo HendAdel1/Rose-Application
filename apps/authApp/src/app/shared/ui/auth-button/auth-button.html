@@ -1,0 +1,15 @@
+<button type="submit" [disabled]="disabled || loading"
+  class="w-full py-3 my-9 text-sm font-base flex items-center justify-center gap-2 rounded-[10px] transition-colors cursor-pointer"
+  [ngClass]="{
+    'bg-mroon-600 hover:bg-maroon-700! text-white!':
+      variant === 'primary' && !(disabled || loading),
+
+    'bg-zinc-300 text-zinc-500 cursor-not-allowed':
+      disabled || loading
+  }">
+  @if (loading) {
+  <span class="animate-pulse">Loading...</span>
+  } @else {
+  <ng-content></ng-content>
+  }
+</button>
