@@ -33,29 +33,6 @@
   width: 12.5rem;
 }
 
-.rose-mark {
-  background:
-    radial-gradient(circle at 50% 50%, #ffe0ea 0 12%, transparent 13%),
-    conic-gradient(
-      from 20deg,
-      #f66e99,
-      #ffacc8,
-      #f25789,
-      #b01835,
-      #ffacc8,
-      #f66e99
-    );
-  border-radius: 62% 38% 58% 42%;
-  box-shadow:
-    -3rem 2rem 0 -2.35rem #8f1428,
-    2.85rem 2.2rem 0 -2.25rem #8f1428,
-    1.7rem -1.45rem 0 -1.25rem #a01831;
-  display: block;
-  height: 6rem;
-  transform: rotate(-8deg);
-  width: 6.4rem;
-}
-
 .rose-word {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 4.75rem;
@@ -149,29 +126,6 @@
 
 .subscribe-placeholder span {
   color: #8a1730;
-}
-
-.contact-details {
-  display: flex;
-  flex-wrap: wrap;
-  font-style: normal;
-  gap: 0.25rem 0.75rem;
-  margin-top: 1rem;
-}
-
-.contact-details a {
-  color: #c8c5cc;
-}
-
-.social-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 0.45rem;
-}
-
-.social-links a {
-  color: #c8c5cc;
 }
 
 @media (max-width: 900px) {
