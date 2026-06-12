@@ -1,74 +1,99 @@
 .footer {
-  background: #17181c;
-  color: #f8f3f6;
-  padding: 2.5rem clamp(1rem, 6vw, 5rem);
+  background: #16171b;
+  color: #ffffff;
+  padding: 2rem clamp(2rem, 7vw, 6rem) 1.75rem;
 }
 
 .footer-content {
   display: grid;
-  gap: 2rem;
-  grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(10rem, 1fr));
+  gap: clamp(2rem, 8vw, 6rem);
+  grid-template-columns: 13rem minmax(13rem, 1fr) minmax(18rem, 22rem);
   margin: 0 auto;
-  max-width: 72rem;
+  max-width: 70rem;
 }
 
-.company-section,
-.footer-section {
+.brand-column,
+.links-column,
+.newsletter-column {
   min-width: 0;
 }
 
-.footer-brand {
-  align-items: center;
-  color: #ff9fbd;
-  display: inline-flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+.brand-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 16.75rem;
+}
+
+.brand-logo {
+  color: #ff9dbc;
+  display: grid;
+  justify-items: center;
   text-decoration: none;
+  width: 12.5rem;
 }
 
-.brand-mark {
-  align-items: center;
-  background: #ff9fbd;
-  border-radius: 50%;
-  color: #681128;
-  display: inline-flex;
-  font-size: 1.75rem;
-  font-weight: 700;
-  height: 4rem;
-  justify-content: center;
-  width: 4rem;
+.rose-mark {
+  background:
+    radial-gradient(circle at 50% 50%, #ffe0ea 0 12%, transparent 13%),
+    conic-gradient(
+      from 20deg,
+      #f66e99,
+      #ffacc8,
+      #f25789,
+      #b01835,
+      #ffacc8,
+      #f66e99
+    );
+  border-radius: 62% 38% 58% 42%;
+  box-shadow:
+    -3rem 2rem 0 -2.35rem #8f1428,
+    2.85rem 2.2rem 0 -2.25rem #8f1428,
+    1.7rem -1.45rem 0 -1.25rem #a01831;
+  display: block;
+  height: 6rem;
+  transform: rotate(-8deg);
+  width: 6.4rem;
 }
 
-.brand-name {
+.rose-word {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 3rem;
-  line-height: 1;
+  font-size: 4.75rem;
+  font-style: italic;
+  line-height: 0.72;
+  margin-top: -0.75rem;
+}
+
+.company-copy {
+  padding-left: 0.9rem;
 }
 
 .footer h2 {
-  color: #ff9fbd;
+  color: #ff9dbc;
   font-size: 1rem;
   font-weight: 700;
-  margin: 0 0 0.5rem;
+  line-height: 1.15;
+  margin: 0;
 }
 
 .footer p,
-.footer address,
 .footer a,
+.footer address,
 .footer span {
-  color: #f8f3f6;
-  font-size: 0.875rem;
-  font-style: normal;
-  line-height: 1.6;
+  color: #ffffff;
+  font-size: 0.82rem;
+  line-height: 1.35;
 }
 
-.footer p {
-  margin: 0;
+.company-copy p,
+.newsletter-copy p {
+  color: #a5a4aa;
+  margin: 0.15rem 0 0;
 }
 
 .footer ul {
   list-style: none;
-  margin: 0;
+  margin: 0.25rem 0 0;
   padding: 0;
 }
 
@@ -78,50 +103,112 @@
 
 .footer a:hover,
 .footer a:focus-visible {
-  color: #ff9fbd;
+  color: #ff9dbc;
 }
 
-.footer address {
-  display: grid;
-  gap: 0.35rem;
+.links-column li {
+  margin-bottom: 0.08rem;
+}
+
+.newsletter-column {
+  padding-top: 0.1rem;
+}
+
+.newsletter-copy strong {
+  color: #ffffff;
+}
+
+.newsletter-input-slot {
+  align-items: center;
+  background: #292a2f;
+  border-radius: 999px;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1.1rem;
+  min-height: 2rem;
+  padding-left: 1rem;
+  width: 100%;
+}
+
+.input-placeholder {
+  color: #a5a4aa;
+}
+
+.subscribe-placeholder {
+  align-items: center;
+  background: #ffe7ec;
+  border-radius: 999px;
+  color: #8a1730;
+  display: inline-flex;
+  gap: 0.55rem;
+  min-height: 2rem;
+  padding: 0 0.95rem;
+  white-space: nowrap;
+}
+
+.subscribe-placeholder span {
+  color: #8a1730;
+}
+
+.contact-details {
+  display: flex;
+  flex-wrap: wrap;
+  font-style: normal;
+  gap: 0.25rem 0.75rem;
+  margin-top: 1rem;
+}
+
+.contact-details a {
+  color: #c8c5cc;
 }
 
 .social-links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+  margin-top: 0.45rem;
 }
 
 .social-links a {
-  border: 1px solid rgba(255, 159, 189, 0.55);
-  border-radius: 999px;
-  display: inline-flex;
-  padding: 0.35rem 0.75rem;
-}
-
-.footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  margin: 2rem auto 0;
-  max-width: 72rem;
-  padding-top: 1rem;
+  color: #c8c5cc;
 }
 
 @media (max-width: 900px) {
   .footer-content {
+    gap: 2.5rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .newsletter-column {
+    grid-column: 1 / -1;
+    max-width: 24rem;
   }
 }
 
 @media (max-width: 640px) {
   .footer {
-    padding: 2rem 1rem;
+    padding: 2rem 1.25rem;
   }
 
   .footer-content {
     grid-template-columns: 1fr;
   }
 
-  .brand-name {
-    font-size: 2.5rem;
+  .brand-column {
+    min-height: auto;
+  }
+
+  .brand-logo {
+    justify-items: start;
+  }
+
+  .company-copy {
+    margin-top: 1.5rem;
+    padding-left: 0;
+  }
+
+  .newsletter-column {
+    max-width: none;
   }
 }

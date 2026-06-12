@@ -20,6 +20,9 @@ describe('Footer', () => {
     expect(compiled.textContent).toContain('FAQs');
     expect(compiled.textContent).toContain('support@rose-app.com');
     expect(compiled.textContent).toContain('+20 100 000 0000');
+    expect(compiled.textContent).toContain('Get 20% Off Discount Coupon');
+    expect(compiled.textContent).toContain('Enter Your Email');
+    expect(compiled.textContent).toContain('Subscribe');
   });
 
   it('should open social links in new tabs', () => {
