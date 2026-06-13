@@ -1,7 +1,7 @@
 export * from './lib/sharedComponents/sharedComponents';
-export * from './lib/sharedComponents/UiButton/UiButton';
-export * from './lib/sharedComponents/UiLabel/UiLabel';
-export * from './lib/sharedComponents/ErrorMesage/UiErrorMessage';
-export * from './lib/sharedComponents/Spinner/uiSpinner';
+export * from './lib/sharedComponents/ui-button/ui-button';
+export * from './lib/sharedComponents/ui-label/ui-label';
+export * from './lib/sharedComponents/errormesage/ui-error-message';
+export * from './lib/sharedComponents/spinner/ui-spinner';
 
 

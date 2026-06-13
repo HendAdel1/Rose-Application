@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UiErrorMessage } from './UiErrorMessage';
+import { UiSpinner } from './ui-spinner';
 
-describe('UiErrorMessage', () => {
-  let component: UiErrorMessage;
-  let fixture: ComponentFixture<UiErrorMessage>;
+describe('UiSpinner', () => {
+  let component: UiSpinner;
+  let fixture: ComponentFixture<UiSpinner>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiErrorMessage],
+      imports: [UiSpinner],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UiErrorMessage);
+    fixture = TestBed.createComponent(UiSpinner);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

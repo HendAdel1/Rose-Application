@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UiButton } from './UiButton';
+import { UiErrorMessage } from './ui-error-message';
 
-describe('UiButton', () => {
-  let component: UiButton;
-  let fixture: ComponentFixture<UiButton>;
+describe('UiErrorMessage', () => {
+  let component: UiErrorMessage;
+  let fixture: ComponentFixture<UiErrorMessage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiButton],
+      imports: [UiErrorMessage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UiButton);
+    fixture = TestBed.createComponent(UiErrorMessage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

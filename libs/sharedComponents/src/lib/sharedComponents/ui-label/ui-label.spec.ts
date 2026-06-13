@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UiSpinner } from './uiSpinner';
+import { UiLabel } from './ui-label';
 
-describe('UiSpinner', () => {
-  let component: UiSpinner;
-  let fixture: ComponentFixture<UiSpinner>;
+describe('UiLabel', () => {
+  let component: UiLabel;
+  let fixture: ComponentFixture<UiLabel>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiSpinner],
+      imports: [UiLabel],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UiSpinner);
+    fixture = TestBed.createComponent(UiLabel);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
