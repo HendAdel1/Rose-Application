@@ -1,6 +1,23 @@
+@font-face {
+  font-display: swap;
+  font-family: 'Sarabun';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/sarabun/Sarabun-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Sarabun';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/sarabun/Sarabun-Bold.woff2') format('woff2');
+}
+
 .footer {
   background: #16171b;
   color: #ffffff;
+  font-family: 'Sarabun', Arial, sans-serif;
   padding: 2rem clamp(2rem, 7vw, 6rem) 1.75rem;
 }
 
@@ -26,19 +43,15 @@
 }
 
 .brand-logo {
-  color: #ff9dbc;
-  display: grid;
-  justify-items: center;
+  display: block;
   text-decoration: none;
   width: 12.5rem;
 }
 
-.rose-word {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 4.75rem;
-  font-style: italic;
-  line-height: 0.72;
-  margin-top: -0.75rem;
+.brand-logo img {
+  display: block;
+  height: auto;
+  width: 100%;
 }
 
 .company-copy {
@@ -154,7 +167,7 @@
   }
 
   .brand-logo {
-    justify-items: start;
+    width: 10.5rem;
   }
 
   .company-copy {
