@@ -1,16 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UiSpinner } from './ui-spinner';
 
-describe('UiSpinner', () => {
-  let component: UiSpinner;
-  let fixture: ComponentFixture<UiSpinner>;
+import { Login } from './login';
+
+describe('Login', () => {
+  let component: Login;
+  let fixture: ComponentFixture<Login>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiSpinner],
+      imports: [Login],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UiSpinner);
+    fixture = TestBed.createComponent(Login);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

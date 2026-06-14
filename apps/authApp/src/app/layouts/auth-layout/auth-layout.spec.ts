@@ -1,16 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UiErrorMessage } from './ui-error-message';
 
-describe('UiErrorMessage', () => {
-  let component: UiErrorMessage;
-  let fixture: ComponentFixture<UiErrorMessage>;
+import { AuthLayout } from './auth-layout';
+
+describe('AuthLayout', () => {
+  let component: AuthLayout;
+  let fixture: ComponentFixture<AuthLayout>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiErrorMessage],
+      imports: [AuthLayout],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UiErrorMessage);
+    fixture = TestBed.createComponent(AuthLayout);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

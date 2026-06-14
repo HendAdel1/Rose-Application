@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SharedComponents } from './sharedComponents';
+import { LoginForm } from './login-form';
 
-describe('SharedComponents', () => {
-  let component: SharedComponents;
-  let fixture: ComponentFixture<SharedComponents>;
+describe('LoginForm', () => {
+  let component: LoginForm;
+  let fixture: ComponentFixture<LoginForm>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedComponents],
+      imports: [LoginForm],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SharedComponents);
+    fixture = TestBed.createComponent(LoginForm);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
