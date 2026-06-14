@@ -28,3 +28,25 @@ storing the token and updating the current session.
 ## Running unit tests
 
 Run `npx nx test auth-data-access` to execute the unit tests.
+
+## lib flow
+
+Login Form
+   |
+   v
+AuthSessionService.login()
+   |
+   v
+AuthApiService.login()
+   |
+   v
+POST /api/auth/login
+   |
+   v
+response contains token + user
+   |
+   v
+TokenStorageService.saveAuthPayload()
+   |
+   v
+AuthSessionService updates currentUser + isAuthenticated
