@@ -17,6 +17,8 @@
     "@nx/angular": "22.7.5",
     "@tailwindcss/postcss": "^4.3.0",
     "express": "^4.21.2",
+    "loaders.css": "^0.1.2",
+    "ngx-spinner": "^21.1.0",
     "postcss": "^8.5.15",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.3.0",
