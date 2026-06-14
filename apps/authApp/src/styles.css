@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import 'tailwindcss';
 @import "./app/styles/base/tailwind.css";
 
@@ -15,3 +16,8 @@
   --color-maroon-900: #2c0c10;
   --color-maroon-950: #20090c;
 }
+=======
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@import "./app/styles/base/tailwind.css";
+>>>>>>> parent of 48268b8 (Revert "Feature/folder structure")

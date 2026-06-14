@@ -65,6 +65,7 @@
     format('woff2');
   font-weight: 400;
   font-style: normal;
+<<<<<<< HEAD
 }
 
 /* Mulish */
@@ -119,3 +120,6 @@
   font-style: normal;
 }
 
+=======
+}
+>>>>>>> parent of 48268b8 (Revert "Feature/folder structure")
