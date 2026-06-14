@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   LucideBell,
@@ -53,6 +53,8 @@ export class Navbar {
   readonly isAuthenticated = input(false);
   readonly currentUserName = input('Jonathan');
   readonly deliveryCity = input('Cairo');
+  readonly searchSubmitted = output<string>();
+  readonly searchTerm = signal('');
 
   readonly navItems: NavItem[] = [
     { label: 'Home', route: './', icon: 'home', exact: true },
@@ -62,4 +64,17 @@ export class Navbar {
     { label: 'Contact', route: './contact', icon: 'contact' },
     { label: 'About', route: './about', icon: 'about' },
   ];
+
+  onSearchChange(value: string): void {
+    this.searchTerm.set(value);
+  }
+
+  onSearchSubmit(event: Event): void {
+    event.preventDefault();
+    const term = this.searchTerm().trim();
+
+    if (term) {
+      this.searchSubmitted.emit(term);
+    }
+  }
 }

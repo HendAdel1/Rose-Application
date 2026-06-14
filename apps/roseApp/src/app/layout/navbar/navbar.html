@@ -14,19 +14,27 @@
       </div>
     }
 
-    <div class="search-field">
+    <form class="search-field" role="search" (submit)="onSearchSubmit($event)">
       <svg lucideSearch [size]="17" aria-hidden="true"></svg>
       <lib-custom-input
         type="text"
         [placeholder]="searchPlaceholder"
         aria-label="Search products"
         i18n-aria-label
+        (valueChange)="onSearchChange($event)"
       ></lib-custom-input>
-    </div>
+    </form>
 
     <div class="header-actions">
       @if (isAuthenticated()) {
-        <button class="user-menu" type="button" aria-label="Open profile menu" i18n-aria-label>
+        <button
+          class="user-menu"
+          type="button"
+          aria-haspopup="menu"
+          aria-expanded="false"
+          aria-label="Open profile menu"
+          i18n-aria-label
+        >
           <span>
             <span class="hello" i18n>Hello</span>
             <strong>{{ currentUserName() }}</strong>
@@ -40,29 +48,29 @@
         </a>
       }
 
-      <span class="divider"></span>
+      @if (isAuthenticated()) {
+        <span class="divider"></span>
 
-      <button class="icon-button" type="button" aria-label="Wishlist" i18n-aria-label>
-        <svg lucideHeart [size]="22" aria-hidden="true"></svg>
-      </button>
+        <button class="icon-button" type="button" aria-label="Wishlist" i18n-aria-label>
+          <svg lucideHeart [size]="22" aria-hidden="true"></svg>
+        </button>
 
-      <button class="icon-button has-badge" type="button" aria-label="Shopping cart" i18n-aria-label>
-        <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
-        @if (isAuthenticated()) {
+        <button class="icon-button has-badge" type="button" aria-label="Shopping cart" i18n-aria-label>
+          <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
           <span class="badge">8</span>
-        }
-      </button>
+        </button>
 
-      <button class="icon-button has-badge" type="button" aria-label="Notifications" i18n-aria-label>
-        <svg lucideBell [size]="21" aria-hidden="true"></svg>
-        @if (isAuthenticated()) {
+        <button class="icon-button has-badge" type="button" aria-label="Notifications" i18n-aria-label>
+          <svg lucideBell [size]="21" aria-hidden="true"></svg>
           <span class="badge">8</span>
-        }
+        </button>
+
+        <span class="divider"></span>
+      }
+
+      <button class="language-button" type="button" aria-label="Switch language" i18n-aria-label i18n>
+        العربية
       </button>
-
-      <span class="divider"></span>
-
-      <button class="language-button" type="button" i18n>العربية</button>
     </div>
   </div>
 
