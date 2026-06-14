@@ -1,15 +1,104 @@
-<nav class="navbar" aria-label="Primary navigation" i18n-aria-label>
-  <a class="brand" routerLink="./" i18n>Rose Application</a>
+<header class="rose-header font-sarabun" aria-label="Rose header" i18n-aria-label>
+  <div class="top-bar">
+    <a class="logo-link" routerLink="./" aria-label="Rose home" i18n-aria-label>
+      <img class="rose-logo" [src]="logoPath" alt="Rose" />
+    </a>
 
-  <ul class="nav-links">
-    <li>
-      <a
-        routerLink="./"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        i18n
-        >Home</a
-      >
-    </li>
-  </ul>
-</nav>
+    @if (isAuthenticated()) {
+      <div class="delivery-info" aria-label="Delivery location" i18n-aria-label>
+        <span class="delivery-label" i18n>Deliver to:</span>
+        <span class="delivery-city">
+          <svg lucideMapPin [size]="15" aria-hidden="true"></svg>
+          {{ deliveryCity() }}
+        </span>
+      </div>
+    }
+
+    <div class="search-field">
+      <svg lucideSearch [size]="17" aria-hidden="true"></svg>
+      <lib-custom-input
+        type="text"
+        [placeholder]="searchPlaceholder"
+        aria-label="Search products"
+        i18n-aria-label
+      ></lib-custom-input>
+    </div>
+
+    <div class="header-actions">
+      @if (isAuthenticated()) {
+        <button class="user-menu" type="button" aria-label="Open profile menu" i18n-aria-label>
+          <span>
+            <span class="hello" i18n>Hello</span>
+            <strong>{{ currentUserName() }}</strong>
+          </span>
+          <svg lucideChevronDown [size]="14" aria-hidden="true"></svg>
+        </button>
+      } @else {
+        <a class="login-link" routerLink="/auth/login">
+          <svg lucideUser [size]="18" aria-hidden="true"></svg>
+          <span i18n>Login</span>
+        </a>
+      }
+
+      <span class="divider"></span>
+
+      <button class="icon-button" type="button" aria-label="Wishlist" i18n-aria-label>
+        <svg lucideHeart [size]="22" aria-hidden="true"></svg>
+      </button>
+
+      <button class="icon-button has-badge" type="button" aria-label="Shopping cart" i18n-aria-label>
+        <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
+        @if (isAuthenticated()) {
+          <span class="badge">8</span>
+        }
+      </button>
+
+      <button class="icon-button has-badge" type="button" aria-label="Notifications" i18n-aria-label>
+        <svg lucideBell [size]="21" aria-hidden="true"></svg>
+        @if (isAuthenticated()) {
+          <span class="badge">8</span>
+        }
+      </button>
+
+      <span class="divider"></span>
+
+      <button class="language-button" type="button" i18n>العربية</button>
+    </div>
+  </div>
+
+  <nav class="nav-strip" aria-label="Primary navigation" i18n-aria-label>
+    <ul class="nav-list">
+      @for (item of navItems; track item.label) {
+        <li>
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+          >
+            @switch (item.icon) {
+              @case ('home') {
+                <svg lucideHome [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('products') {
+                <svg lucideGift [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('categories') {
+                <svg lucideClipboardList [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('occasions') {
+                <svg lucidePartyPopper [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('contact') {
+                <svg lucideHeadphones [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('about') {
+                <svg lucideInfo [size]="16" aria-hidden="true"></svg>
+              }
+            }
+            <span>{{ item.label }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+</header>
