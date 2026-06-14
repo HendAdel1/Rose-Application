@@ -1,3 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+<<<<<<< HEAD
 @import "tailwindcss";
 @import "./app/styles/base/tailwind.css";
+=======
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@import "./app/styles/base/tailwind.css";
+>>>>>>> parent of 48268b8 (Revert "Feature/folder structure")
