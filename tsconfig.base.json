@@ -19,8 +19,7 @@
         "./apps/adminDashboard/src/app/remote-entry/entry.routes.ts"
       ],
       "authApp/Routes": ["./apps/authApp/src/app/remote-entry/entry.routes.ts"],
-      "roseApp/Routes": ["./apps/roseApp/src/app/remote-entry/entry.routes.ts"],
-      "@org/sharedComponents": ["./libs/sharedComponents/src/index.ts"]
+      "roseApp/Routes": ["./apps/roseApp/src/app/remote-entry/entry.routes.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
