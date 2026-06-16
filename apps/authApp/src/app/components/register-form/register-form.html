@@ -13,32 +13,138 @@ Email
         }
   <lib-ui-button type="submit" [loading]="isLoading()"> Next </lib-ui-button>
   <lib-ui-error-message [hide]="isError()"> {{msgError()}} </lib-ui-error-message>
+
 </div>
 </form>
 }
 @if(step()===2){
-  <form [formGroup]="confirmEmail" (ngSubmit)="confirmEmailVerification()">
 
-<div class="mb-4">
-    <lib-ui-label forId="email">
-Email
-  </lib-ui-label>
-  <lib-custom-input formControlName="email" type="email" placeholder="user@example.com" value="email" (input)="$event"></lib-custom-input>
-   @if (confirmEmail.get('email')?.errors && confirmEmail.get('email')?.touched) {
-        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">email is required</p-message>
+<div class="otp-card">
+  <h2>Verify Identity</h2>
+  <p class="subtitle">Enter the {{ length }}-digit code sent to your registered channel.</p>
+
+  <form [formGroup]="confirmEmail" (ngSubmit)="onSubmit()">
+    <div class="otp-inputs-wrapper" (paste)="onPaste($event)">
+      @for (control of otpFormArray.controls; track $index) {
+          <input #otpInput
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          [formControl]="control"
+          (input)="onInputChange($event, $index)"
+          (keydown)="onKeyDown($event, $index)"
+          [attr.disabled]="isLoading() ? true : null"
+          class="otp-digit-box "/>
+      }
+    </div>
+
+    @if (feedbackMessage(); as msg) {
+      <div [class]="'alert-message ' + msg.type">
+        {{ msg.text }}
+      </div>
+    }
+
+    <div class="action-footer">
+      <button
+        type="submit"
+        [disabled]="isLoading() || otpFormArray.invalid"
+        class="btn-verify"
+      >
+        @if (isLoading()) {
+          <span class="spinner"></span>
+        } @else {
+          Verify Code
         }
-</div>
-<div class="mb-4">
-    <lib-ui-label forId="code">
-Code
-  </lib-ui-label>
-  <lib-custom-input formControlName="code" type="number"  value="code" (input)="$event"></lib-custom-input>
-   @if (confirmEmail.get('code')?.errors && confirmEmail.get('code')?.touched) {
-        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">code is required</p-message>
+      </button>
+  @if (expirationTimer() > 0) {
+  <p class="text-sm text-amber-600">
+    This code will expire in: <strong>{{ getFormattedExpirationTime() }}</strong>
+  </p>
+} @else {
+  <p class="text-sm text-red-600">The code has expired. Please request a new one.</p>
+}
+      <div class="resend-timer-wrapper">
+        @if (timer() > 0) {
+          <span class="timer-text">Resend option active in <strong>{{ timer() }}s</strong></span>
+        } @else {
+          <button
+            type="button"
+            (click)="handleResend()"
+            [disabled]="isResending()"
+            class="btn-resend"
+          >
+            {{ isResending() ? 'Sending...' : 'Resend OTP' }}
+          </button>
         }
-  <lib-ui-button type="submit" [loading]="isLoading()"> Next </lib-ui-button>
-  <lib-ui-error-message [hide]="isError()"> {{msgError()}} </lib-ui-error-message>
+      </div>
+    </div>
+  </form>
 </div>
-</form>
+
+}
+@if(step()===3){
+
+<div class="otp-card">
+  <h2>Verify Identity</h2>
+  <p class="subtitle">Enter the {{ length }}-digit code sent to your registered channel.</p>
+
+  <form [formGroup]="confirmEmail" (ngSubmit)="confirmEmailVerification()">
+    <div class="otp-inputs-wrapper" (paste)="onPaste($event)">
+      @for (control of otpFormArray.controls; track $index) {
+          <input #otpInput
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          [formControl]="control"
+          (input)="onInputChange($event, $index)"
+          (keydown)="onKeyDown($event, $index)"
+          [attr.disabled]="isLoading() ? true : null"
+          class="otp-digit-box "/>
+      }
+    </div>
+
+    @if (feedbackMessage(); as msg) {
+      <div [class]="'alert-message ' + msg.type">
+        {{ msg.text }}
+      </div>
+    }
+
+    <div class="action-footer">
+      <button
+        type="submit"
+        [disabled]="isLoading() || otpFormArray.invalid"
+        class="btn-verify"
+      >
+        @if (isLoading()) {
+          <span class="spinner"></span>
+        } @else {
+          Verify Code
+        }
+      </button>
+  @if (expirationTimer() > 0) {
+  <p class="text-sm text-amber-600">
+    This code will expire in: <strong>{{ getFormattedExpirationTime() }}</strong>
+  </p>
+} @else {
+  <p class="text-sm text-red-600">The code has expired. Please request a new one.</p>
+}
+      <div class="resend-timer-wrapper">
+        @if (timer() > 0) {
+          <span class="timer-text">Resend option active in <strong>{{ timer() }}s</strong></span>
+        } @else {
+          <button
+            type="button"
+            (click)="handleResend()"
+            [disabled]="isResending()"
+            class="btn-resend"
+          >
+            {{ isResending() ? 'Sending...' : 'Resend OTP' }}
+          </button>
+        }
+      </div>
+    </div>
+  </form>
+</div>
+
 }
 </section>
