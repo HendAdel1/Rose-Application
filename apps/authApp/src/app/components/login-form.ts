@@ -6,8 +6,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthError, AuthSessionService } from '@org/auth-data-access';
-import { CustomInput, UiButton, UiErrorMessage, UiLabel } from '@org/sharedComponents';
+import {
+  AuthApiService,
+  AuthError,
+  TokenStorageService,
+} from '@org/auth-data-access';
+import {
+  CustomInput,
+  UiButton,
+  UiErrorMessage,
+  UiLabel,
+} from '@org/sharedComponents';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -24,7 +33,8 @@ import { finalize } from 'rxjs';
 })
 export class LoginForm {
   private readonly fb = inject(FormBuilder);
-  private readonly authSession = inject(AuthSessionService);
+  private readonly authApi = inject(AuthApiService);
+  private readonly tokenStorage = inject(TokenStorageService);
   private readonly router = inject(Router);
 
   isLoading = signal(false);
@@ -50,14 +60,14 @@ export class LoginForm {
 
     this.isLoading.set(true);
 
-    this.authSession
-      .login({
+    this.authApi.login({
         username: email,
         password,
       })
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
-        next: () => {
+        next: (response) => {
+          this.tokenStorage.saveAuthPayload(response.payload);
           void this.router.navigate(['/roseApp']);
         },
         error: (error: AuthError) => {
