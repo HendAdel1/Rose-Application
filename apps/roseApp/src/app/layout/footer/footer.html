@@ -1,52 +1,48 @@
 <footer class="footer">
   <div class="footer-content">
     <section class="brand-column" aria-labelledby="footer-company">
-      <a class="brand-logo" href="#" aria-label="Rose home" i18n-aria-label>
-        <img src="/logos/rose-logo.png" alt="Rose" i18n-alt />
+      <a class="brand-logo" href="#" [attr.aria-label]="'FOOTER.ROSE_HOME' | translate">
+        <img src="/logos/rose-logo.png" alt="Rose" />
       </a>
 
       <div class="company-copy">
-        <h2 id="footer-company" i18n>Rose E-Commerce App</h2>
-        <p i18n>All rights reserved | 2025</p>
+        <h2 id="footer-company">{{ 'FOOTER.COMPANY_NAME' | translate }}</h2>
+        <p>{{ 'FOOTER.RIGHTS' | translate }}</p>
       </div>
     </section>
 
     <nav class="links-column" aria-labelledby="footer-links">
-      <h2 id="footer-links" i18n>Discover our website</h2>
+      <h2 id="footer-links">{{ 'FOOTER.DISCOVER' | translate }}</h2>
       <ul>
-        <li><a href="#" i18n>Home</a></li>
-        <li><a href="#" i18n>Products</a></li>
-        <li><a href="#" i18n>Categories</a></li>
-        <li><a href="#" i18n>Occasions</a></li>
-        <li><a href="#" i18n>Contact</a></li>
-        <li><a href="#" i18n>About</a></li>
-        <li><a href="#terms" i18n>Terms & Conditions</a></li>
-        <li><a href="#privacy-policy" i18n>Privacy Policy</a></li>
-        <li><a href="#faq" i18n>FAQs</a></li>
+        <li><a href="#">{{ 'NAV.HOME' | translate }}</a></li>
+        <li><a href="#">{{ 'NAV.PRODUCTS' | translate }}</a></li>
+        <li><a href="#">{{ 'NAV.CATEGORIES' | translate }}</a></li>
+        <li><a href="#">{{ 'NAV.OCCASIONS' | translate }}</a></li>
+        <li><a href="#">{{ 'NAV.CONTACT' | translate }}</a></li>
+        <li><a href="#">{{ 'NAV.ABOUT' | translate }}</a></li>
+        <li><a href="#terms">{{ 'FOOTER.TERMS' | translate }}</a></li>
+        <li><a href="#privacy-policy">{{ 'FOOTER.PRIVACY' | translate }}</a></li>
+        <li><a href="#faq">{{ 'FOOTER.FAQ' | translate }}</a></li>
       </ul>
     </nav>
 
     <section class="newsletter-column" aria-labelledby="footer-newsletter">
       <div class="newsletter-copy">
-        <h2 id="footer-newsletter" i18n>
-          Get <strong>20%</strong> Off Discount Coupon
-        </h2>
-        <p i18n>By subscribing to our newsletter</p>
+        <h2 id="footer-newsletter" [innerHTML]="'FOOTER.DISCOUNT_TITLE' | translate"></h2>
+        <p>{{ 'FOOTER.NEWSLETTER_COPY' | translate }}</p>
       </div>
 
       <div
         class="newsletter-input-slot"
         role="presentation"
-        aria-label="Newsletter input placeholder"
-        i18n-aria-label
+        [attr.aria-label]="'FOOTER.NEWSLETTER_INPUT' | translate"
       >
-        <span class="input-placeholder" i18n>Enter Your Email</span>
-        <span class="subscribe-placeholder" i18n>
-          Subscribe
+        <span class="input-placeholder">{{ 'FOOTER.EMAIL_PLACEHOLDER' | translate }}</span>
+        <span class="subscribe-placeholder">
+          {{ 'FOOTER.SUBSCRIBE' | translate }}
           <span aria-hidden="true">-></span>
         </span>
       </div>
-
     </section>
   </div>
 </footer>
