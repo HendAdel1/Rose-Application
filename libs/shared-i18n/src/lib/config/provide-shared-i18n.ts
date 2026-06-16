@@ -24,13 +24,13 @@ export function provideSharedI18n(
 
   return makeEnvironmentProviders([
     provideHttpClient(),
-    provideTranslateHttpLoader({
-      prefix: config.prefix ?? '/i18n/',
-      suffix: config.suffix ?? '.json',
-    }),
     provideTranslateService({
       fallbackLang,
       lang: config.lang ?? fallbackLang,
+    }),
+    provideTranslateHttpLoader({
+      prefix: config.prefix ?? '/i18n/',
+      suffix: config.suffix ?? '.json',
     }),
     {
       provide: ENVIRONMENT_INITIALIZER,
