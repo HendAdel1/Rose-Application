@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginForm } from "../../components/login-form";
 import { AuthLink } from "../../shared/ui/auth-link/auth-link";
-
 @Component({
   selector: 'app-login',
   imports: [LoginForm, AuthLink],
@@ -9,3 +8,4 @@ import { AuthLink } from "../../shared/ui/auth-link/auth-link";
   styleUrl: './login.css',
 })
 export class Login {}
+

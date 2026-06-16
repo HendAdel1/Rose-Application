@@ -1,37 +1,101 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthButton } from "../shared/ui/auth-button/auth-button";
+import { Component, inject, signal } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthError, AuthSessionService } from '@org/auth-data-access';
+import { CustomInput, UiButton, UiErrorMessage, UiLabel } from '@org/sharedComponents';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [ReactiveFormsModule, AuthButton],
+  imports: [
+    ReactiveFormsModule,
+    CustomInput,
+    UiLabel,
+    UiButton,
+    UiErrorMessage,
+  ],
   templateUrl: './login-form.html',
-  styleUrl: './login-form.css',
 })
 export class LoginForm {
-  private fb = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder);
+  private readonly authSession = inject(AuthSessionService);
+  private readonly router = inject(Router);
 
-  showPassword = false;
-  isSubmitting = false;
+  isLoading = signal(false);
+  isError = signal(false);
+  errorMessage = signal('');
+
   loginForm: FormGroup = this.fb.group({
-    email: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
+    rememberMe: [false],
   });
 
-  get password() {
-    return this.loginForm.get('password');
+  onSubmit(): void {
+    this.isError.set(false);
+    this.errorMessage.set('');
+
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    const { email, password } = this.loginForm.getRawValue();
+
+    this.isLoading.set(true);
+
+    this.authSession
+      .login({
+        username: email,
+        password,
+      })
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: () => {
+          void this.router.navigate(['/roseApp']);
+        },
+        error: (error: AuthError) => {
+          this.isError.set(true);
+          this.errorMessage.set(error.message);
+        },
+      });
   }
 
-  get controls() {
-    return this.loginForm.controls;
+  emailError(): string {
+    const control = this.loginForm.get('email');
+
+    if (!control?.touched || !control.errors) {
+      return '';
+    }
+
+    if (control.errors['required']) {
+      return 'Email is required';
+    }
+
+    if (control.errors['email']) {
+      return 'Please enter a valid email address';
+    }
+
+    return '';
   }
 
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-  }
+  passwordError(): string {
+    const control = this.loginForm.get('password');
 
-  onSubmit() {
-    console.log();
+    if (!control?.touched || !control.errors) {
+      return '';
+    }
+
+    if (control.errors['required']) {
+      return 'Password is required';
+    }
+
+    return '';
   }
 }
