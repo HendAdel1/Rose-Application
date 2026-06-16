@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { provideTranslateService } from '@ngx-translate/core';
 import { MainLayout } from './main-layout';
 
 describe('MainLayout', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([]), MainLayout],
-      providers: [provideTranslateService({ fallbackLang: 'en', lang: 'en' })],
     }).compileComponents();
   });
 

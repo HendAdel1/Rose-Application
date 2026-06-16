@@ -1,12 +1,12 @@
-<header class="rose-header font-sarabun" [attr.aria-label]="'NAV.HEADER_ARIA' | translate">
+<header class="rose-header font-sarabun" aria-label="Rose header" i18n-aria-label>
   <div class="top-bar">
-    <a class="logo-link" routerLink="./" [attr.aria-label]="'NAV.ROSE_HOME' | translate">
+    <a class="logo-link" routerLink="./" aria-label="Rose home" i18n-aria-label>
       <img class="rose-logo" [src]="logoPath" alt="Rose" />
     </a>
 
     @if (isAuthenticated()) {
-      <div class="delivery-info" [attr.aria-label]="'NAV.DELIVERY_LOCATION' | translate">
-        <span class="delivery-label">{{ 'NAV.DELIVER_TO' | translate }}</span>
+      <div class="delivery-info" aria-label="Delivery location" i18n-aria-label>
+        <span class="delivery-label" i18n>Deliver to:</span>
         <span class="delivery-city">
           <svg lucideMapPin [size]="15" aria-hidden="true"></svg>
           {{ deliveryCity() }}
@@ -18,8 +18,9 @@
       <svg lucideSearch [size]="17" aria-hidden="true"></svg>
       <lib-custom-input
         type="text"
-        [placeholder]="'NAV.SEARCH_PLACEHOLDER' | translate"
-        [attr.aria-label]="'NAV.SEARCH_PRODUCTS' | translate"
+        [placeholder]="searchPlaceholder"
+        aria-label="Search products"
+        i18n-aria-label
         (valueChange)="onSearchChange($event)"
       ></lib-custom-input>
     </form>
@@ -31,10 +32,11 @@
           type="button"
           aria-haspopup="menu"
           aria-expanded="false"
-          [attr.aria-label]="'NAV.OPEN_PROFILE_MENU' | translate"
+          aria-label="Open profile menu"
+          i18n-aria-label
         >
           <span>
-            <span class="hello">{{ 'NAV.HELLO' | translate }}</span>
+            <span class="hello" i18n>Hello</span>
             <strong>{{ currentUserName() }}</strong>
           </span>
           <svg lucideChevronDown [size]="14" aria-hidden="true"></svg>
@@ -42,23 +44,23 @@
       } @else {
         <a class="login-link" routerLink="/auth/login">
           <svg lucideUser [size]="18" aria-hidden="true"></svg>
-          <span>{{ 'NAV.LOGIN' | translate }}</span>
+          <span i18n>Login</span>
         </a>
       }
 
       @if (isAuthenticated()) {
         <span class="divider"></span>
 
-        <button class="icon-button" type="button" [attr.aria-label]="'NAV.WISHLIST' | translate">
+        <button class="icon-button" type="button" aria-label="Wishlist" i18n-aria-label>
           <svg lucideHeart [size]="22" aria-hidden="true"></svg>
         </button>
 
-        <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.SHOPPING_CART' | translate">
+        <button class="icon-button has-badge" type="button" aria-label="Shopping cart" i18n-aria-label>
           <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
           <span class="badge">8</span>
         </button>
 
-        <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.NOTIFICATIONS' | translate">
+        <button class="icon-button has-badge" type="button" aria-label="Notifications" i18n-aria-label>
           <svg lucideBell [size]="21" aria-hidden="true"></svg>
           <span class="badge">8</span>
         </button>
@@ -66,20 +68,15 @@
         <span class="divider"></span>
       }
 
-      <button
-        class="language-button"
-        type="button"
-        [attr.aria-label]="'NAV.SWITCH_LANGUAGE' | translate"
-        (click)="onLanguageToggle()"
-      >
-        {{ languageLabel() }}
+      <button class="language-button" type="button" aria-label="Switch language" i18n-aria-label i18n>
+        العربية
       </button>
     </div>
   </div>
 
-  <nav class="nav-strip" [attr.aria-label]="'NAV.PRIMARY_NAVIGATION' | translate">
+  <nav class="nav-strip" aria-label="Primary navigation" i18n-aria-label>
     <ul class="nav-list">
-      @for (item of navItems; track item.labelKey) {
+      @for (item of navItems; track item.label) {
         <li>
           <a
             [routerLink]="item.route"
@@ -106,7 +103,7 @@
                 <svg lucideInfo [size]="16" aria-hidden="true"></svg>
               }
             }
-            <span>{{ item.labelKey | translate }}</span>
+            <span>{{ item.label }}</span>
           </a>
         </li>
       }

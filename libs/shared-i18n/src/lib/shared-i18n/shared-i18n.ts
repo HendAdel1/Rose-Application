@@ -1,5 +1,5 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 export type TextDirection = 'ltr' | 'rtl';
@@ -10,7 +10,6 @@ export type TextDirection = 'ltr' | 'rtl';
 export class SharedI18nService {
   private readonly fallbackLang = 'en';
   private readonly rtlLanguages = ['ar'];
-  readonly currentLanguage = signal(this.fallbackLang);
 
   constructor(
     private translateService: TranslateService,
@@ -28,17 +27,12 @@ export class SharedI18nService {
   }
 
   useLanguage(lang: string): void {
-    this.currentLanguage.set(lang);
     this.translateService.use(lang);
 
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('lang', lang);
       this.applyDocumentDirection(lang);
     }
-  }
-
-  toggleLanguage(): void {
-    this.useLanguage(this.currentLanguage() === 'ar' ? 'en' : 'ar');
   }
 
   getDirection(lang = this.translateService.getCurrentLang() ?? this.fallbackLang): TextDirection {
