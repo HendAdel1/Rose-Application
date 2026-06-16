@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthButton } from "../shared/ui/auth-button/auth-button";
+import { AuthButton } from "../../shared/ui/auth-button/auth-button";
 
 @Component({
   selector: 'app-login-form',
