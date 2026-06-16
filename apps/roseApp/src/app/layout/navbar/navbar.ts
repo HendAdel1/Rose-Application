@@ -10,6 +10,7 @@ import {
   LucideHome,
   LucideInfo,
   LucideMapPin,
+  LucideMenu,
   LucidePartyPopper,
   LucideSearch,
   LucideShoppingCart,
@@ -36,6 +37,7 @@ interface NavItem {
     LucideHome,
     LucideInfo,
     LucideMapPin,
+    LucideMenu,
     LucidePartyPopper,
     LucideSearch,
     LucideShoppingCart,
@@ -55,6 +57,7 @@ export class Navbar {
   readonly deliveryCity = input('Cairo');
   readonly searchSubmitted = output<string>();
   readonly searchTerm = signal('');
+  readonly menuOpen = signal(false);
 
   readonly navItems: NavItem[] = [
     { label: 'Home', route: './', icon: 'home', exact: true },
@@ -76,5 +79,13 @@ export class Navbar {
     if (term) {
       this.searchSubmitted.emit(term);
     }
+  }
+
+  toggleMenu(): void {
+    this.menuOpen.update((open) => !open);
+  }
+
+  closeMenu(): void {
+    this.menuOpen.set(false);
   }
 }
