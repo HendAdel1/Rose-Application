@@ -60,7 +60,7 @@
 .search-field {
   align-items: center;
   display: flex;
-  min-width: 14rem;
+  min-width: 0;
   position: relative;
 }
 
@@ -244,13 +244,12 @@
 
 @media (max-width: 920px) {
   .top-bar {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(8rem, 1fr) auto;
     position: relative;
   }
 
   .search-field {
-    grid-column: 1 / -1;
-    order: 3;
+    min-width: 0;
   }
 
   .header-actions {
@@ -267,11 +266,21 @@
 
   .nav-strip {
     box-shadow: 0 0.65rem 1rem rgba(0, 0, 0, 0.14);
-    display: none;
+    max-height: 0;
+    min-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-0.35rem);
+    transition:
+      max-height 260ms ease,
+      opacity 180ms ease,
+      transform 220ms ease;
   }
 
   .nav-strip.open {
-    display: block;
+    max-height: 18rem;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .nav-list {
@@ -298,6 +307,7 @@
 @media (max-width: 560px) {
   .top-bar {
     gap: 0.75rem;
+    grid-template-columns: auto minmax(5.75rem, 1fr) auto;
     padding: 0.55rem 0.85rem;
   }
 
@@ -308,6 +318,16 @@
 
   .header-actions {
     gap: 0.52rem;
+  }
+
+  .search-field ::ng-deep input {
+    font-size: 0.78rem;
+    height: 2.45rem;
+    padding-left: 2.35rem;
+  }
+
+  .search-field svg {
+    left: 0.8rem;
   }
 
   .login-link span,
