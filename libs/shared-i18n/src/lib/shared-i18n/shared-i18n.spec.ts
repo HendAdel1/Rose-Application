@@ -57,4 +57,16 @@ describe('SharedI18nService', () => {
     expect(document.documentElement.lang).toBe('en');
     expect(document.documentElement.dir).toBe('ltr');
   });
+
+  it('should toggle between English and Arabic', () => {
+    service.toggleLanguage();
+
+    expect(service.currentLanguage()).toBe('ar');
+    expect(document.documentElement.dir).toBe('rtl');
+
+    service.toggleLanguage();
+
+    expect(service.currentLanguage()).toBe('en');
+    expect(document.documentElement.dir).toBe('ltr');
+  });
 });
