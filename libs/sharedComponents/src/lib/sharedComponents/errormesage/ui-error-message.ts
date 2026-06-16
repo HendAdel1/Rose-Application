@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'lib-ui-error-message',
@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './ui-error-message.html',
   styleUrl: './ui-error-message.css',
 })
-export class UiErrorMessage {}
+export class UiErrorMessage {
+  hide=input<boolean>(false)
+}
