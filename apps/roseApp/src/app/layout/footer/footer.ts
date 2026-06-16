@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CustomInput } from '@org/shared-components';
+import { CustomInput } from '../../../../../../libs/sharedComponents/src/lib/sharedComponents/reusable-input/custom-input';
 
 @Component({
   imports: [CustomInput],
