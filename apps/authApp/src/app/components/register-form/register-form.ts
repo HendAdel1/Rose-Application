@@ -1,15 +1,17 @@
 import { Component, ElementRef, inject, Input, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import{CustomInput,UiButton,UiErrorMessage,UiLabel}from '@org/sharedComponents'
 import { InputMaskModule } from 'primeng/inputmask';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
 import{AuthApiService} from '@org/auth-data-access'
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { LucideEye, LucideEyeOff } from '@lucide/angular';
 
 @Component({
   selector: 'app-register-form',
-  imports: [ReactiveFormsModule,CustomInput,UiLabel,UiButton,InputMaskModule, MessageModule, InputTextModule,UiErrorMessage],
+  imports: [ReactiveFormsModule,CustomInput,UiLabel,UiButton,InputMaskModule,
+    MessageModule, InputTextModule,UiErrorMessage,LucideEye,LucideEyeOff,RouterLink],
   templateUrl: './register-form.html',
   styleUrl: './register-form.css',
 })
@@ -18,18 +20,17 @@ step=signal<number>(1);
 msgError=signal<string>('')
 isLoading=signal<boolean>(false);
 isError=signal<boolean>(false)
+isSubmitting=signal<string>('')
 private readonly authApiService=inject(AuthApiService)
 private readonly router=inject(Router)
 @Input() length = 6;
   @Input() cooldownTime = 60;
-  @Input() expirationTime = 600;
   @Input() onVerify!: (otp: string) => Promise<boolean>;
   @Input() onResend!: () => Promise<boolean>;
 
   @ViewChildren('otpInput') inputElements!: QueryList<ElementRef<HTMLInputElement>>;
   otpFormArray = new FormArray<FormControl>([]);
   timer = signal<number>(0);
-  expirationTimer = signal<number>(0);
   isResending = signal<boolean>(false);
   isCodeSend= signal<boolean>(false);
   feedbackMessage = signal<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -43,33 +44,34 @@ confirmEmail:FormGroup=new FormGroup({
     email:new FormControl(null,[Validators.required,Validators.email]),
   code:new FormControl(null,[Validators.required])
 })
+registerForm:FormGroup=new FormGroup({
+  username:new FormControl(null,[Validators.required,Validators.minLength(3),Validators.maxLength(20)]),
+    email:new FormControl(null,[Validators.required,Validators.email]),
+      password:new FormControl(null,[Validators.required,Validators.pattern(/^1[0125]\d{8}$/)]),
+        confirmPassword:new FormControl(null,[Validators.required]),
+  firstName:new FormControl(null,[Validators.required]),
+  lastName:new FormControl(null,[Validators.required]),
+  gender:new FormControl(null,[Validators.required]),
+},{validators:this.passwordMatchValidator});
+passwordMatchValidator(g: AbstractControl) {
+    return g.get('password')?.value === g.get('confirmPassword')?.value
+      ? null : { mismatch: true };
+  }
 
-private startExpirationTimer() {
-  const intervalId = setInterval(() => {
-    if (this.expirationTimer() <= 0) {
-      clearInterval(intervalId);
-    } else {
-      this.expirationTimer.update(val => val - 1);
-    }
-  }, 1000);
-}
-getFormattedExpirationTime(): string {
-  const minutes = Math.floor(this.expirationTimer() / 60);
-  const seconds = this.expirationTimer() % 60;
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-}
+
+
 
 sendEmailVerification() {
   if (this.verifyEmail.valid) {
 
-    if (this.expirationTimer() > 0) {
+
       this.step.set(2);
       this.feedbackMessage.set({
         type: 'success',
         text: 'You already have an active verification code. Please enter it below.'
       });
       return;
-    }
+
 
     this.isLoading.set(true);
     this.isError.set(false);
@@ -82,8 +84,7 @@ sendEmailVerification() {
         this.timer.set(this.cooldownTime);
         this.startCooldownTimer();
 
-        this.expirationTimer.set(this.expirationTime);
-        this.startExpirationTimer();
+
       },
       error: (err) => {
         this.isLoading.set(false);
@@ -211,13 +212,37 @@ sendEmailVerification() {
       this.inputElements.toArray()[targetIndex]?.nativeElement.focus();
     }
   }
+  register(): void {
+    if (this.registerForm.valid) {
+      this.isLoading.set(true);
+      console.log('Form Data:', this.registerForm.value);
+     this.authApiService.register(this.registerForm.value).subscribe({
+      next:(res)=>{
+        if(res.message==='success'){
+          setTimeout(() => {
+this.router.navigate(['/auth/login'])
+          }, 500);
+
+          this.isSubmitting.set(res.message)
+        }
+this.isLoading.set(false);
+      },
+     error:(err)=>{
+      this.isLoading.set(false)
+      this.isSubmitting.set(err.message)
+     }
+     })
+    } else {
+      this.registerForm.markAllAsTouched();
+    }
+  }
   ngOnInit() {
     this.otpFormArray.clear();
     for (let i = 0; i < this.length; i++) {
       this.otpFormArray.push(new FormControl('', [Validators.required, Validators.pattern('[0-9]')]));
     }
     this.timer.set(0);
-    this.expirationTimer.set(0);
+
   }
 }
 
