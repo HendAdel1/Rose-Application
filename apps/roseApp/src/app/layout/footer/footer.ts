@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+
+@Component({
+  imports: [TranslatePipe],
 import { CustomInput } from '../../../../../../libs/sharedComponents/src';
 
 @Component({
