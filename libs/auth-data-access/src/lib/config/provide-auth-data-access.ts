@@ -3,8 +3,6 @@ import {
   makeEnvironmentProviders,
 } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { provideToastr } from 'ngx-toastr';
 
 import {
   AUTH_DATA_ACCESS_CONFIG,
@@ -20,17 +18,9 @@ export function provideAuthDataAccess(
   return makeEnvironmentProviders([
     {
       provide: AUTH_DATA_ACCESS_CONFIG,
-      useValue: config
-
+      useValue: config,
     },
     AuthApiService,
-    provideNoopAnimations(),
-    provideToastr({
-      closeButton: true,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
-      progressBar: true,
-    }),
     provideHttpClient(
       withInterceptors([authTokenInterceptor, authErrorInterceptor])
     ),
