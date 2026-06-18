@@ -43,6 +43,9 @@ this.emailVerificationSub= this.authApiService.sendEmailVerification(this.verify
     this.isLoading.set(false)
     this.step.set(2)
   },
+  error:()=>{
+    this.isLoading.set(false)
+  },
 
  })
 }
@@ -56,6 +59,9 @@ confirmEmailVerification(){
     this.step.set(2);
     // console.log(res);
 
+  },
+  error:()=>{
+    this.isLoading.set(false)
   }
  })
 }
