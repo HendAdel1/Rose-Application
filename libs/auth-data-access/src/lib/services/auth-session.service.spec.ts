@@ -3,14 +3,9 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
 
-import {
-  AUTH_DATA_ACCESS_CONFIG,
-  AuthApiService,
-} from './auth-api.service';
+import { provideAuthDataAccess } from '../config/provide-auth-data-access';
 import { AuthSessionService } from './auth-session.service';
-import { TokenStorageService } from './token-storage.service';
 
 describe('AuthSessionService', () => {
   let service: AuthSessionService;
@@ -20,15 +15,8 @@ describe('AuthSessionService', () => {
     localStorage.clear();
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
+        provideAuthDataAccess({ apiBaseUrl: '/api/auth' }),
         provideHttpClientTesting(),
-        {
-          provide: AUTH_DATA_ACCESS_CONFIG,
-          useValue: { apiBaseUrl: '/api/auth' },
-        },
-        AuthApiService,
-        TokenStorageService,
-        AuthSessionService,
       ],
     });
 
