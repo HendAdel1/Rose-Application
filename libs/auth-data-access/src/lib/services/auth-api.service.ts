@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, InjectionToken, inject } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { InjectionToken, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { mapAuthError } from '../errors/auth-error.mapper';
 import {
   AuthResponse,
   ConfirmEmailVerificationRequest,
@@ -20,14 +19,9 @@ export interface AuthDataAccessConfig {
 
 export const AUTH_DATA_ACCESS_CONFIG = new InjectionToken<AuthDataAccessConfig>(
   'AUTH_DATA_ACCESS_CONFIG',
-  {
-    factory: () => ({
-      apiBaseUrl: '/api/auth',
-    }),
-  }
+
 );
 
-@Injectable({ providedIn: 'root' })
 export class AuthApiService {
   private readonly http = inject(HttpClient);
   private readonly config = inject(AUTH_DATA_ACCESS_CONFIG);
@@ -64,9 +58,7 @@ export class AuthApiService {
     endpoint: string,
     request: unknown
   ): Observable<TResponse> {
-    return this.http
-      .post<TResponse>(`${this.normalizedBaseUrl}/${endpoint}`, request)
-      .pipe(catchError((error: unknown) => throwError(() => mapAuthError(error))));
+    return this.http.post<TResponse>(`${this.normalizedBaseUrl}/${endpoint}`, request);
   }
 
   private get normalizedBaseUrl(): string {

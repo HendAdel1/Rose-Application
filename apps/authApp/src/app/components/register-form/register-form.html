@@ -1,0 +1,51 @@
+<section >
+   <h2 class="mb-2 text-3xl ps-1 font-inter text-gray-800 font-bold">Create Account</h2>
+@if(step()===1){
+  <form [formGroup]="verifyEmail" (ngSubmit)="sendEmailVerification()">
+
+<div class="mb-4">
+  <lib-ui-label forId="email">
+Email
+  </lib-ui-label>
+  <lib-custom-input formControlName="email" type="email" placeholder="user@example.com"></lib-custom-input>
+   @if (verifyEmail.get('email')?.errors && verifyEmail.get('email')?.touched) {
+        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">email is required</p-message>
+        }
+  @if (msgError()) {
+        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">{{ msgError() }}</p-message>
+        }
+  <lib-ui-button type="submit" [loading]="isLoading()"> Next </lib-ui-button>
+</div>
+</form>
+}
+@if(step()===2){
+  <form [formGroup]="confirmEmail" (ngSubmit)="confirmEmailVerification()">
+
+<div class="mb-4">
+  <lib-ui-label forId="email">
+Email
+  </lib-ui-label>
+  <lib-custom-input formControlName="email" type="email" placeholder="user@example.com" [readonly]="true"></lib-custom-input>
+   @if (confirmEmail.get('email')?.errors && confirmEmail.get('email')?.touched) {
+        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">email is required</p-message>
+        }
+</div>
+<div class="mb-4">
+  <lib-ui-label forId="code">
+Code
+  </lib-ui-label>
+  <lib-custom-input formControlName="code" type="text" placeholder="123456"></lib-custom-input>
+   @if (confirmEmail.get('code')?.errors && confirmEmail.get('code')?.touched) {
+        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">Enter the 6-digit verification code</p-message>
+        }
+  @if (msgError()) {
+        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">{{ msgError() }}</p-message>
+        }
+  <lib-ui-button type="submit" [loading]="isLoading()"> Next </lib-ui-button>
+</div>
+</form>
+}
+@if(step()===3){
+  <p class="text-green-700">Email verified successfully.</p>
+}
+</section>

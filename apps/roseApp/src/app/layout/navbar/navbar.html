@@ -78,8 +78,7 @@
       <button
         class="menu-toggle"
         type="button"
-        aria-label="Open navigation menu"
-        i18n-aria-label
+        [attr.aria-label]="'NAV.PRIMARY_NAVIGATION' | translate"
         [attr.aria-expanded]="menuOpen()"
         aria-controls="rose-mobile-navigation"
         (click)="toggleMenu()"
