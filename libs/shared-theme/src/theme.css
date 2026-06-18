@@ -1,0 +1,150 @@
+@import "tailwindcss";
+@import "./colors.css";
+
+/* Dark mode is driven by the `dark` class on <html> (set by ThemeService).
+   The legacy `#theme-dark` checkbox selector is kept temporarily so apps that
+   haven't migrated to ThemeService yet keep working during the transition. */
+@custom-variant dark (&:where(.dark, .dark *, html:has(#theme-dark:checked) &));
+
+html {
+  color-scheme: light;
+}
+
+html.dark,
+html:has(#theme-dark:checked) {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-white text-zinc-900 transition-colors duration-300 ease-out;
+}
+
+html.dark body,
+html:has(#theme-dark:checked) body {
+  @apply bg-zinc-800 text-zinc-100;
+}
+
+/* Scrollbar follows the active theme */
+html.dark,
+html:has(#theme-dark:checked) {
+  scrollbar-color: #52525b #18181b;
+}
+
+
+/* Hidden theme control — lives in index.html */
+/* position: fixed (not absolute) prevents the browser from scrolling the page
+   to bring this element into view when it receives focus on label click. */
+.theme-toggle__input {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: fixed;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* Floating toggle — fixed on every page */
+.theme-toggle {
+  align-items: center;
+  appearance: none;
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 9999px;
+  bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+  color: #52525b;
+  cursor: pointer;
+  display: grid;
+  font: inherit;
+  height: 2.5rem;
+  justify-content: center;
+  padding: 0;
+  place-items: center;
+  position: fixed;
+  right: 1.5rem;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+  user-select: none;
+  width: 2.5rem;
+  z-index: 9999;
+}
+
+.theme-toggle:hover {
+  border-color: #d4d4d8;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.16);
+  transform: scale(1.08);
+}
+
+html.dark .theme-toggle,
+html:has(#theme-dark:checked) .theme-toggle {
+  background: #27272a;
+  border-color: #3f3f46;
+  box-shadow:
+    0 4px 12px rgb(0 0 0 / 0.35),
+    0 0 0 1px rgb(232 160 180 / 0.15),
+    0 0 16px rgb(232 160 180 / 0.25);
+  color: #fafafa;
+}
+
+html.dark .theme-toggle:hover,
+html:has(#theme-dark:checked) .theme-toggle:hover {
+  border-color: #52525b;
+  box-shadow:
+    0 8px 24px rgb(0 0 0 / 0.45),
+    0 0 0 1px rgb(232 160 180 / 0.3),
+    0 0 24px rgb(232 160 180 / 0.4);
+}
+
+/* Stack icons so they can crossfade in place */
+.theme-toggle__icon {
+  align-items: center;
+  display: inline-flex;
+  grid-area: 1 / 1;
+  justify-content: center;
+  line-height: 0;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.theme-toggle__icon svg {
+  display: block;
+}
+
+/* Light mode: show moon, hide sun (rotated out) */
+.theme-toggle__icon--moon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+.theme-toggle__icon--sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+/* Dark mode: crossfade to sun, rotate moon out */
+html.dark .theme-toggle__icon--moon,
+html:has(#theme-dark:checked) .theme-toggle__icon--moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+html.dark .theme-toggle__icon--sun,
+html:has(#theme-dark:checked) .theme-toggle__icon--sun {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+@media (max-width: 640px) {
+  .theme-toggle {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}

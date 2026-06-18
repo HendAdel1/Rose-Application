@@ -1,0 +1,15 @@
+<button
+  type="button"
+  class="theme-toggle"
+  (click)="toggleTheme()"
+  [attr.aria-pressed]="themeService.theme() === 'dark'"
+  aria-label="Toggle dark mode"
+>
+  <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+    <svg lucideMoon size="20"></svg>
+  </span>
+  <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+    <svg lucideSun size="20"></svg>
+  </span>
+  <span class="sr-only">Toggle dark mode</span>
+</button>
