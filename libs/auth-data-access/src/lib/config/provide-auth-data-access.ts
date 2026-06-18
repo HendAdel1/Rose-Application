@@ -3,6 +3,7 @@ import {
   makeEnvironmentProviders,
 } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 import {
   AUTH_DATA_ACCESS_CONFIG,
@@ -21,6 +22,7 @@ export function provideAuthDataAccess(
       useValue: config
 
     },
+    MessageService,
     AuthApiService,
     provideHttpClient(
       withInterceptors([authTokenInterceptor, authErrorInterceptor])
