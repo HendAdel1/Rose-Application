@@ -4,12 +4,15 @@
   <form [formGroup]="verifyEmail" (ngSubmit)="sendEmailVerification()">
 
 <div class="mb-4">
-    <lib-ui-label forId="email">
+  <lib-ui-label forId="email">
 Email
   </lib-ui-label>
-  <lib-custom-input formControlName="email" type="email" placeholder="user@example.com" value="email" (input)="$event"></lib-custom-input>
+  <lib-custom-input formControlName="email" type="email" placeholder="user@example.com"></lib-custom-input>
    @if (verifyEmail.get('email')?.errors && verifyEmail.get('email')?.touched) {
         <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">email is required</p-message>
+        }
+  @if (msgError()) {
+        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">{{ msgError() }}</p-message>
         }
   <lib-ui-button type="submit" [loading]="isLoading()"> Next </lib-ui-button>
 </div>
@@ -19,21 +22,24 @@ Email
   <form [formGroup]="confirmEmail" (ngSubmit)="confirmEmailVerification()">
 
 <div class="mb-4">
-    <lib-ui-label forId="email">
+  <lib-ui-label forId="email">
 Email
   </lib-ui-label>
-  <lib-custom-input formControlName="email" type="email" placeholder="user@example.com" value="email" (input)="$event"></lib-custom-input>
+  <lib-custom-input formControlName="email" type="email" placeholder="user@example.com"></lib-custom-input>
    @if (confirmEmail.get('email')?.errors && confirmEmail.get('email')?.touched) {
         <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">email is required</p-message>
         }
 </div>
 <div class="mb-4">
-    <lib-ui-label forId="code">
+  <lib-ui-label forId="code">
 Code
   </lib-ui-label>
-  <lib-custom-input formControlName="code" type="number"  value="code" (input)="$event"></lib-custom-input>
+  <lib-custom-input formControlName="code" type="number"></lib-custom-input>
    @if (confirmEmail.get('code')?.errors && confirmEmail.get('code')?.touched) {
         <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">code is required</p-message>
+        }
+  @if (msgError()) {
+        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">{{ msgError() }}</p-message>
         }
   <lib-ui-button type="submit" [loading]="isLoading()"> Next </lib-ui-button>
 </div>

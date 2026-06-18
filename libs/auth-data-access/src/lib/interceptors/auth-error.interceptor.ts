@@ -16,7 +16,7 @@ export const authErrorInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ) => {
   const config = inject(AUTH_DATA_ACCESS_CONFIG);
-  // const toastr = inject(ToastrService);
+  const toastr = inject(ToastrService);
   const apiBaseUrl = config.apiBaseUrl.replace(/\/$/, '');
 
   if (!request.url.startsWith(apiBaseUrl)) {
@@ -27,7 +27,7 @@ export const authErrorInterceptor: HttpInterceptorFn = (
     catchError((error: unknown) => {
       const authError = mapAuthError(error);
 
-      // toastr.error(authError.message, getErrorSummary(authError));
+      toastr.error(authError.message, getErrorSummary(authError));
 
       return throwError(() => authError);
     })

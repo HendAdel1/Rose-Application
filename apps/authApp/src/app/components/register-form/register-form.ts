@@ -4,7 +4,7 @@ import{CustomInput,UiButton,UiLabel}from '@org/sharedComponents'
 import { InputMaskModule } from 'primeng/inputmask';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
-import{AuthApiService} from '@org/auth-data-access'
+import{AuthApiService, AuthError} from '@org/auth-data-access'
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -36,32 +36,53 @@ confirmEmail:FormGroup=new FormGroup({
 
 
 sendEmailVerification(){
+this.msgError.set('');
 if(this.verifyEmail.valid){
+  const email = this.verifyEmail.get('email')?.value?.trim();
+
+  if (!email) {
+    this.verifyEmail.get('email')?.markAsTouched();
+    return;
+  }
+
+  this.verifyEmail.patchValue({ email });
   this.isLoading.set(true)
-this.emailVerificationSub= this.authApiService.sendEmailVerification(this.verifyEmail.value).subscribe({
+this.emailVerificationSub= this.authApiService.sendEmailVerification({ email }).subscribe({
   next:(res)=>{
     this.isLoading.set(false)
     this.step.set(2)
   },
-  error:()=>{
+  error:(error: AuthError)=>{
     this.isLoading.set(false)
+    this.msgError.set(error.message)
   },
 
  })
 }
 }
 confirmEmailVerification(){
- if(this.verifyEmail.valid){
+ this.msgError.set('');
+ if(this.confirmEmail.valid){
+  const email = this.confirmEmail.get('email')?.value?.trim();
+  const code = this.confirmEmail.get('code')?.value?.toString().trim();
+
+  if (!email || !code) {
+    this.confirmEmail.markAllAsTouched();
+    return;
+  }
+
+  this.confirmEmail.patchValue({ email, code });
   this.isLoading.set(true)
- this.emailVerificationSub =this.authApiService.confirmEmailVerification(this.confirmEmail.value).subscribe({
+ this.emailVerificationSub =this.authApiService.confirmEmailVerification({ email, code }).subscribe({
   next:(res)=>{
     this.isLoading.set(false)
     this.step.set(2);
     // console.log(res);
 
   },
-  error:()=>{
+  error:(error: AuthError)=>{
     this.isLoading.set(false)
+    this.msgError.set(error.message)
   }
  })
 }
