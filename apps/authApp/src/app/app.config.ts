@@ -14,5 +14,6 @@ export const appConfig: ApplicationConfig = {
      provideHttpClient(withFetch()),
      provideAuthDataAccess({apiBaseUrl:environment.baseUrl}),
 
+
     ],
 };
