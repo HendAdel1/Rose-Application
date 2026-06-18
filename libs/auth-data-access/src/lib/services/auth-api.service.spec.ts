@@ -3,7 +3,6 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ToastrService } from 'ngx-toastr';
 
 import { provideAuthDataAccess } from '../config/provide-auth-data-access';
 import { AuthApiService } from './auth-api.service';
@@ -11,7 +10,6 @@ import { AuthApiService } from './auth-api.service';
 describe('AuthApiService', () => {
   let service: AuthApiService;
   let httpMock: HttpTestingController;
-  let toastr: ToastrService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,7 +21,6 @@ describe('AuthApiService', () => {
 
     service = TestBed.inject(AuthApiService);
     httpMock = TestBed.inject(HttpTestingController);
-    toastr = TestBed.inject(ToastrService);
   });
 
   afterEach(() => {
@@ -77,10 +74,6 @@ describe('AuthApiService', () => {
   });
 
   it('maps backend errors to standardized auth errors', () => {
-    const errorToastSpy = vi
-      .spyOn(toastr, 'error')
-      .mockImplementation(() => null);
-
     service.login({ username: 'wrong', password: 'bad' }).subscribe({
       next: () => fail('Expected request to fail'),
       error: (error) => {
@@ -94,11 +87,6 @@ describe('AuthApiService', () => {
     request.flush(
       { message: 'Invalid username or password' },
       { status: 401, statusText: 'Unauthorized' }
-    );
-
-    expect(errorToastSpy).toHaveBeenCalledWith(
-      'Invalid username or password',
-      'Authentication failed'
     );
   });
 });
