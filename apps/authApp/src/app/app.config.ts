@@ -8,7 +8,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAuthDataAccess } from '@org/auth-data-access';
 import { environment } from './environments/environment';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideAuthDataAccess({ apiBaseUrl: environment.baseUrl }),
     provideClientHydration(),
-    provideNoopAnimations(),
+    provideAnimations(),
     provideToastr({
       closeButton: true,
       positionClass: 'toast-top-right',

@@ -50,6 +50,7 @@ if(this.verifyEmail.valid){
 this.emailVerificationSub= this.authApiService.sendEmailVerification({ email }).subscribe({
   next:(res)=>{
     this.isLoading.set(false)
+    this.confirmEmail.patchValue({ email })
     this.step.set(2)
   },
   error:(error: AuthError)=>{
