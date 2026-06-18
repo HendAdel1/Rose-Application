@@ -3,7 +3,7 @@ import {
   makeEnvironmentProviders,
 } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 
 import {
@@ -24,7 +24,7 @@ export function provideAuthDataAccess(
 
     },
     AuthApiService,
-    provideAnimations(),
+    provideNoopAnimations(),
     provideToastr({
       closeButton: true,
       positionClass: 'toast-top-right',
