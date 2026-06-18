@@ -49,7 +49,8 @@ describe('Footer', () => {
     expect(compiled.textContent).toContain('Terms & Conditions');
     expect(compiled.textContent).toContain('FAQs');
     expect(compiled.textContent).toContain('Get 20% Off Discount Coupon');
-    expect(compiled.textContent).toContain('Enter Your Email');
     expect(compiled.textContent).toContain('Subscribe');
+    expect(compiled.querySelector('lib-custom-input')).toBeTruthy();
+    expect(compiled.querySelector('button[type="submit"]')).toBeTruthy();
   });
 });

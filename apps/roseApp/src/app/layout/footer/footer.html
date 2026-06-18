@@ -32,17 +32,17 @@
         <p>{{ 'FOOTER.NEWSLETTER_COPY' | translate }}</p>
       </div>
 
-      <div
-        class="newsletter-input-slot"
-        role="presentation"
-        [attr.aria-label]="'FOOTER.NEWSLETTER_INPUT' | translate"
-      >
-        <span class="input-placeholder">{{ 'FOOTER.EMAIL_PLACEHOLDER' | translate }}</span>
-        <span class="subscribe-placeholder">
-          {{ 'FOOTER.SUBSCRIBE' | translate }}
-          <span aria-hidden="true">-></span>
-        </span>
-      </div>
+      <form class="newsletter-form" [attr.aria-label]="'FOOTER.NEWSLETTER_INPUT' | translate">
+  <lib-custom-input
+    type="email"
+    [placeholder]="'FOOTER.EMAIL_PLACEHOLDER' | translate"
+  ></lib-custom-input>
+
+  <button class="subscribe-button" type="submit">
+    {{ 'FOOTER.SUBSCRIBE' | translate }}
+    <span aria-hidden="true">-></span>
+  </button>
+</form>
     </section>
   </div>
 </footer>
