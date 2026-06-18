@@ -3,7 +3,7 @@ import { NxWelcome } from './nx-welcome';
 
 @Component({
   imports: [NxWelcome],
-  selector: 'app-roseApp-entry',
+  selector: 'app-rose-app-entry',
   template: `<app-nx-welcome></app-nx-welcome>`,
 })
 export class RemoteEntry {}
