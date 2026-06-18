@@ -74,10 +74,27 @@
       >
         {{ languageLabel() }}
       </button>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open navigation menu"
+        i18n-aria-label
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="rose-mobile-navigation"
+        (click)="toggleMenu()"
+      >
+        <svg lucideMenu [size]="24" aria-hidden="true"></svg>
+      </button>
     </div>
   </div>
 
-  <nav class="nav-strip" [attr.aria-label]="'NAV.PRIMARY_NAVIGATION' | translate">
+  <nav
+  id="rose-mobile-navigation"
+  class="nav-strip"
+  [class.open]="menuOpen()"
+  [attr.aria-label]="'NAV.PRIMARY_NAVIGATION' | translate"
+>
     <ul class="nav-list">
       @for (item of navItems; track item.labelKey) {
         <li>
@@ -85,6 +102,7 @@
             [routerLink]="item.route"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+            (click)="closeMenu()"
           >
             @switch (item.icon) {
               @case ('home') {

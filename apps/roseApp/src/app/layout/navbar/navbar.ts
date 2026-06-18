@@ -10,6 +10,7 @@ import {
   LucideHome,
   LucideInfo,
   LucideMapPin,
+  LucideMenu,
   LucidePartyPopper,
   LucideSearch,
   LucideShoppingCart,
@@ -38,6 +39,7 @@ interface NavItem {
     LucideHome,
     LucideInfo,
     LucideMapPin,
+    LucideMenu,
     LucidePartyPopper,
     LucideSearch,
     LucideShoppingCart,
@@ -59,6 +61,7 @@ export class Navbar {
   readonly deliveryCity = input('Cairo');
   readonly searchSubmitted = output<string>();
   readonly searchTerm = signal('');
+  readonly menuOpen = signal(false);
   readonly languageLabel = computed(() =>
     this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية',
   );
@@ -85,6 +88,12 @@ export class Navbar {
     }
   }
 
+  toggleMenu(): void {
+    this.menuOpen.update((open) => !open);
+  }
+
+  closeMenu(): void {
+    this.menuOpen.set(false);
   onLanguageToggle(): void {
     this.i18n.toggleLanguage();
   }
