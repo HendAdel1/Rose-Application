@@ -88,13 +88,15 @@ export class Navbar {
     }
   }
 
+  onLanguageToggle(): void {
+    this.i18n.toggleLanguage();
+  }
+
   toggleMenu(): void {
     this.menuOpen.update((open) => !open);
   }
 
   closeMenu(): void {
     this.menuOpen.set(false);
-  onLanguageToggle(): void {
-    this.i18n.toggleLanguage();
   }
 }
