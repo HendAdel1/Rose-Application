@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import{CustomInput,UiButton,UiErrorMessage,UiLabel}from '@org/sharedComponents'
 import { InputMaskModule } from 'primeng/inputmask';
@@ -6,6 +6,7 @@ import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
 import{AuthApiService} from '@org/auth-data-access'
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register-form',
@@ -13,13 +14,14 @@ import { Router } from '@angular/router';
   templateUrl: './register-form.html',
   styleUrl: './register-form.css',
 })
-export class RegisterForm {
+export class RegisterForm implements OnDestroy{
 step=signal<number>(1);
 msgError=signal<string>('')
 isLoading=signal<boolean>(false);
 isError=signal<boolean>(false)
 private readonly authApiService=inject(AuthApiService)
 private readonly router=inject(Router)
+private emailVerificationSub?:Subscription;
 
 
 verifyEmail:FormGroup=new FormGroup({
@@ -36,11 +38,11 @@ confirmEmail:FormGroup=new FormGroup({
 sendEmailVerification(){
 if(this.verifyEmail.valid){
   this.isLoading.set(true)
- this.authApiService.sendEmailVerification(this.verifyEmail.value).subscribe({
+this.emailVerificationSub= this.authApiService.sendEmailVerification(this.verifyEmail.value).subscribe({
   next:(res)=>{
     this.isLoading.set(false)
     this.step.set(2)
-    console.log(this.step());
+
 
   },
   error:(err)=>{
@@ -54,7 +56,7 @@ if(this.verifyEmail.valid){
 confirmEmailVerification(){
  if(this.verifyEmail.valid){
   this.isLoading.set(true)
- this.authApiService.confirmEmailVerification(this.confirmEmail.value).subscribe({
+ this.emailVerificationSub =this.authApiService.confirmEmailVerification(this.confirmEmail.value).subscribe({
   next:(res)=>{
     this.isLoading.set(false)
     this.step.set(2);
@@ -68,7 +70,11 @@ confirmEmailVerification(){
   }
  })
 }
-
+}
+ngOnDestroy(): void {
+  if(this.emailVerificationSub){
+    this.emailVerificationSub.unsubscribe();
+  }
 }
 }
 

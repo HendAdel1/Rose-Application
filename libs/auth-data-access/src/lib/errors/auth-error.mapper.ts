@@ -1,13 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { AuthError } from './auth-error.model';
+import { AuthError,BackendErrorBody } from './auth-error.model';
 
-interface BackendErrorBody {
-  message?: unknown;
-  error?: unknown;
-  code?: unknown;
-  errors?: unknown;
-}
+
 
 export function mapAuthError(error: unknown): AuthError {
   if (!(error instanceof HttpErrorResponse)) {
