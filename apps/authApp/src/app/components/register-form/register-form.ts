@@ -19,6 +19,7 @@ step=signal<number>(1);
 msgError=signal<string>('')
 isLoading=signal<boolean>(false);
 isError=signal<boolean>(false)
+verificationEmail=signal<string>('');
 private readonly authApiService=inject(AuthApiService)
 private readonly router=inject(Router)
 private emailVerificationSub?:Subscription;
@@ -38,7 +39,7 @@ confirmEmail:FormGroup=new FormGroup({
 sendEmailVerification(){
 this.msgError.set('');
 if(this.verifyEmail.valid){
-  const email = this.verifyEmail.get('email')?.value?.trim();
+  const email = this.verifyEmail.get('email')?.value?.trim().toLowerCase();
 
   if (!email) {
     this.verifyEmail.get('email')?.markAsTouched();
@@ -50,6 +51,12 @@ if(this.verifyEmail.valid){
 this.emailVerificationSub= this.authApiService.sendEmailVerification({ email }).subscribe({
   next:(res)=>{
     this.isLoading.set(false)
+    if (!res.status) {
+      this.msgError.set(res.message || 'Unable to send the verification code.');
+      return;
+    }
+
+    this.verificationEmail.set(email);
     this.confirmEmail.patchValue({ email })
     this.step.set(2)
   },
@@ -64,7 +71,7 @@ this.emailVerificationSub= this.authApiService.sendEmailVerification({ email }).
 confirmEmailVerification(){
  this.msgError.set('');
  if(this.confirmEmail.valid){
-  const email = this.confirmEmail.get('email')?.value?.trim();
+  const email = this.verificationEmail();
   const code = this.confirmEmail.get('code')?.value?.toString().trim();
 
   if (!email || !code) {
@@ -77,8 +84,12 @@ confirmEmailVerification(){
  this.emailVerificationSub =this.authApiService.confirmEmailVerification({ email, code }).subscribe({
   next:(res)=>{
     this.isLoading.set(false)
-    this.step.set(2);
-    // console.log(res);
+    if (!res.status) {
+      this.msgError.set(res.message || 'Unable to verify the code.');
+      return;
+    }
+
+    this.step.set(3);
 
   },
   error:(error: AuthError)=>{
