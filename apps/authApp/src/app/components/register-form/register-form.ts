@@ -30,7 +30,7 @@ verifyEmail:FormGroup=new FormGroup({
 
 confirmEmail:FormGroup=new FormGroup({
   email:new FormControl(null,[Validators.required,Validators.email]),
-  code:new FormControl(null,[Validators.required])
+  code:new FormControl(null,[Validators.required, Validators.pattern(/^\d{6}$/)])
 })
 
 
