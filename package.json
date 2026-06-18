@@ -6,6 +6,7 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "21.2.7",
+    "@angular/animations": "21.2.9",
     "@angular/common": "21.2.9",
     "@angular/compiler": "21.2.9",
     "@angular/core": "21.2.9",
@@ -21,6 +22,7 @@
     "@tailwindcss/postcss": "^4.3.0",
     "express": "^4.21.2",
     "ngx-spinner": "^21.1.0",
+    "ngx-toastr": "^20.0.5",
     "postcss": "^8.5.15",
     "primeng": "^21.1.9",
     "rxjs": "~7.8.0",

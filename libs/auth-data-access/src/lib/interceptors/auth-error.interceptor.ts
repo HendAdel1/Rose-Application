@@ -4,7 +4,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, throwError } from 'rxjs';
 
 import { AUTH_DATA_ACCESS_CONFIG } from '../services/auth-api.service';
@@ -16,7 +16,7 @@ export const authErrorInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ) => {
   const config = inject(AUTH_DATA_ACCESS_CONFIG);
-  const messageService = inject(MessageService);
+  const toastr = inject(ToastrService);
   const apiBaseUrl = config.apiBaseUrl.replace(/\/$/, '');
 
   if (!request.url.startsWith(apiBaseUrl)) {
@@ -27,11 +27,7 @@ export const authErrorInterceptor: HttpInterceptorFn = (
     catchError((error: unknown) => {
       const authError = mapAuthError(error);
 
-      messageService.add({
-        severity: 'error',
-        summary: getErrorSummary(authError),
-        detail: authError.message,
-      });
+      toastr.error(authError.message, getErrorSummary(authError));
 
       return throwError(() => authError);
     })
