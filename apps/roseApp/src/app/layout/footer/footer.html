@@ -34,19 +34,13 @@
         <p i18n>By subscribing to our newsletter</p>
       </div>
 
-      <div
-        class="newsletter-input-slot"
-        role="presentation"
-        aria-label="Newsletter input placeholder"
-        i18n-aria-label
-      >
-        <span class="input-placeholder" i18n>Enter Your Email</span>
-        <span class="subscribe-placeholder" i18n>
+      <form class="newsletter-form" aria-label="Newsletter subscription" i18n-aria-label>
+        <lib-custom-input type="email" placeholder="Enter Your Email" i18n-placeholder></lib-custom-input>
+        <button class="subscribe-button" type="submit" i18n>
           Subscribe
           <span aria-hidden="true">-></span>
-        </span>
-      </div>
-
+        </button>
+      </form>
     </section>
   </div>
 </footer>
