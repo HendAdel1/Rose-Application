@@ -1,33 +1,39 @@
-import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthApiService, AuthError } from '@org/auth-data-access';
-import { CustomInput, UiButton, UiErrorMessage, UiLabel } from '@org/sharedComponents';
-import { finalize } from 'rxjs';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthApiService, LoadingService } from '@org/auth-data-access';
+import { CustomInput, UiButton, UiLabel } from '@org/sharedComponents';
+import { EMPTY, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-forgot-password-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CustomInput, UiLabel, UiButton, UiErrorMessage],
+  imports: [ReactiveFormsModule, CustomInput, UiLabel, UiButton],
   templateUrl: './forgot-password-form.html',
 })
 export class ForgotPasswordForm {
   private readonly fb = inject(FormBuilder);
   private readonly authApi = inject(AuthApiService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  isLoading = signal(false);
-  isError = signal(false);
-  isSuccess = signal(false);
-  errorMessage = signal('');
-  successMessage = signal('');
+  readonly loading = inject(LoadingService);
+  readonly isSuccess = signal(false);
+  readonly successMessage = signal('');
 
   forgotPasswordForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
   });
 
   onSubmit(): void {
-    this.isError.set(false);
     this.isSuccess.set(false);
-    this.errorMessage.set('');
     this.successMessage.set('');
 
     if (this.forgotPasswordForm.invalid) {
@@ -37,24 +43,23 @@ export class ForgotPasswordForm {
 
     const { email } = this.forgotPasswordForm.getRawValue();
 
-    this.isLoading.set(true);
-
     this.authApi
       .forgotPassword({ email })
-      .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe({
-        next: (response) => {
-          this.isSuccess.set(true);
-          this.successMessage.set(
-            response.message ||
-              'Password reset instructions have been sent to your email.'
-          );
-          this.forgotPasswordForm.reset();
-        },
-        error: (error: AuthError) => {
-          this.isError.set(true);
-          this.errorMessage.set(error.message);
-        },
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => EMPTY)
+      )
+      .subscribe((response) => {
+        this.isSuccess.set(true);
+        this.successMessage.set(
+          response.message ||
+            'Password reset instructions have been sent to your email.'
+        );
+        this.forgotPasswordForm.reset();
+        this.router.navigate(['../reset-link'], {
+          relativeTo: this.route,
+          state: { email },
+        });
       });
   }
 

@@ -1,4 +1,3 @@
-import '@angular/localize/init';
 import { Route } from '@angular/router';
 import { MainLayout } from '../layout/main-layout/main-layout';
 import { RemoteEntry } from './entry';

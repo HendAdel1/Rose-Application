@@ -1,0 +1,237 @@
+<section>
+  <h2 class="mb-2 ps-1 font-inter text-3xl font-bold text-gray-800">
+    Create Account
+  </h2>
+
+  @if (step() === 1) {
+    <form [formGroup]="verifyEmail" (ngSubmit)="sendEmailVerification()">
+      <div class="mb-4">
+        <lib-ui-label forId="email">Email</lib-ui-label>
+        <lib-custom-input
+          formControlName="email"
+          type="email"
+          placeholder="user@example.com"
+        ></lib-custom-input>
+
+        @if (
+          verifyEmail.controls.email.invalid &&
+          verifyEmail.controls.email.touched
+        ) {
+          <p-message
+            severity="error"
+            variant="simple"
+            styleClass="text-red-800"
+            size="small"
+          >
+            Enter a valid email address
+          </p-message>
+        }
+
+        <lib-ui-button type="submit" [loading]="loading.isLoading()">
+          Next
+        </lib-ui-button>
+      </div>
+    </form>
+  }
+
+  @if (step() === 2) {
+    <div class="otp-card">
+      <h2>Verify Identity</h2>
+      <p class="subtitle">
+        Enter the {{ length }}-digit code sent to {{ verificationEmail() }}.
+      </p>
+
+      <form [formGroup]="confirmEmail" (ngSubmit)="onSubmit()">
+        <div class="otp-inputs-wrapper" (paste)="onPaste($event)">
+          @for (control of otpFormArray.controls; track $index) {
+            <input
+              #otpInput
+              type="text"
+              inputmode="numeric"
+              maxlength="1"
+              [formControl]="control"
+              (input)="onInputChange($event, $index)"
+              (keydown)="onKeyDown($event, $index)"
+              [attr.disabled]="loading.isLoading() ? true : null"
+              class="otp-digit-box"
+            />
+          }
+        </div>
+
+        @if (feedbackMessage(); as message) {
+          <div [class]="'alert-message ' + message.type">
+            {{ message.text }}
+          </div>
+        }
+
+        <div class="action-footer">
+          <button
+            type="submit"
+            [disabled]="loading.isLoading() || otpFormArray.invalid"
+            class="btn-verify"
+          >
+            @if (loading.isLoading()) {
+              <span class="spinner"></span>
+            } @else {
+              Verify Code
+            }
+          </button>
+
+          @if (expirationTimer() > 0) {
+            <p class="text-sm text-amber-600">
+              This code will expire in:
+              <strong>{{ getFormattedExpirationTime() }}</strong>
+            </p>
+          } @else {
+            <p class="text-sm text-red-600">
+              The code has expired. Please request a new one.
+            </p>
+          }
+
+          <div class="resend-timer-wrapper">
+            @if (timer() > 0) {
+              <span class="timer-text">
+                Resend option active in <strong>{{ timer() }}s</strong>
+              </span>
+            } @else {
+              <button
+                type="button"
+                (click)="handleResend()"
+                [disabled]="loading.isLoading()"
+                class="btn-resend"
+              >
+                {{ loading.isLoading() ? 'Sending...' : 'Resend OTP' }}
+              </button>
+            }
+          </div>
+        </div>
+      </form>
+    </div>
+  }
+
+  @if (step() === 3) {
+    <div
+      class="flex min-h-screen flex-col items-center justify-center bg-[#fafafa] p-6"
+    >
+      <div
+        class="w-full max-w-xl rounded-3xl border border-zinc-100 bg-white p-8 shadow-sm"
+      >
+        <div class="relative mb-8 text-center">
+          <span
+            class="absolute right-0 top-0 cursor-pointer text-xs text-zinc-400 hover:text-zinc-600"
+          >
+            العربية
+          </span>
+          <h2
+            class="pt-4 font-serif text-4xl font-normal italic text-[#8C3434]"
+          >
+            Become part of our family!
+          </h2>
+        </div>
+
+        <form
+          [formGroup]="registerForm"
+          (ngSubmit)="register()"
+          class="space-y-4"
+        >
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <lib-ui-label forId="firstName">First name</lib-ui-label>
+              <lib-custom-input
+                formControlName="firstName"
+                type="text"
+                placeholder="Jonathan"
+              ></lib-custom-input>
+            </div>
+
+            <div>
+              <lib-ui-label forId="lastName">Last name</lib-ui-label>
+              <lib-custom-input
+                formControlName="lastName"
+                type="text"
+                placeholder="Adrian"
+              ></lib-custom-input>
+            </div>
+          </div>
+
+          <div>
+            <lib-ui-label forId="username">Username</lib-ui-label>
+            <lib-custom-input
+              formControlName="username"
+              type="text"
+              placeholder="johndoe"
+            ></lib-custom-input>
+          </div>
+
+          <div>
+            <lib-ui-label forId="email">Email</lib-ui-label>
+            <lib-custom-input
+              formControlName="email"
+              type="email"
+              placeholder="user@example.com"
+            ></lib-custom-input>
+          </div>
+
+          <div>
+            <lib-ui-label forId="gender">Gender</lib-ui-label>
+            <select
+              formControlName="gender"
+              class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 p-3 text-zinc-700 outline-none transition-all focus:border-[#8C3434] focus:bg-white focus:ring-1 focus:ring-[#8C3434]"
+            >
+              <option value="" disabled>Select gender</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+            </select>
+          </div>
+
+          <div>
+            <lib-ui-label forId="password">Password</lib-ui-label>
+            <div class="relative">
+              <lib-custom-input
+                formControlName="password"
+                type="password"
+                placeholder="Password@12345"
+              ></lib-custom-input>
+              <svg
+                lucideEye
+                aria-hidden="true"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
+              ></svg>
+            </div>
+          </div>
+
+          <div>
+            <lib-ui-label forId="confirmPassword">
+              Confirm Password
+            </lib-ui-label>
+            <div class="relative">
+              <lib-custom-input
+                formControlName="confirmPassword"
+                type="password"
+                placeholder="Password@12345"
+              ></lib-custom-input>
+              <svg
+                lucideEyeOff
+                aria-hidden="true"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
+              ></svg>
+            </div>
+
+            @if (
+              registerForm.hasError('passwordMismatch') &&
+              registerForm.controls.confirmPassword.touched
+            ) {
+              <p-message severity="error" variant="simple" size="small">
+                Passwords do not match
+              </p-message>
+            }
+          </div>
+
+          <lib-ui-button type="submit" [loading]="loading.isLoading()">
+            Create Account
+          </lib-ui-button>
+        </form>
+      </div>
+    </div>
+  }
+</section>

@@ -1,15 +1,132 @@
-<nav class="navbar" aria-label="Primary navigation" i18n-aria-label>
-  <a class="brand" routerLink="./" i18n>Rose Application</a>
+<header class="rose-header font-sarabun" [attr.aria-label]="'NAV.HEADER_ARIA' | translate">
+  <div class="top-bar">
+    <a class="logo-link" routerLink="./" [attr.aria-label]="'NAV.ROSE_HOME' | translate">
+      <img class="rose-logo" [src]="logoPath" alt="Rose" />
+    </a>
 
-  <ul class="nav-links">
-    <li>
-      <a
-        routerLink="./"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        i18n
-        >Home</a
+    @if (isAuthenticated()) {
+      <div class="delivery-info" [attr.aria-label]="'NAV.DELIVERY_LOCATION' | translate">
+        <span class="delivery-label">{{ 'NAV.DELIVER_TO' | translate }}</span>
+        <span class="delivery-city">
+          <svg lucideMapPin [size]="15" aria-hidden="true"></svg>
+          {{ deliveryCity() }}
+        </span>
+      </div>
+    }
+
+    <form class="search-field" role="search" (submit)="onSearchSubmit($event)">
+      <svg lucideSearch [size]="17" aria-hidden="true"></svg>
+      <lib-custom-input
+        type="text"
+        [placeholder]="'NAV.SEARCH_PLACEHOLDER' | translate"
+        [attr.aria-label]="'NAV.SEARCH_PRODUCTS' | translate"
+        (valueChange)="onSearchChange($event)"
+      ></lib-custom-input>
+    </form>
+
+    <div class="header-actions">
+      @if (isAuthenticated()) {
+        <button
+          class="user-menu"
+          type="button"
+          aria-haspopup="menu"
+          aria-expanded="false"
+          [attr.aria-label]="'NAV.OPEN_PROFILE_MENU' | translate"
+        >
+          <span>
+            <span class="hello">{{ 'NAV.HELLO' | translate }}</span>
+            <strong>{{ currentUserName() }}</strong>
+          </span>
+          <svg lucideChevronDown [size]="14" aria-hidden="true"></svg>
+        </button>
+      } @else {
+        <a class="login-link" routerLink="/auth/login">
+          <svg lucideUser [size]="18" aria-hidden="true"></svg>
+          <span>{{ 'NAV.LOGIN' | translate }}</span>
+        </a>
+      }
+
+      @if (isAuthenticated()) {
+        <span class="divider"></span>
+
+        <button class="icon-button" type="button" [attr.aria-label]="'NAV.WISHLIST' | translate">
+          <svg lucideHeart [size]="22" aria-hidden="true"></svg>
+        </button>
+
+        <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.SHOPPING_CART' | translate">
+          <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
+          <span class="badge">8</span>
+        </button>
+
+        <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.NOTIFICATIONS' | translate">
+          <svg lucideBell [size]="21" aria-hidden="true"></svg>
+          <span class="badge">8</span>
+        </button>
+
+        <span class="divider"></span>
+      }
+
+      <button
+        class="language-button"
+        type="button"
+        [attr.aria-label]="'NAV.SWITCH_LANGUAGE' | translate"
+        (click)="onLanguageToggle()"
       >
-    </li>
-  </ul>
-</nav>
+        {{ languageLabel() }}
+      </button>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        [attr.aria-label]="'NAV.PRIMARY_NAVIGATION' | translate"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="rose-mobile-navigation"
+        (click)="toggleMenu()"
+      >
+        <svg lucideMenu [size]="24" aria-hidden="true"></svg>
+      </button>
+    </div>
+  </div>
+
+  <nav
+  id="rose-mobile-navigation"
+  class="nav-strip"
+  [class.open]="menuOpen()"
+  [attr.aria-label]="'NAV.PRIMARY_NAVIGATION' | translate"
+>
+    <ul class="nav-list">
+      @for (item of navItems; track item.labelKey) {
+        <li>
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+            (click)="closeMenu()"
+          >
+            @switch (item.icon) {
+              @case ('home') {
+                <svg lucideHome [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('products') {
+                <svg lucideGift [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('categories') {
+                <svg lucideClipboardList [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('occasions') {
+                <svg lucidePartyPopper [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('contact') {
+                <svg lucideHeadphones [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('about') {
+                <svg lucideInfo [size]="16" aria-hidden="true"></svg>
+              }
+            }
+            <span>{{ item.labelKey | translate }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+</header>

@@ -1,9 +1,9 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reset-link',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './reset-link.html',
   styleUrl: './reset-link.css',
 })
