@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, forwardRef, input, output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'lib-custom-input',
-  imports: [],
+  imports: [CommonModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

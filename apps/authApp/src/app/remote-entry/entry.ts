@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
-import { NxWelcome } from './nx-welcome';
+import { Component, inject } from '@angular/core';
+import { ThemeService } from '@org/shared-theme';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [NxWelcome],
+  imports: [RouterOutlet],
   selector: 'app-authApp-entry',
-  template: `<app-nx-welcome></app-nx-welcome>`,
+  template: `<router-outlet></router-outlet>`,
 })
-export class RemoteEntry {}
+export class RemoteEntry {
+  constructor() {
+    inject(ThemeService).init();
+  }
+}

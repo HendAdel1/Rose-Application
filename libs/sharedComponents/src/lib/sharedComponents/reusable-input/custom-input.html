@@ -1,10 +1,6 @@
-<div class="flex w-full flex-col gap-1.5">
-  @if (label()) {
-    <label class="text-sm font-medium text-[#333]">{{ label() }}</label>
-  }
 
   <input
-    class="box-border w-full border border-[#333] border-r-4 px-3 py-2 focus:border-[#007bff] focus:outline-none"
+    class="box-border w-full border border-zinc-300 rounded-[10px] p-4 focus:outline-none hover:border-zinc-400 focus:border-maroon-600 placeholder:text-zinc-400"
     [type]="type()"
     [value]="value ?? ''"
     [placeholder]="placeholder()"
@@ -14,7 +10,6 @@
     (input)="onInputChange($event)"
     (blur)="onInputBlur()"
   />
-
   @if (helperText() && !isInvalid()) {
     <span class="text-sm text-[#666]">{{ helperText() }}</span>
   }
@@ -24,4 +19,4 @@
       {{ errorMessage() }}
     </span>
   }
-</div>
+

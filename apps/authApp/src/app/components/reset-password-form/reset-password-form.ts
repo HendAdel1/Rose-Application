@@ -1,13 +1,22 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthApiService, AuthError } from '@org/auth-data-access';
-import { CustomInput, UiButton, UiErrorMessage, UiLabel, UiToast } from '@org/sharedComponents';
-import { finalize } from 'rxjs';
-import { passwordMatchValidator, passwordStrengthValidator } from '../../shared/validators/password.validators';
+import { AuthApiService, LoadingService } from '@org/auth-data-access';
+import { CustomInput, UiButton, UiLabel, UiToast } from '@org/sharedComponents';
+import { ToastrService } from 'ngx-toastr';
+import { EMPTY, catchError } from 'rxjs';
+
+import { passwordMatchValidator } from '../../shared/utils/password-match.validator';
+import { passwordStrengthValidator } from '../../shared/utils/password-strength.validator';
+import {
+  getConfirmPasswordError,
+  getPasswordError,
+} from '../../shared/utils/form-field-errors';
+
 @Component({
   selector: 'app-reset-password-form',
-  imports: [ReactiveFormsModule, CustomInput, UiLabel, UiButton, UiErrorMessage, UiToast],
+  imports: [ReactiveFormsModule, CustomInput, UiLabel, UiButton, UiToast],
   templateUrl: './reset-password-form.html',
 })
 export class ResetPasswordForm {
@@ -15,11 +24,11 @@ export class ResetPasswordForm {
   private readonly authApi = inject(AuthApiService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly toastr = inject(ToastrService);
 
-  isLoading = signal(false);
-  isError = signal(false);
+  readonly loading = inject(LoadingService);
   showToast = signal(false);
-  errorMessage = signal('');
   toastMessage = signal('');
 
   private readonly resetToken =
@@ -30,12 +39,10 @@ export class ResetPasswordForm {
       password: ['', [Validators.required, passwordStrengthValidator]],
       confirmPassword: ['', Validators.required],
     },
-    { validators: passwordMatchValidator }
+    { validators: passwordMatchValidator() }
   );
 
   onSubmit(): void {
-    this.isError.set(false);
-    this.errorMessage.set('');
     this.showToast.set(false);
 
     if (this.resetPasswordForm.invalid) {
@@ -44,16 +51,14 @@ export class ResetPasswordForm {
     }
 
     if (!this.resetToken) {
-      this.isError.set(true);
-      this.errorMessage.set(
-        'Reset link is invalid or expired. Please request a new password reset.'
+      this.toastr.error(
+        'Reset link is invalid or expired. Please request a new password reset.',
+        'Reset failed'
       );
       return;
     }
 
     const { password, confirmPassword } = this.resetPasswordForm.getRawValue();
-
-    this.isLoading.set(true);
 
     this.authApi
       .resetPassword({
@@ -61,20 +66,17 @@ export class ResetPasswordForm {
         newPassword: password,
         confirmPassword,
       })
-      .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe({
-        next: (response) => {
-          this.toastMessage.set(
-            response.message || 'Your password has been reset successfully.'
-          );
-          this.showToast.set(true);
-          this.resetPasswordForm.reset();
-          this.scheduleLoginRedirect();
-        },
-        error: (error: AuthError) => {
-          this.isError.set(true);
-          this.errorMessage.set(error.message);
-        },
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => EMPTY)
+      )
+      .subscribe((response) => {
+        this.toastMessage.set(
+          response.message || 'Your password has been reset successfully.'
+        );
+        this.showToast.set(true);
+        this.resetPasswordForm.reset();
+        this.scheduleLoginRedirect();
       });
   }
 
@@ -84,39 +86,14 @@ export class ResetPasswordForm {
   }
 
   passwordError(): string {
-    const control = this.resetPasswordForm.get('password');
-
-    if (!control?.touched || !control.errors) {
-      return '';
-    }
-
-    if (control.errors['required']) {
-      return 'Password is required';
-    }
-
-    if (control.errors['passwordStrength']) {
-      return 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character';
-    }
-
-    return '';
+    return getPasswordError(this.resetPasswordForm.get('password'));
   }
 
   confirmPasswordError(): string {
-    const control = this.resetPasswordForm.get('confirmPassword');
-
-    if (!control?.touched) {
-      return '';
-    }
-
-    if (control.errors?.['required']) {
-      return 'Please confirm your password';
-    }
-
-    if (this.resetPasswordForm.errors?.['passwordMismatch']) {
-      return 'Passwords do not match';
-    }
-
-    return '';
+    return getConfirmPasswordError(
+      this.resetPasswordForm.get('confirmPassword'),
+      this.resetPasswordForm
+    );
   }
 
   private scheduleLoginRedirect(): void {
