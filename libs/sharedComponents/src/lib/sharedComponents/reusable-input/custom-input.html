@@ -1,3 +1,7 @@
+@if (label()) {
+  <lib-ui-label [forId]="id()">{{ label() }}</lib-ui-label>
+}
+
 <div class="relative">
   @if (hasLeadingIcon()) {
     <svg
