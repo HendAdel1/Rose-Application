@@ -1,150 +1,126 @@
-<section >
-   <h2 class="mb-2 text-3xl ps-1 font-inter text-gray-800 font-bold">Create Account</h2>
-@if(step()===1){
-  <form [formGroup]="verifyEmail" (ngSubmit)="sendEmailVerification()">
+<section>
+  <h2 class="mb-2 ps-1 font-inter text-3xl font-bold text-gray-800">
+    Create Account
+  </h2>
 
-<div class="mb-4">
-    <lib-ui-label forId="email">
-Email
-  </lib-ui-label>
-  <lib-custom-input formControlName="email" type="email" placeholder="user@example.com" value="email" (input)="$event"></lib-custom-input>
-   @if (verifyEmail.get('email')?.errors && verifyEmail.get('email')?.touched) {
-        <p-message severity="error" variant="simple" styleClass="text-red-800" size="small">email is required</p-message>
-        }
-  <lib-ui-button type="submit" [loading]="isLoading()"> Next </lib-ui-button>
-  <lib-ui-error-message [hide]="isError()"> {{msgError()}} </lib-ui-error-message>
+  @if (step() === 1) {
+    <form [formGroup]="verifyEmail" (ngSubmit)="sendEmailVerification()">
+      <div class="mb-4">
+        <lib-ui-label forId="email">Email</lib-ui-label>
+        <lib-custom-input
+          formControlName="email"
+          type="email"
+          placeholder="user@example.com"
+        ></lib-custom-input>
 
-</div>
-</form>
-}
-@if(step()===2){
-
-<div class="otp-card">
-  <h2>Verify Identity</h2>
-  <p class="subtitle">Enter the {{ length }}-digit code sent to your registered channel.</p>
-
-  <form [formGroup]="confirmEmail" (ngSubmit)="onSubmit()">
-    <div class="otp-inputs-wrapper" (paste)="onPaste($event)">
-      @for (control of otpFormArray.controls; track $index) {
-          <input #otpInput
-          type="text"
-          inputmode="numeric"
-          maxlength="1"
-          [formControl]="control"
-          (input)="onInputChange($event, $index)"
-          (keydown)="onKeyDown($event, $index)"
-          [attr.disabled]="isLoading() ? true : null"
-          class="otp-digit-box "/>
-      }
-    </div>
-
-    @if (feedbackMessage(); as msg) {
-      <div [class]="'alert-message ' + msg.type">
-        {{ msg.text }}
-      </div>
-    }
-
-    <div class="action-footer">
-      <button
-        type="submit"
-        [disabled]="isLoading() || otpFormArray.invalid"
-        class="btn-verify"
-      >
-        @if (isLoading()) {
-          <span class="spinner"></span>
-        } @else {
-          Verify Code
-        }
-      </button>
-  @if (expirationTimer() > 0) {
-  <p class="text-sm text-amber-600">
-    This code will expire in: <strong>{{ getFormattedExpirationTime() }}</strong>
-  </p>
-} @else {
-  <p class="text-sm text-red-600">The code has expired. Please request a new one.</p>
-}
-      <div class="resend-timer-wrapper">
-        @if (timer() > 0) {
-          <span class="timer-text">Resend option active in <strong>{{ timer() }}s</strong></span>
-        } @else {
-          <button
-            type="button"
-            (click)="handleResend()"
-            [disabled]="isResending()"
-            class="btn-resend"
+        @if (
+          verifyEmail.controls.email.invalid &&
+          verifyEmail.controls.email.touched
+        ) {
+          <p-message
+            severity="error"
+            variant="simple"
+            styleClass="text-red-800"
+            size="small"
           >
-            {{ isResending() ? 'Sending...' : 'Resend OTP' }}
-          </button>
+            Enter a valid email address
+          </p-message>
         }
-      </div>
-    </div>
-  </form>
-</div>
 
-}
-@if(step()===3){
-
-<div class="otp-card">
-  <h2>Verify Identity</h2>
-  <p class="subtitle">Enter the {{ length }}-digit code sent to your registered channel.</p>
-
-  <form [formGroup]="confirmEmail" (ngSubmit)="confirmEmailVerification()">
-    <div class="otp-inputs-wrapper" (paste)="onPaste($event)">
-      @for (control of otpFormArray.controls; track $index) {
-          <input #otpInput
-          type="text"
-          inputmode="numeric"
-          maxlength="1"
-          [formControl]="control"
-          (input)="onInputChange($event, $index)"
-          (keydown)="onKeyDown($event, $index)"
-          [attr.disabled]="isLoading() ? true : null"
-          class="otp-digit-box "/>
-      }
-    </div>
-
-    @if (feedbackMessage(); as msg) {
-      <div [class]="'alert-message ' + msg.type">
-        {{ msg.text }}
-      </div>
-    }
-
-    <div class="action-footer">
-      <button
-        type="submit"
-        [disabled]="isLoading() || otpFormArray.invalid"
-        class="btn-verify"
-      >
-        @if (isLoading()) {
-          <span class="spinner"></span>
-        } @else {
-          Verify Code
-        }
-      </button>
-  @if (expirationTimer() > 0) {
-  <p class="text-sm text-amber-600">
-    This code will expire in: <strong>{{ getFormattedExpirationTime() }}</strong>
-  </p>
-} @else {
-  <p class="text-sm text-red-600">The code has expired. Please request a new one.</p>
-}
-      <div class="resend-timer-wrapper">
-        @if (timer() > 0) {
-          <span class="timer-text">Resend option active in <strong>{{ timer() }}s</strong></span>
-        } @else {
-          <button
-            type="button"
-            (click)="handleResend()"
-            [disabled]="isResending()"
-            class="btn-resend"
+        @if (msgError()) {
+          <p-message
+            severity="error"
+            variant="simple"
+            styleClass="text-red-800"
+            size="small"
           >
-            {{ isResending() ? 'Sending...' : 'Resend OTP' }}
-          </button>
+            {{ msgError() }}
+          </p-message>
         }
-      </div>
-    </div>
-  </form>
-</div>
 
-}
+        <lib-ui-button type="submit" [loading]="isLoading()">
+          Next
+        </lib-ui-button>
+      </div>
+    </form>
+  }
+
+  @if (step() === 2) {
+    <div class="otp-card">
+      <h2>Verify Identity</h2>
+      <p class="subtitle">
+        Enter the {{ length }}-digit code sent to {{ verificationEmail() }}.
+      </p>
+
+      <form [formGroup]="confirmEmail" (ngSubmit)="onSubmit()">
+        <div class="otp-inputs-wrapper" (paste)="onPaste($event)">
+          @for (control of otpFormArray.controls; track $index) {
+            <input
+              #otpInput
+              type="text"
+              inputmode="numeric"
+              maxlength="1"
+              [formControl]="control"
+              (input)="onInputChange($event, $index)"
+              (keydown)="onKeyDown($event, $index)"
+              [attr.disabled]="isLoading() ? true : null"
+              class="otp-digit-box"
+            />
+          }
+        </div>
+
+        @if (feedbackMessage(); as message) {
+          <div [class]="'alert-message ' + message.type">
+            {{ message.text }}
+          </div>
+        }
+
+        <div class="action-footer">
+          <button
+            type="submit"
+            [disabled]="isLoading() || otpFormArray.invalid"
+            class="btn-verify"
+          >
+            @if (isLoading()) {
+              <span class="spinner"></span>
+            } @else {
+              Verify Code
+            }
+          </button>
+
+          @if (expirationTimer() > 0) {
+            <p class="text-sm text-amber-600">
+              This code will expire in:
+              <strong>{{ getFormattedExpirationTime() }}</strong>
+            </p>
+          } @else {
+            <p class="text-sm text-red-600">
+              The code has expired. Please request a new one.
+            </p>
+          }
+
+          <div class="resend-timer-wrapper">
+            @if (timer() > 0) {
+              <span class="timer-text">
+                Resend option active in <strong>{{ timer() }}s</strong>
+              </span>
+            } @else {
+              <button
+                type="button"
+                (click)="handleResend()"
+                [disabled]="isResending()"
+                class="btn-resend"
+              >
+                {{ isResending() ? 'Sending...' : 'Resend OTP' }}
+              </button>
+            }
+          </div>
+        </div>
+      </form>
+    </div>
+  }
+
+  @if (step() === 3) {
+    <p class="text-green-700">Email verified successfully.</p>
+  }
 </section>

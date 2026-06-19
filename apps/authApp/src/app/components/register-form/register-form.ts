@@ -1,223 +1,285 @@
-import { Component, ElementRef, inject, Input, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import{CustomInput,UiButton,UiErrorMessage,UiLabel}from '@org/sharedComponents'
+import {
+  Component,
+  ElementRef,
+  inject,
+  Input,
+  OnInit,
+  QueryList,
+  signal,
+  ViewChildren,
+} from '@angular/core';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { AuthApiService, AuthError } from '@org/auth-data-access';
+import { CustomInput, UiButton, UiLabel } from '@org/sharedComponents';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
-import{AuthApiService} from '@org/auth-data-access'
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
-  imports: [ReactiveFormsModule,CustomInput,UiLabel,UiButton,InputMaskModule, MessageModule, InputTextModule,UiErrorMessage],
+  imports: [
+    ReactiveFormsModule,
+    CustomInput,
+    UiLabel,
+    UiButton,
+    InputMaskModule,
+    MessageModule,
+    InputTextModule,
+  ],
   templateUrl: './register-form.html',
   styleUrl: './register-form.css',
 })
-export class RegisterForm implements OnInit{
-step=signal<number>(1);
-msgError=signal<string>('')
-isLoading=signal<boolean>(false);
-isError=signal<boolean>(false)
-private readonly authApiService=inject(AuthApiService)
-private readonly router=inject(Router)
-@Input() length = 6;
+export class RegisterForm implements OnInit {
+  readonly step = signal(1);
+  readonly msgError = signal('');
+  readonly isLoading = signal(false);
+  readonly verificationEmail = signal('');
+  readonly timer = signal(0);
+  readonly expirationTimer = signal(0);
+  readonly isResending = signal(false);
+  readonly feedbackMessage = signal<{
+    type: 'success' | 'error';
+    text: string;
+  } | null>(null);
+
+  @Input() length = 6;
   @Input() cooldownTime = 60;
   @Input() expirationTime = 600;
-  @Input() onVerify!: (otp: string) => Promise<boolean>;
-  @Input() onResend!: () => Promise<boolean>;
 
-  @ViewChildren('otpInput') inputElements!: QueryList<ElementRef<HTMLInputElement>>;
-  otpFormArray = new FormArray<FormControl>([]);
-  timer = signal<number>(0);
-  expirationTimer = signal<number>(0);
-  isResending = signal<boolean>(false);
-  isCodeSend= signal<boolean>(false);
-  feedbackMessage = signal<{ type: 'success' | 'error'; text: string } | null>(null);
+  @ViewChildren('otpInput')
+  inputElements!: QueryList<ElementRef<HTMLInputElement>>;
 
+  readonly otpFormArray = new FormArray<FormControl<string>>([]);
+  private readonly authApiService = inject(AuthApiService);
 
-verifyEmail:FormGroup=new FormGroup({
-  email:new FormControl(null,[Validators.required,Validators.email])
-})
+  readonly verifyEmail = new FormGroup({
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+    }),
+  });
 
-confirmEmail:FormGroup=new FormGroup({
-    email:new FormControl(null,[Validators.required,Validators.email]),
-  code:new FormControl(null,[Validators.required])
-})
+  readonly confirmEmail = new FormGroup({
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+    }),
+    code: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.pattern(/^\d{6}$/)],
+    }),
+  });
 
-private startExpirationTimer() {
-  const intervalId = setInterval(() => {
-    if (this.expirationTimer() <= 0) {
-      clearInterval(intervalId);
-    } else {
-      this.expirationTimer.update(val => val - 1);
+  ngOnInit(): void {
+    for (let index = 0; index < this.length; index += 1) {
+      this.otpFormArray.push(
+        new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required, Validators.pattern(/^\d$/)],
+        })
+      );
     }
-  }, 1000);
-}
-getFormattedExpirationTime(): string {
-  const minutes = Math.floor(this.expirationTimer() / 60);
-  const seconds = this.expirationTimer() % 60;
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-}
+  }
 
-sendEmailVerification() {
-  if (this.verifyEmail.valid) {
+  sendEmailVerification(): void {
+    this.msgError.set('');
 
-    if (this.expirationTimer() > 0) {
-      this.step.set(2);
+    if (this.verifyEmail.invalid) {
+      this.verifyEmail.markAllAsTouched();
+      return;
+    }
+
+    const email = this.verifyEmail.controls.email.value.trim().toLowerCase();
+    this.verifyEmail.controls.email.setValue(email);
+    this.isLoading.set(true);
+
+    this.authApiService.sendEmailVerification({ email }).subscribe({
+      next: (response) => {
+        this.isLoading.set(false);
+
+        if (!response.status) {
+          this.msgError.set(
+            response.message || 'Unable to send the verification code.'
+          );
+          return;
+        }
+
+        this.verificationEmail.set(email);
+        this.confirmEmail.controls.email.setValue(email);
+        this.step.set(2);
+        this.startVerificationTimers();
+      },
+      error: (error: AuthError) => {
+        this.isLoading.set(false);
+        this.msgError.set(error.message);
+      },
+    });
+  }
+
+  onSubmit(): void {
+    if (this.otpFormArray.invalid) {
       this.feedbackMessage.set({
-        type: 'success',
-        text: 'You already have an active verification code. Please enter it below.'
+        type: 'error',
+        text: 'Please fill out all verification boxes.',
+      });
+      return;
+    }
+
+    const code = this.otpFormArray.getRawValue().join('');
+    this.confirmEmail.controls.code.setValue(code);
+    this.confirmEmailVerification();
+  }
+
+  confirmEmailVerification(): void {
+    const email = this.verificationEmail();
+    const code = this.confirmEmail.controls.code.value.trim();
+
+    if (!email || !code || this.confirmEmail.invalid) {
+      this.feedbackMessage.set({
+        type: 'error',
+        text: 'Enter the complete verification code.',
       });
       return;
     }
 
     this.isLoading.set(true);
-    this.isError.set(false);
+    this.feedbackMessage.set(null);
 
-    this.authApiService.sendEmailVerification(this.verifyEmail.value).subscribe({
-      next: (res) => {
+    this.authApiService.confirmEmailVerification({ email, code }).subscribe({
+      next: (response) => {
         this.isLoading.set(false);
-        this.step.set(2);
-          this.isCodeSend.set(true)
-        this.timer.set(this.cooldownTime);
-        this.startCooldownTimer();
 
-        this.expirationTimer.set(this.expirationTime);
-        this.startExpirationTimer();
+        if (!response.status) {
+          this.feedbackMessage.set({
+            type: 'error',
+            text: response.message || 'Unable to verify the code.',
+          });
+          return;
+        }
+
+        this.step.set(3);
       },
-      error: (err) => {
+      error: (error: AuthError) => {
         this.isLoading.set(false);
-        this.isError.set(true);
-        this.msgError.set(err?.error?.message || err?.message || 'Something went wrong');
-      }
+        this.feedbackMessage.set({ type: 'error', text: error.message });
+      },
     });
   }
-}
 
-  confirmEmailVerification() {
-    if (this.verifyEmail.valid) {
-      this.isLoading.set(true);
-      this.isError.set(false);
-
-      this.authApiService.confirmEmailVerification(this.confirmEmail.value).subscribe({
-        next: (res) => {
-          this.isLoading.set(false);
-          this.step.set(3);
-          console.log('Verification Success:', this.confirmEmail.value);
-        },
-        error: (err) => {
-          this.isLoading.set(false);
-          this.isError.set(true);
-
-          const errorText = err?.error?.message || err?.message || 'OtpCode is wrong';
-          this.feedbackMessage.set({ type: 'error', text: errorText });
-        }
-      });
-    }
-  }
-
-  private startCooldownTimer() {
-    const intervalId = setInterval(() => {
-      if (this.timer() <= 0) {
-        clearInterval(intervalId);
-      } else {
-        this.timer.update(val => val - 1);
-      }
-    }, 1000);
-  }
-
-  onSubmit() {
-    if (this.otpFormArray.invalid) {
-      this.feedbackMessage.set({ type: 'error', text: 'Please fill out all verification boxes.' });
+  handleResend(): void {
+    if (this.timer() > 0 || this.isResending()) {
       return;
     }
 
-    const fullOtp = this.otpFormArray.value.join('');
-    this.feedbackMessage.set(null);
-
-    this.confirmEmail.get('email')?.setValue(this.verifyEmail.get('email')?.value);
-    this.confirmEmail.get('code')?.setValue(fullOtp);
-
-    this.confirmEmailVerification();
-  }
-
-  handleResend() {
-    if (this.timer() > 0 || this.isResending()) return;
+    const email = this.verificationEmail();
+    if (!email) {
+      return;
+    }
 
     this.isResending.set(true);
     this.feedbackMessage.set(null);
 
-    const emailValue = this.verifyEmail.get('email')?.value;
-
-    this.authApiService.sendEmailVerification({ email: emailValue }).subscribe({
-      next: (res) => {
+    this.authApiService.sendEmailVerification({ email }).subscribe({
+      next: (response) => {
         this.isResending.set(false);
-        this.feedbackMessage.set({ type: 'success', text: 'A fresh security code has been dispatched!' });
 
+        if (!response.status) {
+          this.feedbackMessage.set({
+            type: 'error',
+            text: response.message || 'Unable to resend the verification code.',
+          });
+          return;
+        }
+
+        this.feedbackMessage.set({
+          type: 'success',
+          text: 'A fresh security code has been sent.',
+        });
         this.otpFormArray.reset();
-        this.timer.set(this.cooldownTime);
-        this.startCooldownTimer();
+        this.startVerificationTimers();
 
-        setTimeout(() => this.inputElements.toArray()[0]?.nativeElement.focus(), 50);
+        setTimeout(
+          () => this.inputElements.toArray()[0]?.nativeElement.focus(),
+          50
+        );
       },
-      error: (err) => {
+      error: (error: AuthError) => {
         this.isResending.set(false);
-        const errorText = err?.error?.message || err?.message || 'An issue occurred sending your code.';
-        this.feedbackMessage.set({ type: 'error', text: errorText });
-      }
+        this.feedbackMessage.set({ type: 'error', text: error.message });
+      },
     });
   }
 
-  onInputChange(event: Event, index: number) {
+  onInputChange(event: Event, index: number): void {
     const input = event.target as HTMLInputElement;
-    let value = input.value.replace(/[^0-9]/g, '');
+    const value = input.value.replace(/\D/g, '').slice(-1);
 
-    if (value) {
-      value = value.substring(value.length - 1);
-      this.otpFormArray.at(index).setValue(value, { emitEvent: false });
+    this.otpFormArray.at(index).setValue(value, { emitEvent: false });
+    input.value = value;
 
-      if (index < this.length - 1) {
-        this.inputElements.toArray()[index + 1].nativeElement.focus();
-      }
+    if (value && index < this.length - 1) {
+      this.inputElements.toArray()[index + 1]?.nativeElement.focus();
     }
   }
 
-  onKeyDown(event: KeyboardEvent, index: number) {
-    if (event.key === 'Backspace') {
-      const currentControl = this.otpFormArray.at(index);
-
-      if (!currentControl.value && index > 0) {
-        this.otpFormArray.at(index - 1).setValue('');
-        this.inputElements.toArray()[index - 1].nativeElement.focus();
-      } else {
-        currentControl.setValue('');
-      }
+  onKeyDown(event: KeyboardEvent, index: number): void {
+    if (event.key !== 'Backspace') {
+      return;
     }
+
+    const currentControl = this.otpFormArray.at(index);
+    if (!currentControl.value && index > 0) {
+      this.otpFormArray.at(index - 1).setValue('');
+      this.inputElements.toArray()[index - 1]?.nativeElement.focus();
+      return;
+    }
+
+    currentControl.setValue('');
   }
 
-  onPaste(event: ClipboardEvent) {
+  onPaste(event: ClipboardEvent): void {
     event.preventDefault();
-    const clipboardData = event.clipboardData?.getData('text') || '';
-    const cleanDigits = clipboardData.replace(/[^0-9]/g, '').substring(0, this.length);
+    const digits = (event.clipboardData?.getData('text') ?? '')
+      .replace(/\D/g, '')
+      .slice(0, this.length);
 
-    if (cleanDigits) {
-      cleanDigits.split('').forEach((char, index) => {
-        if (index < this.length) {
-          this.otpFormArray.at(index).setValue(char);
-        }
-      });
+    digits.split('').forEach((digit, index) => {
+      this.otpFormArray.at(index)?.setValue(digit);
+    });
 
-      const targetIndex = Math.min(cleanDigits.length, this.length - 1);
-      this.inputElements.toArray()[targetIndex]?.nativeElement.focus();
-    }
+    const targetIndex = Math.min(digits.length, this.length - 1);
+    this.inputElements.toArray()[targetIndex]?.nativeElement.focus();
   }
-  ngOnInit() {
-    this.otpFormArray.clear();
-    for (let i = 0; i < this.length; i++) {
-      this.otpFormArray.push(new FormControl('', [Validators.required, Validators.pattern('[0-9]')]));
-    }
-    this.timer.set(0);
-    this.expirationTimer.set(0);
+
+  getFormattedExpirationTime(): string {
+    const minutes = Math.floor(this.expirationTimer() / 60);
+    const seconds = this.expirationTimer() % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds
+      .toString()
+      .padStart(2, '0')}`;
+  }
+
+  private startVerificationTimers(): void {
+    this.timer.set(this.cooldownTime);
+    this.expirationTimer.set(this.expirationTime);
+    this.startCountdown(this.timer);
+    this.startCountdown(this.expirationTimer);
+  }
+
+  private startCountdown(counter: typeof this.timer): void {
+    const intervalId = setInterval(() => {
+      if (counter() <= 0) {
+        clearInterval(intervalId);
+        return;
+      }
+
+      counter.update((value) => value - 1);
+    }, 1000);
   }
 }
-
