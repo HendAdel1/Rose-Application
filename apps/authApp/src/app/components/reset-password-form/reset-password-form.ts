@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService, LoadingService } from '@org/auth-data-access';
-import { CustomInput, UiButton, UiLabel, UiToast } from '@org/sharedComponents';
+import { CustomInput, UiButton, UiToast } from '@org/sharedComponents';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, catchError } from 'rxjs';
 
@@ -16,7 +16,7 @@ import {
 
 @Component({
   selector: 'app-reset-password-form',
-  imports: [ReactiveFormsModule, CustomInput, UiLabel, UiButton, UiToast],
+  imports: [ReactiveFormsModule, CustomInput, UiButton, UiToast],
   templateUrl: './reset-password-form.html',
 })
 export class ResetPasswordForm {
