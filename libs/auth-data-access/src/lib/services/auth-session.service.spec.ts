@@ -3,32 +3,33 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
-import {
-  AUTH_DATA_ACCESS_CONFIG,
-  AuthApiService,
-} from './auth-api.service';
+import { provideAuthDataAccess } from '../config/provide-auth-data-access';
 import { AuthSessionService } from './auth-session.service';
-import { TokenStorageService } from './token-storage.service';
 
 describe('AuthSessionService', () => {
   let service: AuthSessionService;
   let httpMock: HttpTestingController;
+  const clearAuthCookies = () => {
+    ['rose.auth.token', 'rose.auth.refreshToken', 'rose.auth.user'].forEach(
+      (key) => {
+        document.cookie =
+          `${encodeURIComponent(key)}=; Max-Age=0; Path=/; SameSite=Lax`;
+      }
+    );
+  };
 
   beforeEach(() => {
-    localStorage.clear();
+    clearAuthCookies();
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
+        provideAuthDataAccess({ apiBaseUrl: '/api/auth' }),
         provideHttpClientTesting(),
         {
-          provide: AUTH_DATA_ACCESS_CONFIG,
-          useValue: { apiBaseUrl: '/api/auth' },
+          provide: ToastrService,
+          useValue: { error: vi.fn() },
         },
-        AuthApiService,
-        TokenStorageService,
-        AuthSessionService,
       ],
     });
 
@@ -38,7 +39,7 @@ describe('AuthSessionService', () => {
 
   afterEach(() => {
     httpMock.verify();
-    localStorage.clear();
+    clearAuthCookies();
   });
 
   it('stores the session after login succeeds', () => {

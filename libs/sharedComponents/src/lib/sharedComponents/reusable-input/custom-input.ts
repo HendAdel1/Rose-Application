@@ -24,7 +24,7 @@ export class CustomInput implements ControlValueAccessor {
   readonly = input<boolean>(false);
   isInvalid = input<boolean>(false);
   valueChange = output<string>();
-  customClass= input<string>('box-border w-full border border-zinc-300 rounded-[10px] p-4 focus:outline-none hover:border-zinc-400 focus:border-maroon-600 placeholder:text-zinc-400')
+
   value: string | number | null = null;
   disabled = false;
   private onChange: (value: string | number | null) => void = () => {

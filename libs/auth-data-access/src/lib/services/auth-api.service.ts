@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { InjectionToken, inject } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { mapAuthError } from '../errors/auth-error.mapper';
 import {
   AuthResponse,
   ConfirmEmailVerificationRequest,
@@ -30,38 +29,36 @@ export class AuthApiService {
   sendEmailVerification(
     request: SendEmailVerificationRequest
   ): Observable<MessageResponse> {
-    return this.post<MessageResponse>(`api/auth/send-email-verification`, request);
+    return this.post<MessageResponse>('send-email-verification', request);
   }
 
   confirmEmailVerification(
     request: ConfirmEmailVerificationRequest
   ): Observable<MessageResponse> {
-    return this.post<MessageResponse>(`api/auth/confirm-email-verification`, request);
+    return this.post<MessageResponse>('confirm-email-verification', request);
   }
 
   register(request: RegisterRequest): Observable<AuthResponse> {
-    return this.post<AuthResponse>(`api/auth/register`, request);
+    return this.post<AuthResponse>('register', request);
   }
 
   login(request: LoginRequest): Observable<AuthResponse> {
-    return this.post<AuthResponse>(`api/auth/login`, request);
+    return this.post<AuthResponse>('login', request);
   }
 
   forgotPassword(request: ForgotPasswordRequest): Observable<MessageResponse> {
-    return this.post<MessageResponse>(`api/auth/forgot-password`, request);
+    return this.post<MessageResponse>('forgot-password', request);
   }
 
   resetPassword(request: ResetPasswordRequest): Observable<MessageResponse> {
-    return this.post<MessageResponse>(`api/auth/reset-password`, request);
+    return this.post<MessageResponse>('reset-password', request);
   }
 
   private post<TResponse>(
     endpoint: string,
     request: unknown
   ): Observable<TResponse> {
-    return this.http
-      .post<TResponse>(`${this.normalizedBaseUrl}/${endpoint}`, request)
-      .pipe(catchError((error: unknown) => throwError(() => mapAuthError(error))));
+    return this.http.post<TResponse>(`${this.normalizedBaseUrl}/${endpoint}`, request);
   }
 
   private get normalizedBaseUrl(): string {

@@ -3,12 +3,10 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
-import {
-  AUTH_DATA_ACCESS_CONFIG,
-  AuthApiService,
-} from './auth-api.service';
+import { provideAuthDataAccess } from '../config/provide-auth-data-access';
+import { AuthApiService } from './auth-api.service';
 
 describe('AuthApiService', () => {
   let service: AuthApiService;
@@ -17,13 +15,12 @@ describe('AuthApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
+        provideAuthDataAccess({ apiBaseUrl: '/api/auth' }),
         provideHttpClientTesting(),
         {
-          provide: AUTH_DATA_ACCESS_CONFIG,
-          useValue: { apiBaseUrl: '/api/auth' },
+          provide: ToastrService,
+          useValue: { error: vi.fn() },
         },
-        AuthApiService,
       ],
     });
 

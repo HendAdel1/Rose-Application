@@ -1,13 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { AuthError } from './auth-error.model';
-
-interface BackendErrorBody {
-  message?: unknown;
-  error?: unknown;
-  code?: unknown;
-  errors?: unknown;
-}
+import { BackendErrorBody } from './backend-error-body.model';
 
 export function mapAuthError(error: unknown): AuthError {
   if (!(error instanceof HttpErrorResponse)) {
@@ -53,9 +47,33 @@ function normalizeBackendError(errorBody: unknown): BackendErrorBody | undefined
 function extractBackendMessage(errorBody: BackendErrorBody | undefined): string | undefined {
   const message = errorBody?.message ?? errorBody?.error;
 
-  return typeof message === 'string' && message.trim().length > 0
-    ? message
-    : undefined;
+  if (typeof message === 'string' && message.trim().length > 0) {
+    return message;
+  }
+
+  return extractValidationMessage(errorBody?.errors);
+}
+
+function extractValidationMessage(errors: unknown): string | undefined {
+  if (typeof errors === 'string' && errors.trim().length > 0) {
+    return errors;
+  }
+
+  if (Array.isArray(errors)) {
+    const firstMessage = errors.find(
+      (error): error is string => typeof error === 'string' && error.trim().length > 0
+    );
+
+    return firstMessage;
+  }
+
+  if (typeof errors === 'object' && errors !== null) {
+    const firstError = Object.values(errors).find(Boolean);
+
+    return extractValidationMessage(firstError);
+  }
+
+  return undefined;
 }
 
 function mapStatusToCode(status: number): AuthError['code'] {
