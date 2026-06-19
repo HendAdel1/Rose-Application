@@ -24,10 +24,6 @@
     />
   </div>
 
-  <lib-ui-error-message [hide]="isError()">
-    {{ errorMessage() }}
-  </lib-ui-error-message>
-
   <div class="text-end mt-2.5">
     <a class="font-inter font-semibold text-maroon-700 cursor-pointer dark:text-soft-pink-300" routerLink="">
       Forgot your password?
@@ -51,7 +47,7 @@
     </span>
   </label>
 
-  <lib-ui-button type="submit" [loading]="isLoading()">
+  <lib-ui-button type="submit" [loading]="loading.isLoading()">
     Login
   </lib-ui-button>
 </form>
