@@ -3,6 +3,7 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { ToastrService } from 'ngx-toastr';
 
 import { provideAuthDataAccess } from '../config/provide-auth-data-access';
 import { AuthApiService } from './auth-api.service';
@@ -16,6 +17,10 @@ describe('AuthApiService', () => {
       providers: [
         provideAuthDataAccess({ apiBaseUrl: '/api/auth' }),
         provideHttpClientTesting(),
+        {
+          provide: ToastrService,
+          useValue: { error: vi.fn() },
+        },
       ],
     });
 
