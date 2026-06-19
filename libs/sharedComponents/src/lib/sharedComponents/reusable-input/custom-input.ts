@@ -78,7 +78,7 @@ export class CustomInput implements ControlValueAccessor {
 
   readonly controlClasses = computed(() => {
     const base =
-      'box-border w-full rounded-[10px] border p-4 transition-colors focus:outline-none ' +
+      'box-border w-full rounded-[10px] border p-4 focus:outline-none ' +
       'bg-white text-zinc-800 placeholder:text-zinc-400 border border-zinc-300 hover:border-zinc-400 focus:border-maroon-600' +
       'dark:bg-zinc-700 dark:text-zinc-50 dark:border-zinc-600 dark:hover:border-zinc-500 dark:focus:border-soft-pink-400' +
       'disabled:cursor-not-allowed disabled:opacity-60';
