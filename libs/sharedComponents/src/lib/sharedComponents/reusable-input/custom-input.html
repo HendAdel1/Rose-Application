@@ -1,0 +1,22 @@
+
+  <input
+    class="box-border w-full border border-zinc-300 rounded-[10px] p-4 focus:outline-none hover:border-zinc-400 focus:border-maroon-600 placeholder:text-zinc-400"
+    [type]="type()"
+    [value]="value ?? ''"
+    [placeholder]="placeholder()"
+    [readOnly]="readonly()"
+    [disabled]="disabled"
+    [attr.aria-invalid]="isInvalid()"
+    (input)="onInputChange($event)"
+    (blur)="onInputBlur()"
+  />
+  @if (helperText() && !isInvalid()) {
+    <span class="text-sm text-[#666]">{{ helperText() }}</span>
+  }
+
+  @if (isInvalid() && errorMessage()) {
+    <span class="mt-1 text-sm font-medium text-[#d93025]">
+      {{ errorMessage() }}
+    </span>
+  }
+

@@ -1,0 +1,55 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <p class="font-edwardian text-maroon-700 text-5xl text-center mb-4">Welcome back!</p>
+    <hr class="text-zinc-200 mb-6">
+
+    <div class="mb-4">
+        <label for="email" class="block font-inter text-sm font-medium text-zinc-800 mb-1.5">
+            Email
+        </label>
+
+        <input type="email" placeholder="user@example.com" formControlName="email"
+            class="w-full font-inter rounded-[10px] border border-zinc-300 p-4 focus:outline-none hover:border-zinc-400 focus:border-maroon-600 placeholder:text-zinc-400" />
+    </div>
+
+    <!-- Password -->
+  <div>
+    <label for="password" class="block text-sm font-medium text-gray-800 mb-2">
+      Password
+    </label>
+
+    <div class="flex flex-col relative">
+      <input [type]="showPassword ? 'text' : 'password'" placeholder="********" formControlName="password"
+        class="w-full font-inter rounded-[10px] border border-zinc-300 p-4 focus:outline-none hover:border-zinc-400 focus:border-maroon-600 placeholder:text-zinc-400"/>
+      
+      
+      <!-- <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer" (click)="togglePassword()">
+        <i-lucide [name]="showPassword ? 'eye-off' : 'eye'" [size]="18" class="text-gray-300"></i-lucide>
+      </span> -->
+    </div>
+  </div>
+
+  <div class="text-end mt-2.5">
+    <a class="font-inter font-semibold text-maroon-700 cursor-pointer" routerLink="">
+      Forgot your password?
+    </a>
+  </div>
+
+  
+     <div class="flex items-center gap-2.5 mt-8">
+
+      <input
+      type="checkbox"
+      class="h-5 w-5 rounded border-maroon-700 accent-maroon-700"
+    />
+    <span class="font-inter text-sm text-zinc-800">
+      Remember me
+    </span>
+    </div>
+
+  <!-- Button -->
+  <app-auth-button [loading]="isSubmitting">
+    Login
+  </app-auth-button>
+
+
+</form>
