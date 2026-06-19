@@ -26,6 +26,7 @@ import {
 import { CustomInput, CustomInputOption, UiButton } from '@org/sharedComponents';
 import { EMPTY, catchError } from 'rxjs';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 import {
   getConfirmPasswordError,
@@ -65,6 +66,7 @@ export class RegisterForm implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
+  private readonly toastr = inject(ToastrService);
 
   get genderOptions(): readonly CustomInputOption[] {
     return [
@@ -251,7 +253,13 @@ export class RegisterForm implements OnInit {
         takeUntilDestroyed(this.destroyRef),
         catchError(() => EMPTY)
       )
-      .subscribe(() => this.router.navigate(['/auth/login']));
+      .subscribe((response) => {
+        this.toastr.success(
+          response.message || this.translate.instant('AUTH.REGISTER.SUCCESS'),
+          this.translate.instant('AUTH.REGISTER.SUCCESS_TITLE')
+        );
+        void this.router.navigate(['/authApp/login']);
+      });
   }
 
   onInputChange(event: Event, index: number): void {

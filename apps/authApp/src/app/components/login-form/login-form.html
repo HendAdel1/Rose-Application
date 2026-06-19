@@ -6,13 +6,13 @@
 
   <div class="mb-4">
     <lib-custom-input
-      id="email"
-      [label]="'AUTH.COMMON.EMAIL' | translate"
-      formControlName="email"
-      type="email"
-      placeholder="user@example.com"
-      [isInvalid]="!!emailError()"
-      [errorMessage]="emailError()"
+      id="username"
+      [label]="'AUTH.COMMON.USERNAME' | translate"
+      formControlName="username"
+      type="text"
+      placeholder="johndoe"
+      [isInvalid]="!!usernameError()"
+      [errorMessage]="usernameError()"
     />
   </div>
 
