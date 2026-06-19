@@ -1,11 +1,13 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <p class="font-edwardian text-maroon-700 text-5xl text-center mb-4 dark:text-soft-pink-300">Welcome back!</p>
+  <p class="font-edwardian text-maroon-700 text-5xl text-center mb-4 dark:text-soft-pink-300">
+    {{ 'AUTH.LOGIN.WELCOME' | translate }}
+  </p>
   <hr class="text-zinc-200 mb-6 dark:text-zinc-600">
 
   <div class="mb-4">
     <lib-custom-input
       id="email"
-      label="Email"
+      [label]="'AUTH.COMMON.EMAIL' | translate"
       formControlName="email"
       type="email"
       placeholder="user@example.com"
@@ -17,7 +19,7 @@
   <div class="mb-4">
     <lib-custom-input
       id="password"
-      label="Password"
+      [label]="'AUTH.COMMON.PASSWORD' | translate"
       formControlName="password"
       type="password"
       placeholder="********"
@@ -28,7 +30,7 @@
 
   <div class="text-end mt-2.5">
     <a class="font-inter font-semibold text-maroon-700 cursor-pointer dark:text-soft-pink-300" routerLink="../forgot-password">
-      Forgot your password?
+      {{ 'AUTH.LOGIN.FORGOT_PASSWORD' | translate }}
     </a>
   </div>
 
@@ -45,11 +47,11 @@
       </span>
     </span>
     <span class="font-inter text-sm text-zinc-800 dark:text-zinc-50">
-      Remember me
+      {{ 'AUTH.LOGIN.REMEMBER_ME' | translate }}
     </span>
   </label>
 
   <lib-ui-button type="submit" [loading]="loading.isLoading()">
-    Login
+    {{ 'AUTH.LOGIN.SUBMIT' | translate }}
   </lib-ui-button>
 </form>

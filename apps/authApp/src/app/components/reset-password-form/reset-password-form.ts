@@ -6,6 +6,7 @@ import { AuthApiService, LoadingService } from '@org/auth-data-access';
 import { CustomInput, UiButton, UiToast } from '@org/sharedComponents';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, catchError } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import { passwordMatchValidator } from '../../shared/utils/password-match.validator';
 import { passwordStrengthValidator } from '../../shared/utils/password-strength.validator';
@@ -16,7 +17,7 @@ import {
 
 @Component({
   selector: 'app-reset-password-form',
-  imports: [ReactiveFormsModule, CustomInput, UiButton, UiToast],
+  imports: [ReactiveFormsModule, CustomInput, UiButton, UiToast, TranslatePipe],
   templateUrl: './reset-password-form.html',
 })
 export class ResetPasswordForm {
@@ -26,6 +27,7 @@ export class ResetPasswordForm {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly toastr = inject(ToastrService);
+  private readonly translate = inject(TranslateService);
 
   readonly loading = inject(LoadingService);
   showToast = signal(false);
@@ -52,8 +54,8 @@ export class ResetPasswordForm {
 
     if (!this.resetToken) {
       this.toastr.error(
-        'Reset link is invalid or expired. Please request a new password reset.',
-        'Reset failed'
+        this.translate.instant('AUTH.RESET.INVALID_LINK'),
+        this.translate.instant('AUTH.RESET.FAILED')
       );
       return;
     }
@@ -72,7 +74,7 @@ export class ResetPasswordForm {
       )
       .subscribe((response) => {
         this.toastMessage.set(
-          response.message || 'Your password has been reset successfully.'
+          response.message || this.translate.instant('AUTH.RESET.SUCCESS')
         );
         this.showToast.set(true);
         this.resetPasswordForm.reset();
@@ -86,14 +88,34 @@ export class ResetPasswordForm {
   }
 
   passwordError(): string {
-    return getPasswordError(this.resetPasswordForm.get('password'));
+    const error = getPasswordError(this.resetPasswordForm.get('password'));
+
+    if (error === 'Password is required') {
+      return this.translate.instant('AUTH.ERRORS.PASSWORD_REQUIRED');
+    }
+
+    if (error.startsWith('Password must be')) {
+      return this.translate.instant('AUTH.ERRORS.PASSWORD_STRENGTH');
+    }
+
+    return error;
   }
 
   confirmPasswordError(): string {
-    return getConfirmPasswordError(
+    const error = getConfirmPasswordError(
       this.resetPasswordForm.get('confirmPassword'),
       this.resetPasswordForm
     );
+
+    if (error === 'Please confirm your password') {
+      return this.translate.instant('AUTH.ERRORS.CONFIRM_PASSWORD_REQUIRED');
+    }
+
+    if (error === 'Passwords do not match') {
+      return this.translate.instant('AUTH.ERRORS.PASSWORD_MISMATCH');
+    }
+
+    return error;
   }
 
   private scheduleLoginRedirect(): void {

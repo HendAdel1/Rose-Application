@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthApiService, LoadingService, TokenStorageService } from '@org/auth-data-access';
 import { CustomInput, UiButton } from '@org/sharedComponents';
 import { EMPTY, catchError } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import {
   getEmailError,
@@ -14,7 +15,7 @@ import {
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CustomInput, UiButton],
+  imports: [ReactiveFormsModule, RouterLink, CustomInput, UiButton, TranslatePipe],
   templateUrl: './login-form.html',
 })
 export class LoginForm {
@@ -23,6 +24,7 @@ export class LoginForm {
   private readonly tokenStorage = inject(TokenStorageService);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly translate = inject(TranslateService);
 
   readonly loading = inject(LoadingService);
 
@@ -56,10 +58,24 @@ export class LoginForm {
   }
 
   emailError(): string {
-    return getEmailError(this.loginForm.get('email'));
+    const error = getEmailError(this.loginForm.get('email'));
+
+    if (error === 'Email is required') {
+      return this.translate.instant('AUTH.ERRORS.EMAIL_REQUIRED');
+    }
+
+    if (error === 'Please enter a valid email address') {
+      return this.translate.instant('AUTH.ERRORS.EMAIL_INVALID');
+    }
+
+    return error;
   }
 
   passwordError(): string {
-    return getPasswordError(this.loginForm.get('password'));
+    const error = getPasswordError(this.loginForm.get('password'));
+
+    return error === 'Password is required'
+      ? this.translate.instant('AUTH.ERRORS.PASSWORD_REQUIRED')
+      : error;
   }
 }

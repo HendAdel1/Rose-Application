@@ -25,6 +25,7 @@ import {
 } from '@org/auth-data-access';
 import { CustomInput, CustomInputOption, UiButton } from '@org/sharedComponents';
 import { EMPTY, catchError } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import {
   getConfirmPasswordError,
@@ -36,7 +37,7 @@ import { passwordMatchValidator } from '../../shared/utils/password-match.valida
 
 @Component({
   selector: 'app-register-form',
-  imports: [ReactiveFormsModule, CustomInput, UiButton],
+  imports: [ReactiveFormsModule, CustomInput, UiButton, TranslatePipe],
   templateUrl: './register-form.html',
   styleUrl: './register-form.css',
 })
@@ -60,14 +61,17 @@ export class RegisterForm implements OnInit {
   readonly otpFormArray = new FormArray<FormControl<string>>([]);
   readonly loading = inject(LoadingService);
 
-  readonly genderOptions: readonly CustomInputOption[] = [
-    { value: 'MALE', label: 'Male' },
-    { value: 'FEMALE', label: 'Female' },
-  ];
-
   private readonly authApiService = inject(AuthApiService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
+
+  get genderOptions(): readonly CustomInputOption[] {
+    return [
+      { value: 'MALE', label: this.translate.instant('AUTH.REGISTER.MALE') },
+      { value: 'FEMALE', label: this.translate.instant('AUTH.REGISTER.FEMALE') },
+    ];
+  }
 
   readonly verifyEmail = new FormGroup({
     email: new FormControl('', {
@@ -164,7 +168,7 @@ export class RegisterForm implements OnInit {
     if (this.otpFormArray.invalid) {
       this.feedbackMessage.set({
         type: 'error',
-        text: 'Please fill out all verification boxes.',
+        text: this.translate.instant('AUTH.ERRORS.OTP_REQUIRED'),
       });
       return;
     }
@@ -181,7 +185,7 @@ export class RegisterForm implements OnInit {
     if (!email || !code || this.confirmEmail.invalid) {
       this.feedbackMessage.set({
         type: 'error',
-        text: 'Enter the complete verification code.',
+        text: this.translate.instant('AUTH.ERRORS.OTP_COMPLETE'),
       });
       return;
     }
@@ -218,7 +222,7 @@ export class RegisterForm implements OnInit {
       .subscribe(() => {
         this.feedbackMessage.set({
           type: 'success',
-          text: 'A fresh security code has been sent.',
+          text: this.translate.instant('AUTH.REGISTER.OTP_RESENT'),
         });
         this.otpFormArray.reset();
         this.startVerificationTimers();
@@ -297,20 +301,24 @@ export class RegisterForm implements OnInit {
   }
 
   verifyEmailError(): string {
-    return getEmailError(this.verifyEmail.controls.email);
+    return this.translateFieldError(getEmailError(this.verifyEmail.controls.email));
   }
 
   firstNameError(): string {
-    return getRequiredError(
-      this.registerForm.controls.firstName,
-      'First name is required'
+    return this.translateFieldError(
+      getRequiredError(
+        this.registerForm.controls.firstName,
+        'First name is required'
+      )
     );
   }
 
   lastNameError(): string {
-    return getRequiredError(
-      this.registerForm.controls.lastName,
-      'Last name is required'
+    return this.translateFieldError(
+      getRequiredError(
+        this.registerForm.controls.lastName,
+        'Last name is required'
+      )
     );
   }
 
@@ -322,40 +330,63 @@ export class RegisterForm implements OnInit {
     }
 
     if (control.errors['required']) {
-      return 'Username is required';
+      return this.translate.instant('AUTH.ERRORS.USERNAME_REQUIRED');
     }
 
     if (control.errors['minlength']) {
-      return 'Username must be at least 3 characters';
+      return this.translate.instant('AUTH.ERRORS.USERNAME_MIN');
     }
 
     if (control.errors['maxlength']) {
-      return 'Username must be at most 20 characters';
+      return this.translate.instant('AUTH.ERRORS.USERNAME_MAX');
     }
 
     return '';
   }
 
   registerEmailError(): string {
-    return getEmailError(this.registerForm.controls.email);
+    return this.translateFieldError(
+      getEmailError(this.registerForm.controls.email)
+    );
   }
 
   genderError(): string {
-    return getRequiredError(
-      this.registerForm.controls.gender,
-      'Please select your gender'
+    return this.translateFieldError(
+      getRequiredError(
+        this.registerForm.controls.gender,
+        'Please select your gender'
+      )
     );
   }
 
   passwordError(): string {
-    return getPasswordError(this.registerForm.controls.password);
+    return this.translateFieldError(
+      getPasswordError(this.registerForm.controls.password)
+    );
   }
 
   confirmPasswordError(): string {
-    return getConfirmPasswordError(
-      this.registerForm.controls.confirmPassword,
-      this.registerForm
+    return this.translateFieldError(
+      getConfirmPasswordError(
+        this.registerForm.controls.confirmPassword,
+        this.registerForm
+      )
     );
+  }
+
+  private translateFieldError(error: string): string {
+    const keys: Record<string, string> = {
+      'Email is required': 'AUTH.ERRORS.EMAIL_REQUIRED',
+      'Please enter a valid email address': 'AUTH.ERRORS.EMAIL_INVALID',
+      'First name is required': 'AUTH.ERRORS.FIRST_NAME_REQUIRED',
+      'Last name is required': 'AUTH.ERRORS.LAST_NAME_REQUIRED',
+      'Please select your gender': 'AUTH.ERRORS.GENDER_REQUIRED',
+      'Password is required': 'AUTH.ERRORS.PASSWORD_REQUIRED',
+      'Please confirm your password': 'AUTH.ERRORS.CONFIRM_PASSWORD_REQUIRED',
+      'Passwords do not match': 'AUTH.ERRORS.PASSWORD_MISMATCH',
+    };
+
+    return error ? this.translate.instant(keys[error] ?? error) : '';
   }
 
   private startVerificationTimers(): void {

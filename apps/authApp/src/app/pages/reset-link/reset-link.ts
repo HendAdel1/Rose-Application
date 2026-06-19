@@ -2,10 +2,17 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { LucideArrowLeft, LucideMailCheck } from '@lucide/angular';
 import { Router, RouterLink } from '@angular/router';
 import { UiButton } from '@org/sharedComponents';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reset-link',
-  imports: [RouterLink, UiButton, LucideArrowLeft, LucideMailCheck],
+  imports: [
+    RouterLink,
+    UiButton,
+    LucideArrowLeft,
+    LucideMailCheck,
+    TranslatePipe,
+  ],
   templateUrl: './reset-link.html',
   styleUrl: './reset-link.css',
 })
@@ -14,7 +21,6 @@ export class ResetLink implements OnInit {
 
   readonly userEmail = signal('user@example.com');
   readonly cooldownSeconds = signal(0);
-
   readonly isResendDisabled = computed(() => this.cooldownSeconds() > 0);
 
   resendLink(): void {

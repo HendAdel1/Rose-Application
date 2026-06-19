@@ -10,13 +10,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService, LoadingService } from '@org/auth-data-access';
 import { CustomInput, UiButton } from '@org/sharedComponents';
 import { EMPTY, catchError } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import { getEmailError } from '../../shared/utils/form-field-errors';
 
 @Component({
   selector: 'app-forgot-password-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CustomInput, UiButton],
+  imports: [ReactiveFormsModule, CustomInput, UiButton, TranslatePipe],
   templateUrl: './forgot-password-form.html',
 })
 export class ForgotPasswordForm {
@@ -25,6 +26,7 @@ export class ForgotPasswordForm {
   private readonly destroyRef = inject(DestroyRef);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
 
   readonly loading = inject(LoadingService);
   readonly isSuccess = signal(false);
@@ -55,7 +57,7 @@ export class ForgotPasswordForm {
         this.isSuccess.set(true);
         this.successMessage.set(
           response.message ||
-            'Password reset instructions have been sent to your email.'
+            this.translate.instant('AUTH.FORGOT.SUCCESS')
         );
         this.forgotPasswordForm.reset();
         this.router.navigate(['../reset-link'], {
@@ -66,6 +68,16 @@ export class ForgotPasswordForm {
   }
 
   emailError(): string {
-    return getEmailError(this.forgotPasswordForm.get('email'));
+    const error = getEmailError(this.forgotPasswordForm.get('email'));
+
+    if (error === 'Email is required') {
+      return this.translate.instant('AUTH.ERRORS.EMAIL_REQUIRED');
+    }
+
+    if (error === 'Please enter a valid email address') {
+      return this.translate.instant('AUTH.ERRORS.EMAIL_INVALID');
+    }
+
+    return error;
   }
 }
