@@ -10,6 +10,7 @@ export type TextDirection = 'ltr' | 'rtl';
 export class SharedI18nService {
   private readonly fallbackLang = 'en';
   private readonly rtlLanguages = ['ar'];
+  private readonly languageCookieName = 'rose.lang';
   readonly currentLanguage = signal(this.fallbackLang);
 
   constructor(
@@ -20,7 +21,7 @@ export class SharedI18nService {
     this.translateService.setFallbackLang(this.fallbackLang);
 
     if (isPlatformBrowser(this.platformId)) {
-      const savedLang = localStorage.getItem('lang') ?? this.fallbackLang;
+      const savedLang = this.readCookie(this.languageCookieName) ?? this.fallbackLang;
       this.useLanguage(savedLang);
     } else {
       this.translateService.use(this.fallbackLang);
@@ -32,7 +33,7 @@ export class SharedI18nService {
     this.translateService.use(lang);
 
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('lang', lang);
+      this.writeCookie(this.languageCookieName, lang);
       this.applyDocumentDirection(lang);
     }
   }
@@ -48,5 +49,22 @@ export class SharedI18nService {
   private applyDocumentDirection(lang: string): void {
     this.document.documentElement.lang = lang;
     this.document.documentElement.dir = this.getDirection(lang);
+  }
+
+  private readCookie(name: string): string | null {
+    const prefix = `${encodeURIComponent(name)}=`;
+    const cookie = this.document.cookie
+      .split('; ')
+      .find((item) => item.startsWith(prefix));
+
+    return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : null;
+  }
+
+  private writeCookie(name: string, value: string): void {
+    const maxAge = 60 * 60 * 24 * 365;
+
+    this.document.cookie =
+      `${encodeURIComponent(name)}=${encodeURIComponent(value)}; ` +
+      `Max-Age=${maxAge}; Path=/; SameSite=Lax`;
   }
 }
