@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { SharedI18nService } from '@org/shared-i18n';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -11,7 +11,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class AuthLayout {
   private readonly i18n = inject(SharedI18nService);
-  private readonly router = inject(Router);
 
   readonly languageLabel = computed(() =>
     this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية'
@@ -19,9 +18,5 @@ export class AuthLayout {
 
   toggleLanguage(): void {
     this.i18n.toggleLanguage();
-  }
-
-  isRegisterRoute(): boolean {
-    return this.router.url.endsWith('/register');
   }
 }
