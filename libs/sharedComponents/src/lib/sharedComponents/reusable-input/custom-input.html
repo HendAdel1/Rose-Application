@@ -1,22 +1,81 @@
+@if (label()) {
+  <lib-ui-label [forId]="id()">{{ label() }}</lib-ui-label>
+}
 
-  <input
-    class="box-border w-full border border-zinc-300 dark:bg-zinc-700 dark:border-zinc-600 rounded-[10px] p-4 focus:outline-none hover:border-zinc-400 focus:border-maroon-600 placeholder:text-zinc-400"
-    [type]="type()"
-    [value]="value ?? ''"
-    [placeholder]="placeholder()"
-    [readOnly]="readonly()"
-    [disabled]="disabled"
-    [attr.aria-invalid]="isInvalid()"
-    (input)="onInputChange($event)"
-    (blur)="onInputBlur()"
-  />
-  @if (helperText() && !isInvalid()) {
-    <span class="text-sm text-[#666]">{{ helperText() }}</span>
+<div class="relative">
+  @if (hasLeadingIcon()) {
+    <svg
+      lucideIcon="search"
+      [size]="20"
+      aria-hidden="true"
+      class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+    ></svg>
   }
 
-  @if (isInvalid() && errorMessage()) {
-    <span class="mt-1 text-sm font-medium text-[#d93025]">
-      {{ errorMessage() }}
-    </span>
+  @if (isSelect()) {
+    <select
+      class="custom-input__control"
+      [id]="id() || null"
+      [class]="controlClasses()"
+      [value]="value ?? ''"
+      [disabled]="disabled"
+      [attr.aria-invalid]="isInvalid()"
+      (change)="onInputChange($event)"
+      (blur)="onInputBlur()"
+    >
+      <option value="" disabled>{{ placeholder() || 'Select' }}</option>
+      @for (option of options(); track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+  } @else {
+    <input
+      class="custom-input__control"
+      [id]="id() || null"
+      [class]="controlClasses()"
+      [type]="resolvedType()"
+      [value]="value ?? ''"
+      [placeholder]="placeholder()"
+      [readOnly]="readonly()"
+      [disabled]="disabled"
+      [attr.aria-invalid]="isInvalid()"
+      (input)="onInputChange($event)"
+      (blur)="onInputBlur()"
+    />
   }
 
+  @if (type() === 'password') {
+    <button
+      type="button"
+      tabindex="-1"
+      (click)="togglePassword()"
+      [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+      class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-300 transition-colors hover:text-zinc-400 dark:hover:text-zinc-500 dark:text-zinc-50"
+    >
+      <svg
+        [lucideIcon]="showPassword() ? 'eye-off' : 'eye'"
+        [size]="20"
+        aria-hidden="true"
+      ></svg>
+    </button>
+  } @else if (isSelect()) {
+    <svg
+      lucideIcon="chevron-down"
+      [size]="20"
+      aria-hidden="true"
+      class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-zinc-300 transition-colors hover:text-zinc-400 dark:hover:text-zinc-500 dark:text-zinc-50"
+    ></svg>
+  }
+</div>
+
+@if (helperText() && !isInvalid()) {
+  <span class="mt-1 block text-sm text-zinc-500 dark:text-zinc-400">
+    {{ helperText() }}
+  </span>
+}
+
+@if (isInvalid() && errorMessage()) {
+  <span class="mt-1 block text-sm font-medium text-red-600 dark:text-red-500">
+    {{ errorMessage() }}
+  </span>
+}
