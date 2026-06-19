@@ -37,7 +37,7 @@
   @if (step() === 2) {
     <div class="otp-card">
       <h2>Verify Identity</h2>
-      <p class="subtitle">
+      <p class="subtitle dark:text-zinc-50">
         Enter the {{ length }}-digit code sent to {{ verificationEmail() }}.
       </p>
 
@@ -68,7 +68,7 @@
           <button
             type="submit"
             [disabled]="loading.isLoading() || otpFormArray.invalid"
-            class="btn-verify"
+            class="btn-verify dark:bg-soft-pink-300 dark:hover:bg-soft-pink-600"
           >
             @if (loading.isLoading()) {
               <span class="spinner"></span>
@@ -78,19 +78,19 @@
           </button>
 
           @if (expirationTimer() > 0) {
-            <p class="text-sm text-amber-600">
+            <p class="text-sm text-amber-600 dark:text-zinc-50">
               This code will expire in:
               <strong>{{ getFormattedExpirationTime() }}</strong>
             </p>
           } @else {
-            <p class="text-sm text-red-600">
+            <p class="text-sm text-red-600 dark:text-zinc-50">
               The code has expired. Please request a new one.
             </p>
           }
 
           <div class="resend-timer-wrapper">
             @if (timer() > 0) {
-              <span class="timer-text">
+              <span class="timer-text dark:text-zinc-50">
                 Resend option active in <strong>{{ timer() }}s</strong>
               </span>
             } @else {
@@ -111,10 +111,10 @@
 
   @if (step() === 3) {
     <div
-      class="flex min-h-screen flex-col items-center justify-center bg-[#fafafa] p-6"
+      class="flex min-h-screen flex-col items-center justify-center  p-6"
     >
       <div
-        class="w-full max-w-xl rounded-3xl border border-zinc-100 bg-white p-8 shadow-sm"
+        class="w-full max-w-6xl p-8 shadow-sm"
       >
         <div class="relative mb-8 text-center">
           <span
@@ -176,7 +176,7 @@
             <lib-ui-label forId="gender">Gender</lib-ui-label>
             <select
               formControlName="gender"
-              class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 p-3 text-zinc-700 outline-none transition-all focus:border-[#8C3434] focus:bg-white focus:ring-1 focus:ring-[#8C3434]"
+              class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 dark:bg-zinc-700 dark:border-zinc-800 dark:text-zinc-50 p-3 text-zinc-700 outline-none transition-all focus:border-[#8C3434] focus:bg-white focus:ring-1 focus:ring-[#8C3434]"
             >
               <option value="" disabled>Select gender</option>
               <option value="MALE">Male</option>
