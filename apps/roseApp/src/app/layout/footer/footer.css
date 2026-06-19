@@ -172,6 +172,11 @@
   background: #ffccd9;
 }
 
+:host-context(html.dark) .footer,
+:host-context(html:has(#theme-dark:checked)) .footer {
+  background: #18181b;
+}
+
 @media (max-width: 900px) {
   .footer-content {
     gap: 2.5rem;

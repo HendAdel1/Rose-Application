@@ -236,6 +236,91 @@
   opacity: 1;
 }
 
+:host-context(html.dark) .rose-header,
+:host-context(html:has(#theme-dark:checked)) .rose-header {
+  background: #29292e;
+  color: #f4f4f5;
+}
+
+:host-context(html.dark) .delivery-label,
+:host-context(html.dark) .hello,
+:host-context(html.dark) .language-button,
+:host-context(html:has(#theme-dark:checked)) .delivery-label,
+:host-context(html:has(#theme-dark:checked)) .hello,
+:host-context(html:has(#theme-dark:checked)) .language-button {
+  color: #b6b6bf;
+}
+
+:host-context(html.dark) .delivery-city,
+:host-context(html.dark) .user-menu strong,
+:host-context(html:has(#theme-dark:checked)) .delivery-city,
+:host-context(html:has(#theme-dark:checked)) .user-menu strong {
+  color: #ffb3c7;
+}
+
+:host-context(html.dark) .search-field ::ng-deep input,
+:host-context(html:has(#theme-dark:checked)) .search-field ::ng-deep input {
+  background: #474751;
+  border-color: #54545f;
+  color: #f4f4f5;
+}
+
+:host-context(html.dark) .search-field ::ng-deep input::placeholder,
+:host-context(html:has(#theme-dark:checked)) .search-field ::ng-deep input::placeholder {
+  color: #b6b6bf;
+}
+
+:host-context(html.dark) .search-field ::ng-deep input:focus,
+:host-context(html:has(#theme-dark:checked)) .search-field ::ng-deep input:focus {
+  border-color: #ff9dbc;
+  box-shadow: 0 0 0 3px rgba(255, 157, 188, 0.16);
+}
+
+:host-context(html.dark) .login-link,
+:host-context(html.dark) .user-menu,
+:host-context(html.dark) .icon-button,
+:host-context(html:has(#theme-dark:checked)) .login-link,
+:host-context(html:has(#theme-dark:checked)) .user-menu,
+:host-context(html:has(#theme-dark:checked)) .icon-button {
+  color: #f4f4f5;
+}
+
+:host-context(html.dark) .login-link:hover,
+:host-context(html.dark) .user-menu:hover,
+:host-context(html.dark) .language-button:hover,
+:host-context(html.dark) .icon-button:hover,
+:host-context(html:has(#theme-dark:checked)) .login-link:hover,
+:host-context(html:has(#theme-dark:checked)) .user-menu:hover,
+:host-context(html:has(#theme-dark:checked)) .language-button:hover,
+:host-context(html:has(#theme-dark:checked)) .icon-button:hover {
+  color: #ff9dbc;
+}
+
+:host-context(html.dark) .divider,
+:host-context(html:has(#theme-dark:checked)) .divider {
+  background: #4a4a53;
+}
+
+:host-context(html.dark) .has-badge .badge,
+:host-context(html:has(#theme-dark:checked)) .has-badge .badge {
+  border-color: #29292e;
+}
+
+:host-context(html.dark) .nav-strip,
+:host-context(html:has(#theme-dark:checked)) .nav-strip {
+  background: #ffb3c7;
+}
+
+:host-context(html.dark) .nav-list a,
+:host-context(html:has(#theme-dark:checked)) .nav-list a {
+  color: #42111d;
+}
+
+:host-context(html.dark) .nav-list a::after,
+:host-context(html:has(#theme-dark:checked)) .nav-list a::after {
+  background: #861a22;
+}
+
 @media (min-width: 768px) {
   .top-bar:has(.delivery-info) {
     grid-template-columns: auto auto minmax(18rem, 1fr) auto;

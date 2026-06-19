@@ -10,3 +10,8 @@
   min-width: 0;
   width: 100%;
 }
+
+:host-context(html.dark) .app-layout,
+:host-context(html:has(#theme-dark:checked)) .app-layout {
+  background: #27272a;
+}
