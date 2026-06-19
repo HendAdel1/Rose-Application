@@ -1,54 +1,52 @@
-<div class="min-h-screen bg-gray-50 flex items-center justify-center font-sans antialiased text-gray-800 p-4">
-
-  <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-sm border border-gray-100">
-
-    <a routerLink="../login" class="inline-flex items-center justify-center p-2 rounded-md border border-gray-200 hover:bg-gray-50 transition-colors mb-8 group" [attr.aria-label]="'AUTH.LINKS.BACK_TO_LOGIN' | translate">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600 group-hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-      </svg>
-    </a>
-
-    <h1 class="text-3xl font-semibold tracking-tight text-gray-900 mb-6">
-      {{ 'AUTH.RESET_LINK.TITLE' | translate }}
-    </h1>
-
-    <div class="space-y-4 text-gray-600 text-[15px] leading-relaxed">
-      <p>
-        {{ 'AUTH.RESET_LINK.SENT_TO' | translate }} <br>
-        <span class="text-blue-600 font-medium hover:underline cursor-pointer">{{ userEmail() }}</span>.
-      </p>
-
-      <p>
-        {{ 'AUTH.RESET_LINK.INSTRUCTIONS' | translate }}
-      </p>
-
-      <p class="text-gray-400 text-sm">
-        {{ 'AUTH.RESET_LINK.SPAM_NOTE' | translate }}
-      </p>
-    </div>
-
-    <div class="mt-6 pt-2">
-      <button
-        (click)="resendLink()"
-        [disabled]="isResendDisabled()"
-        [class.text-gray-400]="isResendDisabled()"
-        [class.cursor-not-allowed]="isResendDisabled()"
-        [class.text-blue-600]="!isResendDisabled()"
-        class="text-sm font-medium hover:underline focus:outline-none transition-colors">
-        @if (isResendDisabled()) {
-          {{ 'AUTH.RESET_LINK.RESEND_IN' | translate: { seconds: cooldownSeconds() } }}
-        } @else {
-          {{ 'AUTH.RESET_LINK.RESEND' | translate }}
-        }
-      </button>
-    </div>
-
-    <div class="mt-12 pt-6 border-t border-gray-100 text-sm text-gray-500">
-      {{ 'AUTH.LINKS.NO_ACCOUNT' | translate }}
-      <a routerLink="../register" class="text-blue-600 font-medium hover:underline ml-1">
-        {{ 'AUTH.LINKS.CREATE_ACCOUNT' | translate }}
-      </a>.
-    </div>
-
+<section class="text-center">
+  <div
+    class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-soft-pink-100 text-maroon-700 dark:bg-zinc-700 dark:text-soft-pink-300"
+    aria-hidden="true"
+  >
+    <svg lucideMailCheck [size]="32"></svg>
   </div>
-</div>
+
+  <h1
+    class="mb-3 font-edwardian text-5xl text-maroon-700 dark:text-soft-pink-300"
+  >
+    {{ 'AUTH.RESET_LINK.TITLE' | translate }}
+  </h1>
+
+  <p class="font-inter text-base leading-7 text-zinc-700 dark:text-zinc-200">
+    {{ 'AUTH.RESET_LINK.SENT_TO' | translate }}
+  </p>
+  <p
+    class="mt-1 break-all font-inter font-semibold text-maroon-700 dark:text-soft-pink-300"
+  >
+    {{ userEmail() }}
+  </p>
+
+  <p
+    class="mx-auto mt-5 max-w-sm font-inter text-sm leading-6 text-zinc-500 dark:text-zinc-400"
+  >
+    {{ 'AUTH.RESET_LINK.INSTRUCTIONS' | translate }}
+    {{ 'AUTH.RESET_LINK.SPAM_NOTE' | translate }}
+  </p>
+
+  <div class="mt-8">
+    <lib-ui-button
+      type="button"
+      [disabled]="isResendDisabled()"
+      (clicked)="resendLink()"
+    >
+      @if (isResendDisabled()) {
+        {{ 'AUTH.RESET_LINK.RESEND_IN' | translate: { seconds: cooldownSeconds() } }}
+      } @else {
+        {{ 'AUTH.RESET_LINK.RESEND' | translate }}
+      }
+    </lib-ui-button>
+  </div>
+
+  <a
+    routerLink="../login"
+    class="mt-5 inline-flex items-center gap-2 font-inter text-sm font-semibold text-maroon-700 transition-colors hover:text-maroon-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-maroon-700 dark:text-soft-pink-300 dark:hover:text-soft-pink-200"
+  >
+    <svg lucideArrowLeft [size]="18" aria-hidden="true"></svg>
+    {{ 'AUTH.LINKS.BACK_TO_LOGIN' | translate }}
+  </a>
+</section>

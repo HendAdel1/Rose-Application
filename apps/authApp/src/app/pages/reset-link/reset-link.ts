@@ -1,37 +1,47 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { LucideArrowLeft, LucideMailCheck } from '@lucide/angular';
 import { Router, RouterLink } from '@angular/router';
+import { UiButton } from '@org/sharedComponents';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reset-link',
-  imports: [RouterLink, TranslatePipe],
+  imports: [
+    RouterLink,
+    UiButton,
+    LucideArrowLeft,
+    LucideMailCheck,
+    TranslatePipe,
+  ],
   templateUrl: './reset-link.html',
   styleUrl: './reset-link.css',
 })
 export class ResetLink implements OnInit {
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
-  userEmail = signal<string>('user@example.com');
-  cooldownSeconds = signal<number>(0);
+  readonly userEmail = signal('user@example.com');
+  readonly cooldownSeconds = signal(0);
+  readonly isResendDisabled = computed(() => this.cooldownSeconds() > 0);
 
-  isResendDisabled = computed(() => this.cooldownSeconds() > 0);
-  resendLink() {
-    if (this.isResendDisabled()) return;
-
-    console.log('Sending a new reset link to:', this.userEmail());
+  resendLink(): void {
+    if (this.isResendDisabled()) {
+      return;
+    }
 
     this.cooldownSeconds.set(60);
     const interval = setInterval(() => {
-      this.cooldownSeconds.update(time => time - 1);
+      this.cooldownSeconds.update((time) => time - 1);
+
       if (this.cooldownSeconds() === 0) {
         clearInterval(interval);
       }
     }, 1000);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const navigation = this.router.currentNavigation();
     const stateEmail = navigation?.extras.state?.['email'];
+
     if (stateEmail) {
       this.userEmail.set(stateEmail);
     }
