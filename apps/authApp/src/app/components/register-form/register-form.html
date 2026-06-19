@@ -166,6 +166,7 @@
             formControlName="email"
             type="email"
             placeholder="user@example.com"
+            [readonly]="true"
             [isInvalid]="!!registerEmailError()"
             [errorMessage]="registerEmailError()"
           />

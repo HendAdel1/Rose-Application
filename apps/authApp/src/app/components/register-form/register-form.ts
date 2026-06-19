@@ -240,7 +240,10 @@ export class RegisterForm implements OnInit {
       return;
     }
 
-    const request = this.registerForm.getRawValue() as RegisterRequest;
+    const request = {
+      ...this.registerForm.getRawValue(),
+      email: this.verificationEmail(),
+    } as RegisterRequest;
 
     this.authApiService
       .register(request)
