@@ -1,5 +1,16 @@
 import { AbstractControl } from '@angular/forms';
 
+export function getRequiredError(
+  control: AbstractControl | null,
+  message = 'This field is required'
+): string {
+  if (!control?.touched || !control.errors?.['required']) {
+    return '';
+  }
+
+  return message;
+}
+
 export function getEmailError(control: AbstractControl | null): string {
   if (!control?.touched || !control.errors) {
     return '';

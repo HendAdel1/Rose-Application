@@ -2,11 +2,14 @@
       [type]="type()"
       [disabled]="disabled() || loading()"
       (click)="clicked.emit($event)"
-      class="w-full bg-red-600 my-4 hover:bg-red-800 text-white dark:bg-soft-pink-300 dark:hover:bg-soft-pink-700 font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      class="w-full bg-maroon-600 my-4 hover:bg-maroon-700 text-white font-medium py-2.5 px-4 
+      cursor-pointer rounded-lg transition-colors duration-200 shadow-sm disabled:opacity-60 
+      disabled:cursor-not-allowed flex items-center justify-center gap-2
+      dark:bg-soft-pink-300 dark:hover:bg-soft-pink-400 dark:text-zinc-800"
     >
       @if (loading()) {
         <svg lucideLoader class="animate-spin [animate-duration:2s]" [size]="28"></svg>
       }
 
       <ng-content></ng-content>
-    </button>
+</button>

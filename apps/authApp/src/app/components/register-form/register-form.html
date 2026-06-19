@@ -6,26 +6,15 @@
   @if (step() === 1) {
     <form [formGroup]="verifyEmail" (ngSubmit)="sendEmailVerification()">
       <div class="mb-4">
-        <lib-ui-label  forId="email">Email</lib-ui-label>
         <lib-custom-input
+          id="verify-email"
+          label="Email"
           formControlName="email"
           type="email"
           placeholder="user@example.com"
-        ></lib-custom-input>
-
-        @if (
-          verifyEmail.controls.email.invalid &&
-          verifyEmail.controls.email.touched
-        ) {
-          <p-message
-            severity="error"
-            variant="simple"
-            styleClass="text-red-800"
-            size="small"
-          >
-            Enter a valid email address
-          </p-message>
-        }
+          [isInvalid]="!!verifyEmailError()"
+          [errorMessage]="verifyEmailError()"
+        />
 
         <lib-ui-button type="submit" [loading]="loading.isLoading()">
           Next
@@ -118,12 +107,12 @@
       >
         <div class="relative mb-8 text-center">
           <span
-            class="absolute right-0 top-0 cursor-pointer text-xs text-zinc-400 hover:text-zinc-600"
+            class="absolute right-0 top-0 cursor-pointer text-xs text-zinc-400 hover:text-zinc-600 dark:text-zinc-300"
           >
             العربية
           </span>
           <h2
-            class="pt-4 font-serif text-4xl font-normal italic text-[#8C3434]"
+            class="pt-4 font-serif text-4xl font-normal italic text-[#8C3434] dark:text-soft-pink-300"
           >
             Become part of our family!
           </h2>
@@ -135,97 +124,76 @@
           class="space-y-4"
         >
           <div class="grid grid-cols-2 gap-4">
-            <div>
-              <lib-ui-label forId="firstName">First name</lib-ui-label>
-              <lib-custom-input
-                formControlName="firstName"
-                type="text"
-                placeholder="Jonathan"
-              ></lib-custom-input>
-            </div>
-
-            <div>
-              <lib-ui-label forId="lastName">Last name</lib-ui-label>
-              <lib-custom-input
-                formControlName="lastName"
-                type="text"
-                placeholder="Adrian"
-              ></lib-custom-input>
-            </div>
-          </div>
-
-          <div>
-            <lib-ui-label forId="username">Username</lib-ui-label>
             <lib-custom-input
-              formControlName="username"
+              id="firstName"
+              label="First name"
+              formControlName="firstName"
               type="text"
-              placeholder="johndoe"
-            ></lib-custom-input>
-          </div>
+              placeholder="Jonathan"
+              [isInvalid]="!!firstNameError()"
+              [errorMessage]="firstNameError()"
+            />
 
-          <div>
-            <lib-ui-label forId="email">Email</lib-ui-label>
             <lib-custom-input
-              formControlName="email"
-              type="email"
-              placeholder="user@example.com"
-            ></lib-custom-input>
+              id="lastName"
+              label="Last name"
+              formControlName="lastName"
+              type="text"
+              placeholder="Adrian"
+              [isInvalid]="!!lastNameError()"
+              [errorMessage]="lastNameError()"
+            />
           </div>
 
-          <div>
-            <lib-ui-label forId="gender">Gender</lib-ui-label>
-            <select
-              formControlName="gender"
-              class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 dark:bg-zinc-700 dark:border-zinc-800 dark:text-zinc-50 p-3 text-zinc-700 outline-none transition-all focus:border-[#8C3434] focus:bg-white focus:ring-1 focus:ring-[#8C3434]"
-            >
-              <option value="" disabled>Select gender</option>
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-            </select>
-          </div>
+          <lib-custom-input
+            id="username"
+            label="Username"
+            formControlName="username"
+            type="text"
+            placeholder="johndoe"
+            [isInvalid]="!!usernameError()"
+            [errorMessage]="usernameError()"
+          />
 
-          <div>
-            <lib-ui-label forId="password">Password</lib-ui-label>
-            <div class="relative">
-              <lib-custom-input
-                formControlName="password"
-                type="password"
-                placeholder="Password@12345"
-              ></lib-custom-input>
-              <svg
-                lucideEye
-                aria-hidden="true"
-                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
-              ></svg>
-            </div>
-          </div>
+          <lib-custom-input
+            id="email"
+            label="Email"
+            formControlName="email"
+            type="email"
+            placeholder="user@example.com"
+            [isInvalid]="!!registerEmailError()"
+            [errorMessage]="registerEmailError()"
+          />
 
-          <div>
-            <lib-ui-label forId="confirmPassword">
-              Confirm Password
-            </lib-ui-label>
-            <div class="relative">
-              <lib-custom-input
-                formControlName="confirmPassword"
-                type="password"
-                placeholder="Password@12345"
-              ></lib-custom-input>
-              <svg
-                lucideEyeOff
-                aria-hidden="true"
-                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
-              ></svg>
-            </div>
+          <lib-custom-input
+            id="gender"
+            label="Gender"
+            formControlName="gender"
+            placeholder="Select gender"
+            [options]="genderOptions"
+            [isInvalid]="!!genderError()"
+            [errorMessage]="genderError()"
+          />
 
-            @if (
-              registerForm.hasError('passwordMismatch') &&
-              registerForm.controls.confirmPassword.touched
-            ) {
-              <p-message severity="error" variant="simple" size="small">
-                Passwords do not match
-              </p-message>
-            }
-          </div>
+          <lib-custom-input
+            id="password"
+            label="Password"
+            formControlName="password"
+            type="password"
+            placeholder="Password@12345"
+            [isInvalid]="!!passwordError()"
+            [errorMessage]="passwordError()"
+          />
+
+          <lib-custom-input
+            id="confirmPassword"
+            label="Confirm Password"
+            formControlName="confirmPassword"
+            type="password"
+            placeholder="Password@12345"
+            [isInvalid]="!!confirmPasswordError()"
+            [errorMessage]="confirmPasswordError()"
+          />
 
           <lib-ui-button type="submit" [loading]="loading.isLoading()">
             Create Account

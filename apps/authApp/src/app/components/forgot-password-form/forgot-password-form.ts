@@ -8,13 +8,15 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService, LoadingService } from '@org/auth-data-access';
-import { CustomInput, UiButton, UiLabel } from '@org/sharedComponents';
+import { CustomInput, UiButton } from '@org/sharedComponents';
 import { EMPTY, catchError } from 'rxjs';
+
+import { getEmailError } from '../../shared/utils/form-field-errors';
 
 @Component({
   selector: 'app-forgot-password-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CustomInput, UiLabel, UiButton],
+  imports: [ReactiveFormsModule, CustomInput, UiButton],
   templateUrl: './forgot-password-form.html',
 })
 export class ForgotPasswordForm {
@@ -64,20 +66,6 @@ export class ForgotPasswordForm {
   }
 
   emailError(): string {
-    const control = this.forgotPasswordForm.get('email');
-
-    if (!control?.touched || !control.errors) {
-      return '';
-    }
-
-    if (control.errors['required']) {
-      return 'Email is required';
-    }
-
-    if (control.errors['email']) {
-      return 'Please enter a valid email address';
-    }
-
-    return '';
+    return getEmailError(this.forgotPasswordForm.get('email'));
   }
 }
