@@ -1,5 +1,7 @@
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   Input,
@@ -15,11 +17,18 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthApiService, AuthError } from '@org/auth-data-access';
+import { Router } from '@angular/router';
+import { LucideEye, LucideEyeOff } from '@lucide/angular';
+import {
+  AuthApiService,
+  LoadingService,
+  RegisterRequest,
+} from '@org/auth-data-access';
 import { CustomInput, UiButton, UiLabel } from '@org/sharedComponents';
-import { InputMaskModule } from 'primeng/inputmask';
 import { MessageModule } from 'primeng/message';
-import { InputTextModule } from 'primeng/inputtext';
+import { EMPTY, catchError } from 'rxjs';
+
+import { passwordMatchValidator } from '../../shared/utils/password-match.validator';
 
 @Component({
   selector: 'app-register-form',
@@ -28,21 +37,18 @@ import { InputTextModule } from 'primeng/inputtext';
     CustomInput,
     UiLabel,
     UiButton,
-    InputMaskModule,
     MessageModule,
-    InputTextModule,
+    LucideEye,
+    LucideEyeOff,
   ],
   templateUrl: './register-form.html',
   styleUrl: './register-form.css',
 })
 export class RegisterForm implements OnInit {
   readonly step = signal(1);
-  readonly msgError = signal('');
-  readonly isLoading = signal(false);
   readonly verificationEmail = signal('');
   readonly timer = signal(0);
   readonly expirationTimer = signal(0);
-  readonly isResending = signal(false);
   readonly feedbackMessage = signal<{
     type: 'success' | 'error';
     text: string;
@@ -56,7 +62,11 @@ export class RegisterForm implements OnInit {
   inputElements!: QueryList<ElementRef<HTMLInputElement>>;
 
   readonly otpFormArray = new FormArray<FormControl<string>>([]);
+  readonly loading = inject(LoadingService);
+
   private readonly authApiService = inject(AuthApiService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   readonly verifyEmail = new FormGroup({
     email: new FormControl('', {
@@ -76,6 +86,44 @@ export class RegisterForm implements OnInit {
     }),
   });
 
+  readonly registerForm = new FormGroup(
+    {
+      username: new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(20),
+        ],
+      }),
+      email: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.email],
+      }),
+      password: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      confirmPassword: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      firstName: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      lastName: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      gender: new FormControl<'MALE' | 'FEMALE' | ''>('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+    },
+    { validators: passwordMatchValidator() }
+  );
+
   ngOnInit(): void {
     for (let index = 0; index < this.length; index += 1) {
       this.otpFormArray.push(
@@ -88,8 +136,6 @@ export class RegisterForm implements OnInit {
   }
 
   sendEmailVerification(): void {
-    this.msgError.set('');
-
     if (this.verifyEmail.invalid) {
       this.verifyEmail.markAllAsTouched();
       return;
@@ -97,29 +143,20 @@ export class RegisterForm implements OnInit {
 
     const email = this.verifyEmail.controls.email.value.trim().toLowerCase();
     this.verifyEmail.controls.email.setValue(email);
-    this.isLoading.set(true);
 
-    this.authApiService.sendEmailVerification({ email }).subscribe({
-      next: (response) => {
-        this.isLoading.set(false);
-
-        if (!response.status) {
-          this.msgError.set(
-            response.message || 'Unable to send the verification code.'
-          );
-          return;
-        }
-
+    this.authApiService
+      .sendEmailVerification({ email })
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => EMPTY)
+      )
+      .subscribe(() => {
         this.verificationEmail.set(email);
         this.confirmEmail.controls.email.setValue(email);
+        this.registerForm.controls.email.setValue(email);
         this.step.set(2);
         this.startVerificationTimers();
-      },
-      error: (error: AuthError) => {
-        this.isLoading.set(false);
-        this.msgError.set(error.message);
-      },
-    });
+      });
   }
 
   onSubmit(): void {
@@ -148,32 +185,19 @@ export class RegisterForm implements OnInit {
       return;
     }
 
-    this.isLoading.set(true);
     this.feedbackMessage.set(null);
 
-    this.authApiService.confirmEmailVerification({ email, code }).subscribe({
-      next: (response) => {
-        this.isLoading.set(false);
-
-        if (!response.status) {
-          this.feedbackMessage.set({
-            type: 'error',
-            text: response.message || 'Unable to verify the code.',
-          });
-          return;
-        }
-
-        this.step.set(3);
-      },
-      error: (error: AuthError) => {
-        this.isLoading.set(false);
-        this.feedbackMessage.set({ type: 'error', text: error.message });
-      },
-    });
+    this.authApiService
+      .confirmEmailVerification({ email, code })
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => EMPTY)
+      )
+      .subscribe(() => this.step.set(3));
   }
 
   handleResend(): void {
-    if (this.timer() > 0 || this.isResending()) {
+    if (this.timer() > 0 || this.loading.isLoading()) {
       return;
     }
 
@@ -182,21 +206,15 @@ export class RegisterForm implements OnInit {
       return;
     }
 
-    this.isResending.set(true);
     this.feedbackMessage.set(null);
 
-    this.authApiService.sendEmailVerification({ email }).subscribe({
-      next: (response) => {
-        this.isResending.set(false);
-
-        if (!response.status) {
-          this.feedbackMessage.set({
-            type: 'error',
-            text: response.message || 'Unable to resend the verification code.',
-          });
-          return;
-        }
-
+    this.authApiService
+      .sendEmailVerification({ email })
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => EMPTY)
+      )
+      .subscribe(() => {
         this.feedbackMessage.set({
           type: 'success',
           text: 'A fresh security code has been sent.',
@@ -208,12 +226,24 @@ export class RegisterForm implements OnInit {
           () => this.inputElements.toArray()[0]?.nativeElement.focus(),
           50
         );
-      },
-      error: (error: AuthError) => {
-        this.isResending.set(false);
-        this.feedbackMessage.set({ type: 'error', text: error.message });
-      },
-    });
+      });
+  }
+
+  register(): void {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
+
+    const request = this.registerForm.getRawValue() as RegisterRequest;
+
+    this.authApiService
+      .register(request)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => EMPTY)
+      )
+      .subscribe(() => this.router.navigate(['/auth/login']));
   }
 
   onInputChange(event: Event, index: number): void {

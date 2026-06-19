@@ -10,6 +10,7 @@ import {
   AuthDataAccessConfig,
 } from '../services/auth-api.service';
 import { authErrorInterceptor } from '../interceptors/auth-error.interceptor';
+import { authLoadingInterceptor } from '../interceptors/auth-loading.interceptor';
 import { authTokenInterceptor } from '../interceptors/auth-token.interceptor';
 
 export function provideAuthDataAccess(
@@ -22,7 +23,11 @@ export function provideAuthDataAccess(
     },
     AuthApiService,
     provideHttpClient(
-      withInterceptors([authTokenInterceptor, authErrorInterceptor])
+      withInterceptors([
+        authLoadingInterceptor,
+        authTokenInterceptor,
+        authErrorInterceptor,
+      ])
     ),
   ]);
 }
