@@ -3,13 +3,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthApiService, LoadingService, TokenStorageService } from '@org/auth-data-access';
-import { CustomInput, UiButton, UiLabel } from '@org/sharedComponents';
+import { CustomInput, UiButton } from '@org/sharedComponents';
 import { EMPTY, catchError } from 'rxjs';
+
+import {
+  getEmailError,
+  getPasswordError,
+} from '../../shared/utils/form-field-errors';
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CustomInput, UiLabel, UiButton],
+  imports: [ReactiveFormsModule, RouterLink, CustomInput, UiButton],
   templateUrl: './login-form.html',
 })
 export class LoginForm {
@@ -51,34 +56,10 @@ export class LoginForm {
   }
 
   emailError(): string {
-    const control = this.loginForm.get('email');
-
-    if (!control?.touched || !control.errors) {
-      return '';
-    }
-
-    if (control.errors['required']) {
-      return 'Email is required';
-    }
-
-    if (control.errors['email']) {
-      return 'Please enter a valid email address';
-    }
-
-    return '';
+    return getEmailError(this.loginForm.get('email'));
   }
 
   passwordError(): string {
-    const control = this.loginForm.get('password');
-
-    if (!control?.touched || !control.errors) {
-      return '';
-    }
-
-    if (control.errors['required']) {
-      return 'Password is required';
-    }
-
-    return '';
+    return getPasswordError(this.loginForm.get('password'));
   }
 }

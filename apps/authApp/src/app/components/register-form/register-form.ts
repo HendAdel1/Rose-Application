@@ -18,29 +18,25 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LucideEye, LucideEyeOff } from '@lucide/angular';
 import {
   AuthApiService,
   LoadingService,
   RegisterRequest,
 } from '@org/auth-data-access';
-import { CustomInput, UiButton, UiLabel } from '@org/sharedComponents';
-import { MessageModule } from 'primeng/message';
+import { CustomInput, CustomInputOption, UiButton } from '@org/sharedComponents';
 import { EMPTY, catchError } from 'rxjs';
 
+import {
+  getConfirmPasswordError,
+  getEmailError,
+  getPasswordError,
+  getRequiredError,
+} from '../../shared/utils/form-field-errors';
 import { passwordMatchValidator } from '../../shared/utils/password-match.validator';
 
 @Component({
   selector: 'app-register-form',
-  imports: [
-    ReactiveFormsModule,
-    CustomInput,
-    UiLabel,
-    UiButton,
-    MessageModule,
-    LucideEye,
-    LucideEyeOff,
-  ],
+  imports: [ReactiveFormsModule, CustomInput, UiButton],
   templateUrl: './register-form.html',
   styleUrl: './register-form.css',
 })
@@ -63,6 +59,11 @@ export class RegisterForm implements OnInit {
 
   readonly otpFormArray = new FormArray<FormControl<string>>([]);
   readonly loading = inject(LoadingService);
+
+  readonly genderOptions: readonly CustomInputOption[] = [
+    { value: 'MALE', label: 'Male' },
+    { value: 'FEMALE', label: 'Female' },
+  ];
 
   private readonly authApiService = inject(AuthApiService);
   private readonly destroyRef = inject(DestroyRef);
@@ -293,6 +294,68 @@ export class RegisterForm implements OnInit {
     return `${minutes.toString().padStart(2, '0')}:${seconds
       .toString()
       .padStart(2, '0')}`;
+  }
+
+  verifyEmailError(): string {
+    return getEmailError(this.verifyEmail.controls.email);
+  }
+
+  firstNameError(): string {
+    return getRequiredError(
+      this.registerForm.controls.firstName,
+      'First name is required'
+    );
+  }
+
+  lastNameError(): string {
+    return getRequiredError(
+      this.registerForm.controls.lastName,
+      'Last name is required'
+    );
+  }
+
+  usernameError(): string {
+    const control = this.registerForm.controls.username;
+
+    if (!control.touched || !control.errors) {
+      return '';
+    }
+
+    if (control.errors['required']) {
+      return 'Username is required';
+    }
+
+    if (control.errors['minlength']) {
+      return 'Username must be at least 3 characters';
+    }
+
+    if (control.errors['maxlength']) {
+      return 'Username must be at most 20 characters';
+    }
+
+    return '';
+  }
+
+  registerEmailError(): string {
+    return getEmailError(this.registerForm.controls.email);
+  }
+
+  genderError(): string {
+    return getRequiredError(
+      this.registerForm.controls.gender,
+      'Please select your gender'
+    );
+  }
+
+  passwordError(): string {
+    return getPasswordError(this.registerForm.controls.password);
+  }
+
+  confirmPasswordError(): string {
+    return getConfirmPasswordError(
+      this.registerForm.controls.confirmPassword,
+      this.registerForm
+    );
   }
 
   private startVerificationTimers(): void {
