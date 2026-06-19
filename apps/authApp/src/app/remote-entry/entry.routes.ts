@@ -20,6 +20,18 @@ export const remoteRoutes: Route[] = [
           import('../pages/login/login').then((m) => m.Login),
       },
       {
+        path: 'forgot-password',
+        loadComponent: () =>
+          import('../pages/forgot-password/forgot-password').then(
+            (m) => m.ForgotPassword
+          ),
+      },
+      {
+        path: 'reset-link',
+        loadComponent: () =>
+          import('../pages/reset-link/reset-link').then((m) => m.ResetLink),
+      },
+      {
         path: 'register',
         loadComponent: () =>
           import('../pages/register/register').then((m) => m.Register),
