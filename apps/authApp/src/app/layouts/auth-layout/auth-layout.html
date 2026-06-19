@@ -1,8 +1,13 @@
-<div class="min-h-screen flex flex-col lg:flex-row bg-white">
+<div class="min-h-screen flex flex-col lg:flex-row bg-white dark:bg-zinc-800">
   <!-- Content -->
   <div class="flex-1 flex items-center justify-center py-12">
-    <div class="w-full max-w-md px-5">
-      <router-outlet></router-outlet>
+    <div class="w-full max-w-md px-6">
+      <p class="font-zain text-zinc-700 text-end dark:text-zinc-50">العربية</p>
+      <img src="/images/maroon-separator.png" alt="" class="my-10 dark:hidden" />
+      <img src="/images/pink-separator.png" alt="" class="my-10 hidden dark:block" />
+        <router-outlet></router-outlet>
+      <img src="/images/maroon-separator.png" alt="" class="rotate-180 my-10 dark:hidden" />
+      <img src="/images/pink-separator.png" alt="" class="rotate-180 my-10 hidden dark:block" />
     </div>
   </div>
 
