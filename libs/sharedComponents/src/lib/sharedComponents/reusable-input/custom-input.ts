@@ -9,6 +9,8 @@ import {
   provideLucideIcons,
 } from '@lucide/angular';
 
+import { UiLabel } from '../ui-label/ui-label';
+
 export type CustomInputType =
   | 'text'
   | 'password'
@@ -24,7 +26,7 @@ export interface CustomInputOption {
 
 @Component({
   selector: 'lib-custom-input',
-  imports: [LucideDynamicIcon],
+  imports: [LucideDynamicIcon, UiLabel],
   providers: [
     provideLucideIcons(
       LucideSearch,
