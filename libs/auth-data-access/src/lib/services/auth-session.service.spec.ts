@@ -15,9 +15,17 @@ import { TokenStorageService } from './token-storage.service';
 describe('AuthSessionService', () => {
   let service: AuthSessionService;
   let httpMock: HttpTestingController;
+  const clearAuthCookies = () => {
+    ['rose.auth.token', 'rose.auth.refreshToken', 'rose.auth.user'].forEach(
+      (key) => {
+        document.cookie =
+          `${encodeURIComponent(key)}=; Max-Age=0; Path=/; SameSite=Lax`;
+      }
+    );
+  };
 
   beforeEach(() => {
-    localStorage.clear();
+    clearAuthCookies();
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(),
@@ -38,7 +46,7 @@ describe('AuthSessionService', () => {
 
   afterEach(() => {
     httpMock.verify();
-    localStorage.clear();
+    clearAuthCookies();
   });
 
   it('stores the session after login succeeds', () => {

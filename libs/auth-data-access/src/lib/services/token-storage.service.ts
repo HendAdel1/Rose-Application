@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { Injectable, InjectionToken, inject } from '@angular/core';
 
 import { AuthPayload, AuthUser } from '../models/auth.models';
@@ -22,6 +23,7 @@ export const AUTH_STORAGE_KEYS = new InjectionToken<AuthStorageKeys>(
 @Injectable({ providedIn: 'root' })
 export class TokenStorageService {
   private readonly keys = inject(AUTH_STORAGE_KEYS);
+  private readonly document = inject(DOCUMENT);
 
   saveAuthPayload(payload: AuthPayload): void {
     this.setItem(this.keys.token, payload.token);
@@ -72,19 +74,24 @@ export class TokenStorageService {
     this.removeItem(this.keys.user);
   }
 
-  private get storage(): Storage | null {
-    return typeof localStorage === 'undefined' ? null : localStorage;
-  }
-
   private getItem(key: string): string | null {
-    return this.storage?.getItem(key) ?? null;
+    const prefix = `${encodeURIComponent(key)}=`;
+    const cookie = this.document.cookie
+      .split('; ')
+      .find((item) => item.startsWith(prefix));
+
+    return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : null;
   }
 
   private setItem(key: string, value: string): void {
-    this.storage?.setItem(key, value);
+    const maxAge = 60 * 60 * 24 * 7;
+    this.document.cookie =
+      `${encodeURIComponent(key)}=${encodeURIComponent(value)}; ` +
+      `Max-Age=${maxAge}; Path=/; SameSite=Lax`;
   }
 
   private removeItem(key: string): void {
-    this.storage?.removeItem(key);
+    this.document.cookie =
+      `${encodeURIComponent(key)}=; Max-Age=0; Path=/; SameSite=Lax`;
   }
 }

@@ -4,15 +4,23 @@ import { TokenStorageService } from './token-storage.service';
 
 describe('TokenStorageService', () => {
   let service: TokenStorageService;
+  const clearAuthCookies = () => {
+    ['rose.auth.token', 'rose.auth.refreshToken', 'rose.auth.user'].forEach(
+      (key) => {
+        document.cookie =
+          `${encodeURIComponent(key)}=; Max-Age=0; Path=/; SameSite=Lax`;
+      }
+    );
+  };
 
   beforeEach(() => {
-    localStorage.clear();
+    clearAuthCookies();
     TestBed.configureTestingModule({});
     service = TestBed.inject(TokenStorageService);
   });
 
   afterEach(() => {
-    localStorage.clear();
+    clearAuthCookies();
   });
 
   it('stores auth tokens and user data', () => {
