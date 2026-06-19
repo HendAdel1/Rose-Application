@@ -6,7 +6,7 @@
   @if (step() === 1) {
     <form [formGroup]="verifyEmail" (ngSubmit)="sendEmailVerification()">
       <div class="mb-4">
-        <lib-ui-label forId="email">Email</lib-ui-label>
+        <lib-ui-label  forId="email">Email</lib-ui-label>
         <lib-custom-input
           formControlName="email"
           type="email"
