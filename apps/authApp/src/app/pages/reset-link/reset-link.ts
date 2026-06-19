@@ -1,9 +1,10 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reset-link',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './reset-link.html',
   styleUrl: './reset-link.css',
 })

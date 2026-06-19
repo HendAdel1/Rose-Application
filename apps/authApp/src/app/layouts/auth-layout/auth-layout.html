@@ -2,7 +2,16 @@
   <!-- Content -->
   <div class="flex-1 flex items-center justify-center py-12">
     <div class="w-full max-w-md px-5">
-      <p class="font-zain text-zinc-700 text-end dark:text-zinc-50">العربية</p>
+      <div class="text-end">
+        <button
+          type="button"
+          class="font-zain text-zinc-700 hover:text-maroon-700 dark:text-zinc-50 dark:hover:text-soft-pink-300"
+          [attr.aria-label]="'AUTH.SWITCH_LANGUAGE' | translate"
+          (click)="toggleLanguage()"
+        >
+          {{ languageLabel() }}
+        </button>
+      </div>
       <img src="/images/maroon-separator.png" alt="" class="my-10 dark:hidden" />
       <img src="/images/pink-separator.png" alt="" class="my-10 hidden dark:block" />
         <router-outlet></router-outlet>
@@ -13,6 +22,10 @@
 
   <!-- Right Side - image -->
   <div class="hidden lg:flex flex-1 h-screen sticky top-0 overflow-hidden">
-    <img src="/images/auth-background.png" alt="Gifts Cover" class="w-full h-full object-cover" />
+    <img
+      src="/images/auth-background.png"
+      [alt]="'AUTH.GIFTS_COVER' | translate"
+      class="w-full h-full object-cover"
+    />
   </div>
 </div>

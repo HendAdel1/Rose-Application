@@ -1,6 +1,6 @@
 <section>
   <h2 class="mb-2 ps-1 font-inter text-3xl font-bold text-zinc-800 dark:text-zinc-50">
-    Create Account
+    {{ 'AUTH.REGISTER.TITLE' | translate }}
   </h2>
 
   @if (step() === 1) {
@@ -8,7 +8,7 @@
       <div class="mb-4">
         <lib-custom-input
           id="verify-email"
-          label="Email"
+          [label]="'AUTH.COMMON.EMAIL' | translate"
           formControlName="email"
           type="email"
           placeholder="user@example.com"
@@ -17,7 +17,7 @@
         />
 
         <lib-ui-button type="submit" [loading]="loading.isLoading()">
-          Next
+          {{ 'AUTH.COMMON.NEXT' | translate }}
         </lib-ui-button>
       </div>
     </form>
@@ -25,9 +25,12 @@
 
   @if (step() === 2) {
     <div class="otp-card">
-      <h2>Verify Identity</h2>
+      <h2>{{ 'AUTH.REGISTER.VERIFY_IDENTITY' | translate }}</h2>
       <p class="subtitle dark:text-zinc-50">
-        Enter the {{ length }}-digit code sent to {{ verificationEmail() }}.
+        {{
+          'AUTH.REGISTER.OTP_SENT_TO'
+            | translate: { length: length, email: verificationEmail() }
+        }}
       </p>
 
       <form [formGroup]="confirmEmail" (ngSubmit)="onSubmit()">
@@ -62,25 +65,28 @@
             @if (loading.isLoading()) {
               <span class="spinner"></span>
             } @else {
-              Verify Code
+              {{ 'AUTH.REGISTER.VERIFY_CODE' | translate }}
             }
           </button>
 
           @if (expirationTimer() > 0) {
             <p class="text-sm text-amber-600 dark:text-zinc-50">
-              This code will expire in:
+              {{ 'AUTH.REGISTER.CODE_EXPIRES' | translate }}
               <strong>{{ getFormattedExpirationTime() }}</strong>
             </p>
           } @else {
             <p class="text-sm text-red-600 dark:text-zinc-50">
-              The code has expired. Please request a new one.
+              {{ 'AUTH.REGISTER.CODE_EXPIRED' | translate }}
             </p>
           }
 
           <div class="resend-timer-wrapper">
             @if (timer() > 0) {
               <span class="timer-text dark:text-zinc-50">
-                Resend option active in <strong>{{ timer() }}s</strong>
+                {{
+                  'AUTH.REGISTER.RESEND_ACTIVE'
+                    | translate: { seconds: timer() }
+                }}
               </span>
             } @else {
               <button
@@ -89,7 +95,11 @@
                 [disabled]="loading.isLoading()"
                 class="btn-resend"
               >
-                {{ loading.isLoading() ? 'Sending...' : 'Resend OTP' }}
+                {{
+                  (loading.isLoading()
+                    ? 'AUTH.COMMON.SENDING'
+                    : 'AUTH.REGISTER.RESEND_OTP') | translate
+                }}
               </button>
             }
           </div>
@@ -106,15 +116,10 @@
         class="w-full max-w-6xl p-8 shadow-sm"
       >
         <div class="relative mb-8 text-center">
-          <span
-            class="absolute right-0 top-0 cursor-pointer text-xs text-zinc-400 hover:text-zinc-600 dark:text-zinc-300"
-          >
-            العربية
-          </span>
           <h2
             class="pt-4 font-serif text-4xl font-normal italic text-[#8C3434] dark:text-soft-pink-300"
           >
-            Become part of our family!
+            {{ 'AUTH.REGISTER.FAMILY_TITLE' | translate }}
           </h2>
         </div>
 
@@ -126,7 +131,7 @@
           <div class="grid grid-cols-2 gap-4">
             <lib-custom-input
               id="firstName"
-              label="First name"
+              [label]="'AUTH.REGISTER.FIRST_NAME' | translate"
               formControlName="firstName"
               type="text"
               placeholder="Jonathan"
@@ -136,7 +141,7 @@
 
             <lib-custom-input
               id="lastName"
-              label="Last name"
+              [label]="'AUTH.REGISTER.LAST_NAME' | translate"
               formControlName="lastName"
               type="text"
               placeholder="Adrian"
@@ -147,7 +152,7 @@
 
           <lib-custom-input
             id="username"
-            label="Username"
+            [label]="'AUTH.REGISTER.USERNAME' | translate"
             formControlName="username"
             type="text"
             placeholder="johndoe"
@@ -157,7 +162,7 @@
 
           <lib-custom-input
             id="email"
-            label="Email"
+            [label]="'AUTH.COMMON.EMAIL' | translate"
             formControlName="email"
             type="email"
             placeholder="user@example.com"
@@ -167,9 +172,9 @@
 
           <lib-custom-input
             id="gender"
-            label="Gender"
+            [label]="'AUTH.REGISTER.GENDER' | translate"
             formControlName="gender"
-            placeholder="Select gender"
+            [placeholder]="'AUTH.REGISTER.SELECT_GENDER' | translate"
             [options]="genderOptions"
             [isInvalid]="!!genderError()"
             [errorMessage]="genderError()"
@@ -177,7 +182,7 @@
 
           <lib-custom-input
             id="password"
-            label="Password"
+            [label]="'AUTH.COMMON.PASSWORD' | translate"
             formControlName="password"
             type="password"
             placeholder="Password@12345"
@@ -187,7 +192,7 @@
 
           <lib-custom-input
             id="confirmPassword"
-            label="Confirm Password"
+            [label]="'AUTH.COMMON.CONFIRM_PASSWORD' | translate"
             formControlName="confirmPassword"
             type="password"
             placeholder="Password@12345"
@@ -196,7 +201,7 @@
           />
 
           <lib-ui-button type="submit" [loading]="loading.isLoading()">
-            Create Account
+            {{ 'AUTH.REGISTER.CREATE_ACCOUNT' | translate }}
           </lib-ui-button>
         </form>
       </div>
