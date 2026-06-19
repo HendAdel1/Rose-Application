@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthApiService, LoadingService, TokenStorageService } from '@org/auth-data-access';
 import { CustomInput, UiButton, UiLabel } from '@org/sharedComponents';
 import { EMPTY, catchError } from 'rxjs';
@@ -9,7 +9,7 @@ import { EMPTY, catchError } from 'rxjs';
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CustomInput, UiLabel, UiButton],
+  imports: [ReactiveFormsModule, RouterLink, CustomInput, UiLabel, UiButton],
   templateUrl: './login-form.html',
 })
 export class LoginForm {
