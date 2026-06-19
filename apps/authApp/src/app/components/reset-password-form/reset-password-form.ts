@@ -1,9 +1,9 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService, LoadingService } from '@org/auth-data-access';
-import { CustomInput, UiButton, UiToast } from '@org/sharedComponents';
+import { CustomInput, UiButton } from '@org/sharedComponents';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, catchError } from 'rxjs';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -17,7 +17,7 @@ import {
 
 @Component({
   selector: 'app-reset-password-form',
-  imports: [ReactiveFormsModule, CustomInput, UiButton, UiToast, TranslatePipe],
+  imports: [ReactiveFormsModule, CustomInput, UiButton, TranslatePipe],
   templateUrl: './reset-password-form.html',
 })
 export class ResetPasswordForm {
@@ -30,9 +30,6 @@ export class ResetPasswordForm {
   private readonly translate = inject(TranslateService);
 
   readonly loading = inject(LoadingService);
-  showToast = signal(false);
-  toastMessage = signal('');
-
   private readonly resetToken =
     this.route.snapshot.queryParamMap.get('token') ?? '';
 
@@ -45,8 +42,6 @@ export class ResetPasswordForm {
   );
 
   onSubmit(): void {
-    this.showToast.set(false);
-
     if (this.resetPasswordForm.invalid) {
       this.resetPasswordForm.markAllAsTouched();
       return;
@@ -73,18 +68,13 @@ export class ResetPasswordForm {
         catchError(() => EMPTY)
       )
       .subscribe((response) => {
-        this.toastMessage.set(
-          response.message || this.translate.instant('AUTH.RESET.SUCCESS')
+        this.toastr.success(
+          response.message || this.translate.instant('AUTH.RESET.SUCCESS'),
+          this.translate.instant('AUTH.RESET.SUCCESS_TITLE')
         );
-        this.showToast.set(true);
         this.resetPasswordForm.reset();
-        this.scheduleLoginRedirect();
+        this.redirectToLogin();
       });
-  }
-
-  onToastDismiss(): void {
-    this.showToast.set(false);
-    this.redirectToLogin();
   }
 
   passwordError(): string {
@@ -116,10 +106,6 @@ export class ResetPasswordForm {
     }
 
     return error;
-  }
-
-  private scheduleLoginRedirect(): void {
-    window.setTimeout(() => this.redirectToLogin(), 3000);
   }
 
   private redirectToLogin(): void {

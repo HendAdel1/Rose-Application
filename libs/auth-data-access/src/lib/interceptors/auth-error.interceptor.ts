@@ -26,6 +26,13 @@ export const authErrorInterceptor: HttpInterceptorFn = (
 
   return next(request).pipe(
     mergeMap((event) => {
+      if (
+        event instanceof HttpResponse &&
+        isCompletedRegisterResponse(request, event.body)
+      ) {
+        return of(event);
+      }
+
       if (event instanceof HttpResponse && isFailedAuthResponse(event.body)) {
         const authError: AuthError = {
           code: 'BAD_REQUEST',
@@ -59,6 +66,17 @@ function isFailedAuthResponse(body: unknown): body is Record<string, unknown> {
     body !== null &&
     'status' in body &&
     body['status'] === false
+  );
+}
+
+function isCompletedRegisterResponse(
+  request: HttpRequest<unknown>,
+  body: unknown
+): boolean {
+  return (
+    request.url.endsWith('/register') &&
+    isFailedAuthResponse(body) &&
+    getResponseMessage(body).includes('Please verify your email first')
   );
 }
 

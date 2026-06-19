@@ -8,8 +8,8 @@ import { EMPTY, catchError } from 'rxjs';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import {
-  getEmailError,
   getPasswordError,
+  getRequiredError,
 } from '../../shared/utils/form-field-errors';
 
 @Component({
@@ -29,7 +29,7 @@ export class LoginForm {
   readonly loading = inject(LoadingService);
 
   loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    username: ['', Validators.required],
     password: ['', Validators.required],
     rememberMe: [false],
   });
@@ -40,11 +40,11 @@ export class LoginForm {
       return;
     }
 
-    const { email, password } = this.loginForm.getRawValue();
+    const { username, password } = this.loginForm.getRawValue();
 
     this.authApi
       .login({
-        username: email,
+        username,
         password,
       })
       .pipe(
@@ -57,18 +57,15 @@ export class LoginForm {
       });
   }
 
-  emailError(): string {
-    const error = getEmailError(this.loginForm.get('email'));
+  usernameError(): string {
+    const error = getRequiredError(
+      this.loginForm.get('username'),
+      'Username is required'
+    );
 
-    if (error === 'Email is required') {
-      return this.translate.instant('AUTH.ERRORS.EMAIL_REQUIRED');
-    }
-
-    if (error === 'Please enter a valid email address') {
-      return this.translate.instant('AUTH.ERRORS.EMAIL_INVALID');
-    }
-
-    return error;
+    return error
+      ? this.translate.instant('AUTH.ERRORS.USERNAME_REQUIRED')
+      : '';
   }
 
   passwordError(): string {
