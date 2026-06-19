@@ -20,11 +20,14 @@ export const remoteRoutes: Route[] = [
           import('../pages/login/login').then((m) => m.Login),
       },
       {
+        path: 'reset-password',
+        loadComponent: () =>
+          import('../pages/reset-password/reset-password').then((m) => m.ResetPassword),
+      },
+      {
         path: 'forgot-password',
         loadComponent: () =>
-          import('../pages/forgot-password/forgot-password').then(
-            (m) => m.ForgotPassword
-          ),
+          import('../pages/forgot-password/forgot-password').then((m) => m.ForgotPassword),
       },
       {
         path: 'reset-link',
