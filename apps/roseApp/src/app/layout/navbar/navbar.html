@@ -40,24 +40,24 @@
           <svg lucideChevronDown [size]="14" aria-hidden="true"></svg>
         </button>
       } @else {
-        <a class="login-link" routerLink="/auth/login">
+        <a class="login-link" routerLink="/authApp/login">
           <svg lucideUser [size]="18" aria-hidden="true"></svg>
           <span>{{ 'NAV.LOGIN' | translate }}</span>
         </a>
       }
 
+      <span class="divider"></span>
+
+      <button class="icon-button" type="button" [attr.aria-label]="'NAV.WISHLIST' | translate">
+        <svg lucideHeart [size]="22" aria-hidden="true"></svg>
+      </button>
+
+      <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.SHOPPING_CART' | translate">
+        <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
+        <span class="badge">8</span>
+      </button>
+
       @if (isAuthenticated()) {
-        <span class="divider"></span>
-
-        <button class="icon-button" type="button" [attr.aria-label]="'NAV.WISHLIST' | translate">
-          <svg lucideHeart [size]="22" aria-hidden="true"></svg>
-        </button>
-
-        <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.SHOPPING_CART' | translate">
-          <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
-          <span class="badge">8</span>
-        </button>
-
         <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.NOTIFICATIONS' | translate">
           <svg lucideBell [size]="21" aria-hidden="true"></svg>
           <span class="badge">8</span>
