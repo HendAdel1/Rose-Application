@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AuthSessionService, LoadingService } from '@org/auth-data-access';
 import { CustomInput, UiButton } from '@org/sharedComponents';
+import { ToastrService } from 'ngx-toastr';
 import { EMPTY, catchError } from 'rxjs';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
@@ -24,6 +25,7 @@ export class LoginForm {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly translate = inject(TranslateService);
+  private readonly toastr = inject(ToastrService);
 
   readonly loading = inject(LoadingService);
 
@@ -51,6 +53,10 @@ export class LoginForm {
         catchError(() => EMPTY),
       )
       .subscribe(() => {
+        this.toastr.success(
+          this.translate.instant('AUTH.LOGIN_TOAST.SUCCESS'),
+          this.translate.instant('AUTH.LOGIN_TOAST.SUCCESS_TITLE')
+        );
         void this.router.navigate(['/roseApp']);
       });
   }
