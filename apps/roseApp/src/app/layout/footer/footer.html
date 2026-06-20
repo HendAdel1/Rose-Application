@@ -32,17 +32,24 @@
         <p>{{ 'FOOTER.NEWSLETTER_COPY' | translate }}</p>
       </div>
 
-      <form class="newsletter-form" [attr.aria-label]="'FOOTER.NEWSLETTER_INPUT' | translate">
-  <lib-custom-input
-    type="email"
-    [placeholder]="'FOOTER.EMAIL_PLACEHOLDER' | translate"
-  ></lib-custom-input>
+      <form
+        class="newsletter-form mt-4 flex min-h-10 w-full items-center gap-2 rounded-full bg-zinc-500 pl-4 dark:bg-zinc-800 max-sm:flex-col max-sm:items-stretch max-sm:rounded-2xl max-sm:p-3"
+        [attr.aria-label]="'FOOTER.NEWSLETTER_INPUT' | translate"
+      >
+        <lib-custom-input
+          class="min-w-0 flex-1"
+          type="email"
+          [placeholder]="'FOOTER.EMAIL_PLACEHOLDER' | translate"
+        ></lib-custom-input>
 
-  <button class="subscribe-button" type="submit">
-    {{ 'FOOTER.SUBSCRIBE' | translate }}
-    <span aria-hidden="true">-></span>
-  </button>
-</form>
+        <button
+          class="subscribe-button inline-flex min-h-10 items-center gap-2 rounded-full bg-soft-pink-50 px-5 text-maroon-700 hover:bg-soft-pink-100 dark:bg-soft-pink-300 dark:text-zinc-800 dark:hover:bg-soft-pink-400 max-sm:w-full max-sm:justify-center"
+          type="submit"
+        >
+          {{ 'FOOTER.SUBSCRIBE' | translate }}
+          <span aria-hidden="true">-></span>
+        </button>
+      </form>
     </section>
   </div>
 </footer>
