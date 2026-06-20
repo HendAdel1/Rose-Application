@@ -1,5 +1,10 @@
 {
   "NAV": {
+    "ACCOUNT": "Account",
+    "ADDRESSES": "Addresses",
+    "ORDERS": "Orders",
+    "DASHBOARD": "Dashboard",
+    "LOGOUT": "Log out",
     "HEADER_ARIA": "Rose header",
     "ROSE_HOME": "Rose home",
     "DELIVERY_LOCATION": "Delivery location",
