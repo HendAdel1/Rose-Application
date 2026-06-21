@@ -50,6 +50,7 @@ export class CustomInput implements ControlValueAccessor {
   placeholder = input<string>('');
   helperText = input<string>('');
   errorMessage = input<string>('');
+  inputClass = input<string>('');
   readonly = input<boolean>(false);
   isInvalid = input<boolean>(false);
   options = input<readonly CustomInputOption[]>([]);
@@ -92,7 +93,7 @@ export class CustomInput implements ControlValueAccessor {
     const trailing = this.hasTrailingIcon() ? ' pr-11' : '';
     const select = this.isSelect() ? ' cursor-pointer appearance-none' : '';
 
-    return base + state + leading + trailing + select;
+    return base + state + leading + trailing + select + this.inputClass();
   });
 
   private onChange: (value: string | number | null) => void = () => {

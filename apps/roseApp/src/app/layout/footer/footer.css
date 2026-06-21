@@ -108,32 +108,6 @@
   color: #ffffff;
 }
 
-.newsletter-form lib-custom-input {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.newsletter-form ::ng-deep .custom-input__control {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0;
-  box-shadow: none !important;
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 0.82rem;
-  min-height: 2.5rem;
-  padding: 0 !important;
-}
-
-.newsletter-form ::ng-deep .custom-input__control::placeholder {
-  color: #a5a4aa;
-  opacity: 1;
-}
-
-.newsletter-form ::ng-deep .custom-input__control:focus {
-  outline: none;
-}
-
 .subscribe-button span {
   color: inherit;
   font-size: inherit;
