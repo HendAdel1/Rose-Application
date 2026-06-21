@@ -1,7 +1,6 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {
-  LucideBell,
   LucideChevronDown,
   LucideClipboardList,
   LucideGift,
@@ -33,7 +32,6 @@ interface NavItem {
 @Component({
   imports: [
     CustomInput,
-    LucideBell,
     LucideChevronDown,
     LucideClipboardList,
     LucideGift,

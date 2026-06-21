@@ -41,6 +41,10 @@
     "SUBSCRIBE": "Subscribe"
   },
   "AUTH": {
+    "LOGIN_TOAST": {
+      "SUCCESS_TITLE": "Welcome back",
+      "SUCCESS": "You have signed in successfully."
+    },
     "SWITCH_LANGUAGE": "Switch language",
     "GIFTS_COVER": "Rose gifts",
     "COMMON": {

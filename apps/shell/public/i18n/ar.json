@@ -41,6 +41,10 @@
     "SUBSCRIBE": "اشترك"
   },
   "AUTH": {
+    "LOGIN_TOAST": {
+      "SUCCESS_TITLE": "تم تسجيل الدخول",
+      "SUCCESS": "تم تسجيل الدخول بنجاح."
+    },
     "SWITCH_LANGUAGE": "تغيير اللغة",
     "GIFTS_COVER": "هدايا Rose",
     "COMMON": {

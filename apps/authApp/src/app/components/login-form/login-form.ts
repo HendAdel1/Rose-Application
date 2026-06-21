@@ -2,8 +2,9 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthApiService, LoadingService, TokenStorageService } from '@org/auth-data-access';
+import { AuthSessionService, LoadingService } from '@org/auth-data-access';
 import { CustomInput, UiButton } from '@org/sharedComponents';
+import { ToastrService } from 'ngx-toastr';
 import { EMPTY, catchError } from 'rxjs';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
@@ -20,11 +21,11 @@ import {
 })
 export class LoginForm {
   private readonly fb = inject(FormBuilder);
-  private readonly authApi = inject(AuthApiService);
-  private readonly tokenStorage = inject(TokenStorageService);
+  private readonly authSession = inject(AuthSessionService);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly translate = inject(TranslateService);
+  private readonly toastr = inject(ToastrService);
 
   readonly loading = inject(LoadingService);
 
@@ -42,7 +43,7 @@ export class LoginForm {
 
     const { username, password } = this.loginForm.getRawValue();
 
-    this.authApi
+    this.authSession
       .login({
         username,
         password,
@@ -51,8 +52,11 @@ export class LoginForm {
         takeUntilDestroyed(this.destroyRef),
         catchError(() => EMPTY),
       )
-      .subscribe((response) => {
-        this.tokenStorage.saveAuthPayload(response.payload);
+      .subscribe(() => {
+        this.toastr.success(
+          this.translate.instant('AUTH.LOGIN_TOAST.SUCCESS'),
+          this.translate.instant('AUTH.LOGIN_TOAST.SUCCESS_TITLE')
+        );
         void this.router.navigate(['/roseApp']);
       });
   }
