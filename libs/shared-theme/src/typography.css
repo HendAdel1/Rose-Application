@@ -1,0 +1,58 @@
+@theme {
+  --font-zain: 'Zain', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+}
+
+@font-face {
+  font-family: 'Zain';
+  src: url('/fonts/zain/Zain-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+.font-zain {
+  font-family: var(--font-zain);
+}
+
+.font-inter {
+  font-family: var(--font-inter);
+}
+
+:lang(ar) {
+  font-family: var(--font-zain);
+}
+
+html[lang='ar'],
+html[lang='ar'] body {
+  font-family: var(--font-zain);
+}
+
+html[lang='ar'] .font-inter,
+html[lang='ar'] input,
+html[lang='ar'] select,
+html[lang='ar'] textarea,
+html[lang='ar'] button,
+html[lang='ar'] label {
+  font-family: var(--font-zain);
+}

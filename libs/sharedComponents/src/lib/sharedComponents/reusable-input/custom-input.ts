@@ -79,13 +79,13 @@ export class CustomInput implements ControlValueAccessor {
 
   readonly controlClasses = computed(() => {
     const base =
-      'box-border w-full rounded-[10px] border p-4 focus:outline-none ' +
-      'bg-white text-zinc-800 placeholder:text-zinc-400 border border-zinc-300 hover:border-zinc-400 focus:border-maroon-600' +
-      'dark:bg-zinc-700 dark:text-zinc-50 dark:border-zinc-600 dark:hover:border-zinc-500 dark:focus:border-soft-pink-400' +
+      'box-border w-full rounded-[10px] border p-4 focus:outline-none font-inter ' +
+      'bg-white text-zinc-800 placeholder:text-zinc-400 border-zinc-300 hover:border-zinc-400 focus:border-maroon-600 ' +
+      'dark:bg-zinc-700 dark:text-zinc-50 dark:border-zinc-600 dark:hover:border-zinc-500 dark:focus:border-soft-pink-400 ' +
       'disabled:cursor-not-allowed disabled:opacity-60';
 
     const state = this.isInvalid()
-      ? ' border-red-600 hover:border-red-600 focus:border-red-600 dark:border-red-500 hover:border-red-500 focus:border-red-500'
+      ? ' border-red-600 hover:border-red-600 focus:border-red-600 dark:border-red-500 dark:hover:border-red-500 dark:focus:border-red-500'
       : ' border-zinc-300 hover:border-zinc-400 focus:border-maroon-600 ' +
         'dark:border-zinc-600 dark:hover:border-zinc-500 dark:focus:border-soft-pink-400';
 

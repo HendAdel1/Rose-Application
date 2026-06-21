@@ -16,6 +16,10 @@ export class AuthLayout {
     this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية'
   );
 
+  readonly languageLabelLang = computed(() =>
+    this.i18n.currentLanguage() === 'ar' ? 'en' : 'ar'
+  );
+
   toggleLanguage(): void {
     this.i18n.toggleLanguage();
   }
