@@ -9,7 +9,7 @@ import { provideAuthDataAccess } from '@org/auth-data-access';
 import { environment } from './environments/environment';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideToastr } from 'ngx-toastr';
+import { provideAppToastr } from '@org/sharedComponents';
 import { provideSharedI18n } from '@org/shared-i18n';
 
 export const appConfig: ApplicationConfig = {
@@ -21,11 +21,6 @@ export const appConfig: ApplicationConfig = {
     provideSharedI18n(),
     provideClientHydration(),
     provideAnimations(),
-    provideToastr({
-      closeButton: true,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-      progressBar: true,
-    }),
+    provideAppToastr(),
   ],
 };

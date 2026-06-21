@@ -1,0 +1,57 @@
+:host {
+  display: block;
+  padding: 0 !important;
+  margin: 0 0 0.75rem !important;
+  width: auto !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  overflow: visible !important;
+  border-radius: 0 !important;
+}
+
+:host(.toast-success),
+:host(.toast-error),
+:host(.toast-info),
+:host(.toast-warning) {
+  background-image: none !important;
+}
+
+:host .toast-close-button,
+:host .toast-title,
+:host .toast-message,
+:host .toast-progress {
+  display: none !important;
+}
+
+.ngx-ui-toast__content {
+  min-height: calc(var(--spacing) * 9.25);
+  padding-right: 1.25rem;
+}
+
+.ngx-ui-toast__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.ngx-ui-toast__close:focus-visible {
+  border-radius: 0.25rem;
+  outline: 2px solid #18181b;
+  outline-offset: 2px;
+}
+
+.ngx-ui-toast__close svg {
+  display: block;
+}
