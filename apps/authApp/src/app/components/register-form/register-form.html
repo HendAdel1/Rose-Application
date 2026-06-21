@@ -1,211 +1,24 @@
 <section>
-  <h2 class="mb-2 ps-1 font-inter text-3xl font-bold text-zinc-800 dark:text-zinc-50">
-    {{ 'AUTH.REGISTER.TITLE' | translate }}
-  </h2>
+  <p class="font-edwardian text-5xl text-center mb-4 text-maroon-700 dark:text-soft-pink-300">
+    {{ 'AUTH.REGISTER.FAMILY_TITLE' | translate }}
+  </p>
+  <hr class="text-zinc-200 mb-6 dark:text-zinc-600">
 
   @if (step() === 1) {
-    <form [formGroup]="verifyEmail" (ngSubmit)="sendEmailVerification()">
-      <div class="mb-4">
-        <lib-custom-input
-          id="verify-email"
-          [label]="'AUTH.COMMON.EMAIL' | translate"
-          formControlName="email"
-          type="email"
-          placeholder="user@example.com"
-          [isInvalid]="!!verifyEmailError()"
-          [errorMessage]="verifyEmailError()"
-        />
-
-        <lib-ui-button type="submit" [loading]="loading.isLoading()">
-          {{ 'AUTH.COMMON.NEXT' | translate }}
-        </lib-ui-button>
-      </div>
-    </form>
+    <app-register-email-step (completed)="onEmailCompleted($event)" />
   }
 
   @if (step() === 2) {
-    <div class="otp-card">
-      <h2>{{ 'AUTH.REGISTER.VERIFY_IDENTITY' | translate }}</h2>
-      <p class="subtitle dark:text-zinc-50">
-        {{
-          'AUTH.REGISTER.OTP_SENT_TO'
-            | translate: { length: length, email: verificationEmail() }
-        }}
-      </p>
-
-      <form [formGroup]="confirmEmail" (ngSubmit)="onSubmit()">
-        <div class="otp-inputs-wrapper" (paste)="onPaste($event)">
-          @for (control of otpFormArray.controls; track $index) {
-            <input
-              #otpInput
-              type="text"
-              inputmode="numeric"
-              maxlength="1"
-              [formControl]="control"
-              (input)="onInputChange($event, $index)"
-              (keydown)="onKeyDown($event, $index)"
-              [attr.disabled]="loading.isLoading() ? true : null"
-              class="otp-digit-box"
-            />
-          }
-        </div>
-
-        @if (feedbackMessage(); as message) {
-          <div [class]="'alert-message ' + message.type">
-            {{ message.text }}
-          </div>
-        }
-
-        <div class="action-footer">
-          <button
-            type="submit"
-            [disabled]="loading.isLoading() || otpFormArray.invalid"
-            class="btn-verify dark:bg-soft-pink-300 dark:hover:bg-soft-pink-600"
-          >
-            @if (loading.isLoading()) {
-              <span class="spinner"></span>
-            } @else {
-              {{ 'AUTH.REGISTER.VERIFY_CODE' | translate }}
-            }
-          </button>
-
-          @if (expirationTimer() > 0) {
-            <p class="text-sm text-amber-600 dark:text-zinc-50">
-              {{ 'AUTH.REGISTER.CODE_EXPIRES' | translate }}
-              <strong>{{ getFormattedExpirationTime() }}</strong>
-            </p>
-          } @else {
-            <p class="text-sm text-red-600 dark:text-zinc-50">
-              {{ 'AUTH.REGISTER.CODE_EXPIRED' | translate }}
-            </p>
-          }
-
-          <div class="resend-timer-wrapper">
-            @if (timer() > 0) {
-              <span class="timer-text dark:text-zinc-50">
-                {{
-                  'AUTH.REGISTER.RESEND_ACTIVE'
-                    | translate: { seconds: timer() }
-                }}
-              </span>
-            } @else {
-              <button
-                type="button"
-                (click)="handleResend()"
-                [disabled]="loading.isLoading()"
-                class="btn-resend"
-              >
-                {{
-                  (loading.isLoading()
-                    ? 'AUTH.COMMON.SENDING'
-                    : 'AUTH.REGISTER.RESEND_OTP') | translate
-                }}
-              </button>
-            }
-          </div>
-        </div>
-      </form>
-    </div>
+    <app-register-otp-step
+      [email]="verificationEmail()"
+      [length]="length"
+      [cooldownTime]="cooldownTime"
+      [expirationTime]="expirationTime"
+      (completed)="onOtpCompleted()"
+    />
   }
 
   @if (step() === 3) {
-    <div
-      class="flex min-h-screen flex-col items-center justify-center  p-6"
-    >
-      <div
-        class="w-full max-w-6xl p-8 shadow-sm"
-      >
-        <div class="relative mb-8 text-center">
-          <h2
-            class="pt-4 font-serif text-4xl font-normal italic text-[#8C3434] dark:text-soft-pink-300"
-          >
-            {{ 'AUTH.REGISTER.FAMILY_TITLE' | translate }}
-          </h2>
-        </div>
-
-        <form
-          [formGroup]="registerForm"
-          (ngSubmit)="register()"
-          class="space-y-4"
-        >
-          <div class="grid grid-cols-2 gap-4">
-            <lib-custom-input
-              id="firstName"
-              [label]="'AUTH.REGISTER.FIRST_NAME' | translate"
-              formControlName="firstName"
-              type="text"
-              placeholder="Jonathan"
-              [isInvalid]="!!firstNameError()"
-              [errorMessage]="firstNameError()"
-            />
-
-            <lib-custom-input
-              id="lastName"
-              [label]="'AUTH.REGISTER.LAST_NAME' | translate"
-              formControlName="lastName"
-              type="text"
-              placeholder="Adrian"
-              [isInvalid]="!!lastNameError()"
-              [errorMessage]="lastNameError()"
-            />
-          </div>
-
-          <lib-custom-input
-            id="username"
-            [label]="'AUTH.REGISTER.USERNAME' | translate"
-            formControlName="username"
-            type="text"
-            placeholder="johndoe"
-            [isInvalid]="!!usernameError()"
-            [errorMessage]="usernameError()"
-          />
-
-          <lib-custom-input
-            id="email"
-            [label]="'AUTH.COMMON.EMAIL' | translate"
-            formControlName="email"
-            type="email"
-            placeholder="user@example.com"
-            [readonly]="true"
-            [isInvalid]="!!registerEmailError()"
-            [errorMessage]="registerEmailError()"
-          />
-
-          <lib-custom-input
-            id="gender"
-            [label]="'AUTH.REGISTER.GENDER' | translate"
-            formControlName="gender"
-            [placeholder]="'AUTH.REGISTER.SELECT_GENDER' | translate"
-            [options]="genderOptions"
-            [isInvalid]="!!genderError()"
-            [errorMessage]="genderError()"
-          />
-
-          <lib-custom-input
-            id="password"
-            [label]="'AUTH.COMMON.PASSWORD' | translate"
-            formControlName="password"
-            type="password"
-            placeholder="Password@12345"
-            [isInvalid]="!!passwordError()"
-            [errorMessage]="passwordError()"
-          />
-
-          <lib-custom-input
-            id="confirmPassword"
-            [label]="'AUTH.COMMON.CONFIRM_PASSWORD' | translate"
-            formControlName="confirmPassword"
-            type="password"
-            placeholder="Password@12345"
-            [isInvalid]="!!confirmPasswordError()"
-            [errorMessage]="confirmPasswordError()"
-          />
-
-          <lib-ui-button type="submit" [loading]="loading.isLoading()">
-            {{ 'AUTH.REGISTER.CREATE_ACCOUNT' | translate }}
-          </lib-ui-button>
-        </form>
-      </div>
-    </div>
+    <app-register-details-step [verificationEmail]="verificationEmail()" />
   }
 </section>

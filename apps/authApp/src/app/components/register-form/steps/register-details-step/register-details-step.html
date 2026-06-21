@@ -1,0 +1,92 @@
+<div class="flex flex-col items-center justify-center">
+  <div class="w-full max-w-6xl">
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="mb-4 grid grid-cols-2 gap-4">
+        <lib-custom-input
+          id="firstName"
+          [label]="'AUTH.REGISTER.FIRST_NAME' | translate"
+          formControlName="firstName"
+          type="text"
+          placeholder="Jonathan"
+          [isInvalid]="!!firstNameError()"
+          [errorMessage]="firstNameError()"
+        />
+
+        <lib-custom-input
+          id="lastName"
+          [label]="'AUTH.REGISTER.LAST_NAME' | translate"
+          formControlName="lastName"
+          type="text"
+          placeholder="Adrian"
+          [isInvalid]="!!lastNameError()"
+          [errorMessage]="lastNameError()"
+        />
+      </div>
+
+      <div class="mb-4">
+        <lib-custom-input
+          id="username"
+          [label]="'AUTH.REGISTER.USERNAME' | translate"
+          formControlName="username"
+          type="text"
+          placeholder="johndoe"
+          [isInvalid]="!!usernameError()"
+          [errorMessage]="usernameError()"
+        />
+      </div>
+
+      <div class="mb-4">
+        <lib-custom-input
+          id="email"
+          [label]="'AUTH.COMMON.EMAIL' | translate"
+          formControlName="email"
+          type="email"
+          placeholder="user@example.com"
+          [readonly]="true"
+          [isInvalid]="!!registerEmailError()"
+          [errorMessage]="registerEmailError()"
+        />
+      </div>
+
+      <div class="mb-4">
+        <lib-custom-input
+          id="gender"
+          [label]="'AUTH.REGISTER.GENDER' | translate"
+          formControlName="gender"
+          [placeholder]="'AUTH.REGISTER.SELECT_GENDER' | translate"
+          [options]="genderOptions"
+          [isInvalid]="!!genderError()"
+          [errorMessage]="genderError()"
+        />
+      </div>
+
+      <div class="mb-4">
+        <lib-custom-input
+          id="password"
+          [label]="'AUTH.COMMON.PASSWORD' | translate"
+          formControlName="password"
+          type="password"
+          placeholder="Password@12345"
+          [isInvalid]="!!passwordError()"
+          [errorMessage]="passwordError()"
+        />
+      </div>
+
+      <div class="mb-4">
+        <lib-custom-input
+          id="confirmPassword"
+          [label]="'AUTH.COMMON.CONFIRM_PASSWORD' | translate"
+          formControlName="confirmPassword"
+          type="password"
+          placeholder="Password@12345"
+          [isInvalid]="!!confirmPasswordError()"
+          [errorMessage]="confirmPasswordError()"
+        />
+      </div>
+
+      <lib-ui-button type="submit" [loading]="loading.isLoading()">
+        {{ 'AUTH.REGISTER.CREATE_ACCOUNT' | translate }}
+      </lib-ui-button>
+    </form>
+  </div>
+</div>

@@ -1,7 +1,12 @@
 :host .custom-input__control {
+  font-family: 'Inter', sans-serif;
   background-color: #ffffff !important;
   color: #27272a;
   border-color: #d4d4d8;
+}
+
+:host-context(html[lang='ar']) .custom-input__control {
+  font-family: 'Zain', sans-serif;
 }
 
 :host .custom-input__control::placeholder {

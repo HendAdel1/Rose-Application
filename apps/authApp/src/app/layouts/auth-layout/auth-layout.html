@@ -5,7 +5,8 @@
       <div class="text-end">
         <button
           type="button"
-          class="font-zain text-zinc-700 hover:text-maroon-700 dark:text-zinc-50 dark:hover:text-soft-pink-300"
+          class="language-toggle font-zain text-zinc-700 hover:text-maroon-700 dark:text-zinc-50 dark:hover:text-soft-pink-300"
+          [attr.lang]="languageLabelLang()"
           [attr.aria-label]="'AUTH.SWITCH_LANGUAGE' | translate"
           (click)="toggleLanguage()"
         >

@@ -10,3 +10,29 @@
 .font-edwardian {
   font-family: 'Edwardian Script ITC', cursive;
 }
+
+.font-zain {
+  font-family: 'Zain', sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+:lang(ar) {
+  font-family: 'Zain', sans-serif;
+}
+
+html[lang='ar'],
+html[lang='ar'] body {
+  font-family: 'Zain', sans-serif;
+}
+
+html[lang='ar'] .font-inter,
+html[lang='ar'] input,
+html[lang='ar'] select,
+html[lang='ar'] textarea,
+html[lang='ar'] button,
+html[lang='ar'] label {
+  font-family: 'Zain', sans-serif;
+}

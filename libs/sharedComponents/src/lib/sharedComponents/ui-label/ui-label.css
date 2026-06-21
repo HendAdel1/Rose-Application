@@ -1,0 +1,7 @@
+:host label {
+  font-family: 'Inter', sans-serif;
+}
+
+:host-context(html[lang='ar']) label {
+  font-family: 'Zain', sans-serif;
+}

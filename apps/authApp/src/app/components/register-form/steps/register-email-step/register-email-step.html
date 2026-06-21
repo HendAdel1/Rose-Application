@@ -1,0 +1,17 @@
+<form [formGroup]="verifyEmail" (ngSubmit)="sendEmailVerification()">
+  <div class="mb-4">
+    <lib-custom-input
+      id="verify-email"
+      [label]="'AUTH.COMMON.EMAIL' | translate"
+      formControlName="email"
+      type="email"
+      placeholder="user@example.com"
+      [isInvalid]="!!verifyEmailError()"
+      [errorMessage]="verifyEmailError()"
+    />
+
+    <lib-ui-button type="submit" [loading]="loading.isLoading()">
+      {{ 'AUTH.COMMON.NEXT' | translate }}
+    </lib-ui-button>
+  </div>
+</form>
