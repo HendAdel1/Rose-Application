@@ -1,18 +1,30 @@
 @if (visible()) {
 <div
-  class="box-border flex w-110 min-h-13.25 items-center gap-3 rounded-2xl px-4 py-2 font-mulish text-sm font-semibold text-zinc-800 shadow-sm"
-  [class.bg-zinc-300]="variant() === 'info'" 
+  class="relative box-border w-110 min-h-13.25 rounded-2xl px-4 py-2 font-mulish text-sm font-semibold text-zinc-800 shadow-sm"
+  [class.bg-zinc-300]="variant() === 'info'"
   [class.bg-emerald-300]="variant() === 'success'"
-  [class.bg-red-300]="variant() === 'error'" 
-  role="status" [attr.aria-live]="variant() === 'error' ? 'assertive' : 'polite'">
-  <svg [lucideIcon]="statusIcon()" class="shrink-0" [size]="24" aria-hidden="true"></svg>
-
-  <p class="m-0 flex-1 leading-snug">{{ message() }}</p>
-
-  <button type="button"
-    class="inline-flex shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-zinc-800 focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
-    aria-label="Dismiss notification" (click)="dismiss()">
-    <svg lucideIcon="x" [size]="20" aria-hidden="true"></svg>
+  [class.bg-red-300]="variant() === 'error'"
+  role="status"
+  [attr.aria-live]="variant() === 'error' ? 'assertive' : 'polite'"
+>
+  <button
+    type="button"
+    class="absolute top-2 right-2 z-10 inline-flex cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-zinc-800 leading-none focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
+    aria-label="Dismiss notification"
+    (click)="dismiss()"
+  >
+    <svg lucideIcon="x" [size]="16" aria-hidden="true"></svg>
   </button>
+
+  <div class="flex items-center gap-3 pr-5">
+    <svg
+      [lucideIcon]="statusIcon()"
+      class="shrink-0"
+      [size]="24"
+      aria-hidden="true"
+    ></svg>
+
+    <p class="m-0 flex-1 leading-snug">{{ message() }}</p>
+  </div>
 </div>
 }
