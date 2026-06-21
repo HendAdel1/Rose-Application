@@ -26,19 +26,55 @@
 
     <div class="header-actions">
       @if (isAuthenticated()) {
-        <button
-          class="user-menu"
-          type="button"
-          aria-haspopup="menu"
-          aria-expanded="false"
-          [attr.aria-label]="'NAV.OPEN_PROFILE_MENU' | translate"
-        >
-          <span>
-            <span class="hello">{{ 'NAV.HELLO' | translate }}</span>
-            <strong>{{ currentUserName() }}</strong>
-          </span>
-          <svg lucideChevronDown [size]="14" aria-hidden="true"></svg>
-        </button>
+        <div class="profile-menu-container">
+          <button
+            class="user-menu"
+            type="button"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="profileMenuOpen()"
+            [attr.aria-label]="'NAV.OPEN_PROFILE_MENU' | translate"
+            (click)="toggleProfileMenu()"
+          >
+            <span>
+              <span class="hello">{{ 'NAV.HELLO' | translate }}</span>
+              <strong>{{ currentUserName() }}</strong>
+            </span>
+            <svg lucideChevronDown [size]="14" aria-hidden="true"></svg>
+          </button>
+
+          @if (profileMenuOpen()) {
+            <div class="profile-dropdown" role="menu">
+              <div class="profile-name">{{ currentUserName() }}</div>
+
+              <button class="profile-menu-item" type="button" role="menuitem">
+                <svg lucideUser [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.ACCOUNT' | translate }}</span>
+              </button>
+              <button class="profile-menu-item" type="button" role="menuitem">
+                <svg lucideMapPin [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.ADDRESSES' | translate }}</span>
+              </button>
+              <button class="profile-menu-item" type="button" role="menuitem">
+                <svg lucideClipboardList [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.ORDERS' | translate }}</span>
+              </button>
+
+              <div class="profile-menu-divider"></div>
+
+              <button class="profile-menu-item" type="button" role="menuitem">
+                <svg lucideSettings [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.DASHBOARD' | translate }}</span>
+              </button>
+
+              <div class="profile-menu-divider"></div>
+
+              <button class="profile-menu-item logout-item" type="button" role="menuitem" (click)="logout()">
+                <svg lucideLogOut [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.LOGOUT' | translate }}</span>
+              </button>
+            </div>
+          }
+        </div>
       } @else {
         <a class="login-link" routerLink="/authApp/login">
           <svg lucideUser [size]="18" aria-hidden="true"></svg>
@@ -54,6 +90,11 @@
 
       <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.SHOPPING_CART' | translate">
         <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
+        <span class="badge">8</span>
+      </button>
+
+      <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.NOTIFICATIONS' | translate">
+        <svg lucideBell [size]="21" aria-hidden="true"></svg>
         <span class="badge">8</span>
       </button>
 

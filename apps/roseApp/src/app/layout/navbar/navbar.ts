@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   LucideChevronDown,
   LucideClipboardList,
@@ -12,9 +12,12 @@ import {
   LucideMenu,
   LucidePartyPopper,
   LucideSearch,
+  LucideSettings,
   LucideShoppingCart,
+  LucideLogOut,
   LucideUser,
 } from '@lucide/angular';
+import { AuthSessionService } from '@org/auth-data-access';
 import { CustomInput } from '@org/shared-components';
 import { SharedI18nService } from '@org/shared-i18n';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -40,7 +43,9 @@ interface NavItem {
     LucideMenu,
     LucidePartyPopper,
     LucideSearch,
+    LucideSettings,
     LucideShoppingCart,
+    LucideLogOut,
     LucideUser,
     RouterLink,
     RouterLinkActive,
@@ -52,6 +57,8 @@ interface NavItem {
 })
 export class Navbar {
   private readonly i18n = inject(SharedI18nService);
+  private readonly authSession = inject(AuthSessionService);
+  private readonly router = inject(Router);
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly isAuthenticated = input(false);
@@ -60,6 +67,7 @@ export class Navbar {
   readonly searchSubmitted = output<string>();
   readonly searchTerm = signal('');
   readonly menuOpen = signal(false);
+  readonly profileMenuOpen = signal(false);
   readonly languageLabel = computed(() =>
     this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية',
   );
@@ -96,5 +104,15 @@ export class Navbar {
 
   closeMenu(): void {
     this.menuOpen.set(false);
+  }
+
+  toggleProfileMenu(): void {
+    this.profileMenuOpen.update((open) => !open);
+  }
+
+  logout(): void {
+    this.authSession.logout();
+    this.profileMenuOpen.set(false);
+    void this.router.navigate(['/roseApp']);
   }
 }

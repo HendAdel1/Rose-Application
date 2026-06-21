@@ -1,5 +1,10 @@
 {
   "NAV": {
+    "ACCOUNT": "الحساب",
+    "ADDRESSES": "العناوين",
+    "ORDERS": "الطلبات",
+    "DASHBOARD": "لوحة التحكم",
+    "LOGOUT": "تسجيل الخروج",
     "HEADER_ARIA": "رأس صفحة Rose",
     "ROSE_HOME": "الصفحة الرئيسية لـ Rose",
     "DELIVERY_LOCATION": "موقع التوصيل",
