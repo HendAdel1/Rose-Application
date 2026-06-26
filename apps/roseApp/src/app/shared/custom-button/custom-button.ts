@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -18,11 +18,18 @@ export class CustomButton {
 
   btnClick=output<void>()
 
-  getButtonStyles(): string{
+  ButtonClass=computed(()=>{
+    let classes='';
     if(this.variant() === 'icon-only'){
-      return 'w-10 h-10 flex items-center justify-center bg-white text-zinc-100 shadow-sm border border-gray-100 rounded-full hover:bg-gray-50 active:scale-95 transition-transform p-0';
+      classes='btn-icon-only'
     }
-    const primary='bg-maroon-600 border-none text-white text-sm rounded-xl font-medium py-3 px-6 shadow-sm hover:bg-maroon-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2';
-    return this.fullWidth() ? `${primary} w-full`: primary;
-  }
+    else{
+ classes='btn-primary';
+   if(this.fullWidth()){
+    classes += 'w-full'
+   }
+    }
+    return classes;
+
+  })
 }
