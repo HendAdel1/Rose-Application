@@ -1,0 +1,26 @@
+.home-page {
+  min-height: 24rem;
+  padding: 2rem 1rem;
+}
+
+.home-placeholder {
+  width: min(100%, 75rem);
+  margin: 0 auto;
+}
+
+.home-eyebrow {
+  margin: 0 0 0.5rem;
+  color: #9f1f32;
+  font-weight: 600;
+}
+
+.home-placeholder h1 {
+  margin: 0;
+  color: #111111;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+:host-context(.dark) .home-placeholder h1 {
+  color: #ffffff;
+}

@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthSessionService } from '@org/auth-data-access';
+import { ThemeService } from '@org/shared-theme';
 import { Footer } from '../footer/footer';
 import { Navbar } from '../navbar/navbar';
 
@@ -19,4 +20,8 @@ export class MainLayout {
 
     return user?.firstName ?? user?.username ?? '';
   });
+
+  constructor() {
+    inject(ThemeService).init();
+  }
 }

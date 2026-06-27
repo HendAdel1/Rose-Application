@@ -1,14 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { ThemeService } from '@org/shared-theme';
-import { NxWelcome } from './nx-welcome';
+import { Component } from '@angular/core';
 
 @Component({
-  imports: [NxWelcome],
   selector: 'app-rose-app-entry',
-  template: `<app-nx-welcome></app-nx-welcome>`,
+  template: '',
 })
-export class RemoteEntry {
-  constructor() {
-    inject(ThemeService).init();
-  }
-}
+export class RemoteEntry {}
