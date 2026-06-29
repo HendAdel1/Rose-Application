@@ -36,6 +36,9 @@
 
 .product-card__content {
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   height: 77px;
   padding-bottom: 8px;
 }

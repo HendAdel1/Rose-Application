@@ -32,27 +32,29 @@
       {{ title() }}
     </h3>
 
-    <div class="mt-2 flex items-center gap-1 text-amber-400" aria-label="Product rating">
-      @for (star of stars; track star) {
-        <svg
-          lucideStar
-          [size]="18"
-          class="star-icon"
-          [class.star-icon--muted]="star > rating()"
-          aria-hidden="true"
-        ></svg>
-      }
-    </div>
+    <div class="product-card__meta flex items-center justify-between">
+      <div class="min-w-0">
+        <div class="flex items-center gap-1 text-amber-400" aria-label="Product rating">
+          @for (star of stars; track star) {
+            <svg
+              lucideStar
+              [size]="18"
+              class="star-icon"
+              [class.star-icon--muted]="star > rating()"
+              aria-hidden="true"
+            ></svg>
+          }
+        </div>
 
-    <div class="product-card__meta mt-2 flex items-center justify-between">
-      <p class="product-card__price text-base font-bold text-maroon-700 dark:text-soft-pink-200">
-        {{ currentPrice().toFixed(2) }} EGP
-        @if (oldPrice()) {
-          <span class="ms-1 font-bold text-zinc-400 line-through">
-            {{ oldPrice()?.toFixed(2) }} EGP
-          </span>
-        }
-      </p>
+        <p class="product-card__price text-base font-bold text-maroon-700 dark:text-soft-pink-200">
+          {{ currentPrice().toFixed(2) }} EGP
+          @if (oldPrice()) {
+            <span class="ms-1 font-bold text-zinc-400 line-through">
+              {{ oldPrice()?.toFixed(2) }} EGP
+            </span>
+          }
+        </p>
+      </div>
 
       <button
         type="button"
