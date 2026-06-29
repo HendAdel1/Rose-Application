@@ -1,17 +1,24 @@
 <section class="most-popular" aria-labelledby="most-popular-title">
-  <div class="section-header">
+  <div
+    class="mb-4 flex items-end justify-between gap-4 max-md:flex-col max-md:items-start"
+  >
     <app-custom-heading
       title="Most Popular"
       align="start"
       headingId="most-popular-title"
     />
 
-    <div class="tabs" aria-label="Most popular categories">
+    <div
+      class="flex items-center gap-6 overflow-x-auto whitespace-nowrap pb-2 max-md:w-full max-md:pb-0"
+      aria-label="Most popular categories"
+    >
       @for (tab of tabs; track tab) {
         <button
           type="button"
-          class="tab-button"
-          [class.active]="selectedTab() === tab"
+          class="cursor-pointer border-0 bg-transparent p-0 text-xs leading-normal text-zinc-800 dark:text-zinc-100"
+          [class.font-semibold]="selectedTab() === tab"
+          [class.text-maroon-700]="selectedTab() === tab"
+          [class.dark:text-soft-pink-300]="selectedTab() === tab"
           (click)="selectTab(tab)"
         >
           {{ tab }}
