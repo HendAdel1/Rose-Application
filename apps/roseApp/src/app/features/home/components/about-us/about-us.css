@@ -1,21 +1,13 @@
 .about-gallery {
   position: relative;
   isolation: isolate;
-  min-height: 33rem;
+  min-height: 32rem;
 }
 
 .image-link {
   position: absolute;
   display: block;
   overflow: visible;
-  background: var(--color-soft-pink-50);
-  transition:
-    transform 220ms ease,
-    box-shadow 220ms ease;
-}
-
-.image-link:hover {
-  transform: translateY(-0.25rem);
 }
 
 .image-link img {
@@ -24,52 +16,43 @@
   display: block;
   object-fit: cover;
   border-radius: inherit;
-  box-shadow: 0 1rem 2rem rgb(0 0 0 / 0.08);
 }
 
 .hero-link {
-  left: 0.5rem;
-  top: 2.4rem;
+  left: 0;
+  top: 3rem;
   z-index: 1;
-  width: min(72%, 28rem);
-  height: 28rem;
-  border-radius: 9rem 13rem 8rem 9rem;
+  width: min(70%, 29rem);
+  height: 28.5rem;
+  border-radius: 8rem 14rem 7rem 7rem;
 }
 
 .hero-link::before {
   content: '';
   position: absolute;
-  inset: -1.65rem 2.25rem -1.05rem -1.45rem;
+  inset: -1.7rem 2.4rem -0.75rem -1.35rem;
   z-index: -1;
   border: 0.22rem solid var(--color-maroon-600);
   border-right: 0;
-  border-radius: 7rem 2rem 0 9rem;
+  border-radius: 7rem 2rem 0 8rem;
 }
 
 .circle-link {
-  right: 0.25rem;
-  top: 1.4rem;
+  right: 0.1rem;
+  top: 1.75rem;
   z-index: 2;
-  width: 15.5rem;
-  height: 15.5rem;
+  width: 15.75rem;
+  height: 15.75rem;
   border-radius: 999rem;
 }
 
 .small-link {
-  right: 0.2rem;
-  bottom: 2.25rem;
+  right: 0;
+  bottom: 2rem;
   z-index: 2;
-  width: 15.6rem;
-  height: 12.7rem;
-  border-radius: 5rem 6rem 3.5rem 5rem;
-}
-
-:host-context(.dark) .image-link {
-  background: var(--color-zinc-700);
-}
-
-:host-context(.dark) .image-link img {
-  box-shadow: 0 1rem 2rem rgb(0 0 0 / 0.28);
+  width: 15.75rem;
+  height: 12.75rem;
+  border-radius: 5rem 5.5rem 3.75rem 5rem;
 }
 
 :host-context(.dark) .hero-link::before {
@@ -78,7 +61,7 @@
 
 @media (max-width: 64rem) {
   .about-gallery {
-    min-height: 34rem;
+    min-height: 33rem;
     max-width: 42rem;
     width: 100%;
     margin: 0 auto;

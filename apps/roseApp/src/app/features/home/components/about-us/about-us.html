@@ -2,63 +2,54 @@
   class="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-4 py-16 lg:grid-cols-[0.95fr_1.05fr] lg:py-20"
   aria-labelledby="about-us-title"
 >
-  <div class="about-gallery" aria-label="Product categories">
-    <a
-      routerLink="/roseApp/categories"
-      [queryParams]="{ category: 'gift-boxes' }"
-      class="image-link hero-link"
-      aria-label="Premium purple gift box"
-    >
-      <img src="/images/about-1.png" alt="Premium purple gift box" />
-    </a>
-
-    <a
-      routerLink="/roseApp/categories"
-      [queryParams]="{ category: 'chocolates' }"
-      class="image-link circle-link"
-      aria-label="Chocolate gift box with confetti"
-    >
-      <img src="/images/about-2.png" alt="Chocolate gift box with confetti" />
-    </a>
-
-    <a
-      routerLink="/roseApp/categories"
-      [queryParams]="{ category: 'occasions' }"
-      class="image-link small-link"
-      aria-label="Celebration gift box with balloons"
-    >
-      <img src="/images/about-3.png" alt="Celebration gift box with balloons" />
-    </a>
+  <div
+    class="about-gallery"
+    [attr.aria-label]="'HOME.ABOUT.PRODUCT_CATEGORIES_ARIA' | translate"
+  >
+    @for (image of images; track image.src) {
+      <a
+        routerLink="/roseApp/categories"
+        [queryParams]="{ category: image.category }"
+        [class]="'image-link ' + image.className"
+        [attr.aria-label]="image.altKey | translate"
+      >
+        <img
+          [src]="image.src"
+          [alt]="image.altKey | translate"
+          loading="lazy"
+        />
+      </a>
+    }
   </div>
 
   <div class="font-sarabun">
     <p class="mb-5 text-sm font-bold uppercase tracking-[0.45em] text-soft-pink-500 dark:text-maroon-400">
-      About
+      {{ 'HOME.ABOUT.EYEBROW' | translate }}
     </p>
 
     <h2
       id="about-us-title"
       class="max-w-2xl text-3xl font-extrabold leading-tight text-maroon-800 dark:text-soft-pink-200 md:text-4xl"
     >
-      Delivering the
-      <span class="text-soft-pink-500 dark:text-maroon-400">Finest</span>
-      Gift Boxes for Your
-      <span class="text-soft-pink-500 dark:text-maroon-400">Special Moments</span>
+      {{ 'HOME.ABOUT.TITLE_PREFIX' | translate }}
+      <span class="text-soft-pink-500 dark:text-maroon-400">
+        {{ 'HOME.ABOUT.TITLE_HIGHLIGHT_ONE' | translate }}
+      </span>
+      {{ 'HOME.ABOUT.TITLE_MIDDLE' | translate }}
+      <span class="text-soft-pink-500 dark:text-maroon-400">
+        {{ 'HOME.ABOUT.TITLE_HIGHLIGHT_TWO' | translate }}
+      </span>
     </h2>
 
     <p class="mt-4 max-w-3xl text-base leading-snug text-zinc-600 dark:text-zinc-200">
-      Make every moment memorable with our premium gift boxes. Carefully curated
-      and beautifully packaged, each box is filled with handpicked items
-      designed to impress. Whether it's for a birthday, wedding, or a simple
-      thank you, our gift boxes are crafted to leave a lasting impression
-      because thoughtful gifting starts here.
+      {{ 'HOME.ABOUT.DESCRIPTION' | translate }}
     </p>
 
     <a
       routerLink="/roseApp/categories"
       class="mt-7 inline-flex items-center gap-2 rounded-xl bg-maroon-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800 dark:bg-soft-pink-400 dark:text-maroon-950 dark:hover:bg-soft-pink-300"
     >
-      Discover
+      {{ 'HOME.ABOUT.DISCOVER' | translate }}
       <svg lucideArrowRight [size]="18" aria-hidden="true"></svg>
     </a>
 
@@ -72,7 +63,7 @@
           class="shrink-0 text-maroon-600 dark:text-soft-pink-400"
           aria-hidden="true"
         ></svg>
-        <span>Competitive Prices & Easy Shopping</span>
+        <span>{{ 'HOME.ABOUT.FEATURES.PRICES' | translate }}</span>
       </li>
 
       <li class="flex items-center gap-4">
@@ -82,7 +73,7 @@
           class="shrink-0 text-maroon-600 dark:text-soft-pink-400"
           aria-hidden="true"
         ></svg>
-        <span>Premium Quality & Elegant Packaging</span>
+        <span>{{ 'HOME.ABOUT.FEATURES.QUALITY' | translate }}</span>
       </li>
 
       <li class="flex items-center gap-4">
@@ -92,7 +83,7 @@
           class="shrink-0 text-maroon-600 dark:text-soft-pink-400"
           aria-hidden="true"
         ></svg>
-        <span>Perfect for Every Occasion</span>
+        <span>{{ 'HOME.ABOUT.FEATURES.OCCASION' | translate }}</span>
       </li>
 
       <li class="flex items-center gap-4">
@@ -102,7 +93,7 @@
           class="shrink-0 text-maroon-600 dark:text-soft-pink-400"
           aria-hidden="true"
         ></svg>
-        <span>Fast & Reliable Delivery</span>
+        <span>{{ 'HOME.ABOUT.FEATURES.DELIVERY' | translate }}</span>
       </li>
     </ul>
   </div>
