@@ -1,7 +1,10 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LucideEye, LucideHeart, LucideShoppingCart } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
+import { finalize, map } from 'rxjs';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
+import { toMostPopularProducts } from '../../../../shared/products/mappers/popular-product.mapper';
 import { PopularProduct } from '../../../../shared/products/models/popular-product.model';
 import { ProductsService } from '../../../../shared/products/services/products.service';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
@@ -14,6 +17,7 @@ import { UiCard } from '../../../../shared/ui-card/ui-card';
     LucideEye,
     LucideHeart,
     LucideShoppingCart,
+    TranslatePipe,
   ],
   templateUrl: './most-popular.html',
   styleUrl: './most-popular.css',
@@ -24,7 +28,6 @@ export class MostPopular {
 
   readonly products = signal<PopularProduct[]>([]);
   readonly isLoading = signal(false);
-  readonly errorMessage = signal('');
   readonly selectedTab = signal('Anniversary');
 
   readonly tabs = ['Wedding', 'Anniversary', 'Birthday', 'Engagement'];
@@ -37,19 +40,17 @@ export class MostPopular {
 
   loadProducts(): void {
     this.isLoading.set(true);
-    this.errorMessage.set('');
 
     this.productsService
-      .getMostPopularProducts(12)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .getProducts()
+      .pipe(
+        map((products) => toMostPopularProducts(products, 12)),
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isLoading.set(false)),
+      )
       .subscribe({
         next: (products) => {
           this.products.set(products);
-          this.isLoading.set(false);
-        },
-        error: () => {
-          this.errorMessage.set('Unable to load popular products.');
-          this.isLoading.set(false);
         },
       });
   }

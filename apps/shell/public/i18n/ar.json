@@ -131,6 +131,30 @@
       "OTP_COMPLETE": "أدخل رمز التحقق كاملًا."
     }
   },
+  "HOME": {
+    "MOST_POPULAR": {
+      "TITLE": "الأكثر شهرة",
+      "CATEGORIES_ARIA": "تصنيفات المنتجات الأكثر شهرة",
+      "LOADING": "جاري تحميل المنتجات الأكثر شهرة...",
+      "LOAD_ERROR": "تعذر تحميل المنتجات الأكثر شهرة.",
+      "ADD_TO_WISHLIST": "أضف إلى المفضلة",
+      "VIEW_PRODUCT": "عرض المنتج",
+      "QUICK_ADD_TO_CART": "إضافة سريعة إلى السلة",
+      "RATING": "التقييم {{rating}}",
+      "VIEW_MORE": "عرض المزيد",
+      "TABS": {
+        "WEDDING": "زفاف",
+        "ANNIVERSARY": "ذكرى سنوية",
+        "BIRTHDAY": "عيد ميلاد",
+        "ENGAGEMENT": "خطوبة"
+      },
+      "BADGES": {
+        "OUT_OF_STOCK": "غير متوفر",
+        "HOT": "رائج",
+        "NEW": "جديد"
+      }
+    }
+  },
   "TRUSTED_BY": {
     "PREFIX": "محل ثقة أكثر من ",
     "COUNT": "4.5 ألف",

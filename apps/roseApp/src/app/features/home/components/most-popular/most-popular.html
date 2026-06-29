@@ -1,16 +1,16 @@
 <section class="most-popular" aria-labelledby="most-popular-title">
   <div
-    class="mb-4 flex items-end justify-between gap-4 max-md:flex-col max-md:items-start"
+    class="mb-12 flex items-end justify-between gap-4 max-md:flex-col max-md:items-start"
   >
     <app-custom-heading
-      title="Most Popular"
+      [title]="'HOME.MOST_POPULAR.TITLE' | translate"
       align="start"
       headingId="most-popular-title"
     />
 
     <div
-      class="flex items-center gap-6 overflow-x-auto whitespace-nowrap pb-2 max-md:w-full max-md:pb-0"
-      aria-label="Most popular categories"
+      class="flex items-center gap-6 overflow-x-auto whitespace-nowrap pb-2 mt-4 max-md:w-full max-md:pb-0"
+      [attr.aria-label]="'HOME.MOST_POPULAR.CATEGORIES_ARIA' | translate"
     >
       @for (tab of tabs; track tab) {
         <button
@@ -21,16 +21,14 @@
           [class.dark:text-soft-pink-300]="selectedTab() === tab"
           (click)="selectTab(tab)"
         >
-          {{ tab }}
+          {{ 'HOME.MOST_POPULAR.TABS.' + tab.toUpperCase() | translate }}
         </button>
       }
     </div>
   </div>
 
   @if (isLoading()) {
-    <div class="state-message">Loading popular products...</div>
-  } @else if (errorMessage()) {
-    <div class="state-message error">{{ errorMessage() }}</div>
+    <div class="state-message">{{ 'HOME.MOST_POPULAR.LOADING' | translate }}</div>
   } @else {
     <div class="products-grid">
       @for (product of products(); track product.id) {
@@ -46,11 +44,11 @@
 
           <div cardBadge class="badge-list">
             @if (product.isOutOfStock) {
-              <span class="product-badge danger">OUT OF STOCK</span>
+              <span class="product-badge danger">{{ 'HOME.MOST_POPULAR.BADGES.OUT_OF_STOCK' | translate }}</span>
             } @else if (product.stock <= 10) {
-              <span class="product-badge hot">HOT</span>
+              <span class="product-badge hot">{{ 'HOME.MOST_POPULAR.BADGES.HOT' | translate }}</span>
             } @else {
-              <span class="product-badge">NEW</span>
+              <span class="product-badge">{{ 'HOME.MOST_POPULAR.BADGES.NEW' | translate }}</span>
             }
           </div>
 
@@ -58,12 +56,16 @@
             <button
               type="button"
               class="hover-action"
-              aria-label="Add to wishlist"
+              [attr.aria-label]="'HOME.MOST_POPULAR.ADD_TO_WISHLIST' | translate"
               (click)="addToWishlist(product)"
             >
               <svg lucideHeart [size]="18" aria-hidden="true"></svg>
             </button>
-            <button type="button" class="hover-action" aria-label="View product">
+            <button
+              type="button"
+              class="hover-action"
+              [attr.aria-label]="'HOME.MOST_POPULAR.VIEW_PRODUCT' | translate"
+            >
               <svg lucideEye [size]="18" aria-hidden="true"></svg>
             </button>
           </div>
@@ -73,7 +75,10 @@
               {{ product.title }}
             </h3>
 
-            <div class="rating" [attr.aria-label]="'Rating ' + product.rating">
+            <div
+              class="rating"
+              [attr.aria-label]="'HOME.MOST_POPULAR.RATING' | translate: { rating: product.rating }"
+            >
               @for (star of stars; track star) {
                 <span
                   class="star"
@@ -94,7 +99,7 @@
             cardActionMain
             type="button"
             class="cart-button"
-            aria-label="Quick add to cart"
+            [attr.aria-label]="'HOME.MOST_POPULAR.QUICK_ADD_TO_CART' | translate"
             [disabled]="product.isOutOfStock"
             (click)="quickAddToCart(product)"
           >
@@ -106,7 +111,7 @@
 
     <div class="section-footer">
       <a class="view-more" href="/roseApp/products">
-        View More
+        {{ 'HOME.MOST_POPULAR.VIEW_MORE' | translate }}
         <span aria-hidden="true">-&gt;</span>
       </a>
     </div>
