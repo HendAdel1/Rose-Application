@@ -39,5 +39,10 @@
     "NEWSLETTER_INPUT": "Newsletter input placeholder",
     "EMAIL_PLACEHOLDER": "Enter Your Email",
     "SUBSCRIBE": "Subscribe"
+  },
+"TRUSTED_BY": {
+    "PREFIX": "Trusted by over ",
+    "COUNT": "4.5k+",
+    "SUFFIX": " companies"
   }
 }

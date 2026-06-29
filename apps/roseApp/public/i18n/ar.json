@@ -39,5 +39,10 @@
     "NEWSLETTER_INPUT": "مكان إدخال البريد الإلكتروني للنشرة البريدية",
     "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
     "SUBSCRIBE": "اشترك"
+  },
+"TRUSTED_BY": {
+    "PREFIX": "محل ثقة أكثر من ",
+    "COUNT": "4.5 ألف",
+    "SUFFIX": " شركة"
   }
 }

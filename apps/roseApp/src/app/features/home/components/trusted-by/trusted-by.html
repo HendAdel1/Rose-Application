@@ -1,25 +1,14 @@
 <div class="bg-maroon-50 dark:bg-zinc-700 w-full py-12 px-4 rounded-2xl">
 <div class="max-w-6xl mx-auto text-center">
-<h3 class="font-sarabun text-maroon-700 dark:text-soft-pink-200 text-4xl font-bold mb-8">Trusted by over <span class="text-soft-pink-500 dark:text-maroon-400 font-bold">4.5k+ </span>companies</h3>
+<h3 class="font-sarabun text-maroon-700 dark:text-soft-pink-200 text-4xl font-bold mb-8">{{ 'TRUSTED_BY.PREFIX' | translate }}
+  <span class="text-soft-pink-500 ">{{ 'TRUSTED_BY.COUNT' | translate }} </span>{{ 'TRUSTED_BY.SUFFIX' | translate }}</h3>
 <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:justify-between opacity-70">
-<div class="w-28  md:w-36 flex items-center ">
-<img src="trusted/nut.png" alt="coconut" class="max-h-8 object-contain">
+@for(images of imagesUrl;track $index){
+  <div class="w-28  md:w-36 flex items-center ">
+<img [src]="images" alt="coconut" class="max-h-8 object-contain">
 </div>
-<div class="w-28  md:w-36 flex items-center ">
-<img src="trusted/ginyard.png" alt="ginyard" class="max-h-8 object-contain">
-</div>
-<div class="w-28  md:w-36 flex items-center ">
-<img src="trusted/ingoud.png" alt="ingoud" class="max-h-8 object-contain">
-</div>
-<div class="w-28  md:w-36 flex items-center ">
-<img src="trusted/velvet.png" alt="velvet" class="max-h-8 object-contain">
-</div>
-<div class="w-28  md:w-36 flex items-center ">
-<img src="trusted/goude.png" alt="goude" class="max-h-8 object-contain">
-</div>
-<div class="w-28  md:w-36 flex items-center ">
-<img src="trusted/habu.png" alt="habu" class="max-h-8 object-contain">
-</div>
+}
+
 </div>
 </div>
 </div>
