@@ -18,7 +18,7 @@ export const authErrorInterceptor: HttpInterceptorFn = (
 ) => {
   const config = inject(AUTH_DATA_ACCESS_CONFIG);
   const toastr = inject(ToastrService);
-  const apiBaseUrl = config.apiBaseUrl.replace(/\/$/, '');
+  const apiBaseUrl = getApiScopeBaseUrl(config.apiBaseUrl);
 
   if (!request.url.startsWith(apiBaseUrl)) {
     return next(request);
@@ -107,4 +107,8 @@ function getErrorSummary(error: AuthError): string {
   }
 
   return 'Authentication error';
+}
+
+function getApiScopeBaseUrl(apiBaseUrl: string): string {
+  return apiBaseUrl.replace(/\/$/, '').replace(/\/auth$/, '');
 }
