@@ -130,5 +130,10 @@
       "OTP_REQUIRED": "Please fill out all verification boxes.",
       "OTP_COMPLETE": "Enter the complete verification code."
     }
+  },
+  "TRUSTED_BY": {
+    "PREFIX": "Trusted by over ",
+    "COUNT": "4.5k+",
+    "SUFFIX": " companies"
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, ViewEncapsulation } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
   imports: [CommonModule,ButtonModule],
   templateUrl: './custom-button.html',
   styleUrl: './custom-button.css',
+  encapsulation:ViewEncapsulation.None
 })
 export class CustomButton {
   label = input<string>('');
