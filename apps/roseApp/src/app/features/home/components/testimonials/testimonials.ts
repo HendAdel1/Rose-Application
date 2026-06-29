@@ -2,6 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LucideStar } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LoadingService } from '@org/auth-data-access';
 
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
 import { Testimonial } from './models/testimonial.model';
@@ -9,7 +11,7 @@ import { TestimonialsApiService } from './services/testimonials-api.service';
 
 @Component({
   selector: 'app-testimonials',
-  imports: [DatePipe, LucideStar, CustomHeading],
+  imports: [DatePipe, LucideStar, CustomHeading, TranslatePipe],
   templateUrl: './testimonials.html',
   styleUrl: './testimonials.css',
 })
@@ -17,8 +19,8 @@ export class Testimonials implements OnInit {
   private readonly testimonialsApi = inject(TestimonialsApiService);
   private readonly destroyRef = inject(DestroyRef);
 
+  readonly loading = inject(LoadingService);
   readonly testimonials = signal<Testimonial[]>([]);
-  readonly loading = signal(true);
   private readonly failedAvatarIds = signal<Set<string>>(new Set());
 
   readonly marqueeItems = computed(() => {
@@ -30,13 +32,7 @@ export class Testimonials implements OnInit {
     this.testimonialsApi
       .getTestimonials()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (items) => {
-          this.testimonials.set(items);
-          this.loading.set(false);
-        },
-        error: () => this.loading.set(false),
-      });
+      .subscribe((items) => this.testimonials.set(items));
   }
 
   showAvatar(testimonial: Testimonial): boolean {

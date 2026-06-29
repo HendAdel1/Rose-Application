@@ -8,7 +8,12 @@ export const remoteRoutes: Route[] = [
   {
     path: '',
     component: MainLayout,
-    providers: [provideAuthDataAccess({ apiBaseUrl: environment.baseUrl })],
+    providers: [
+      provideAuthDataAccess({
+        apiBaseUrl: environment.baseUrl,
+        apiRoot: environment.apiRoot,
+      }),
+    ],
     children: [{ path: '', component: Home }],
   },
 ];

@@ -1,6 +1,6 @@
 .btn-icon-only{
-  @apply w-10 h-10 flex items-center justify-center bg-white text-zinc-100 shadow-sm border border-gray-100 rounded-full hover:bg-gray-50 active:scale-95 transition-transform p-0
+  @reference w-10 h-10 flex items-center justify-center bg-white text-zinc-100 shadow-sm border border-gray-100 rounded-full hover:bg-gray-50 active:scale-95 transition-transform p-0
 }
 .btn-primary{
-  @apply bg-maroon-600 border-none text-white text-sm rounded-xl font-sarabun py-3 px-6 shadow-sm hover:bg-maroon-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2
+  @reference bg-maroon-600 border-none text-white text-sm rounded-xl font-sarabun py-3 px-6 shadow-sm hover:bg-maroon-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2
 }

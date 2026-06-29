@@ -12,7 +12,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes),
-    provideAuthDataAccess({ apiBaseUrl: environment.baseUrl }),
+    provideAuthDataAccess({
+      apiBaseUrl: environment.baseUrl,
+      apiRoot: environment.apiRoot,
+    }),
     provideSharedI18n(),
   ],
 };

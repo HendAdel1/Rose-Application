@@ -1,11 +1,14 @@
 <section class="py-25 font-sarabun" aria-labelledby="testimonials-heading">
   <div class="mx-auto max-w-7xl px-4">
     <header class="mb-8 p-6 text-center">
-      <app-custom-heading eyebrow="Testimonials" title="Real Words from Happy Customers" />
+      <app-custom-heading
+        [eyebrow]="'TESTIMONIALS.EYEBROW' | translate"
+        [title]="'TESTIMONIALS.TITLE' | translate"
+      />
     </header>
   </div>
 
-  @if (loading()) {
+  @if (loading.isLoading()) {
 
   <div class="mx-auto w-full max-w-90 overflow-x-hidden px-4 pt-12 pb-4 sm:max-w-186 lg:max-w-282" aria-busy="true">
     <div class="flex w-max gap-6">
