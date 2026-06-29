@@ -4,7 +4,7 @@ import { TrustedBy } from './components/trusted-by/trusted-by';
 
 @Component({
   selector: 'app-home',
-  imports:[Gallery, TrustedBy],
+  imports: [Gallery, TrustedBy],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

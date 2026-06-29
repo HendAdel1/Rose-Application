@@ -1,0 +1,66 @@
+<article
+  class="product-card group relative overflow-hidden bg-white font-sarabun text-maroon-800 shadow-sm transition hover:shadow-xl dark:bg-zinc-900 dark:text-zinc-100"
+>
+  <div class="product-card__image relative overflow-hidden bg-soft-pink-50 dark:bg-zinc-800">
+    <img
+      class="product-card__img h-full w-full object-cover transition duration-500 group-hover:scale-105"
+      [src]="imageUrl()"
+      [alt]="title()"
+      loading="lazy"
+      (error)="onImageError($event)"
+    />
+    
+    @if (isNew()) {
+      <span
+        class="product-card__badge product-card__badge--new absolute right-3 top-3"
+      >
+        New
+      </span>
+    }
+
+    @if (isOutOfStock()) {
+      <span
+        class="product-card__badge product-card__badge--stock absolute right-3 top-3"
+      >
+        Out of stock
+      </span>
+    }
+  </div>
+
+  <div class="product-card__content">
+    <h3 class="product-title text-base font-extrabold leading-tight text-maroon-800 dark:text-soft-pink-100">
+      {{ title() }}
+    </h3>
+
+    <div class="mt-2 flex items-center gap-1 text-amber-400" aria-label="Product rating">
+      @for (star of stars; track star) {
+        <svg
+          lucideStar
+          [size]="18"
+          class="star-icon"
+          [class.star-icon--muted]="star > rating()"
+          aria-hidden="true"
+        ></svg>
+      }
+    </div>
+
+    <div class="product-card__meta mt-2 flex items-center justify-between">
+      <p class="product-card__price text-base font-bold text-maroon-700 dark:text-soft-pink-200">
+        {{ currentPrice().toFixed(2) }} EGP
+        @if (oldPrice()) {
+          <span class="ms-1 font-bold text-zinc-400 line-through">
+            {{ oldPrice()?.toFixed(2) }} EGP
+          </span>
+        }
+      </p>
+
+      <button
+        type="button"
+        class="cart-button inline-flex shrink-0 items-center justify-center bg-maroon-600 text-white transition hover:bg-maroon-800 dark:bg-soft-pink-400 dark:text-maroon-950 dark:hover:bg-soft-pink-300"
+        aria-label="Quick add to cart"
+      >
+        <svg lucideShoppingCart [size]="23" strokeWidth="1.8" aria-hidden="true"></svg>
+      </button>
+    </div>
+  </div>
+</article>
