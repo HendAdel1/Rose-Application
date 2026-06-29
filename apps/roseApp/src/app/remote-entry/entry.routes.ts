@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { provideAuthDataAccess } from '@org/auth-data-access';
 import { environment } from '../environments/environment';
 import { MainLayout } from '../layout/main-layout/main-layout';
-import { Home } from '../pages/home/home';
+import { Home } from '../features/home/home';
 
 export const remoteRoutes: Route[] = [
   {
