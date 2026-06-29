@@ -1,9 +1,11 @@
 <div [class]="containerClass()">
-  <span
-    class="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-soft-pink-500 dark:text-maroon-400"
-  >
-    {{ eyebrow() }}
-  </span>
+  @if (eyebrow()) {
+    <span
+      class="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-soft-pink-500 dark:text-maroon-400"
+    >
+      {{ eyebrow() }}
+    </span>
+  }
 
   <h2
     [id]="headingId()"
