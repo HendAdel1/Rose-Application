@@ -18,6 +18,7 @@
           {
             "glob": "**/*",
             "input": "apps/roseApp/public"
+
           }
         ],
         "styles": ["apps/roseApp/src/styles.css"],
