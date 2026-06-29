@@ -44,5 +44,10 @@
     "PREFIX": "Trusted by over ",
     "COUNT": "4.5k+",
     "SUFFIX": " companies"
+  },
+  "PRODUCT_DETAILS": {
+    "RELATED_EYEBROW": "Products",
+    "RELATED_PRODUCTS": "Related Products",
+    "NO_RELATED_PRODUCTS": "No related products available."
   }
 }

@@ -1,5 +1,6 @@
 import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, of, take } from 'rxjs';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
 import { Product } from '../../../../shared/products/models/product.model';
@@ -8,7 +9,7 @@ import { ProductCard } from '../product-card/product-card';
 
 @Component({
   selector: 'app-related-products',
-  imports: [CustomHeading, ProductCard, LucideChevronLeft, LucideChevronRight],
+  imports: [CustomHeading, ProductCard, LucideChevronLeft, LucideChevronRight, TranslatePipe],
   templateUrl: './related-products.html',
   styleUrl: './related-products.css',
 })

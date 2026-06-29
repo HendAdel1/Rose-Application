@@ -2,8 +2,8 @@
   <div class="mx-auto w-full max-w-7xl px-4">
     <header class="p-6 text-center" id="related-products-title">
       <app-custom-heading
-        eyebrow="Products"
-        title="Related Products"
+        [eyebrow]="'PRODUCT_DETAILS.RELATED_EYEBROW' | translate"
+        [title]="'PRODUCT_DETAILS.RELATED_PRODUCTS' | translate"
         align="start"
       />
     </header>
@@ -32,7 +32,7 @@
             }
           } @else {
             <p class="py-8 text-center text-sm font-semibold text-zinc-500 dark:text-zinc-300">
-              No related products available.
+              {{ 'PRODUCT_DETAILS.NO_RELATED_PRODUCTS' | translate }}
             </p>
           }
         }
