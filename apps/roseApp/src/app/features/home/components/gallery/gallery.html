@@ -8,35 +8,15 @@
     </header>
 
     <div class="gallery-grid grid grid-cols-1 gap-2.5 md:grid-cols-3 cursor-pointer">
-      <!-- Column 1 -->
-      <div class="gallery-column flex flex-col gap-2.5">
-        <div class="gallery-image gallery-image--ratio-13 aspect-4/5">
-          <img src="/images/g1.webp" alt="Gift boxes with wedding and birthday tags" loading="lazy" />
+      @for (column of columns; track $index) {
+        <div class="gallery-column flex flex-col gap-2.5">
+          @for (image of column.images; track image.src) {
+            <div class="gallery-image {{ image.ratioClass }} {{ image.aspectClass }}">
+              <img [src]="image.src" [alt]="image.alt" loading="lazy" />
+            </div>
+          }
         </div>
-        <div class="gallery-image gallery-image--ratio-7 aspect-square">
-          <img src="/images/g4.webp" alt="Pink roses and heart-shaped chocolates" loading="lazy" />
-        </div>
-      </div>
-
-      <!-- Column 2 -->
-      <div class="gallery-column flex flex-col gap-2.5">
-        <div class="gallery-image gallery-image--ratio-13 aspect-square">
-          <img src="/images/g2.webp" alt="Red gift boxes with wedding rings" loading="lazy" />
-        </div>
-        <div class="gallery-image gallery-image--ratio-13 aspect-4/5">
-          <img src="/images/g5.webp" alt="Engagement ring in a box surrounded by flowers" loading="lazy" />
-        </div>
-      </div>
-
-      <!-- Column 3 -->
-      <div class="gallery-column flex flex-col gap-2.5">
-        <div class="gallery-image gallery-image--ratio-13 aspect-square">
-          <img src="/images/g3.webp" alt="Engagement ring in a box with daisies" loading="lazy" />
-        </div>
-        <div class="gallery-image gallery-image--ratio-13 aspect-4/5">
-          <img src="/images/g6.webp" alt="Engagement ring in a box with a congratulations card" loading="lazy" />
-        </div>
-      </div>
+      }
     </div>
   </div>
 </section>
