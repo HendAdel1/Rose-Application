@@ -131,12 +131,26 @@
       "OTP_COMPLETE": "Enter the complete verification code."
     }
   },
-  "TRUSTED_BY": {
-    "PREFIX": "Trusted by over ",
-    "COUNT": "4.5k+",
-    "SUFFIX": " companies"
-  },
   "HOME": {
+    "ABOUT": {
+      "PRODUCT_CATEGORIES_ARIA": "Product categories",
+      "IMAGE_ONE_ALT": "Premium purple gift box",
+      "IMAGE_TWO_ALT": "Chocolate gift box with confetti",
+      "IMAGE_THREE_ALT": "Celebration gift box with balloons",
+      "EYEBROW": "About",
+      "TITLE_PREFIX": "Delivering the",
+      "TITLE_HIGHLIGHT_ONE": "Finest",
+      "TITLE_MIDDLE": "Gift Boxes for Your",
+      "TITLE_HIGHLIGHT_TWO": "Special Moments",
+      "DESCRIPTION": "Make every moment memorable with our premium gift boxes. Carefully curated and beautifully packaged, each box is filled with handpicked items designed to impress. Whether it's for a birthday, wedding, or a simple thank you, our gift boxes are crafted to leave a lasting impression because thoughtful gifting starts here.",
+      "DISCOVER": "Discover",
+      "FEATURES": {
+        "PRICES": "Competitive Prices & Easy Shopping",
+        "QUALITY": "Premium Quality & Elegant Packaging",
+        "OCCASION": "Perfect for Every Occasion",
+        "DELIVERY": "Fast & Reliable Delivery"
+      }
+    },
     "MOST_POPULAR": {
       "TITLE": "Most Popular",
       "CATEGORIES_ARIA": "Most popular categories",
@@ -159,5 +173,10 @@
         "NEW": "NEW"
       }
     }
+  },
+  "TRUSTED_BY": {
+    "PREFIX": "Trusted by over ",
+    "COUNT": "4.5k+",
+    "SUFFIX": " companies"
   }
 }
