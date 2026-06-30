@@ -19,19 +19,19 @@ interface AboutImage {
 export class AboutUs {
   readonly images: AboutImage[] = [
     {
-      src: '/images/about-1.png',
+      src: '/images/about-1.webp',
       altKey: 'HOME.ABOUT.IMAGE_ONE_ALT',
       className: 'hero-link',
       category: 'gift-boxes',
     },
     {
-      src: '/images/about-2.png',
+      src: '/images/about-2.webp',
       altKey: 'HOME.ABOUT.IMAGE_TWO_ALT',
       className: 'circle-link',
       category: 'chocolates',
     },
     {
-      src: '/images/about-3.png',
+      src: '/images/about-3.webp',
       altKey: 'HOME.ABOUT.IMAGE_THREE_ALT',
       className: 'small-link',
       category: 'occasions',
