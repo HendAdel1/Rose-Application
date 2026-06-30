@@ -6,7 +6,7 @@ import { TrustedBy } from './components/trusted-by/trusted-by';
 
 @Component({
   selector: 'app-home',
-  imports: [Gallery, TrustedBy, MostPopular],
+  imports: [Gallery, TrustedBy, MostPopular, AboutUs],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
