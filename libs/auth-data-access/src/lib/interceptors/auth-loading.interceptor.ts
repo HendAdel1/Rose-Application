@@ -17,7 +17,7 @@ export const authLoadingInterceptor: HttpInterceptorFn = (
   const loading = inject(LoadingService);
   const apiBaseUrl = getApiScopeBaseUrl(config.apiBaseUrl);
 
-  if (!request.url.startsWith(apiBaseUrl)) {
+  if (!apiUrls.some((url) => request.url.startsWith(url))) {
     return next(request);
   }
 

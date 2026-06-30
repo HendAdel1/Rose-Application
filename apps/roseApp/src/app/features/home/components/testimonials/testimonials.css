@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.testimonials-track {
+  animation: testimonials-marquee 50s linear infinite;
+}
+
+.group:hover .testimonials-track {
+  animation-play-state: paused;
+}
+
+@keyframes testimonials-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-inline: auto;
+    width: auto;
+  }
+}
