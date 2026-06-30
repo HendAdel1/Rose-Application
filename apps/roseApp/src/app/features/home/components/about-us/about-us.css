@@ -1,8 +1,8 @@
 .about-gallery {
   position: relative;
   isolation: isolate;
-  width: min(100%, 430px);
-  min-height: 340px;
+  width: min(100%, 530px);
+  min-height: 376px;
 }
 
 .image-link {
@@ -16,40 +16,55 @@
   height: 100%;
   display: block;
   object-fit: cover;
+  object-position: center;
   border-radius: inherit;
 }
 
 .hero-link {
-  left: 0;
-  top: 45px;
+  left: 18px;
+  top: 34px;
   z-index: 1;
-  width: 310px;
-  height: 300px;
-  border-radius: 44px 120px 76px 70px;
+  width: 330px;
+  height: 330px;
+  border-radius: 42px 128px 80px 72px;
+}
+
+.hero-link::before {
+  content: '';
+  position: absolute;
+  inset: -18px 42px -13px -18px;
+  z-index: -1;
+  border: 3px solid var(--color-maroon-600);
+  border-right: 0;
+  border-radius: 48px 30px 0 96px;
 }
 
 .circle-link {
   right: 12px;
-  top: 28px;
+  top: 22px;
   z-index: 2;
-  width: 160px;
-  height: 160px;
+  width: 165px;
+  height: 165px;
   border-radius: 999rem;
 }
 
 .small-link {
   right: 10px;
-  bottom: 42px;
+  bottom: 36px;
   z-index: 2;
-  width: 170px;
-  height: 125px;
-  border-radius: 58px 58px 34px 58px;
+  width: 178px;
+  height: 142px;
+  border-radius: 58px 58px 38px 58px;
+}
+
+:host-context(.dark) .hero-link::before {
+  border-color: var(--color-soft-pink-400);
 }
 
 @media (max-width: 64rem) {
   .about-gallery {
-    min-height: 340px;
-    max-width: 430px;
+    min-height: 376px;
+    max-width: 530px;
     width: 100%;
     margin: 0 auto;
   }
