@@ -1,97 +1,80 @@
 .about-gallery {
-  position: relative;
-  isolation: isolate;
+  display: grid;
+  grid-template-columns: 329.5px 193px;
+  column-gap: 24px;
+  align-items: center;
   width: min(100%, 530px);
-  min-height: 376px;
+  height: 377px;
 }
 
 .image-link {
-  position: absolute;
   display: block;
-  overflow: visible;
 }
 
 .image-link img {
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-  border-radius: inherit;
+  object-fit: contain;
 }
 
 .hero-link {
-  left: 18px;
-  top: 34px;
-  z-index: 1;
-  width: 330px;
-  height: 330px;
-  border-radius: 42px 128px 80px 72px;
-}
-
-.hero-link::before {
-  content: '';
-  position: absolute;
-  inset: -18px 42px -13px -18px;
-  z-index: -1;
-  border: 3px solid var(--color-maroon-600);
-  border-right: 0;
-  border-radius: 48px 30px 0 96px;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  width: 329.5px;
+  height: 377px;
+  border-radius: 50px 120px 120px;
 }
 
 .circle-link {
-  right: 12px;
-  top: 22px;
-  z-index: 2;
-  width: 165px;
-  height: 165px;
-  border-radius: 999rem;
+  grid-column: 2;
+  grid-row: 1;
+  width: 190px;
+  height: 193px;
+  align-self: start;
 }
 
 .small-link {
-  right: 10px;
-  bottom: 36px;
-  z-index: 2;
-  width: 178px;
-  height: 142px;
-  border-radius: 58px 58px 38px 58px;
-}
-
-:host-context(.dark) .hero-link::before {
-  border-color: var(--color-soft-pink-400);
+  grid-column: 2;
+  grid-row: 2;
+  width: 190px;
+  height: 144px;
+  align-self: end;
+  margin-top: 8px;
 }
 
 @media (max-width: 64rem) {
   .about-gallery {
-    min-height: 376px;
-    max-width: 530px;
-    width: 100%;
-    margin: 0 auto;
+    margin-inline: auto;
   }
 }
 
 @media (max-width: 40rem) {
   .about-gallery {
-    min-height: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    height: auto;
     gap: 1rem;
   }
 
   .image-link {
-    position: relative;
-    inset: auto;
+    position: static;
     width: 100%;
     height: 12rem;
-    border-radius: 1.25rem;
   }
 
   .hero-link {
     grid-column: 1 / -1;
+    grid-row: auto;
+    width: 100%;
     height: 18rem;
   }
 
-  .hero-link::before {
-    display: none;
+  .circle-link,
+  .small-link {
+    grid-column: auto;
+    grid-row: auto;
+    width: 100%;
+    margin-top: 0;
   }
 }
