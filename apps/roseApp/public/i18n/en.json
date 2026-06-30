@@ -87,5 +87,29 @@
     "PREFIX": "Trusted by over ",
     "COUNT": "4.5k+",
     "SUFFIX": " companies"
+  },
+  "HOME": {
+    "MOST_POPULAR": {
+      "TITLE": "Most Popular",
+      "CATEGORIES_ARIA": "Most popular categories",
+      "LOADING": "Loading popular products...",
+      "LOAD_ERROR": "Unable to load popular products.",
+      "ADD_TO_WISHLIST": "Add to wishlist",
+      "VIEW_PRODUCT": "View product",
+      "QUICK_ADD_TO_CART": "Quick add to cart",
+      "RATING": "Rating {{rating}}",
+      "VIEW_MORE": "View More",
+      "TABS": {
+        "WEDDING": "Wedding",
+        "ANNIVERSARY": "Anniversary",
+        "BIRTHDAY": "Birthday",
+        "ENGAGEMENT": "Engagement"
+      },
+      "BADGES": {
+        "OUT_OF_STOCK": "OUT OF STOCK",
+        "HOT": "HOT",
+        "NEW": "NEW"
+      }
+    }
   }
 }
