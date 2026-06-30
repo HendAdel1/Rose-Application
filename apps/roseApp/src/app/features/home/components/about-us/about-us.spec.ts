@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
-import { TrustedBy } from './trusted-by';
+import { AboutUs } from './about-us';
 
-describe('TrustedBy', () => {
-  let component: TrustedBy;
-  let fixture: ComponentFixture<TrustedBy>;
+describe('AboutUs', () => {
+  let component: AboutUs;
+  let fixture: ComponentFixture<AboutUs>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TrustedBy],
+      imports: [RouterModule.forRoot([]), AboutUs],
       providers: [provideTranslateService({ fallbackLang: 'en', lang: 'en' })],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TrustedBy);
+    fixture = TestBed.createComponent(AboutUs);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

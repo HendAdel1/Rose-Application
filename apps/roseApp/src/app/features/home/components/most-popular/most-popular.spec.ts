@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { ProductsService } from '../../../../shared/products/services/products.service';
 import { MostPopular } from './most-popular';
 
 describe('MostPopular', () => {
@@ -8,6 +11,15 @@ describe('MostPopular', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MostPopular],
+      providers: [
+        provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
+        {
+          provide: ProductsService,
+          useValue: {
+            getProducts: () => of([]),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MostPopular);

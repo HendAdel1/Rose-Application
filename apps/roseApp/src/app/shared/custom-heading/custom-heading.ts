@@ -7,9 +7,10 @@ import { Component, computed, input } from '@angular/core';
   styleUrl: './custom-heading.css',
 })
 export class CustomHeading {
-  eyebrow = input.required<string>();
+  eyebrow = input<string>('');
   title = input.required<string>();
   align = input<'center' | 'start'>('center');
+  headingId = input<string | null>(null);
 
   containerClass = computed(() => {
     const alignment =

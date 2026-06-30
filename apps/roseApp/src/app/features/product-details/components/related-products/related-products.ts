@@ -1,9 +1,9 @@
 import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { catchError, of, take } from 'rxjs';
+import { catchError, map, of, take } from 'rxjs';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
-import { Product } from '../../../../shared/products/models/product.model';
+import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
 import { ProductsService } from '../../../../shared/products/services/products.service';
 import { ProductCard } from '../product-card/product-card';
 
@@ -18,17 +18,18 @@ export class RelatedProducts implements OnInit {
 
   @ViewChild('productsTrack') private productsTrack?: ElementRef<HTMLElement>;
 
-  readonly products = signal<Product[]>([]);
+  readonly products = signal<ProductApiItem[]>([]);
   readonly loading = signal(true);
 
   ngOnInit(): void {
     this.productsService
-      .getProducts(10)
+      .getProducts()
       .pipe(
+        map((products) => products.slice(0, 10)),
         take(1),
-        catchError(() => of([] as Product[])),
+        catchError(() => of([] as ProductApiItem[])),
       )
-      .subscribe((products: Product[]) => {
+      .subscribe((products: ProductApiItem[]) => {
         this.products.set(products);
         this.loading.set(false);
       });
@@ -52,7 +53,7 @@ export class RelatedProducts implements OnInit {
     });
   }
 
-  trackProduct(_: number, product: Product): string {
-    return product._id ?? product.id ?? product.title;
+  trackProduct(_: number, product: ProductApiItem): string {
+    return product.id ?? product.title;
   }
 }

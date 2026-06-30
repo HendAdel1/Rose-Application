@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { ProductsService } from '../../../../shared/products/services/products.service';
 import { RelatedProducts } from './related-products';
@@ -11,11 +12,11 @@ describe('RelatedProducts', () => {
     await TestBed.configureTestingModule({
       imports: [RelatedProducts],
       providers: [
+        provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
         {
           provide: ProductsService,
           useValue: {
             getProducts: () => of([]),
-            buildImageUrl: (path?: string) => path ?? '/images/g1.webp',
           },
         },
       ],
