@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { provideTranslateService } from '@ngx-translate/core';
 import { AboutUs } from './about-us';
 
 describe('AboutUs', () => {
@@ -7,7 +9,8 @@ describe('AboutUs', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AboutUs],
+      imports: [RouterModule.forRoot([]), AboutUs],
+      providers: [provideTranslateService({ fallbackLang: 'en', lang: 'en' })],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AboutUs);
