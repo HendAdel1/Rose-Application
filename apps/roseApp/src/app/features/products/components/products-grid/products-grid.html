@@ -1,0 +1,127 @@
+<div class="flex min-w-0 flex-1 flex-col gap-8">
+  @if (loading.isLoading()) {
+    <p class="py-12 text-center font-sarabun text-zinc-500" aria-busy="true">
+      Loading products...
+    </p>
+  } @else if (!products().length) {
+    <p class="py-12 text-center font-sarabun text-zinc-500">No products found.</p>
+  } @else {
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      @for (product of products(); track product.id) {
+        <app-ui-card imageAspect="aspect-[1/0.9]">
+          <img
+            cardMedia
+            class="block size-full object-cover transition-transform duration-300 group-hover:scale-[1.06]"
+            [src]="imageUrl(product)"
+            [alt]="product.title"
+            loading="lazy"
+            (error)="onImageError($event)"
+          />
+
+          <div cardBadge class="flex items-center gap-1">
+            @if (isOutOfStock(product)) {
+              <span
+                class="inline-flex h-[1.1rem] items-center rounded-full bg-[#d71920] px-1.5 text-[0.55rem] font-bold text-white"
+              >
+                {{ 'HOME.MOST_POPULAR.BADGES.OUT_OF_STOCK' | translate }}
+              </span>
+            } @else if (product.stock <= 10) {
+              <span
+                class="inline-flex h-[1.1rem] items-center rounded-full bg-white px-1.5 text-[0.55rem] font-bold text-soft-pink-600"
+              >
+                {{ 'HOME.MOST_POPULAR.BADGES.HOT' | translate }}
+              </span>
+            } @else {
+              <span
+                class="inline-flex h-[1.1rem] items-center rounded-full bg-white px-1.5 text-[0.55rem] font-bold text-zinc-500"
+              >
+                {{ 'HOME.MOST_POPULAR.BADGES.NEW' | translate }}
+              </span>
+            }
+          </div>
+
+          <div cardHoverContent class="flex items-center justify-center gap-2.5">
+            <button
+              type="button"
+              class="inline-flex size-9 cursor-pointer items-center justify-center rounded-full border-0 bg-white text-maroon-700 shadow-md transition hover:-translate-y-px hover:bg-maroon-700 hover:text-white"
+              [attr.aria-label]="'HOME.MOST_POPULAR.ADD_TO_WISHLIST' | translate"
+              (click)="addToWishlist(product)"
+            >
+              <svg lucideHeart [size]="18" aria-hidden="true"></svg>
+            </button>
+            <button
+              type="button"
+              class="inline-flex size-9 cursor-pointer items-center justify-center rounded-full border-0 bg-white text-maroon-700 shadow-md transition hover:-translate-y-px hover:bg-maroon-700 hover:text-white"
+              [attr.aria-label]="'HOME.MOST_POPULAR.VIEW_PRODUCT' | translate"
+            >
+              <svg lucideEye [size]="18" aria-hidden="true"></svg>
+            </button>
+          </div>
+
+          <div cardBody class="min-w-0">
+            <h3
+              class="m-0 truncate text-sm font-bold leading-snug text-[#6c1426] dark:text-soft-pink-300"
+              [title]="product.title"
+            >
+              {{ product.title }}
+            </h3>
+
+            <div
+              class="flex min-h-4 items-center gap-0.5"
+              [attr.aria-label]="
+                'HOME.MOST_POPULAR.RATING' | translate: { rating: product.rating }
+              "
+            >
+              @for (star of stars; track star) {
+                <span
+                  class="text-sm leading-none"
+                  [class.text-amber-400]="isStarFilled(product.rating, star)"
+                  [class.text-zinc-300]="!isStarFilled(product.rating, star)"
+                >
+                  &#9733;
+                </span>
+              }
+            </div>
+
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-xs font-bold text-maroon-700 dark:text-soft-pink-300">
+                {{ formatPrice(currentPrice(product)) }}
+              </span>
+              @if (oldPrice(product); as discountedPrice) {
+                <span class="text-xs text-zinc-400 line-through">
+                  {{ formatPrice(discountedPrice) }}
+                </span>
+              }
+            </div>
+          </div>
+
+          <button
+            cardActionMain
+            type="button"
+            class="inline-flex size-9 cursor-pointer items-center justify-center rounded-full border-0 bg-[#b91f32] text-white shadow-md transition hover:-translate-y-px hover:bg-maroon-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-soft-pink-400 dark:text-maroon-950"
+            [attr.aria-label]="'HOME.MOST_POPULAR.QUICK_ADD_TO_CART' | translate"
+            [disabled]="isOutOfStock(product)"
+            (click)="quickAddToCart(product)"
+          >
+            <svg lucideShoppingCart [size]="18" aria-hidden="true"></svg>
+          </button>
+        </app-ui-card>
+      }
+    </div>
+  }
+
+<hr class="border-zinc-100 dark:border-zinc-700">
+
+<nav class="flex justify-center pt-1" aria-label="Products pagination">
+    <p-paginator
+      class="products-paginator"
+      [first]="paginatorFirst()"
+      [rows]="limit()"
+      [totalRecords]="totalRecords()"
+      [pageLinkSize]="3"
+      [showFirstLastIcon]="true"
+      [alwaysShow]="true"
+      (onPageChange)="onPageChange($event)"
+    />
+  </nav>
+</div>

@@ -1,5 +1,10 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import {
   LucideBell,
   LucideChevronDown,
@@ -25,7 +30,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 interface NavItem {
   labelKey: string;
-  route: string;
+  route: string[];
   icon: 'home' | 'products' | 'categories' | 'occasions' | 'contact' | 'about';
   exact?: boolean;
 }
@@ -61,6 +66,7 @@ export class Navbar {
   private readonly i18n = inject(SharedI18nService);
   private readonly authSession = inject(AuthSessionService);
   private readonly router = inject(Router);
+  readonly layoutRoute = inject(ActivatedRoute);
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly isAuthenticated = input(false);
@@ -75,12 +81,12 @@ export class Navbar {
   );
 
   readonly navItems: NavItem[] = [
-    { labelKey: 'NAV.HOME', route: './', icon: 'home', exact: true },
-    { labelKey: 'NAV.PRODUCTS', route: './products', icon: 'products' },
-    { labelKey: 'NAV.CATEGORIES', route: './categories', icon: 'categories' },
-    { labelKey: 'NAV.OCCASIONS', route: './occasions', icon: 'occasions' },
-    { labelKey: 'NAV.CONTACT', route: './contact', icon: 'contact' },
-    { labelKey: 'NAV.ABOUT', route: './about', icon: 'about' },
+    { labelKey: 'NAV.HOME', route: [''], icon: 'home', exact: true },
+    { labelKey: 'NAV.PRODUCTS', route: ['products'], icon: 'products' },
+    { labelKey: 'NAV.CATEGORIES', route: ['categories'], icon: 'categories' },
+    { labelKey: 'NAV.OCCASIONS', route: ['occasions'], icon: 'occasions' },
+    { labelKey: 'NAV.CONTACT', route: ['contact'], icon: 'contact' },
+    { labelKey: 'NAV.ABOUT', route: ['about'], icon: 'about' },
   ];
 
   onSearchChange(value: string): void {
