@@ -47,10 +47,14 @@
       <div class="flex min-h-4 items-center gap-0.5"
         [attr.aria-label]="'HOME.MOST_POPULAR.RATING' | translate: { rating: item.rating }">
         @for (star of stars; track star) {
-        <svg lucideStar [size]="14" class="shrink-0" [class.text-amber-400]="isStarFilled(item.rating, star)"
-          [class.fill-amber-400]="isStarFilled(item.rating, star)"
-          [class.text-amber-400]="!isStarFilled(item.rating, star)"
-          [class.fill-transparent]="!isStarFilled(item.rating, star)" aria-hidden="true"></svg>
+          <svg
+            lucideStar
+            [size]="14"
+            class="shrink-0 text-amber-400 stroke-amber-400"
+            [class.fill-amber-400]="isStarFilled(item.rating, star)"
+            [class.fill-transparent]="!isStarFilled(item.rating, star)"
+            aria-hidden="true"
+          ></svg>
         }
       </div>
 
