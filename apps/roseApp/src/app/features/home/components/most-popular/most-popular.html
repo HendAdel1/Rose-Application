@@ -1,0 +1,119 @@
+<section class="most-popular" aria-labelledby="most-popular-title">
+  <div
+    class="mb-12 flex items-end justify-between gap-4 max-md:flex-col max-md:items-start"
+  >
+    <app-custom-heading
+      [title]="'HOME.MOST_POPULAR.TITLE' | translate"
+      align="start"
+      headingId="most-popular-title"
+    />
+
+    <div
+      class="flex items-center gap-6 overflow-x-auto whitespace-nowrap pb-2 mt-4 max-md:w-full max-md:pb-0"
+      [attr.aria-label]="'HOME.MOST_POPULAR.CATEGORIES_ARIA' | translate"
+    >
+      @for (tab of tabs; track tab) {
+        <button
+          type="button"
+          class="cursor-pointer border-0 bg-transparent p-0 text-xs leading-normal text-zinc-800 dark:text-zinc-100"
+          [class.font-semibold]="selectedTab() === tab"
+          [class.text-maroon-700]="selectedTab() === tab"
+          [class.dark:text-soft-pink-300]="selectedTab() === tab"
+          (click)="selectTab(tab)"
+        >
+          {{ 'HOME.MOST_POPULAR.TABS.' + tab.toUpperCase() | translate }}
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="state-message">{{ 'HOME.MOST_POPULAR.LOADING' | translate }}</div>
+  } @else {
+    <div class="products-grid">
+      @for (product of products(); track product.id) {
+        <app-ui-card imageAspect="product-media">
+          <img
+            cardMedia
+            class="product-image"
+            [src]="product.imageUrl"
+            [alt]="product.title"
+            loading="lazy"
+            (error)="onImageError($event)"
+          />
+
+          <div cardBadge class="badge-list">
+            @if (product.isOutOfStock) {
+              <span class="product-badge danger">{{ 'HOME.MOST_POPULAR.BADGES.OUT_OF_STOCK' | translate }}</span>
+            } @else if (product.stock <= 10) {
+              <span class="product-badge hot">{{ 'HOME.MOST_POPULAR.BADGES.HOT' | translate }}</span>
+            } @else {
+              <span class="product-badge">{{ 'HOME.MOST_POPULAR.BADGES.NEW' | translate }}</span>
+            }
+          </div>
+
+          <div cardHoverContent class="hover-actions">
+            <button
+              type="button"
+              class="hover-action"
+              [attr.aria-label]="'HOME.MOST_POPULAR.ADD_TO_WISHLIST' | translate"
+              (click)="addToWishlist(product)"
+            >
+              <svg lucideHeart [size]="18" aria-hidden="true"></svg>
+            </button>
+            <button
+              type="button"
+              class="hover-action"
+              [attr.aria-label]="'HOME.MOST_POPULAR.VIEW_PRODUCT' | translate"
+            >
+              <svg lucideEye [size]="18" aria-hidden="true"></svg>
+            </button>
+          </div>
+
+          <div cardBody class="product-info">
+            <h3 class="product-title" [title]="product.title">
+              {{ product.title }}
+            </h3>
+
+            <div
+              class="rating"
+              [attr.aria-label]="'HOME.MOST_POPULAR.RATING' | translate: { rating: product.rating }"
+            >
+              @for (star of stars; track star) {
+                <span
+                  class="star"
+                  [class.filled]="isStarFilled(product.rating, star)"
+                >
+                  &#9733;
+                </span>
+              }
+            </div>
+
+            <div class="price-row">
+              <span class="price">{{ formatPrice(product.price) }}</span>
+              <span class="old-price">{{ formatPrice(product.oldPrice) }}</span>
+            </div>
+          </div>
+
+          <button
+            cardActionMain
+            type="button"
+            class="cart-button"
+            [attr.aria-label]="'HOME.MOST_POPULAR.QUICK_ADD_TO_CART' | translate"
+            [disabled]="product.isOutOfStock"
+            (click)="quickAddToCart(product)"
+          >
+            <svg lucideShoppingCart [size]="18" aria-hidden="true"></svg>
+          </button>
+        </app-ui-card>
+      }
+    </div>
+
+    <div class="section-footer">
+      <a class="view-more" href="/roseApp/products">
+        {{ 'HOME.MOST_POPULAR.VIEW_MORE' | translate }}
+        <span aria-hidden="true">-&gt;</span>
+      </a>
+    </div>
+  }
+</section>

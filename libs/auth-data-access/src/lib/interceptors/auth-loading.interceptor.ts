@@ -15,9 +15,7 @@ export const authLoadingInterceptor: HttpInterceptorFn = (
 ) => {
   const config = inject(AUTH_DATA_ACCESS_CONFIG);
   const loading = inject(LoadingService);
-  const apiUrls = [config.apiBaseUrl, config.apiRoot]
-    .filter(Boolean)
-    .map((url) => url!.replace(/\/$/, ''));
+  const apiBaseUrl = getApiScopeBaseUrl(config.apiBaseUrl);
 
   if (!apiUrls.some((url) => request.url.startsWith(url))) {
     return next(request);
@@ -27,3 +25,7 @@ export const authLoadingInterceptor: HttpInterceptorFn = (
 
   return next(request).pipe(finalize(() => loading.stop()));
 };
+
+function getApiScopeBaseUrl(apiBaseUrl: string): string {
+  return apiBaseUrl.replace(/\/$/, '').replace(/\/auth$/, '');
+}

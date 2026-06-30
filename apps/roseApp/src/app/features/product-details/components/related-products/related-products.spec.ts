@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { ProductsService } from '../../shared/products/services/products.service';
+import { ProductsService } from '../../../../shared/products/services/products.service';
+import { RelatedProducts } from './related-products';
 
-import { ProductDetails } from './product-details';
-
-describe('ProductDetails', () => {
-  let component: ProductDetails;
-  let fixture: ComponentFixture<ProductDetails>;
+describe('RelatedProducts', () => {
+  let component: RelatedProducts;
+  let fixture: ComponentFixture<RelatedProducts>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductDetails],
+      imports: [RelatedProducts],
       providers: [
         provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
         {
@@ -21,11 +20,11 @@ describe('ProductDetails', () => {
           },
         },
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(ProductDetails);
+    fixture = TestBed.createComponent(RelatedProducts);
     component = fixture.componentInstance;
+    fixture.detectChanges();
     await fixture.whenStable();
   });
 
