@@ -1,6 +1,5 @@
 import { environment } from '../../../environments/environment';
 import { ProductApiItem } from '../models/product-api-item.model';
-import { UiCardProduct } from '../../ui-card/ui-card-product.model';
 
 const fallbackImage = '/logos/rose-logo.png';
 
@@ -40,17 +39,4 @@ export function getProductOldPrice(product: ProductApiItem): number | null {
       : currentPrice + discountValue;
 
   return oldPrice > currentPrice ? oldPrice : null;
-}
-
-export function toUiCardProduct(product: ProductApiItem): UiCardProduct {
-  return {
-    id: product.id,
-    title: product.title,
-    imageUrl: buildProductImageUrl(product.cover),
-    price: getProductCurrentPrice(product),
-    oldPrice: getProductOldPrice(product),
-    rating: product.rating,
-    stock: product.stock,
-    isOutOfStock: (product.stock ?? 0) <= 0,
-  };
 }

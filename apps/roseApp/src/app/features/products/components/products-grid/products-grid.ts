@@ -1,16 +1,22 @@
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LucideEye, LucideHeart, LucideShoppingCart } from '@lucide/angular';
 import { LoadingService } from '@org/auth-data-access';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Paginator } from 'primeng/paginator';
 import { PaginatorState } from 'primeng/types/paginator';
 import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
 import { ProductsService } from '../../../../shared/products/services/products.service';
-import { toUiCardProduct } from '../../../../shared/products/utils/product-card.utils';
+import {
+  buildProductImageUrl,
+  getProductCurrentPrice,
+  getProductOldPrice,
+} from '../../../../shared/products/utils/product-card.utils';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
 
 @Component({
   selector: 'app-products-grid',
-  imports: [UiCard, Paginator],
+  imports: [UiCard, Paginator, LucideEye, LucideHeart, LucideShoppingCart, TranslatePipe],
   templateUrl: './products-grid.html',
   styleUrl: './products-grid.css',
   host: {
@@ -26,9 +32,9 @@ export class ProductsGrid {
   readonly page = signal(1);
   readonly limit = signal(12);
   readonly totalRecords = signal(0);
+  readonly stars = [1, 2, 3, 4, 5];
 
   readonly paginatorFirst = computed(() => (this.page() - 1) * this.limit());
-  readonly toUiCardProduct = toUiCardProduct;
 
   constructor() {
     this.loadProducts();
@@ -63,5 +69,34 @@ export class ProductsGrid {
 
   addToWishlist(product: ProductApiItem): void {
     console.log('Add to wishlist', product.id);
+  }
+
+  getImageUrl(product: ProductApiItem): string {
+    return buildProductImageUrl(product.cover);
+  }
+
+  getCurrentPrice(product: ProductApiItem): number {
+    return getProductCurrentPrice(product);
+  }
+
+  getOldPrice(product: ProductApiItem): number | null {
+    return getProductOldPrice(product);
+  }
+
+  isOutOfStock(product: ProductApiItem): boolean {
+    return (product.stock ?? 0) <= 0;
+  }
+
+  isStarFilled(product: ProductApiItem, star: number): boolean {
+    return star <= Math.round(product.rating ?? 4);
+  }
+
+  formatPrice(price: number): string {
+    return `${price.toFixed(2)} EGP`;
+  }
+
+  onImageError(event: Event): void {
+    const image = event.target as HTMLImageElement;
+    image.src = '/logos/rose-logo.png';
   }
 }
