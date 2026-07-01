@@ -88,6 +88,24 @@
     "COUNT": "4.5 ألف",
     "SUFFIX": " شركة"
   },
+  "TESTIMONIALS": {
+    "EYEBROW": "آراء العملاء",
+    "TITLE": "كلمات حقيقية من عملاء سعداء"
+  },
+  "PRODUCTS": {
+    "LOADING": "جاري تحميل المنتجات...",
+    "EMPTY": "لا توجد منتجات.",
+    "PAGINATION": "ترقيم صفحات المنتجات",
+    "BADGES": {
+      "NEW": "جديد",
+      "OUT_OF_STOCK": "غير متوفر"
+    },
+    "ACTIONS": {
+      "ADD_TO_WISHLIST": "أضف إلى المفضلة",
+      "VIEW_PRODUCT": "عرض المنتج",
+      "QUICK_ADD_TO_CART": "إضافة سريعة إلى السلة"
+    }
+  },
   "PRODUCT_DETAILS": {
     "RELATED_EYEBROW": "المنتجات",
     "RELATED_PRODUCTS": "منتجات ذات صلة",

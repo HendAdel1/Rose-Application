@@ -1,6 +1,11 @@
 <header class="rose-header font-sarabun" [attr.aria-label]="'NAV.HEADER_ARIA' | translate">
   <div class="top-bar">
-    <a class="logo-link" routerLink="./" [attr.aria-label]="'NAV.ROSE_HOME' | translate">
+    <a
+      class="logo-link"
+      [routerLink]="['']"
+      [relativeTo]="layoutRoute"
+      [attr.aria-label]="'NAV.ROSE_HOME' | translate"
+    >
       <img class="rose-logo" [src]="logoPath" alt="Rose" />
     </a>
 
@@ -133,6 +138,7 @@
         <li>
           <a
             [routerLink]="item.route"
+            [relativeTo]="layoutRoute"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
             (click)="closeMenu()"

@@ -179,6 +179,10 @@
     "COUNT": "4.5 ألف",
     "SUFFIX": " شركة"
   },
+  "TESTIMONIALS": {
+    "EYEBROW": "آراء العملاء",
+    "TITLE": "كلمات حقيقية من عملاء سعداء"
+  },
   "PRODUCT_DETAILS": {
     "RELATED_EYEBROW": "المنتجات",
     "RELATED_PRODUCTS": "منتجات ذات صلة",

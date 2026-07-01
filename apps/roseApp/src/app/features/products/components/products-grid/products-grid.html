@@ -1,0 +1,112 @@
+<div class="flex min-w-0 flex-1 flex-col gap-8">
+  @if (loading.isLoading()) {
+    <p class="py-12 text-center font-sarabun text-zinc-500" aria-busy="true">
+      {{ 'PRODUCTS.LOADING' | translate }}
+    </p>
+  } @else if (!products().length) {
+    <p class="py-12 text-center font-sarabun text-zinc-500">
+      {{ 'PRODUCTS.EMPTY' | translate }}
+    </p>
+  } @else {
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      @for (product of products(); track product.id) {
+        <app-ui-card imageAspect="aspect-[1/0.9]">
+          <img
+            cardMedia
+            class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+            [src]="getImageUrl(product)"
+            [alt]="product.title"
+            loading="lazy"
+            (error)="onImageError($event)"
+          />
+
+          <div cardBadge class="flex items-center gap-1">
+            @if (isOutOfStock(product)) {
+              <span class="rounded-full bg-red-600 px-2 py-1 text-[10px] font-bold uppercase text-white">
+                {{ 'PRODUCTS.BADGES.OUT_OF_STOCK' | translate }}
+              </span>
+            } @else {
+              <span class="rounded-full bg-white px-2 py-1 text-[10px] font-bold uppercase text-zinc-500">
+                {{ 'PRODUCTS.BADGES.NEW' | translate }}
+              </span>
+            }
+          </div>
+
+          <div cardHoverContent class="flex items-center justify-center gap-3">
+            <button
+              type="button"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-maroon-700 shadow-sm transition hover:bg-maroon-700 hover:text-white"
+              [attr.aria-label]="'PRODUCTS.ACTIONS.ADD_TO_WISHLIST' | translate"
+              (click)="addToWishlist(product)"
+            >
+              <svg lucideHeart [size]="18" aria-hidden="true"></svg>
+            </button>
+
+            <button
+              type="button"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-maroon-700 shadow-sm transition hover:bg-maroon-700 hover:text-white"
+              [attr.aria-label]="'PRODUCTS.ACTIONS.VIEW_PRODUCT' | translate"
+            >
+              <svg lucideEye [size]="18" aria-hidden="true"></svg>
+            </button>
+          </div>
+
+          <div cardBody class="min-w-0">
+            <h3
+              class="truncate font-sarabun text-sm font-bold text-maroon-800 dark:text-soft-pink-100"
+              [title]="product.title"
+            >
+              {{ product.title }}
+            </h3>
+
+            <div class="mt-1 flex items-center gap-0.5 text-sm text-amber-400" aria-label="Product rating">
+              @for (star of stars; track star) {
+                <span [class.text-zinc-300]="!isStarFilled(product, star)">&#9733;</span>
+              }
+            </div>
+
+            <div class="mt-1 flex flex-wrap items-center gap-2 font-sarabun text-sm">
+              <span class="font-bold text-maroon-700 dark:text-soft-pink-200">
+                {{ formatPrice(getCurrentPrice(product)) }}
+              </span>
+              @if (getOldPrice(product); as oldPrice) {
+                <span class="font-bold text-zinc-400 line-through">
+                  {{ formatPrice(oldPrice) }}
+                </span>
+              }
+            </div>
+          </div>
+
+          <button
+            cardActionMain
+            type="button"
+            class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-maroon-600 text-white transition hover:bg-maroon-800 disabled:opacity-50 dark:bg-soft-pink-400 dark:text-maroon-950"
+            [attr.aria-label]="'PRODUCTS.ACTIONS.QUICK_ADD_TO_CART' | translate"
+            [disabled]="isOutOfStock(product)"
+            (click)="quickAddToCart(product)"
+          >
+            <svg lucideShoppingCart [size]="20" aria-hidden="true"></svg>
+          </button>
+        </app-ui-card>
+      }
+    </div>
+  }
+
+  <hr class="border-zinc-100 dark:border-zinc-700" />
+
+  <nav
+    class="flex justify-center pt-1"
+    [attr.aria-label]="'PRODUCTS.PAGINATION' | translate"
+  >
+    <p-paginator
+      class="products-paginator"
+      [first]="paginatorFirst()"
+      [rows]="limit()"
+      [totalRecords]="totalRecords()"
+      [pageLinkSize]="3"
+      [showFirstLastIcon]="true"
+      [alwaysShow]="true"
+      (onPageChange)="onPageChange($event)"
+    />
+  </nav>
+</div>

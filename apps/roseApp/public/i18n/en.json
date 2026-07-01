@@ -88,6 +88,24 @@
     "COUNT": "4.5k+",
     "SUFFIX": " companies"
   },
+  "TESTIMONIALS": {
+    "EYEBROW": "Testimonials",
+    "TITLE": "Real Words from Happy Customers"
+  },
+  "PRODUCTS": {
+    "LOADING": "Loading products...",
+    "EMPTY": "No products found.",
+    "PAGINATION": "Products pagination",
+    "BADGES": {
+      "NEW": "New",
+      "OUT_OF_STOCK": "Out of stock"
+    },
+    "ACTIONS": {
+      "ADD_TO_WISHLIST": "Add to wishlist",
+      "VIEW_PRODUCT": "View product",
+      "QUICK_ADD_TO_CART": "Quick add to cart"
+    }
+  },
   "PRODUCT_DETAILS": {
     "RELATED_EYEBROW": "Products",
     "RELATED_PRODUCTS": "Related Products",

@@ -15,6 +15,7 @@ import {
 
 export interface AuthDataAccessConfig {
   apiBaseUrl: string;
+  apiRoot?: string;
 }
 
 export const AUTH_DATA_ACCESS_CONFIG = new InjectionToken<AuthDataAccessConfig>(
