@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LucideEye, LucideHeart, LucideShoppingCart } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { finalize, map } from 'rxjs';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
@@ -10,7 +11,14 @@ import { UiCard } from '../../../../shared/ui-card/ui-card';
 
 @Component({
   selector: 'app-most-popular',
-  imports: [CustomHeading, UiCard, TranslatePipe],
+  imports: [
+    CustomHeading,
+    UiCard,
+    LucideEye,
+    LucideHeart,
+    LucideShoppingCart,
+    TranslatePipe,
+  ],
   templateUrl: './most-popular.html',
   styleUrl: './most-popular.css',
 })
@@ -23,6 +31,8 @@ export class MostPopular {
   readonly selectedTab = signal('Anniversary');
 
   readonly tabs = ['Wedding', 'Anniversary', 'Birthday', 'Engagement'];
+  readonly stars = [1, 2, 3, 4, 5];
+  readonly fallbackImage = '/logos/rose-logo.png';
 
   constructor() {
     this.loadProducts();
@@ -55,5 +65,18 @@ export class MostPopular {
 
   addToWishlist(product: PopularProduct): void {
     console.log('Add to wishlist', product.id);
+  }
+
+  formatPrice(price: number): string {
+    return `${price.toFixed(2)} EGP`;
+  }
+
+  isStarFilled(rating: number, star: number): boolean {
+    return star <= Math.round(rating);
+  }
+
+  onImageError(event: Event): void {
+    const image = event.target as HTMLImageElement;
+    image.src = this.fallbackImage;
   }
 }

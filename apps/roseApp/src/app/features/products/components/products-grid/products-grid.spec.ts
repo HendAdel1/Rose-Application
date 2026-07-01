@@ -1,16 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UiCard } from './ui-card';
+import { ProductsGrid } from './products-grid';
 
-describe('UiCard', () => {
-  let component: UiCard;
-  let fixture: ComponentFixture<UiCard>;
+describe('ProductsGrid', () => {
+  let component: ProductsGrid;
+  let fixture: ComponentFixture<ProductsGrid>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiCard],
-    }).compileComponents();
+      imports: [ProductsGrid]
+    })
+    .compileComponents();
 
-    fixture = TestBed.createComponent(UiCard);
+    fixture = TestBed.createComponent(ProductsGrid);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
