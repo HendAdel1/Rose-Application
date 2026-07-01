@@ -1,19 +1,103 @@
 <div class="group relative flex flex-col justify-between overflow-hidden transition-all duration-300">
-<div class="relative overflow-hidden rounded-2xl bg-gray-50" [ngClass]="imageAspect()">
-<ng-content select="[cardMedia]"></ng-content>
-</div>
-<div class="absolute top-3 right-3 z-10">
-<ng-content select="[cardBadge]"></ng-content>
-</div>
-<div class="absolute inset-0 bg-[#E6507380] backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4 z-20">
-<ng-content select="[cardHoverContent]"></ng-content>
-</div>
-<div class="pt-4 pb-2 flex items-center justify-between gap-2">
-<div class="flex-1 min-w-0 flex flex-col gap-1">
-<ng-content select="[cardBody]"></ng-content>
-</div>
-<div class="shrink-0">
-<ng-content select="[cardActionMain]"></ng-content>
-</div>
-</div>
+  @if (product(); as item) {
+  <div class="relative overflow-hidden rounded-2xl cursor-pointer bg-gray-50 dark:bg-zinc-800" [class]="imageAspect()">
+    <img class="block size-full object-cover transition-transform duration-300 group-hover:scale-[1.06]"
+      [src]="item.imageUrl" [alt]="item.title" loading="lazy" (error)="onImageError($event)" />
+
+    <div class="absolute top-3 right-3 z-10 flex items-center gap-1">
+      @if (isOutOfStock()) {
+      <span
+        class="inline-flex font-sarabun items-center rounded-full bg-red-600 px-1.5 text-xs font-medium text-soft-pink-50">
+        {{ 'HOME.MOST_POPULAR.BADGES.OUT_OF_STOCK' | translate }}
+      </span>
+      } @else if ((item.stock ?? 0) <= 10) { <span
+        class="inline-flex font-sarabun items-center rounded-full bg-maroon-50 px-1.5 text-xs font-medium text-maroon-600">
+        {{ 'HOME.MOST_POPULAR.BADGES.HOT' | translate }}
+        </span>
+        } @else {
+        <span
+          class="inline-flex font-sarabun items-center rounded-full bg-zinc-100 px-1.5 text-xs font-medium text-zinc-700">
+          {{ 'HOME.MOST_POPULAR.BADGES.NEW' | translate }}
+        </span>
+        }
+    </div>
+
+    <div
+      class="absolute inset-0 z-20 flex items-center justify-center gap-2.5 bg-[#E6507380] p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <button type="button"
+        class="inline-flex size-9 cursor-pointer items-center justify-center rounded-full border-0 bg-white text-maroon-700 shadow-md transition hover:-translate-y-px hover:bg-maroon-700 hover:text-white"
+        [attr.aria-label]="'HOME.MOST_POPULAR.ADD_TO_WISHLIST' | translate" (click)="wishlistClick.emit()">
+        <svg lucideHeart [size]="18" aria-hidden="true"></svg>
+      </button>
+      <button type="button"
+        class="inline-flex size-9 cursor-pointer items-center justify-center rounded-full border-0 bg-white text-maroon-700 shadow-md transition hover:-translate-y-px hover:bg-maroon-700 hover:text-white"
+        [attr.aria-label]="'HOME.MOST_POPULAR.VIEW_PRODUCT' | translate" (click)="viewClick.emit()">
+        <svg lucideEye [size]="18" aria-hidden="true"></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between gap-2 pb-2 pt-4">
+    <div class="flex min-w-0 flex-1 flex-col gap-1">
+      <h3 class="m-0 truncate text-lg font-semibold leading-snug text-maroon-700 dark:text-soft-pink-200"
+        [title]="item.title">
+        {{ item.title }}
+      </h3>
+
+      <div class="flex min-h-4 items-center gap-0.5"
+        [attr.aria-label]="'HOME.MOST_POPULAR.RATING' | translate: { rating: item.rating }">
+        @for (star of stars; track star) {
+          <svg
+            lucideStar
+            [size]="14"
+            class="shrink-0 text-amber-400 stroke-amber-400"
+            [class.fill-amber-400]="isStarFilled(item.rating, star)"
+            [class.fill-transparent]="!isStarFilled(item.rating, star)"
+            aria-hidden="true"
+          ></svg>
+        }
+      </div>
+
+      <div class="flex flex-wrap items-center gap-1.5">
+        <span class="text-base font-medium text-maroon-600 dark:text-soft-pink-200">
+          {{ formatPrice(item.price) }}
+        </span>
+        @if (item.oldPrice && item.oldPrice > item.price) {
+        <span class="text-xs text-zinc-400 dark:text-zinc-500 line-through">
+          {{ formatPrice(item.oldPrice) }}
+        </span>
+        }
+      </div>
+    </div>
+
+    <button type="button"
+      class="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 bg-maroon-600 text-white shadow-md transition hover:-translate-y-px hover:bg-maroon-500 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-maroon-500"
+      [attr.aria-label]="'HOME.MOST_POPULAR.QUICK_ADD_TO_CART' | translate" [disabled]="isOutOfStock()"
+      (click)="cartClick.emit()">
+      <svg lucideShoppingCart [size]="18" aria-hidden="true"></svg>
+    </button>
+  </div>
+  } @else {
+  <div class="relative overflow-hidden rounded-2xl bg-gray-50" [class]="imageAspect()">
+    <ng-content select="[cardMedia]"></ng-content>
+  </div>
+
+  <div class="absolute top-3 right-3 z-10">
+    <ng-content select="[cardBadge]"></ng-content>
+  </div>
+
+  <div
+    class="absolute inset-0 z-20 flex items-center justify-center bg-[#E6507380] p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+    <ng-content select="[cardHoverContent]"></ng-content>
+  </div>
+
+  <div class="flex items-center justify-between gap-2 pb-2 pt-4">
+    <div class="flex min-w-0 flex-1 flex-col gap-1">
+      <ng-content select="[cardBody]"></ng-content>
+    </div>
+    <div class="shrink-0">
+      <ng-content select="[cardActionMain]"></ng-content>
+    </div>
+  </div>
+  }
 </div>
