@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ProductApiItem } from '../models/product-api-item.model';
+import { ProductDetailsResponse } from '../models/product-details-response.model';
 import { ProductsPayload } from '../models/products-payload.model';
 import { ProductsResponse } from '../models/products-response.model';
 
@@ -11,9 +12,12 @@ export class ProductsService {
   private readonly http = inject(HttpClient);
   private readonly productsUrl = `${environment.apiBaseUrl}/products`;
 
-  getProducts(): Observable<ProductApiItem[]> {
+  getProducts(
+    params?: Record<string, string | number | boolean>,
+  ): Observable<ProductApiItem[]> {
+    const httpParams = new HttpParams({ fromObject: params as any });
     return this.http
-      .get<ProductsResponse>(this.productsUrl)
+      .get<ProductsResponse>(this.productsUrl, { params: httpParams })
       .pipe(map((response) => response.payload.data));
   }
 
@@ -25,5 +29,11 @@ export class ProductsService {
     return this.http
       .get<ProductsResponse>(this.productsUrl, { params })
       .pipe(map((response) => response.payload));
+  }
+
+  getProductById(id: string): Observable<ProductApiItem> {
+    return this.http
+      .get<ProductDetailsResponse>(`${this.productsUrl}/${id}`)
+      .pipe(map((response) => response.payload.product));
   }
 }

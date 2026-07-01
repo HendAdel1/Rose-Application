@@ -1,11 +1,107 @@
-import { Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  signal,
+  model,
+  input,
+  computed,
+} from '@angular/core';
+import {
+  LucideStar,
+  LucideHeart,
+  LucideShoppingCart,
+  LucidePackage,
+} from '@lucide/angular';
+import { CustomButton } from '../../../../shared/custom-button/custom-button';
+import { GalleriaModule } from 'primeng/galleria';
+import { NgOptimizedImage } from '@angular/common';
+import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
+
+export interface ProductImage {
+  itemImageSrc: string;
+  thumbnailImageSrc: string;
+  alt: string;
+  title: string;
+}
+
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-info',
-  imports: [],
+  imports: [
+    GalleriaModule,
+    CustomButton,
+    LucideStar,
+    LucideHeart,
+    LucideShoppingCart,
+    LucidePackage,
+    TranslatePipe,
+  ],
   templateUrl: './product-info.html',
   styleUrl: './product-info.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductInfo {
+  readonly product = input.required<ProductApiItem>();
 
+  readonly productTitle = computed(() => this.product().title);
+
+  // Calculate old price if there is a discount, else return null or current price.
+  // The API just returns `price`, `discountType`, `discountValue`.
+  readonly oldPrice = computed(() => {
+    const p = this.product();
+    if (!p.discountValue || p.discountValue === '0') return null;
+    const priceNum = parseFloat(p.price);
+    const discountNum = parseFloat(p.discountValue);
+    if (p.discountType === 'PERCENT') {
+      return priceNum / (1 - discountNum / 100); // old price before discount
+    } else {
+      return priceNum + discountNum; // assuming discount is a fixed amount subtracted
+    }
+  });
+
+  readonly currentPrice = computed(() => this.product().price);
+  readonly currency = signal('EGP');
+  readonly stock = computed(() => this.product().stock);
+  readonly rating = computed(() => this.product().rating);
+  readonly ratingCount = computed(() => this.product().ratings);
+  readonly description = computed(() => this.product().description);
+
+  readonly images = computed<ProductImage[]>(() => {
+    const p = this.product();
+    let galleryUrls: string[] = [];
+    try {
+      if (p.gallery) {
+        galleryUrls = JSON.parse(p.gallery);
+      }
+    } catch {
+      // ignore
+    }
+
+    if (!galleryUrls.length && p.cover) {
+      galleryUrls = [p.cover];
+    }
+
+    return galleryUrls.map((url, i) => ({
+      itemImageSrc: url,
+      thumbnailImageSrc: url,
+      alt: `${p.title} image ${i + 1}`,
+      title: p.title,
+    }));
+  });
+
+  readonly responsiveOptions: { breakpoint: string; numVisible: number }[] = [
+    {
+      breakpoint: '1024px',
+      numVisible: 6,
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 4,
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 3,
+    },
+  ];
 }

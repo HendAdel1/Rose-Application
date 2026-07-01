@@ -1,5 +1,6 @@
 import { ProductCategory } from './product-category.model';
 import { ProductCount } from './product-count.model';
+import { ProductReview } from './product-review.model';
 import { ProductSubCategory } from './product-sub-category.model';
 
 export interface ProductApiItem {
@@ -22,5 +23,6 @@ export interface ProductApiItem {
   category: ProductCategory | null;
   subCategory: ProductSubCategory | null;
   occasions: unknown[];
+  reviews?: ProductReview[];
   _count: ProductCount;
 }

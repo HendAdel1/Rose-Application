@@ -1,0 +1,6 @@
+.product_info_container {
+  margin: 4.25rem 5rem 27.0625rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.125rem;
+}

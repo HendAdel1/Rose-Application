@@ -1,0 +1,173 @@
+.product-info {
+  gap: 4.375rem;
+}
+:host ::ng-deep .p-galleria-content {
+  gap: 0.625rem !important;
+}
+
+/* Overriding Galleria styles to match the Figma mockup */
+:host ::ng-deep .p-galleria {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: none;
+  background: transparent;
+}
+
+/* Main Image Wrapper styling */
+:host ::ng-deep .p-galleria-item-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+:host ::ng-deep .p-galleria-item-container {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+:host ::ng-deep .p-galleria-item img {
+  width: 37.8125rem;
+  height: 25.125rem;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px;
+}
+
+/* Thumbnail Container overrides */
+:host ::ng-deep .p-galleria-thumbnail-wrapper {
+  background: transparent;
+  padding: 0;
+}
+
+:host ::ng-deep .p-galleria-thumbnail-container {
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+/* Override container for lists */
+:host ::ng-deep .p-galleria-thumbnail-items-container {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Flex layout with gap */
+:host ::ng-deep .p-galleria-thumbnail-items {
+  gap: 10px !important;
+  justify-content: flex-start;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+/* Style individual thumbnail item containers */
+:host ::ng-deep .p-galleria-thumbnail-item {
+  flex: 0 0 calc(16.666% - 10px);
+  height: 6.9375rem;
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 12px;
+  overflow: visible !important;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Content wrapper inside each thumbnail container */
+:host ::ng-deep .p-galleria-thumbnail-item-content {
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+  border: 2px solid transparent !important;
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s ease;
+}
+
+/* Hover effect on thumbnail content */
+:host
+  ::ng-deep
+  .p-galleria-thumbnail-item:not(.p-galleria-thumbnail-item-current):not(
+    .p-galleria-thumbnail-item-active
+  ):not(.p-highlight):hover
+  .p-galleria-thumbnail-item-content {
+  border-color: rgba(
+    138,
+    23,
+    48,
+    0.3
+  ) !important; /* Semi-transparent brand red on hover */
+  transform: translateY(-2px);
+}
+
+/* Active/selected thumbnail border styling */
+:host
+  ::ng-deep
+  .p-galleria-thumbnail-item-current
+  .p-galleria-thumbnail-item-content,
+:host
+  ::ng-deep
+  .p-galleria-thumbnail-item-active
+  .p-galleria-thumbnail-item-content,
+:host
+  ::ng-deep
+  .p-galleria-thumbnail-item.p-highlight
+  .p-galleria-thumbnail-item-content {
+  border-color: #8a1730 !important; /* Brand red border */
+}
+
+/* Thumbnail wrapper for relative positioning of the AR badge */
+.thumbnail-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 10px;
+}
+
+.thumbnail-img {
+  width: 100%;
+  height: 6.9375rem;
+  width: 5.6875rem;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  background-color: #f5f5f7;
+  transition: border-color 0.2s;
+}
+
+:host ::ng-deep [aria-selected='true'] .thumbnail-img,
+:host ::ng-deep [data-p-active='true'] .thumbnail-img,
+:host ::ng-deep [aria-current='page'] .thumbnail-img {
+  border: 2px solid #a6252a;
+}
+:host ::ng-deep #pn_id_1 .p-galleria-thumbnail-item {
+  flex: none !important;
+}
+.border-line {
+  margin: 1rem 0rem;
+  background: #f4f4f5;
+  height: 1px;
+}
+
+.description_content {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 100%;
+  color: #000;
+  margin: 0;
+  height: 19.1875rem;
+}
+:host .p-galleria-thumbnail-item {
+  flex: none !important;
+}
