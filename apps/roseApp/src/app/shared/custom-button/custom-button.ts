@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
@@ -6,11 +5,9 @@ import {
   output,
   ViewEncapsulation,
 } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-custom-button',
-  imports: [CommonModule, ButtonModule],
   templateUrl: './custom-button.html',
   styleUrl: './custom-button.css',
   encapsulation: ViewEncapsulation.None,
@@ -25,19 +22,19 @@ export class CustomButton {
 
   btnClick = output<void>();
 
-  ButtonClass = computed(() => {
-    let classes = '';
+  buttonClass = computed(() => {
+    const classes: string[] = [];
 
     if (this.variant() === 'icon-only') {
-      classes = 'btn-icon-only';
+      classes.push('btn-icon-only');
     } else {
-      classes = 'btn-primary';
+      classes.push('btn-primary');
 
       if (this.fullWidth()) {
-        classes += ' w-full';
+        classes.push('w-full');
       }
     }
 
-    return classes;
+    return classes.join(' ');
   });
 }

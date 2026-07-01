@@ -1,2 +1,12 @@
-  <p-button [label]="label()" [icon]="icon()" [iconPos]="iconPos()"
-  [disabled]="disabled()" [styleClass]="ButtonClass()" (onClick)="btnClick.emit()" />
+<button
+  type="button"
+  [class]="buttonClass()"
+  [disabled]="disabled()"
+  (click)="btnClick.emit()"
+>
+  <ng-content />
+
+  @if (label()) {
+    <span class="btn-label">{{ label() }}</span>
+  }
+</button>
