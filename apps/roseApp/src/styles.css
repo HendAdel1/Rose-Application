@@ -2,3 +2,24 @@
 @import "tailwindcss";
 @import "../../../libs/shared-theme/src/theme.css";
 @import "./app/styles/base/tailwind.css";
+
+
+
+
+
+
+
+.hero-carousel-container .p-carousel-indicator-button {
+  background-color: rgba(255,255,255,.4) !important;
+  width: .45rem !important;
+  height: .45rem !important;
+  border-radius: 50% !important;
+  border: none !important;
+}
+
+.hero-carousel-container .p-carousel-indicator-active .p-carousel-indicator-button {
+  background-color: #8B2626 !important;
+  width: 1.5rem !important;
+  border-radius: 9999px !important;
+}
+

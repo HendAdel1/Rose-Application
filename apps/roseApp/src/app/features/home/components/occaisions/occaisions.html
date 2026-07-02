@@ -1,0 +1,27 @@
+<section class="w-[90%] mx-auto my-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  @for (item of occasionsList; track item.title) {
+
+    <app-newcard [config]="{ image: item.image, isOverlay: true }">
+
+      <div card-overlay-details class="absolute inset-0 z-10 flex flex-col justify-end p-5 text-white">
+
+        <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent pointer-events-none"></div>
+
+        <div class="z-10 flex flex-col items-start gap-2">
+          <span class="bg-maroon-50  text-maroon-600 text-[12px] font-medium px-2 py-1 rounded-full tracking-wide">
+            {{ item.badge }}
+          </span>
+
+          <h3 class="text-2xl font-sarabun font-semibold leading-snug tracking-wide drop-shadow-sm max-w-[90%]">
+            {{ item.title }}
+          </h3>
+        </div>
+
+      </div>
+
+    </app-newcard>
+
+  }
+</div>
+</section>

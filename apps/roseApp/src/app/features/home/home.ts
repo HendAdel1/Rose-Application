@@ -5,6 +5,8 @@ import { Testimonials } from './components/testimonials/testimonials';
 import { MostPopular } from './components/most-popular/most-popular';
 import { TrustedBy } from './components/trusted-by/trusted-by';
 import { BestSelling } from './components/best-selling/best-selling';
+import { SpecialGifts } from './components/special-gifts/special-gifts';
+import { Occaisions } from './components/occaisions/occaisions';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +17,8 @@ import { BestSelling } from './components/best-selling/best-selling';
     MostPopular,
     AboutUs,
     BestSelling,
+    SpecialGifts,
+    Occaisions
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',

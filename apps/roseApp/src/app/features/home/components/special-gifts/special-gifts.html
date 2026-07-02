@@ -1,0 +1,54 @@
+<section class="w-[90%] mx-auto my-6">
+<div class="grid grid-cols-1 lg:grid-cols-[30%_70%] gap-4">
+<div class="relative rounded-2xl overflow-hidden bg-[#5C1D1D] text-white p-6 flex flex-col justify-end min-h-100 shadow-sm">
+      <img src="special-gifts/gifts.png" alt="background" class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none">
+      <div class="absolute inset-0 bg-linear-to-t from-[#5c1d1dd4] via-transparent to-transparent z-10"></div>
+
+      <div class="z-20">
+        <span class="bg-maroon-50 text-xs font-medium px-2 py-1 rounded-md text-maroon-600">Starting from 10.99 EGP</span>
+        <h2 class="text-xl font-bold mt-3 leading-tight">Special Gifts For The People You Love</h2>
+        <button class="mt-4 bg-maroon-50 text-maroon-700 font-medium px-4 py-2 rounded-xl text-sm flex items-center gap-2 hover:bg-maroon-200 transition-all">
+          Shop Now <span><svg lucideArrowRight></svg></span>
+        </button>
+      </div>
+    </div>
+
+<div class="relative w-full h-100 rounded-2xl overflow-hidden group">
+
+  <p-carousel
+    [value]="banners"
+    [numVisible]="1"
+    [numScroll]="1"
+    [circular]="true"
+    [showIndicators]="true"
+    [showNavigators]="true"
+    [autoplayInterval]="4000"
+    styleClass="relative w-full h-full"
+    contentClass="relative w-full h-full"
+    indicatorsContentClass="absolute top-6 right-6 z-30 flex gap-1.5 m-0 p-0"
+    nextButtonClass="absolute bottom-6 right-6 z-30 bg-white/95 text-zinc-700 hover:text-black w-9 h-9 inline-flex items-center justify-center rounded-r-full shadow-md border-l border-zinc-200 transition-colors m-0"
+    prevButtonClass="absolute bottom-6 right-[60px] z-30 bg-white/95 text-zinc-700 hover:text-black w-9 h-9 inline-flex items-center justify-center rounded-l-full shadow-md transition-colors m-0">
+
+    <ng-template let-banner pTemplate="item">
+      <div class="relative w-full h-100 flex flex-col justify-end p-8 text-white select-none">
+
+        <img [src]="banner.image" alt="banner" class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none">
+
+        <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-10 pointer-events-none"></div>
+
+        <div class="max-w-md mb-4 z-20">
+          <h1 class="text-3xl lg:text-4xl font-bold leading-tight tracking-wide drop-shadow-sm">{{ banner.title }}</h1>
+          <p class="text-zinc-200 text-sm mt-2 opacity-90 drop-shadow-sm">{{ banner.subtitle }}</p>
+          <button class="mt-5 bg-maroon-50 text-maroon-700 font-semibold px-6 py-2.5 rounded-xl text-sm hover:bg-maroon-200 transition-all active:scale-95 shadow-sm">
+            {{ banner.buttonText }}
+          </button>
+        </div>
+
+      </div>
+    </ng-template>
+
+  </p-carousel>
+</div>
+</div>
+
+</section>
