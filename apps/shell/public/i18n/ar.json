@@ -193,6 +193,22 @@
     "EYEBROW": "آراء العملاء",
     "TITLE": "كلمات حقيقية من عملاء سعداء"
   },
+  "PRODUCTS": {
+    "LOADING": "جاري تحميل المنتجات...",
+    "EMPTY": "لا توجد منتجات.",
+    "PAGINATION": "ترقيم صفحات المنتجات",
+    "FILTERS_ARIA": "فلاتر المنتجات",
+    "RATING": "التقييم {{rating}}",
+    "BADGES": {
+      "NEW": "جديد",
+      "OUT_OF_STOCK": "غير متوفر"
+    },
+    "ACTIONS": {
+      "ADD_TO_WISHLIST": "أضف إلى المفضلة",
+      "VIEW_PRODUCT": "عرض المنتج",
+      "QUICK_ADD_TO_CART": "إضافة سريعة إلى السلة"
+    }
+  },
   "PRODUCT_DETAILS": {
     "LOADING": "جاري تحميل تفاصيل المنتج...",
     "NOT_FOUND": "المنتج غير موجود.",

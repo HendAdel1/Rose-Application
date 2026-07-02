@@ -106,6 +106,8 @@
     "LOADING": "Loading products...",
     "EMPTY": "No products found.",
     "PAGINATION": "Products pagination",
+    "FILTERS_ARIA": "Product filters",
+    "RATING": "Rating {{rating}}",
     "BADGES": {
       "NEW": "New",
       "OUT_OF_STOCK": "Out of stock"

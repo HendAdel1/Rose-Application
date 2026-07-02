@@ -59,7 +59,10 @@
               {{ product.title }}
             </h3>
 
-            <div class="mt-1 flex items-center gap-0.5 text-sm text-amber-400" aria-label="Product rating">
+            <div
+              class="mt-1 flex items-center gap-0.5 text-sm text-amber-400"
+              [attr.aria-label]="'PRODUCTS.RATING' | translate: { rating: product.rating }"
+            >
               @for (star of stars; track star) {
                 <span [class.text-zinc-300]="!isStarFilled(product, star)">&#9733;</span>
               }

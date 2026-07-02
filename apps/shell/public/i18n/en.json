@@ -193,6 +193,22 @@
     "EYEBROW": "Testimonials",
     "TITLE": "Real Words from Happy Customers"
   },
+  "PRODUCTS": {
+    "LOADING": "Loading products...",
+    "EMPTY": "No products found.",
+    "PAGINATION": "Products pagination",
+    "FILTERS_ARIA": "Product filters",
+    "RATING": "Rating {{rating}}",
+    "BADGES": {
+      "NEW": "New",
+      "OUT_OF_STOCK": "Out of stock"
+    },
+    "ACTIONS": {
+      "ADD_TO_WISHLIST": "Add to wishlist",
+      "VIEW_PRODUCT": "View product",
+      "QUICK_ADD_TO_CART": "Quick add to cart"
+    }
+  },
   "PRODUCT_DETAILS": {
     "LOADING": "Loading product details...",
     "NOT_FOUND": "Product not found.",
