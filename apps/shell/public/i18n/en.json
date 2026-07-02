@@ -172,6 +172,16 @@
         "HOT": "HOT",
         "NEW": "NEW"
       }
+    },
+    "BEST_SELLING": {
+      "EYEBROW": "Best Selling",
+      "TITLE_1": "Check Out",
+      "TITLE_2": " What",
+      "TITLE_3": "Everyone's ",
+      "TITLE_4": "Buying",
+      "TITLE_5": " Right Now",
+      "DESCRIPTION": "Not sure what to choose? Start with our best sellers, these are the gifts our customers keep coming back for. Whether you're celebrating a birthday, anniversary or wedding, our top picks are guaranteed to leave a lasting impression.",
+      "EXPLORE_GIFTS": "Explore gifts"
     }
   },
   "TRUSTED_BY": {
@@ -184,8 +194,24 @@
     "TITLE": "Real Words from Happy Customers"
   },
   "PRODUCT_DETAILS": {
+    "LOADING": "Loading product details...",
+    "NOT_FOUND": "Product not found.",
     "RELATED_EYEBROW": "Products",
     "RELATED_PRODUCTS": "Related Products",
-    "NO_RELATED_PRODUCTS": "No related products available."
+    "NO_RELATED_PRODUCTS": "No related products available.",
+    "LEFT_IN_STOCK": "left in stock",
+    "RATING_LABEL": "Rating:",
+    "RATINGS": "ratings",
+    "ADD_TO_CART": "Add to Cart",
+    "REVIEWS": {
+      "TITLE": "Product Reviews",
+      "GENERAL_RATING": "General rating:",
+      "YOUR_RATING": "Your rating:",
+      "FORM_TITLE": "Title",
+      "FORM_TITLE_PLACEHOLDER": "Enter review title",
+      "FORM_REVIEW": "Review",
+      "FORM_REVIEW_PLACEHOLDER": "What do you think of this product?",
+      "SUBMIT": "Add Review"
+    }
   }
 }
