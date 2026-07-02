@@ -65,6 +65,7 @@
               type="button"
               class="hover-action"
               [attr.aria-label]="'HOME.MOST_POPULAR.VIEW_PRODUCT' | translate"
+              [routerLink]="['/roseApp/products', product.id]"
             >
               <svg lucideEye [size]="18" aria-hidden="true"></svg>
             </button>
