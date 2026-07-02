@@ -36,6 +36,7 @@ export class BestSelling {
 
   readonly products = signal<PopularProduct[]>([]);
   readonly isLoading = signal(false);
+  readonly fallbackImage = '/logos/rose-logo.png';
 
   responsiveOptions = [
     {
@@ -82,5 +83,10 @@ export class BestSelling {
 
   addToCart(product: PopularProduct) {
     console.log('Add to cart clicked for', product.title);
+  }
+
+  onImageError(event: Event): void {
+    const image = event.target as HTMLImageElement;
+    image.src = this.fallbackImage;
   }
 }

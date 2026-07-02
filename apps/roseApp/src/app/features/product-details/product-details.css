@@ -4,3 +4,15 @@
   flex-direction: column;
   gap: 3.125rem;
 }
+
+@media (max-width: 64rem) {
+  .product_info_container {
+    margin-inline: 2rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .product_info_container {
+    margin-inline: 1rem;
+  }
+}
