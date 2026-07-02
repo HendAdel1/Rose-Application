@@ -1,1 +1,97 @@
-<p>product-info works!</p>
+<div class="flex flex-col lg:flex-row w-full mx-auto product-info">
+  <!-- Left Side: Image Gallery -->
+  <div class="flex-1 w-full lg:max-w-[640px] mx-auto">
+    <p-galleria
+      [value]="images()"
+      [responsiveOptions]="responsiveOptions"
+      [containerStyle]="{ 'max-width': '640px', 'width': '100%' }"
+      [numVisible]="6"
+      [showItemNavigators]="false"
+      [showThumbnailNavigators]="false"
+    >
+      <ng-template #item let-item>
+        <img [src]="item.itemImageSrc" [alt]="item.alt" style="width: 100%" />
+      </ng-template>
+      <ng-template #thumbnail let-item>
+        <div class="thumbnail-wrapper">
+          <img
+            [src]="item.thumbnailImageSrc"
+            [alt]="item.alt"
+            class="thumbnail-img"
+          />
+        </div>
+      </ng-template>
+    </p-galleria>
+  </div>
+
+  <!-- Right Side: Product Details -->
+  <div class="flex-1 flex flex-col pt-4 lg:pt-0">
+    <h1 class="text-[30px] font-semibold text-[#1e293b] dark:text-zinc-100 m-0">
+      {{ productTitle() }}
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-2 gap-y-3">
+      <div class="flex items-baseline gap-2">
+        <span class="text-2xl text-gray-300 dark:text-zinc-500 font-medium line-through"
+          >{{ oldPrice() }}</span
+        >
+        <span class="text-3xl font-bold text-[#1e293b] dark:text-zinc-100"
+          >{{ currentPrice() }}
+          <span class="text-base font-semibold text-gray-600 dark:text-zinc-300 ml-1"
+            >{{ currency() }}</span
+          ></span
+        >
+      </div>
+      <div
+        class="flex items-center gap-2 bg-[#f8f9fa] dark:bg-zinc-700/50 px-3 py-1.5 rounded-full text-sm font-medium text-gray-600 dark:text-zinc-200"
+      >
+        <svg lucidePackage [size]="16" aria-hidden="true"></svg>
+        <span>{{ stock() }} {{ 'PRODUCT_DETAILS.LEFT_IN_STOCK' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="border-line"></div>
+
+    <div class="flex items-center gap-2 text-sm text-gray-700 dark:text-zinc-300">
+      <img
+        src="/images/star.svg"
+        width="20"
+        height="20"
+        alt="star"
+        loading="lazy"
+        decode="async"
+      />
+      <!-- <svg
+        lucideStar
+        [size]="15"
+        class="bg-gold fill-gold stroke-gold"
+        aria-hidden="true"
+      ></svg> -->
+      <span
+        >{{ 'PRODUCT_DETAILS.RATING_LABEL' | translate }}
+        <strong class="font-bold text-[#1e293b] dark:text-zinc-100">{{ rating() }}/5</strong>
+        <a href="#" class="text-blue-500 hover:underline dark:text-blue-400 ml-1"
+          >({{ ratingCount() }} {{ 'PRODUCT_DETAILS.RATINGS' | translate }})</a
+        >
+      </span>
+    </div>
+    <div class="border-line"></div>
+
+    <p class="description_content dark:text-zinc-300">{{ description() }}</p>
+
+    <div class="flex items-center gap-4">
+      <app-custom-button variant="icon-only">
+        <svg lucideHeart [size]="20" aria-hidden="true"></svg>
+      </app-custom-button>
+      <div class="flex-1">
+        <app-custom-button
+          variant="primary"
+          [label]="'PRODUCT_DETAILS.ADD_TO_CART' | translate"
+          [fullWidth]="true"
+        >
+          <svg lucideShoppingCart [size]="20" aria-hidden="true"></svg>
+        </app-custom-button>
+      </div>
+    </div>
+  </div>
+</div>
