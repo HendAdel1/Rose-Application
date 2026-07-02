@@ -1,1 +1,103 @@
-<p>product-review works!</p>
+<div class="product-reviews-container">
+  <!-- Header -->
+  <div class="reviews-header">
+    <app-custom-heading align="start" [title]="'PRODUCT_DETAILS.REVIEWS.TITLE' | translate" eyebrow=""></app-custom-heading>
+    <div class="general-rating">
+      <div class="general-rating-label dark:text-zinc-300">{{ 'PRODUCT_DETAILS.REVIEWS.GENERAL_RATING' | translate }}</div>
+      <div class="general-rating-value-row">
+        <span class="rating-number dark:text-zinc-100">{{ generalRating() }}</span>
+        <span class="rating-count dark:text-zinc-400">({{ totalRatings() }} {{ 'PRODUCT_DETAILS.REVIEWS.RATINGS' | translate }})</span>
+      </div>
+      <div class="rating-display-wrapper">
+        <p-rating [ngModel]="0" [readonly]="true" class="rating-bg"></p-rating>
+        <div
+          class="rating-fg-clip"
+          [style.width.%]="(generalRating() / 5) * 100"
+        >
+          <p-rating
+            [ngModel]="5"
+            [readonly]="true"
+            class="rating-fg"
+          ></p-rating>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="reviews-divider" />
+
+  <!-- Main Content Area -->
+  <div class="reviews-content">
+    <!-- Left Column: Reviews List -->
+    <div class="reviews-list">
+      @for (review of reviews(); track review.id) {
+      <div class="review-item">
+        <div class="review-user-info">
+          <div class="user-avatar dark:bg-zinc-700 dark:text-zinc-100">{{ review.name.charAt(0) }}</div>
+          <div class="user-details">
+            <div class="user-name dark:text-zinc-100">{{ review.name }}</div>
+            <div class="review-date dark:text-zinc-400">{{ review.date }}</div>
+          </div>
+        </div>
+        <div class="review-rating-row">
+          <div class="rating-display-wrapper">
+            <p-rating
+              [ngModel]="0"
+              [readonly]="true"
+              class="rating-bg"
+            ></p-rating>
+            <div
+              class="rating-fg-clip"
+              [style.width.%]="(review.rating / 5) * 100"
+            >
+              <p-rating
+                [ngModel]="5"
+                [readonly]="true"
+                class="rating-fg"
+              ></p-rating>
+            </div>
+          </div>
+          <span class="review-rating-number dark:text-zinc-400">({{ review.rating }})</span>
+        </div>
+        <h4 class="review-title dark:text-zinc-100">{{ review.title }}</h4>
+        <p class="review-text dark:text-zinc-300">{{ review.text }}</p>
+      </div>
+
+      @if ($index !== reviews().length - 1) {
+      <hr class="review-item-divider" />
+      } }
+    </div>
+
+    <!-- Right Column: Add Review Form -->
+    <div class="add-review-section dark:bg-zinc-800/50">
+      <div class="add-review-rating-row">
+        <span class="add-review-label dark:text-zinc-300">{{ 'PRODUCT_DETAILS.REVIEWS.YOUR_RATING' | translate }}</span>
+        <p-rating
+          [ngModel]="newReviewRating() * 2"
+          (ngModelChange)="newReviewRating.set($event / 2)"
+          [stars]="5"
+          class="interactive-half-stars empty-stars-yellow"
+        ></p-rating>
+      </div>
+
+      <div class="form-group">
+        <lib-custom-input
+          id="review-title"
+          [label]="'PRODUCT_DETAILS.REVIEWS.FORM_TITLE' | translate"
+          [placeholder]="'PRODUCT_DETAILS.REVIEWS.FORM_TITLE_PLACEHOLDER' | translate"
+        ></lib-custom-input>
+      </div>
+
+      <div class="form-group">
+        <label for="review-text" class="form-label dark:text-zinc-300">{{ 'PRODUCT_DETAILS.REVIEWS.FORM_REVIEW' | translate }}</label>
+        <textarea
+          id="review-text"
+          class="form-textarea dark:bg-zinc-900/50 dark:border-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-500"
+          [placeholder]="'PRODUCT_DETAILS.REVIEWS.FORM_REVIEW_PLACEHOLDER' | translate"
+        ></textarea>
+      </div>
+
+      <app-custom-button [label]="'PRODUCT_DETAILS.REVIEWS.SUBMIT' | translate" variant="primary" [fullWidth]="true" class="mt-2"></app-custom-button>
+    </div>
+  </div>
+</div>
