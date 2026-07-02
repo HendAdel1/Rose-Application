@@ -1,0 +1,126 @@
+@reference "../../../../../styles.css";
+
+::ng-deep .custom-carousel {
+  position: relative;
+}
+
+/* PrimeNG v21 carousel nav buttons — host element (p-button) */
+::ng-deep .custom-carousel .p-carousel-prev-button,
+::ng-deep .custom-carousel .p-carousel-next-button {
+  position: absolute !important;
+  top: 50% !important;
+  z-index: 3;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+::ng-deep .custom-carousel .p-carousel-prev-button {
+  left: -0.45rem !important;
+  transform: translateY(-50%) !important;
+}
+
+::ng-deep .custom-carousel .p-carousel-next-button {
+  right: -0.45rem !important;
+  transform: translateY(-50%) !important;
+}
+
+/* Inner button element rendered by p-button */
+::ng-deep .custom-carousel .p-carousel-prev-button button,
+::ng-deep .custom-carousel .p-carousel-next-button button {
+  align-items: center;
+  background: var(--color-maroon-600) !important;
+  border-radius: 999rem !important;
+  color: white !important;
+  display: inline-flex !important;
+  height: 2.25rem !important;
+  width: 2.25rem !important;
+  justify-content: center;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+::ng-deep .custom-carousel .p-carousel-prev-button button:hover,
+::ng-deep .custom-carousel .p-carousel-next-button button:hover {
+  background: var(--color-maroon-800) !important;
+  transform: translateY(-1px) !important;
+  color: white !important;
+}
+
+:host-context(.dark) ::ng-deep .custom-carousel .p-carousel-prev-button button,
+:host-context(.dark) ::ng-deep .custom-carousel .p-carousel-next-button button {
+  background: var(--color-soft-pink-400) !important;
+  color: var(--color-maroon-950) !important;
+}
+
+:host-context(.dark)
+  ::ng-deep
+  .custom-carousel
+  .p-carousel-prev-button
+  button:hover,
+:host-context(.dark)
+  ::ng-deep
+  .custom-carousel
+  .p-carousel-next-button
+  button:hover {
+  background: var(--color-soft-pink-300) !important;
+}
+
+@media (max-width: 639px) {
+  ::ng-deep .custom-carousel .p-carousel-prev-button,
+  ::ng-deep .custom-carousel .p-carousel-next-button {
+    display: none !important;
+  }
+}
+
+::ng-deep .custom-cart-btn button.btn-icon-only {
+  @apply bg-maroon-700 text-white border-maroon-700;
+}
+
+::ng-deep .custom-cart-btn button.btn-icon-only:hover {
+  @apply bg-maroon-900;
+}
+
+.best_selling_heading {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: 0;
+}
+
+.best_selling_description {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0;
+  color: var(--color-zinc-500);
+}
+.cart-btn {
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-maroon-600);
+  color: var(--color-white);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+.cart-btn svg {
+  width: 1.5625rem;
+  height: 1.5625rem;
+}
+
+.custom-cart-btn:hover {
+  background-color: #f9fafb; /* gray-50 */
+}
+
+.custom-cart-btn:active {
+  transform: scale(0.95);
+}
