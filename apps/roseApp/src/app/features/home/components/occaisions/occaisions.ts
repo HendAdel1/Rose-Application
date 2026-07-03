@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Newcard } from '../../../../shared/newcard/newcard';
 import { Gift } from '../../interface/Gift/gift';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-occaisions',
-  imports: [Newcard],
+  imports: [Newcard, TranslatePipe],
   templateUrl: './occaisions.html',
   styleUrl: './occaisions.css',
 })
@@ -13,18 +14,18 @@ export class Occaisions implements OnInit {
   ngOnInit(): void {
    this.occasionsList = [
       {
-        badge: 'Wedding',
-        title: "Celebrate Her Forever with a Gift She'll Always Remember",
+        badge: 'HOME.OCCASIONS.WEDDING.BADGE',
+        title: 'HOME.OCCASIONS.WEDDING.TITLE',
         image: 'gifts/wedding.png'
       },
       {
-        badge: 'Engagement',
-        title: 'Honor the Beginning of a Beautiful Journey Together',
+        badge: 'HOME.OCCASIONS.ENGAGEMENT.BADGE',
+        title: 'HOME.OCCASIONS.ENGAGEMENT.TITLE',
         image: 'gifts/engage.png'
       },
       {
-        badge: 'Anniversary',
-        title: 'Mark Every Year of Love with a Meaningful Surprise',
+        badge: 'HOME.OCCASIONS.ANNIVERSARY.BADGE',
+        title: 'HOME.OCCASIONS.ANNIVERSARY.TITLE',
         image: 'gifts/anniversary.png'
       }
     ];

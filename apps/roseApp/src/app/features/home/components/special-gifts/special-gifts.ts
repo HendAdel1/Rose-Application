@@ -4,10 +4,11 @@ import { CarouselModule } from 'primeng/carousel';
 import { Banner } from '../../interface/Banner/banner';
 import { Gift } from '../../interface/Gift/gift';
 import { LucideArrowRight } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-special-gifts',
-  imports: [CarouselModule,CommonModule,LucideArrowRight ],
+  imports: [CarouselModule, CommonModule, LucideArrowRight, TranslatePipe],
   templateUrl: './special-gifts.html',
   styleUrl: './special-gifts.css',
   encapsulation:ViewEncapsulation.None
@@ -18,16 +19,16 @@ export class SpecialGifts implements OnInit {
   ngOnInit(): void {
     this.banners = [
       {
-        title: 'Say It with Flowers',
-        subtitle: 'Elegant gifts for every special moment.',
+        title: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.TITLE',
+        subtitle: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.SUBTITLE',
         image: 'special-gifts/banner.png',
-        buttonText: "I'm buying!"
+        buttonText: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.BUTTON'
       },
       {
-        title: 'Share the Love',
-        subtitle: 'Find the perfect chocolate boxes and combos.',
+        title: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.TITLE',
+        subtitle: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.SUBTITLE',
         image: 'special-gifts/banner.png',
-        buttonText: 'Explore More'
+        buttonText: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.BUTTON'
       }
     ];
   }

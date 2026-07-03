@@ -132,6 +132,38 @@
     }
   },
   "HOME": {
+    "SPECIAL_GIFTS": {
+      "FEATURED_IMAGE_ALT": "Special gift boxes",
+      "STARTING_FROM": "Starting from 10.99 EGP",
+      "TITLE": "Special Gifts For The People You Love",
+      "SHOP_NOW": "Shop Now",
+      "BANNERS": {
+        "FLOWERS": {
+          "TITLE": "Say It with Flowers",
+          "SUBTITLE": "Elegant gifts for every special moment.",
+          "BUTTON": "I'm buying!"
+        },
+        "LOVE": {
+          "TITLE": "Share the Love",
+          "SUBTITLE": "Find the perfect chocolate boxes and combos.",
+          "BUTTON": "Explore More"
+        }
+      }
+    },
+    "OCCASIONS": {
+      "WEDDING": {
+        "BADGE": "Wedding",
+        "TITLE": "Celebrate Her Forever with a Gift She'll Always Remember"
+      },
+      "ENGAGEMENT": {
+        "BADGE": "Engagement",
+        "TITLE": "Honor the Beginning of a Beautiful Journey Together"
+      },
+      "ANNIVERSARY": {
+        "BADGE": "Anniversary",
+        "TITLE": "Mark Every Year of Love with a Meaningful Surprise"
+      }
+    },
     "ABOUT": {
       "PRODUCT_CATEGORIES_ARIA": "Product categories",
       "IMAGE_ONE_ALT": "Premium purple gift box",
