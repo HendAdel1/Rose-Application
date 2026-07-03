@@ -1,6 +1,6 @@
-<section class="w-[90%] mx-auto my-6">
-<div class="grid grid-cols-1 lg:grid-cols-[30%_70%] gap-4">
-<div class="relative rounded-2xl overflow-hidden bg-[#5C1D1D] text-white p-6 flex flex-col justify-end min-h-100 shadow-sm">
+<section class="mx-4 mt-6 md:mx-8 lg:mx-20">
+<div class="grid grid-cols-1 gap-5 lg:grid-cols-[226px_1fr]">
+<div class="relative flex h-[330px] flex-col justify-end overflow-hidden rounded-[12px] bg-[#5C1D1D] p-4 text-white shadow-sm">
       <img
         src="special-gifts/gifts.png"
         [alt]="'HOME.SPECIAL_GIFTS.FEATURED_IMAGE_ALT' | translate"
@@ -9,20 +9,20 @@
       <div class="absolute inset-0 bg-linear-to-t from-[#5c1d1dd4] via-transparent to-transparent z-10"></div>
 
       <div class="z-20">
-        <span class="bg-maroon-50 text-xs font-medium px-2 py-1 rounded-md text-maroon-600">
+        <span class="inline-flex rounded-full bg-maroon-50 px-2 py-0.5 text-[10px] font-semibold text-maroon-600">
           {{ 'HOME.SPECIAL_GIFTS.STARTING_FROM' | translate }}
         </span>
-        <h2 class="text-xl font-bold mt-3 leading-tight">
+        <h2 class="mt-2 text-xl font-bold leading-[1.05]">
           {{ 'HOME.SPECIAL_GIFTS.TITLE' | translate }}
         </h2>
-        <button class="mt-4 bg-maroon-50 text-maroon-700 font-medium px-4 py-2 rounded-xl text-sm flex items-center gap-2 hover:bg-maroon-200 transition-all">
+        <button class="mt-7 flex items-center gap-2 rounded-lg bg-maroon-50 px-4 py-2 text-sm font-medium text-maroon-700 transition-all hover:bg-maroon-200">
           {{ 'HOME.SPECIAL_GIFTS.SHOP_NOW' | translate }}
-          <span><svg lucideArrowRight></svg></span>
+          <span><svg lucideArrowRight [size]="16" aria-hidden="true"></svg></span>
         </button>
       </div>
     </div>
 
-<div class="relative w-full h-100 rounded-2xl overflow-hidden group">
+<div class="relative h-[330px] w-full overflow-hidden rounded-[12px] group">
 
   <p-carousel
     [value]="banners"
@@ -32,14 +32,22 @@
     [showIndicators]="true"
     [showNavigators]="true"
     [autoplayInterval]="4000"
-    styleClass="relative w-full h-full"
+    styleClass="special-gifts-carousel relative w-full h-full"
     contentClass="relative w-full h-full"
-    indicatorsContentClass="absolute top-6 right-6 z-30 flex gap-1.5 m-0 p-0"
-    nextButtonClass="absolute bottom-6 right-6 z-30 bg-white/95 text-zinc-700 hover:text-black w-9 h-9 inline-flex items-center justify-center rounded-r-full shadow-md border-l border-zinc-200 transition-colors m-0"
-    prevButtonClass="absolute bottom-6 right-[60px] z-30 bg-white/95 text-zinc-700 hover:text-black w-9 h-9 inline-flex items-center justify-center rounded-l-full shadow-md transition-colors m-0">
+    indicatorsContentClass="special-gifts-indicators"
+    nextButtonClass="special-gifts-nav special-gifts-nav-next"
+    prevButtonClass="special-gifts-nav special-gifts-nav-prev">
+
+    <ng-template pTemplate="previousicon">
+      <svg lucideChevronLeft [size]="24" aria-hidden="true"></svg>
+    </ng-template>
+
+    <ng-template pTemplate="nexticon">
+      <svg lucideChevronRight [size]="24" aria-hidden="true"></svg>
+    </ng-template>
 
     <ng-template let-banner pTemplate="item">
-      <div class="relative w-full h-100 flex flex-col justify-end p-8 text-white select-none">
+      <div class="relative flex h-[330px] w-full select-none flex-col justify-end p-7 text-white md:p-8">
 
         <img
           [src]="banner.image"
@@ -47,16 +55,16 @@
           class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
         >
 
-        <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute inset-0 z-10 bg-black/50 pointer-events-none"></div>
 
-        <div class="max-w-md mb-4 z-20">
-          <h1 class="text-3xl lg:text-4xl font-bold leading-tight tracking-wide drop-shadow-sm">
+        <div class="z-20 mb-8 max-w-md">
+          <h1 class="text-3xl font-bold leading-tight tracking-wide drop-shadow-sm">
             {{ banner.title | translate }}
           </h1>
-          <p class="text-zinc-200 text-sm mt-2 opacity-90 drop-shadow-sm">
+          <p class="mt-1 text-sm text-zinc-100 opacity-95 drop-shadow-sm">
             {{ banner.subtitle | translate }}
           </p>
-          <button class="mt-5 bg-maroon-50 text-maroon-700 font-semibold px-6 py-2.5 rounded-xl text-sm hover:bg-maroon-200 transition-all active:scale-95 shadow-sm">
+          <button class="mt-7 rounded-lg bg-maroon-50 px-7 py-2.5 text-sm font-semibold text-maroon-700 shadow-sm transition-all hover:bg-maroon-200 active:scale-95">
             {{ banner.buttonText | translate }}
           </button>
         </div>

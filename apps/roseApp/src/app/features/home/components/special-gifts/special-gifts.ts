@@ -3,12 +3,19 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
 import { Banner } from '../../interface/Banner/banner';
 import { Gift } from '../../interface/Gift/gift';
-import { LucideArrowRight } from '@lucide/angular';
+import { LucideArrowRight, LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-special-gifts',
-  imports: [CarouselModule, CommonModule, LucideArrowRight, TranslatePipe],
+  imports: [
+    CarouselModule,
+    CommonModule,
+    LucideArrowRight,
+    LucideChevronLeft,
+    LucideChevronRight,
+    TranslatePipe,
+  ],
   templateUrl: './special-gifts.html',
   styleUrl: './special-gifts.css',
   encapsulation:ViewEncapsulation.None

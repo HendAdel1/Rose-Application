@@ -23,7 +23,7 @@
   transition: transform 300ms ease;
 }
 
-:host ::ng-deep app-ui-card:hover .product-image {
+:host ::ng-deep .product-media:hover .product-image {
   transform: scale(1.06);
 }
 

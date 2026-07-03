@@ -1,5 +1,6 @@
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { LucideEye, LucideHeart, LucideShoppingCart } from '@lucide/angular';
 import { LoadingService } from '@org/auth-data-access';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -16,7 +17,15 @@ import { UiCard } from '../../../../shared/ui-card/ui-card';
 
 @Component({
   selector: 'app-products-grid',
-  imports: [UiCard, Paginator, LucideEye, LucideHeart, LucideShoppingCart, TranslatePipe],
+  imports: [
+    UiCard,
+    Paginator,
+    LucideEye,
+    LucideHeart,
+    LucideShoppingCart,
+    TranslatePipe,
+    RouterLink,
+  ],
   templateUrl: './products-grid.html',
   styleUrl: './products-grid.css',
   host: {

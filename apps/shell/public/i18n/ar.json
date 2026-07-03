@@ -259,29 +259,34 @@
       "FORM_TITLE_PLACEHOLDER": "أدخل عنوان التقييم",
       "FORM_REVIEW": "التقييم",
       "FORM_REVIEW_PLACEHOLDER": "ما رأيك في هذا المنتج؟",
-      "SUBMIT": "أضف تقييم"
+      "SUBMIT": "أضف تقييم",
+      "RATINGS": "تقييمات"
+    },
+    "BADGES": {
+      "NEW": "جديد",
+      "OUT_OF_STOCK": "غير متوفر"
     }
   },
-   "features": [
+  "features": [
     {
-
       "title": "شحن مجاني",
       "description": "للطلبات الأكثر من 120 جنيهاً مصرياً"
     },
     {
-
       "title": "استرداد الأموال",
       "description": "استرجاع الأموال خلال 30 يوماً"
     },
     {
-
       "title": "دفع آمن",
       "description": "دفع آمن ومحمي 100%"
     },
     {
-
       "title": "دعم على مدار الساعة",
       "description": "تواصل معنا في أي وقت"
     }
-  ]
+  ],
+  "GALLERY": {
+    "EYEBROW": "المعرض",
+    "TITLE": "شاهد معرضنا المميز"
+  }
 }

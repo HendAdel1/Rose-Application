@@ -98,6 +98,55 @@
   letter-spacing: 0;
   color: var(--color-zinc-500);
 }
+
+.product-image {
+  transition: transform 300ms ease;
+}
+
+:host ::ng-deep .best-selling-media:hover .product-image {
+  transform: scale(1.06);
+}
+
+.hover-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.hover-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: #9f1f32;
+  background-color: #ffffff;
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 0.25rem 0.8rem rgb(0 0 0 / 0.12);
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+.hover-action:hover {
+  color: #ffffff;
+  background-color: #9f1f32;
+  transform: translateY(-1px);
+}
+
+:host-context(.dark) .hover-action {
+  color: #42111d;
+  background-color: #ff9dbc;
+}
+
+:host-context(.dark) .hover-action:hover {
+  background-color: #ff85a2;
+}
+
 .cart-btn {
   width: 2.625rem;
   height: 2.625rem;

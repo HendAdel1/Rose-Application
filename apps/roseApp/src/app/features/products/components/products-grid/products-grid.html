@@ -46,6 +46,7 @@
               type="button"
               class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-maroon-700 shadow-sm transition hover:bg-maroon-700 hover:text-white"
               [attr.aria-label]="'PRODUCTS.ACTIONS.VIEW_PRODUCT' | translate"
+              [routerLink]="['/roseApp/products', product.id]"
             >
               <svg lucideEye [size]="18" aria-hidden="true"></svg>
             </button>

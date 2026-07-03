@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CarouselModule } from 'primeng/carousel';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
-import { CurrencyPipe, NgClass } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { LucideChevronLeft, LucideChevronRight, LucideEye, LucideHeart, LucideShoppingCart } from '@lucide/angular';
 import { ProductsService } from '../../../../shared/products/services/products.service';
 import { PopularProduct } from '../../../../shared/products/models/popular-product.model';
@@ -17,7 +17,6 @@ import { RouterLink } from '@angular/router';
     CarouselModule,
     UiCard,
     CurrencyPipe,
-    NgClass,
     LucideChevronLeft,
     LucideChevronRight,
     LucideEye,

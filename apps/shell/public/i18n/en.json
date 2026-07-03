@@ -259,29 +259,34 @@
       "FORM_TITLE_PLACEHOLDER": "Enter review title",
       "FORM_REVIEW": "Review",
       "FORM_REVIEW_PLACEHOLDER": "What do you think of this product?",
-      "SUBMIT": "Add Review"
+      "SUBMIT": "Add Review",
+      "RATINGS": "ratings"
+    },
+    "BADGES": {
+      "NEW": "New",
+      "OUT_OF_STOCK": "Out of stock"
     }
   },
-    "features": [
+  "features": [
     {
-
       "title": "Free Delivery",
       "description": "For orders above 120 EGP"
     },
     {
-
       "title": "Get Refund",
       "description": "Refunds within 30 days"
     },
     {
-
       "title": "Safe Payment",
       "description": "100% Secure Payment"
     },
     {
-
       "title": "24/7 Support",
       "description": "Contact us at any time"
     }
-  ]
+  ],
+  "GALLERY": {
+    "EYEBROW": "Gallery",
+    "TITLE": "Check Out our Wonderful Gallery"
+  }
 }

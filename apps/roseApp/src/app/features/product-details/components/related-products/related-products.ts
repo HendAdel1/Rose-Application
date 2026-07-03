@@ -1,15 +1,33 @@
 import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
-import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
+import { RouterLink } from '@angular/router';
+import {
+  LucideChevronLeft,
+  LucideChevronRight,
+  LucideEye,
+  LucideHeart,
+  LucideShoppingCart,
+} from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, map, of, take } from 'rxjs';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
-import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
+import { toMostPopularProducts } from '../../../../shared/products/mappers/popular-product.mapper';
+import { PopularProduct } from '../../../../shared/products/models/popular-product.model';
 import { ProductsService } from '../../../../shared/products/services/products.service';
-import { ProductCard } from '../product-card/product-card';
+import { UiCard } from '../../../../shared/ui-card/ui-card';
 
 @Component({
   selector: 'app-related-products',
-  imports: [CustomHeading, ProductCard, LucideChevronLeft, LucideChevronRight, TranslatePipe],
+  imports: [
+    CustomHeading,
+    UiCard,
+    LucideChevronLeft,
+    LucideChevronRight,
+    LucideEye,
+    LucideHeart,
+    LucideShoppingCart,
+    TranslatePipe,
+    RouterLink,
+  ],
   templateUrl: './related-products.html',
   styleUrl: './related-products.css',
 })
@@ -18,18 +36,20 @@ export class RelatedProducts implements OnInit {
 
   @ViewChild('productsTrack') private productsTrack?: ElementRef<HTMLElement>;
 
-  readonly products = signal<ProductApiItem[]>([]);
+  readonly products = signal<PopularProduct[]>([]);
   readonly loading = signal(true);
+  readonly stars = [1, 2, 3, 4, 5];
+  readonly fallbackImage = '/logos/rose-logo.png';
 
   ngOnInit(): void {
     this.productsService
       .getProducts()
       .pipe(
-        map((products) => products.slice(0, 10)),
+        map((products) => toMostPopularProducts(products, 10)),
         take(1),
-        catchError(() => of([] as ProductApiItem[])),
+        catchError(() => of([] as PopularProduct[])),
       )
-      .subscribe((products: ProductApiItem[]) => {
+      .subscribe((products: PopularProduct[]) => {
         this.products.set(products);
         this.loading.set(false);
       });
@@ -53,7 +73,28 @@ export class RelatedProducts implements OnInit {
     });
   }
 
-  trackProduct(_: number, product: ProductApiItem): string {
+  trackProduct(_: number, product: PopularProduct): string {
     return product.id ?? product.title;
+  }
+
+  quickAddToCart(product: PopularProduct): void {
+    console.log('Quick add to cart', product.id);
+  }
+
+  addToWishlist(product: PopularProduct): void {
+    console.log('Add to wishlist', product.id);
+  }
+
+  formatPrice(price: number): string {
+    return `${price.toFixed(2)} EGP`;
+  }
+
+  isStarFilled(rating: number, star: number): boolean {
+    return star <= Math.round(rating);
+  }
+
+  onImageError(event: Event): void {
+    const image = event.target as HTMLImageElement;
+    image.src = this.fallbackImage;
   }
 }

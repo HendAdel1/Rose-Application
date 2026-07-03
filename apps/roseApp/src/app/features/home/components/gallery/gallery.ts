@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
 
 interface GalleryImage {
@@ -14,7 +15,7 @@ interface GalleryColumn {
 
 @Component({
   selector: 'app-gallery',
-  imports: [CustomHeading],
+  imports: [CustomHeading, TranslatePipe],
   templateUrl: './gallery.html',
   styleUrl: './gallery.css',
 })
