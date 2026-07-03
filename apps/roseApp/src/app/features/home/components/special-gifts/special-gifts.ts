@@ -1,16 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { CarouselModule } from 'primeng/carousel';
+import { Component, computed, OnDestroy, signal } from '@angular/core';
 import { Banner } from '../../interface/Banner/banner';
-import { Gift } from '../../interface/Gift/gift';
 import { LucideArrowRight, LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-special-gifts',
   imports: [
-    CarouselModule,
-    CommonModule,
     LucideArrowRight,
     LucideChevronLeft,
     LucideChevronRight,
@@ -18,25 +13,43 @@ import { TranslatePipe } from '@ngx-translate/core';
   ],
   templateUrl: './special-gifts.html',
   styleUrl: './special-gifts.css',
-  encapsulation:ViewEncapsulation.None
 })
-export class SpecialGifts implements OnInit {
-  banners:Banner[]=[];
-  gifts:Gift[]=[]
-  ngOnInit(): void {
-    this.banners = [
-      {
-        title: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.TITLE',
-        subtitle: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.SUBTITLE',
-        image: 'special-gifts/banner.png',
-        buttonText: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.BUTTON'
-      },
-      {
-        title: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.TITLE',
-        subtitle: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.SUBTITLE',
-        image: 'special-gifts/banner.png',
-        buttonText: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.BUTTON'
-      }
-    ];
+export class SpecialGifts implements OnDestroy {
+  readonly banners: Banner[] = [
+    {
+      title: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.TITLE',
+      subtitle: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.SUBTITLE',
+      image: 'special-gifts/banner.png',
+      buttonText: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.BUTTON',
+    },
+    {
+      title: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.TITLE',
+      subtitle: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.SUBTITLE',
+      image: 'special-gifts/gifts.png',
+      buttonText: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.BUTTON',
+    },
+  ];
+
+  readonly activeBannerIndex = signal(0);
+  readonly activeBanner = computed(() => this.banners[this.activeBannerIndex()]);
+
+  private readonly autoplay = window.setInterval(() => this.showNextBanner(), 4000);
+
+  ngOnDestroy(): void {
+    window.clearInterval(this.autoplay);
+  }
+
+  showPreviousBanner(): void {
+    this.activeBannerIndex.update((index) =>
+      index === 0 ? this.banners.length - 1 : index - 1,
+    );
+  }
+
+  showNextBanner(): void {
+    this.activeBannerIndex.update((index) => (index + 1) % this.banners.length);
+  }
+
+  selectBanner(index: number): void {
+    this.activeBannerIndex.set(index);
   }
 }

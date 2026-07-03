@@ -1,79 +1,84 @@
-<section class="mx-4 mt-6 md:mx-8 lg:mx-20">
-<div class="grid grid-cols-1 gap-5 lg:grid-cols-[226px_1fr]">
-<div class="relative flex h-[330px] flex-col justify-end overflow-hidden rounded-[12px] bg-[#5C1D1D] p-4 text-white shadow-sm">
+<section class="special-gifts-section">
+  <div class="special-gifts-layout">
+    <div class="special-gifts-featured">
       <img
         src="special-gifts/gifts.png"
         [alt]="'HOME.SPECIAL_GIFTS.FEATURED_IMAGE_ALT' | translate"
-        class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+        class="special-gifts-featured__image"
       >
-      <div class="absolute inset-0 bg-linear-to-t from-[#5c1d1dd4] via-transparent to-transparent z-10"></div>
+      <div class="special-gifts-featured__overlay"></div>
 
-      <div class="z-20">
-        <span class="inline-flex rounded-full bg-maroon-50 px-2 py-0.5 text-[10px] font-semibold text-maroon-600">
+      <div class="special-gifts-featured__content">
+        <span class="special-gifts-featured__badge">
           {{ 'HOME.SPECIAL_GIFTS.STARTING_FROM' | translate }}
         </span>
-        <h2 class="mt-2 text-xl font-bold leading-[1.05]">
+        <h2 class="special-gifts-featured__title">
           {{ 'HOME.SPECIAL_GIFTS.TITLE' | translate }}
         </h2>
-        <button class="mt-7 flex items-center gap-2 rounded-lg bg-maroon-50 px-4 py-2 text-sm font-medium text-maroon-700 transition-all hover:bg-maroon-200">
+        <button class="special-gifts-featured__button" type="button">
           {{ 'HOME.SPECIAL_GIFTS.SHOP_NOW' | translate }}
           <span><svg lucideArrowRight [size]="16" aria-hidden="true"></svg></span>
         </button>
       </div>
     </div>
 
-<div class="relative h-[330px] w-full overflow-hidden rounded-[12px] group">
+    <div
+      class="special-gifts-carousel"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Special gifts carousel"
+    >
+      <img
+        [src]="activeBanner().image"
+        [alt]="activeBanner().title | translate"
+        class="special-gifts-carousel__image"
+      >
 
-  <p-carousel
-    [value]="banners"
-    [numVisible]="1"
-    [numScroll]="1"
-    [circular]="true"
-    [showIndicators]="true"
-    [showNavigators]="true"
-    [autoplayInterval]="4000"
-    styleClass="special-gifts-carousel relative w-full h-full"
-    contentClass="relative w-full h-full"
-    indicatorsContentClass="special-gifts-indicators"
-    nextButtonClass="special-gifts-nav special-gifts-nav-next"
-    prevButtonClass="special-gifts-nav special-gifts-nav-prev">
+      <div class="special-gifts-carousel__overlay"></div>
 
-    <ng-template pTemplate="previousicon">
-      <svg lucideChevronLeft [size]="24" aria-hidden="true"></svg>
-    </ng-template>
-
-    <ng-template pTemplate="nexticon">
-      <svg lucideChevronRight [size]="24" aria-hidden="true"></svg>
-    </ng-template>
-
-    <ng-template let-banner pTemplate="item">
-      <div class="relative flex h-[330px] w-full select-none flex-col justify-end p-7 text-white md:p-8">
-
-        <img
-          [src]="banner.image"
-          [alt]="banner.title | translate"
-          class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
-        >
-
-        <div class="absolute inset-0 z-10 bg-black/50 pointer-events-none"></div>
-
-        <div class="z-20 mb-8 max-w-md">
-          <h1 class="text-3xl font-bold leading-tight tracking-wide drop-shadow-sm">
-            {{ banner.title | translate }}
-          </h1>
-          <p class="mt-1 text-sm text-zinc-100 opacity-95 drop-shadow-sm">
-            {{ banner.subtitle | translate }}
-          </p>
-          <button class="mt-7 rounded-lg bg-maroon-50 px-7 py-2.5 text-sm font-semibold text-maroon-700 shadow-sm transition-all hover:bg-maroon-200 active:scale-95">
-            {{ banner.buttonText | translate }}
-          </button>
-        </div>
-
+      <div class="special-gifts-carousel__content">
+        <h1 class="special-gifts-carousel__title">
+          {{ activeBanner().title | translate }}
+        </h1>
+        <p class="special-gifts-carousel__subtitle">
+          {{ activeBanner().subtitle | translate }}
+        </p>
+        <button class="special-gifts-carousel__cta" type="button">
+          {{ activeBanner().buttonText | translate }}
+        </button>
       </div>
-    </ng-template>
 
-  </p-carousel>
-</div>
-</div>
+      <div class="special-gifts-carousel__dots" aria-label="Carousel slides">
+        @for (banner of banners; track banner.title; let index = $index) {
+          <button
+            type="button"
+            class="special-gifts-carousel__dot"
+            [class.active]="activeBannerIndex() === index"
+            [attr.aria-label]="'Go to slide ' + (index + 1)"
+            [attr.aria-current]="activeBannerIndex() === index ? 'true' : null"
+            (click)="selectBanner(index)"
+          ></button>
+        }
+      </div>
 
+      <div class="special-gifts-carousel__nav" aria-label="Carousel navigation">
+        <button
+          type="button"
+          class="special-gifts-carousel__nav-button special-gifts-carousel__nav-button--previous"
+          aria-label="Previous slide"
+          (click)="showPreviousBanner()"
+        >
+          <svg lucideChevronLeft [size]="24" aria-hidden="true"></svg>
+        </button>
+        <button
+          type="button"
+          class="special-gifts-carousel__nav-button special-gifts-carousel__nav-button--next"
+          aria-label="Next slide"
+          (click)="showNextBanner()"
+        >
+          <svg lucideChevronRight [size]="24" aria-hidden="true"></svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </section>
