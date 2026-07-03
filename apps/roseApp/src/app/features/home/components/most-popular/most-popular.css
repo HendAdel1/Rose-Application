@@ -178,8 +178,8 @@
 }
 
 :host-context(.dark) .cart-button {
-  background-color: #ff9dbc;
-  color: #42111d;
+  background-color: var(--color-maroon-500);
+  color: var(--color-maroon-50);
 }
 
 @media (max-width: 64rem) {
