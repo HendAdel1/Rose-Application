@@ -35,6 +35,7 @@ export class BestSelling {
 
   readonly products = signal<PopularProduct[]>([]);
   readonly isLoading = signal(false);
+  readonly stars = [1, 2, 3, 4, 5];
   readonly fallbackImage = '/logos/rose-logo.png';
 
   responsiveOptions = [
@@ -82,6 +83,10 @@ export class BestSelling {
 
   addToCart(product: PopularProduct) {
     console.log('Add to cart clicked for', product.title);
+  }
+
+  isStarFilled(rating: number, star: number): boolean {
+    return star <= Math.round(rating);
   }
 
   onImageError(event: Event): void {

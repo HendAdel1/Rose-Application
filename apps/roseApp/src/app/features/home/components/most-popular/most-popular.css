@@ -120,13 +120,12 @@
 }
 
 .star {
-  color: #d4d4d8;
-  font-size: 0.85rem;
-  line-height: 1;
-}
-
-.star.filled {
   color: #ffac00;
+  width: 0.9rem;
+  height: 0.9rem;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
 }
 
 .price-row {
