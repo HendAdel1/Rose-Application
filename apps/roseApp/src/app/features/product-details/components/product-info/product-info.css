@@ -156,7 +156,6 @@
 }
 .border-line {
   margin: 1rem 0rem;
-  background: #f4f4f5;
   height: 1px;
 }
 
@@ -164,7 +163,6 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 100%;
-  color: #000;
   margin: 0;
   height: 19.1875rem;
 }

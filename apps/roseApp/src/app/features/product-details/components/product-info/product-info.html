@@ -32,12 +32,14 @@
 
     <div class="flex flex-wrap items-center gap-x-2 gap-y-3">
       <div class="flex items-baseline gap-2">
-        <span class="text-2xl text-gray-300 dark:text-zinc-500 font-medium line-through"
+        <span
+          class="text-2xl text-gray-300 dark:text-zinc-500 font-medium line-through"
           >{{ oldPrice() }}</span
         >
         <span class="text-3xl font-bold text-[#1e293b] dark:text-zinc-100"
           >{{ currentPrice() }}
-          <span class="text-base font-semibold text-gray-600 dark:text-zinc-300 ml-1"
+          <span
+            class="text-base font-semibold text-gray-600 dark:text-zinc-300 ml-1"
             >{{ currency() }}</span
           ></span
         >
@@ -46,13 +48,17 @@
         class="flex items-center gap-2 bg-[#f8f9fa] dark:bg-zinc-700/50 px-3 py-1.5 rounded-full text-sm font-medium text-gray-600 dark:text-zinc-200"
       >
         <svg lucidePackage [size]="16" aria-hidden="true"></svg>
-        <span>{{ stock() }} {{ 'PRODUCT_DETAILS.LEFT_IN_STOCK' | translate }}</span>
+        <span
+          >{{ stock() }} {{ 'PRODUCT_DETAILS.LEFT_IN_STOCK' | translate }}</span
+        >
       </div>
     </div>
 
-    <div class="border-line"></div>
+    <div class="border-line bg-zinc-100 dark:bg-zinc-700"></div>
 
-    <div class="flex items-center gap-2 text-sm text-gray-700 dark:text-zinc-300">
+    <div
+      class="flex items-center gap-2 text-sm text-gray-700 dark:text-zinc-300"
+    >
       <img
         src="/images/star.svg"
         width="20"
@@ -69,15 +75,19 @@
       ></svg> -->
       <span
         >{{ 'PRODUCT_DETAILS.RATING_LABEL' | translate }}
-        <strong class="font-bold text-[#1e293b] dark:text-zinc-100">{{ rating() }}/5</strong>
-        <a href="#" class="text-blue-500 hover:underline dark:text-blue-400 ml-1"
+        <strong class="font-bold text-[#1e293b] dark:text-zinc-100"
+          >{{ rating() }}/5</strong
+        >
+        <a
+          href="#"
+          class="text-blue-500 hover:underline dark:text-blue-400 ml-1"
           >({{ ratingCount() }} {{ 'PRODUCT_DETAILS.RATINGS' | translate }})</a
         >
       </span>
     </div>
-    <div class="border-line"></div>
+    <div class="border-line bg-zinc-100 dark:bg-zinc-700"></div>
 
-    <p class="description_content dark:text-zinc-300">{{ description() }}</p>
+    <p class="description_content dark:text-zinc-400">{{ description() }}</p>
 
     <div class="flex items-center gap-4">
       <app-custom-button variant="icon-only">

@@ -35,13 +35,18 @@
 
 .rating-count {
   font-size: 0.875rem;
+  font-weight: 500;
   opacity: 0.7;
 }
 
 .reviews-divider {
   border: 0;
-  border-top: 1px solid #e4e4e7;
+  border-top: 1px solid var(--color-zinc-100);
   margin: 0;
+}
+:host-context(html.dark) .reviews-divider,
+:host-context(html:has(#theme-dark:checked)) .reviews-divider {
+  border-top: 1px solid var(--color-zinc-700);
 }
 
 .reviews-content {
@@ -56,6 +61,13 @@
   gap: 2rem;
   flex: 3;
   min-width: 300px;
+  max-height: 367px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.reviews-list::-webkit-scrollbar {
+  display: none;
 }
 
 .review-item {
@@ -123,15 +135,17 @@
   opacity: 0.85;
   margin: 0;
   white-space: pre-line;
-  color: var(--color-zinc-600);
 }
 
 .review-item-divider {
   border: 0;
-  border-top: 1px solid #f4f4f5;
+  border-top: 1px solid var(--color-zinc-100);
   margin: 0;
 }
-
+:host-context(html.dark) .review-item-divider,
+:host-context(html:has(#theme-dark:checked)) .review-item-divider {
+  border-top: 1px solid var(--color-zinc-700);
+}
 /* Add Review Form */
 .add-review-section {
   flex: 2;
@@ -139,8 +153,12 @@
   flex-direction: column;
   gap: 1.5rem;
   min-width: 300px;
-  border-left: 1px solid #e4e4e7;
+  border-left: 1px solid var(--color-zinc-100);
   padding-left: 2rem;
+}
+:host-context(html.dark) .add-review-section,
+:host-context(html:has(#theme-dark:checked)) .add-review-section {
+  border-left: 1px solid var(--color-zinc-700);
 }
 
 @media (max-width: 768px) {
@@ -206,6 +224,16 @@
   min-height: 140px;
 }
 
+:host-context(html.dark) .form-input,
+:host-context(html.dark) .form-textarea {
+  border: 0.5px solid var(--color-zinc-700);
+  background: #3f3f46;
+}
+:host-context(html:has(#theme-dark:checked)) .form-input,
+:host-context(html:has(#theme-dark:checked)) .form-textarea {
+  border: 0.5px solid var(--color-zinc-700);
+  background: #3f3f46;
+}
 /* Rating colors */
 :host ::ng-deep .p-rating .p-rating-item.p-rating-item-active .p-rating-icon {
   color: #ffa508;

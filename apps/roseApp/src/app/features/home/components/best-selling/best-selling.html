@@ -2,20 +2,27 @@
   <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
     <!-- Left Column: Text & CTA -->
     <div class="flex flex-col items-start gap-[.625rem] lg:col-span-3">
-      <span class="text-sm font-bold tracking-[0.2em] text-[#FF85A2] uppercase">
+      <span
+        class="text-sm font-bold tracking-[0.2em] text-[#FF85A2] dark:text-maroon-400 uppercase"
+      >
         {{ 'HOME.BEST_SELLING.EYEBROW' | translate }}
       </span>
-      <h2 class="best_selling_heading dark:text-zinc-100">
-        <span class="text-[#FF85A2]">{{ 'HOME.BEST_SELLING.TITLE_1' | translate }}</span>{{ 'HOME.BEST_SELLING.TITLE_2' | translate }}<br />
-        {{ 'HOME.BEST_SELLING.TITLE_3' | translate }}<span class="text-[#FF85A2]">{{ 'HOME.BEST_SELLING.TITLE_4' | translate }}</span><br />
+      <h2 class="best_selling_heading dark:text-soft-pink-200">
+        <span class="text-[#FF85A2] dark:text-maroon-400"
+          >{{ 'HOME.BEST_SELLING.TITLE_1' | translate }}</span
+        >{{ 'HOME.BEST_SELLING.TITLE_2' | translate }}<br />
+        {{ 'HOME.BEST_SELLING.TITLE_3' | translate }}<span
+          class="text-[#FF85A2] dark:text-maroon-400"
+          >{{ 'HOME.BEST_SELLING.TITLE_4' | translate }}</span
+        ><br />
         {{ 'HOME.BEST_SELLING.TITLE_5' | translate }}
       </h2>
-      <p class="best_selling_description dark:text-zinc-300">
+      <p class="best_selling_description dark:text-zinc-400">
         {{ 'HOME.BEST_SELLING.DESCRIPTION' | translate }}
       </p>
 
       <button
-        class="bg-maroon-600 border-none text-white text-sm rounded-[.625rem] py-[.625rem] mt-5 px-6 shadow-sm hover:bg-maroon-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+        class="bg-maroon-600 dark:bg-soft-pink-200 border-none text-white dark:text-zinc-800 text-sm rounded-[.625rem] py-[.625rem] mt-5 px-6 shadow-sm hover:bg-maroon-800 dark:hover:bg-soft-pink-300 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
         (click)="exploreGifts()"
       >
         {{ 'HOME.BEST_SELLING.EXPLORE_GIFTS' | translate }}
@@ -107,7 +114,9 @@
               </div>
 
               <div cardBody>
-                <h3 class="truncate text-sm font-bold text-maroon-900 dark:text-zinc-100">
+                <h3
+                  class="truncate text-sm font-bold text-maroon-900 dark:text-zinc-100"
+                >
                   {{ product.title }}
                 </h3>
                 <div class="flex items-center gap-1 text-[#FFC107]">
@@ -126,11 +135,13 @@
                   }
                 </div>
                 <div class="mt-1 flex items-center gap-2">
-                  <span class="text-sm font-bold text-maroon-800 dark:text-maroon-400"
+                  <span
+                    class="text-sm font-bold text-maroon-800 dark:text-maroon-400"
                     >{{ product.price | currency:'EGP':'symbol':'1.2-2' }}</span
                   >
                   @if (product.oldPrice && product.oldPrice !== product.price) {
-                  <span class="text-xs text-gray-400 line-through dark:text-zinc-500"
+                  <span
+                    class="text-xs text-gray-400 line-through dark:text-zinc-500"
                     >{{ product.oldPrice | currency:'EGP':'symbol':'1.2-2'
                     }}</span
                   >

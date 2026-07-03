@@ -1,11 +1,11 @@
 @reference "../../../styles.css";
 
 .btn-icon-only {
-  @apply w-10 h-10 flex items-center justify-center bg-white text-zinc-600 shadow-sm border border-gray-200 rounded-[.625rem] hover:bg-gray-50 active:scale-95 transition-all cursor-pointer p-0;
+  @apply w-10 h-10 flex items-center justify-center bg-white dark:bg-[#27272A] text-zinc-600 dark:text-white shadow-sm border border-gray-200 dark:border-zinc-500 rounded-[.625rem] hover:bg-gray-50 active:scale-95 transition-all cursor-pointer p-0;
 }
 
 .btn-primary {
-  @apply bg-maroon-600 border-none text-white text-sm rounded-[.625rem] py-3 px-6 shadow-sm hover:bg-maroon-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer;
+  @apply bg-maroon-600 dark:bg-soft-pink-300 border-none text-white dark:text-zinc-800 text-sm rounded-[.625rem] py-3 px-6 shadow-sm hover:bg-maroon-800 dark:hover:bg-soft-pink-400 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer;
   font-family: Sarabun, sans-serif;
 }
 
