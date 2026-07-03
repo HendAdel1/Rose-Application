@@ -2,6 +2,7 @@ import { Component, computed, OnDestroy, signal } from '@angular/core';
 import { Banner } from '../../interface/Banner/banner';
 import { LucideArrowRight, LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-special-gifts',
@@ -10,6 +11,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     LucideChevronLeft,
     LucideChevronRight,
     TranslatePipe,
+    RouterLink
   ],
   templateUrl: './special-gifts.html',
   styleUrl: './special-gifts.css',

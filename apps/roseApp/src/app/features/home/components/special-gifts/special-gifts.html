@@ -15,7 +15,7 @@
         <h2 class="special-gifts-featured__title">
           {{ 'HOME.SPECIAL_GIFTS.TITLE' | translate }}
         </h2>
-        <button class="special-gifts-featured__button" type="button">
+        <button class="special-gifts-featured__button" type="button" [routerLink]="['products']"  >
           {{ 'HOME.SPECIAL_GIFTS.SHOP_NOW' | translate }}
           <span><svg lucideArrowRight [size]="16" aria-hidden="true"></svg></span>
         </button>
