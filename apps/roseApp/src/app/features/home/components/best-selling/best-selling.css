@@ -52,8 +52,8 @@
 
 :host-context(.dark) ::ng-deep .custom-carousel .p-carousel-prev-button button,
 :host-context(.dark) ::ng-deep .custom-carousel .p-carousel-next-button button {
-  background: var(--color-soft-pink-400) !important;
-  color: var(--color-maroon-950) !important;
+  background: var(--color-maroon-500) !important;
+  color: var(--color-maroon-50) !important;
 }
 
 :host-context(.dark)
@@ -140,7 +140,7 @@
 
 :host-context(.dark) .hover-action {
   color: #42111d;
-  background-color: #ff9dbc;
+  /* background-color: #ff9dbc; */
 }
 
 :host-context(.dark) .hover-action:hover {
@@ -162,8 +162,8 @@
   transition: all 0.2s ease;
 }
 .cart-btn svg {
-  width: 1.5625rem;
-  height: 1.5625rem;
+  /* width: 1.5625rem;
+  height: 1.5625rem; */
 }
 
 .custom-cart-btn:hover {
