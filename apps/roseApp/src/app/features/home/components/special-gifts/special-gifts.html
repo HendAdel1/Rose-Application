@@ -1,21 +1,29 @@
-<section class="special-gifts-section">
-  <div class="special-gifts-layout">
-    <div class="special-gifts-featured">
+<section class="w-full">
+  <div class="grid w-full grid-cols-[226px_minmax(0,1fr)] gap-6.25 max-md:grid-cols-1">
+    <div class="relative h-82.5 overflow-hidden rounded-2xl bg-[#5c1d1d] text-white max-md:h-75 group cursor-pointer">
       <img
         src="special-gifts/gifts.png"
         [alt]="'HOME.SPECIAL_GIFTS.FEATURED_IMAGE_ALT' | translate"
-        class="special-gifts-featured__image"
+        class="pointer-events-none absolute inset-0 z-0 block h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
       >
-      <div class="special-gifts-featured__overlay"></div>
+      <div
+        class="absolute inset-0 z-1 bg-linear-to-t from-[rgb(38,6,6,0.78)] from-0% via-[rgb(38,6,6,0.18)] via-58% to-transparent"
+      ></div>
 
-      <div class="special-gifts-featured__content">
-        <span class="special-gifts-featured__badge">
+      <div class="absolute inset-x-4 bottom-4.5 z-2">
+        <span
+          class="inline-flex h-4.5 items-center rounded-full bg-maroon-50 px-2 text-[10px] font-semibold leading-none text-maroon-600"
+        >
           {{ 'HOME.SPECIAL_GIFTS.STARTING_FROM' | translate }}
         </span>
-        <h2 class="special-gifts-featured__title">
+        <h2 class="mt-2 max-w-46.25 text-lg font-bold leading-[1.05] text-white">
           {{ 'HOME.SPECIAL_GIFTS.TITLE' | translate }}
         </h2>
-        <button class="special-gifts-featured__button" type="button" [routerLink]="['products']"  >
+        <button
+          class="mt-6.5 inline-flex h-7.5 min-w-27.25 items-center justify-center gap-2 rounded-md border-0 bg-maroon-50 px-3 text-[13px] font-medium text-maroon-700 transition hover:bg-maroon-100"
+          type="button"
+          [routerLink]="['products']"
+        >
           {{ 'HOME.SPECIAL_GIFTS.SHOP_NOW' | translate }}
           <span><svg lucideArrowRight [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg></span>
         </button>
@@ -23,7 +31,7 @@
     </div>
 
     <div
-      class="special-gifts-carousel"
+      class="relative h-82.5 overflow-hidden rounded-2xl bg-[#5c1d1d] text-white max-md:h-75 group"
       role="region"
       aria-roledescription="carousel"
       aria-label="Special gifts carousel"
@@ -31,29 +39,38 @@
       <img
         [src]="activeBanner().image"
         [alt]="activeBanner().title | translate"
-        class="special-gifts-carousel__image"
+        class="pointer-events-none absolute inset-0 z-0 block h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
       >
 
-      <div class="special-gifts-carousel__overlay"></div>
+      <div
+        class="pointer-events-none absolute inset-0 z-1 bg-linear-to-r from-black/58 to-black/20"
+      ></div>
 
-      <div class="special-gifts-carousel__content">
-        <h1 class="special-gifts-carousel__title">
+      <div
+        class="absolute bottom-9 left-7 z-2 max-w-97.5 text-white max-md:inset-x-5 max-md:bottom-7"
+      >
+        <h1 class="text-[28px] font-bold leading-[1.1] text-white max-md:text-2xl">
           {{ activeBanner().title | translate }}
         </h1>
-        <p class="special-gifts-carousel__subtitle">
+        <p class="mt-1 text-sm leading-tight text-white/95">
           {{ activeBanner().subtitle | translate }}
         </p>
-        <button class="special-gifts-carousel__cta" type="button">
+        <button
+          class="mt-6.5 inline-flex h-8.25 min-w-26 items-center justify-center rounded-md border-0 bg-maroon-50 px-4.5 text-[13px] font-medium text-maroon-700 transition hover:bg-maroon-100"
+          type="button"
+        >
           {{ activeBanner().buttonText | translate }}
         </button>
       </div>
 
-      <div class="special-gifts-carousel__dots" aria-label="Carousel slides">
+      <div class="absolute right-5.5 top-5 z-3 flex items-center gap-2" aria-label="Carousel slides">
         @for (banner of banners; track $index; let index = $index) {
           <button
             type="button"
-            class="special-gifts-carousel__dot"
-            [class.active]="activeBannerIndex() === index"
+            class="block h-2.5 rounded-full border-0 bg-white p-0 opacity-95 transition-all duration-200"
+            [class.w-[34px]]="activeBannerIndex() === index"
+            [class.w-2.5]="activeBannerIndex() !== index"
+            [class.bg-maroon-600]="activeBannerIndex() === index"
             [attr.aria-label]="'Go to slide ' + (index + 1)"
             [attr.aria-current]="activeBannerIndex() === index ? 'true' : null"
             (click)="selectBanner(index)"
@@ -61,10 +78,13 @@
         }
       </div>
 
-      <div class="special-gifts-carousel__nav" aria-label="Carousel navigation">
+      <div
+        class="absolute bottom-7 right-6.5 z-3 inline-flex items-center overflow-hidden rounded-full bg-maroon-50 max-md:hidden"
+        aria-label="Carousel navigation"
+      >
         <button
           type="button"
-          class="special-gifts-carousel__nav-button special-gifts-carousel__nav-button--previous"
+          class="inline-flex h-8.5 w-10.5 items-center justify-center border-0 bg-transparent p-0 text-maroon-600 transition hover:bg-maroon-100 hover:text-maroon-800"
           aria-label="Previous slide"
           (click)="showPreviousBanner()"
         >
@@ -72,7 +92,7 @@
         </button>
         <button
           type="button"
-          class="special-gifts-carousel__nav-button special-gifts-carousel__nav-button--next"
+          class="inline-flex h-8.5 w-10.5 items-center justify-center border-0 bg-transparent p-0 text-maroon-600 transition hover:bg-maroon-100 hover:text-maroon-800"
           aria-label="Next slide"
           (click)="showNextBanner()"
         >

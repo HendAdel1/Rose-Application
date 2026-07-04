@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Newcard } from '../../../../shared/newcard/newcard';
 import { Gift } from '../../interface/Gift/gift';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-occaisions',
-  imports: [Newcard, TranslatePipe],
+  imports: [TranslatePipe],
   templateUrl: './occaisions.html',
   styleUrl: './occaisions.css',
 })

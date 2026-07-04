@@ -1,7 +1,7 @@
 .most-popular {
   width: 100%;
   margin: 0 auto;
-  padding: 1.5rem 5rem 2rem;
+  padding: 1.5rem 0 2rem;
   box-sizing: border-box;
 }
 
@@ -185,20 +185,12 @@
 }
 
 @media (max-width: 64rem) {
-  .most-popular {
-    padding-inline: 2rem;
-  }
-
   .products-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 48rem) {
-  .most-popular {
-    padding-inline: 1rem;
-  }
-
   .products-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
