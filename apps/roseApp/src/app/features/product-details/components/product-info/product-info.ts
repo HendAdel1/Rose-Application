@@ -54,9 +54,9 @@ export class ProductInfo {
     const priceNum = parseFloat(p.price);
     const discountNum = parseFloat(p.discountValue);
     if (p.discountType === 'PERCENT') {
-      return priceNum / (1 - discountNum / 100); // old price before discount
+      return parseFloat((priceNum / (1 - discountNum / 100)).toFixed(2));
     } else {
-      return priceNum + discountNum; // assuming discount is a fixed amount subtracted
+      return parseFloat((priceNum + discountNum).toFixed(2));
     }
   });
 
