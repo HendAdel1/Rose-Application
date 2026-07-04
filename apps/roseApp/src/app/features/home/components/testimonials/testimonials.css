@@ -3,6 +3,7 @@
 }
 
 .testimonials-track {
+  direction: ltr;
   animation: testimonials-marquee 50s linear infinite;
 }
 

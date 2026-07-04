@@ -37,11 +37,13 @@
 
   <div class="w-full bg-maroon-50 py-16 dark:bg-zinc-700">
     <div
-      class="group mx-auto w-full max-w-90 overflow-x-hidden px-20 pt-12 max-xl:px-8 max-md:px-4 sm:max-w-186 lg:max-w-282">
+      class="group mx-auto w-full max-w-90 overflow-x-hidden px-20 pt-12 max-xl:px-8 max-md:px-4 sm:max-w-186 lg:max-w-282"
+      dir="ltr">
       <div class="testimonials-track flex w-max gap-15">
         @for (testimonial of marqueeItems(); track $index) {
 
         <article
+          dir="auto"
           class="relative flex w-90 max-w-full shrink-0 cursor-pointer flex-col items-center rounded-2xl bg-white px-4 pt-14 pb-6 shadow-[0_4px_24px_rgb(116_28_33/6%)]">
           @if (showAvatar(testimonial)) {
 
