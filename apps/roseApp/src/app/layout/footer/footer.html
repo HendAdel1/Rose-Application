@@ -33,18 +33,18 @@
       </div>
 
       <form
-        class="newsletter-form mt-4 flex min-h-10 w-full items-center gap-2 rounded-full bg-[#5b5a64] pl-4 dark:bg-[#242428] max-sm:flex-col max-sm:items-stretch max-sm:rounded-2xl max-sm:p-3"
+        class="newsletter-form mt-4 flex min-h-10 w-full flex-row items-center gap-2 rounded-full bg-[#5b5a64] ps-4 dark:bg-[#242428] max-sm:flex-col max-sm:items-stretch max-sm:rounded-2xl max-sm:p-3"
         [attr.aria-label]="'FOOTER.NEWSLETTER_INPUT' | translate"
       >
         <lib-custom-input
           class="min-w-0 flex-1"
           type="email"
           [placeholder]="'FOOTER.EMAIL_PLACEHOLDER' | translate"
-          inputClass=" !h-10 !min-h-10 !rounded-none !border-0 !bg-transparent !p-0 !shadow-none !text-[0.82rem] !text-white placeholder:!text-[#a5a4aa] focus:!border-0 dark:!bg-transparent"
+          inputClass="!h-10 !min-h-10 !rounded-none !border-0 !bg-transparent !p-0 !shadow-none !text-left !text-[0.82rem] !text-white placeholder:!text-[#a5a4aa] placeholder:!text-left focus:!border-0 rtl:!text-right rtl:placeholder:!text-right dark:!bg-transparent"
         ></lib-custom-input>
 
         <button
-          class="subscribe-button inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-[#ffe7ec] px-5 text-[0.82rem] leading-none text-[#8a1730] hover:bg-[#ffccd9] dark:bg-[#ff9dbc] dark:text-[#42111d] dark:hover:bg-[#ffb3c7] max-sm:w-full max-sm:justify-center"
+          class="subscribe-button inline-flex h-10 shrink-0 cursor-pointer items-center gap-2 rounded-full bg-[#ffe7ec] px-5 text-[0.82rem] leading-none text-[#8a1730] hover:bg-[#ffccd9] dark:bg-[#ff9dbc] dark:text-[#42111d] dark:hover:bg-[#ffb3c7] max-sm:w-full max-sm:justify-center"
           type="submit"
         >
           {{ 'FOOTER.SUBSCRIBE' | translate }}
