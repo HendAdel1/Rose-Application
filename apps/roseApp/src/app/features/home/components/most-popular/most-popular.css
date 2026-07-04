@@ -1,6 +1,6 @@
 .most-popular {
   width: 100%;
-  margin: 4rem auto;
+  margin: 0 auto;
   padding: 1.5rem 5rem 2rem;
   box-sizing: border-box;
 }
@@ -154,6 +154,9 @@
 }
 
 .view-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   color: #9f1f32;
   font-size: 0.82rem;
   font-weight: 700;

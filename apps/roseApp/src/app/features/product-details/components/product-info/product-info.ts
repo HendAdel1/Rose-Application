@@ -51,8 +51,8 @@ export class ProductInfo {
   readonly oldPrice = computed(() => {
     const p = this.product();
     if (!p.discountValue || p.discountValue === '0') return null;
-    const priceNum = parseFloat(p.price);
-    const discountNum = parseFloat(p.discountValue);
+    const priceNum = this.toNumber(p.price);
+    const discountNum = this.toNumber(p.discountValue);
     if (p.discountType === 'PERCENT') {
       return parseFloat((priceNum / (1 - discountNum / 100)).toFixed(2));
     } else {
@@ -60,7 +60,7 @@ export class ProductInfo {
     }
   });
 
-  readonly currentPrice = computed(() => this.product().price);
+  readonly currentPrice = computed(() => this.toNumber(this.product().price));
   readonly currency = signal('EGP');
   readonly stock = computed(() => this.product().stock);
   readonly rating = computed(() => this.product().rating);
@@ -104,4 +104,16 @@ export class ProductInfo {
       numVisible: 3,
     },
   ];
+
+  formatPrice(price: number | null): string {
+    if (price === null || Number.isNaN(price)) {
+      return '';
+    }
+
+    return price.toFixed(2);
+  }
+
+  private toNumber(value: string | number): number {
+    return typeof value === 'number' ? value : Number.parseFloat(value);
+  }
 }

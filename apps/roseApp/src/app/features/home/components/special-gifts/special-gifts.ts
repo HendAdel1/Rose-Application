@@ -30,6 +30,18 @@ export class SpecialGifts implements OnDestroy {
       image: 'special-gifts/gifts.png',
       buttonText: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.BUTTON',
     },
+    {
+      title: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.TITLE',
+      subtitle: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.SUBTITLE',
+      image: 'special-gifts/banner.png',
+      buttonText: 'HOME.SPECIAL_GIFTS.BANNERS.FLOWERS.BUTTON',
+    },
+    {
+      title: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.TITLE',
+      subtitle: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.SUBTITLE',
+      image: 'special-gifts/gifts.png',
+      buttonText: 'HOME.SPECIAL_GIFTS.BANNERS.LOVE.BUTTON',
+    },
   ];
 
   readonly activeBannerIndex = signal(0);

@@ -17,7 +17,7 @@
         </h2>
         <button class="special-gifts-featured__button" type="button" [routerLink]="['products']"  >
           {{ 'HOME.SPECIAL_GIFTS.SHOP_NOW' | translate }}
-          <span><svg lucideArrowRight [size]="16" aria-hidden="true"></svg></span>
+          <span><svg lucideArrowRight [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg></span>
         </button>
       </div>
     </div>
@@ -49,7 +49,7 @@
       </div>
 
       <div class="special-gifts-carousel__dots" aria-label="Carousel slides">
-        @for (banner of banners; track banner.title; let index = $index) {
+        @for (banner of banners; track $index; let index = $index) {
           <button
             type="button"
             class="special-gifts-carousel__dot"

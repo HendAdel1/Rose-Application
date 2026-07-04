@@ -32,12 +32,14 @@
 
     <div class="flex flex-wrap items-center gap-x-2 gap-y-3">
       <div class="flex items-baseline gap-2">
-        <span
-          class="text-2xl text-gray-300 dark:text-zinc-500 font-medium line-through"
-          >{{ oldPrice() }}</span
-        >
+        @if (oldPrice(); as previousPrice) {
+          <span
+            class="text-2xl text-gray-300 dark:text-zinc-500 font-medium line-through"
+            >{{ formatPrice(previousPrice) }}</span
+          >
+        }
         <span class="text-3xl font-bold text-[#1e293b] dark:text-zinc-100"
-          >{{ currentPrice() }}
+          >{{ formatPrice(currentPrice()) }}
           <span
             class="text-base font-semibold text-gray-600 dark:text-zinc-300 ml-1"
             >{{ currency() }}</span

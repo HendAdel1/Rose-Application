@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { LucideEye, LucideHeart, LucideShoppingCart } from '@lucide/angular';
+import { LucideArrowRight, LucideEye, LucideHeart, LucideShoppingCart } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { finalize, map } from 'rxjs';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
@@ -18,6 +18,7 @@ import { UiCard } from '../../../../shared/ui-card/ui-card';
     LucideEye,
     LucideHeart,
     LucideShoppingCart,
+    LucideArrowRight,
     TranslatePipe,
     RouterLink,
   ],

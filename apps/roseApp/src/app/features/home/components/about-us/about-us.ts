@@ -37,4 +37,5 @@ export class AboutUs {
       category: 'occasions',
     },
   ];
+
 }
