@@ -1,10 +1,10 @@
 <section class="w-full">
   <div class="grid w-full grid-cols-[226px_minmax(0,1fr)] gap-6.25 max-md:grid-cols-1">
-    <div class="relative h-82.5 overflow-hidden rounded-2xl bg-[#5c1d1d] text-white max-md:h-75 group cursor-pointer">
+    <div class="relative h-82.5 not-visited:overflow-hidden rounded-xl bg-[#5c1d1d] text-white max-md:h-75">
       <img
         src="special-gifts/gifts.png"
         [alt]="'HOME.SPECIAL_GIFTS.FEATURED_IMAGE_ALT' | translate"
-        class="pointer-events-none absolute inset-0 z-0 block h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+        class="pointer-events-none absolute inset-0 z-0 block h-full w-full object-cover object-center"
       >
       <div
         class="absolute inset-0 z-1 bg-linear-to-t from-[rgb(38,6,6,0.78)] from-0% via-[rgb(38,6,6,0.18)] via-58% to-transparent"
@@ -31,7 +31,7 @@
     </div>
 
     <div
-      class="relative h-82.5 overflow-hidden rounded-2xl bg-[#5c1d1d] text-white max-md:h-75 group"
+      class="relative h-82.5 overflow-hidden rounded-2xl bg-[#5c1d1d] text-white max-md:h-75"
       role="region"
       aria-roledescription="carousel"
       aria-label="Special gifts carousel"
@@ -39,7 +39,7 @@
       <img
         [src]="activeBanner().image"
         [alt]="activeBanner().title | translate"
-        class="pointer-events-none absolute inset-0 z-0 block h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+        class="pointer-events-none absolute inset-0 z-0 block h-full w-full object-cover object-center"
       >
 
       <div
@@ -47,7 +47,7 @@
       ></div>
 
       <div
-        class="absolute bottom-9 left-7 z-2 max-w-97.5 text-white max-md:inset-x-5 max-md:bottom-7"
+        class="absolute bottom-9 left-7 z-2 max-w-97.5 text-white max-md:inset-x-5 max-md:bottom-7 rtl:left-auto rtl:right-7"
       >
         <h1 class="text-[28px] font-bold leading-[1.1] text-white max-md:text-2xl">
           {{ activeBanner().title | translate }}
@@ -63,14 +63,15 @@
         </button>
       </div>
 
-      <div class="absolute right-5.5 top-5 z-3 flex items-center gap-2" aria-label="Carousel slides">
+      <div
+        class="absolute right-5.5 top-5 z-3 flex items-center gap-2 rtl:left-5.5 rtl:right-auto"
+        aria-label="Carousel slides"
+      >
         @for (banner of banners; track $index; let index = $index) {
           <button
             type="button"
-            class="block h-2.5 rounded-full border-0 bg-white p-0 opacity-95 transition-all duration-200"
-            [class.w-[34px]]="activeBannerIndex() === index"
-            [class.w-2.5]="activeBannerIndex() !== index"
-            [class.bg-maroon-600]="activeBannerIndex() === index"
+            class="special-gifts-carousel__dot"
+            [class.active]="activeBannerIndex() === index"
             [attr.aria-label]="'Go to slide ' + (index + 1)"
             [attr.aria-current]="activeBannerIndex() === index ? 'true' : null"
             (click)="selectBanner(index)"
@@ -79,7 +80,7 @@
       </div>
 
       <div
-        class="absolute bottom-7 right-6.5 z-3 inline-flex items-center overflow-hidden rounded-full bg-maroon-50 max-md:hidden"
+        class="absolute bottom-7 right-6.5 z-3 inline-flex items-center overflow-hidden rounded-full bg-maroon-50 max-md:hidden rtl:left-6.5 rtl:right-auto"
         aria-label="Carousel navigation"
       >
         <button
@@ -88,7 +89,8 @@
           aria-label="Previous slide"
           (click)="showPreviousBanner()"
         >
-          <svg lucideChevronLeft [size]="24" aria-hidden="true"></svg>
+          <svg lucideChevronLeft [size]="24" class="block rtl:hidden" aria-hidden="true"></svg>
+          <svg lucideChevronRight [size]="24" class="hidden rtl:block" aria-hidden="true"></svg>
         </button>
         <button
           type="button"
@@ -96,7 +98,8 @@
           aria-label="Next slide"
           (click)="showNextBanner()"
         >
-          <svg lucideChevronRight [size]="24" aria-hidden="true"></svg>
+          <svg lucideChevronRight [size]="24" class="block rtl:hidden" aria-hidden="true"></svg>
+          <svg lucideChevronLeft [size]="24" class="hidden rtl:block" aria-hidden="true"></svg>
         </button>
       </div>
     </div>
