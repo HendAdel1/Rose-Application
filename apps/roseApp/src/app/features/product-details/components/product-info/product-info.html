@@ -1,6 +1,6 @@
 <div class="flex flex-col lg:flex-row w-full mx-auto product-info">
   <!-- Left Side: Image Gallery -->
-  <div class="flex-1 w-full lg:max-w-[640px] mx-auto">
+  <div class="flex-1 w-full lg:max-w-160 mx-auto">
     @for (galleryId of [product().id]; track galleryId) {
       @if (images().length) {
         <p-galleria
