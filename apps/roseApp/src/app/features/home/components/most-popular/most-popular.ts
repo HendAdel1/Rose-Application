@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { LucideMoveRight } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { finalize, map } from 'rxjs';
@@ -19,6 +20,7 @@ import { UiCard } from '../../../../shared/ui-card/ui-card';
 export class MostPopular {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   readonly products = signal<PopularProduct[]>([]);
   readonly isLoading = signal(false);
@@ -58,5 +60,9 @@ export class MostPopular {
 
   addToWishlist(product: PopularProduct): void {
     console.log('Add to wishlist', product.id);
+  }
+
+  viewProduct(product: PopularProduct): void {
+    void this.router.navigate(['/roseApp/products', product.id]);
   }
 }

@@ -37,6 +37,7 @@
         <app-ui-card
           [product]="product"
           (wishlistClick)="addToWishlist(product)"
+          (viewClick)="viewProduct(product)"
           (cartClick)="quickAddToCart(product)"
         />
       }
