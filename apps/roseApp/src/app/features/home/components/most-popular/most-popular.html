@@ -15,10 +15,12 @@
       @for (tab of tabs; track tab) {
         <button
           type="button"
-          class="cursor-pointer border-0 bg-transparent p-0 text-xs leading-normal text-zinc-800 dark:text-zinc-100"
-          [class.font-semibold]="selectedTab() === tab"
-          [class.text-maroon-700]="selectedTab() === tab"
-          [class.dark:text-soft-pink-300]="selectedTab() === tab"
+          class="cursor-pointer border-0 bg-transparent p-0 text-xs leading-normal"
+          [ngClass]="
+            selectedTab() === tab
+              ? 'font-semibold text-maroon-600 dark:text-soft-pink-200'
+              : 'text-zinc-800 dark:text-zinc-100'
+          "
           (click)="selectTab(tab)"
         >
           {{ 'HOME.MOST_POPULAR.TABS.' + tab.toUpperCase() | translate }}
@@ -32,93 +34,18 @@
   } @else {
     <div class="products-grid">
       @for (product of products(); track product.id) {
-        <app-ui-card imageAspect="product-media">
-          <img
-            cardMedia
-            class="product-image"
-            [src]="product.imageUrl"
-            [alt]="product.title"
-            loading="lazy"
-            (error)="onImageError($event)"
-          />
-
-          <div cardBadge class="badge-list">
-            @if (product.isOutOfStock) {
-              <span class="product-badge danger">{{ 'HOME.MOST_POPULAR.BADGES.OUT_OF_STOCK' | translate }}</span>
-            } @else if (product.stock <= 10) {
-              <span class="product-badge hot">{{ 'HOME.MOST_POPULAR.BADGES.HOT' | translate }}</span>
-            } @else {
-              <span class="product-badge">{{ 'HOME.MOST_POPULAR.BADGES.NEW' | translate }}</span>
-            }
-          </div>
-
-          <div cardHoverContent class="hover-actions">
-            <button
-              type="button"
-              class="hover-action"
-              [attr.aria-label]="'HOME.MOST_POPULAR.ADD_TO_WISHLIST' | translate"
-              (click)="addToWishlist(product)"
-            >
-              <svg lucideHeart [size]="18" aria-hidden="true"></svg>
-            </button>
-            <button
-              type="button"
-              class="hover-action"
-              [attr.aria-label]="'HOME.MOST_POPULAR.VIEW_PRODUCT' | translate"
-              [routerLink]="['/roseApp/products', product.id]"
-            >
-              <svg lucideEye [size]="18" aria-hidden="true"></svg>
-            </button>
-          </div>
-
-          <div cardBody class="product-info">
-            <h3 class="product-title" [title]="product.title">
-              {{ product.title }}
-            </h3>
-
-            <div
-              class="rating"
-              [attr.aria-label]="'HOME.MOST_POPULAR.RATING' | translate: { rating: product.rating }"
-            >
-              @for (star of stars; track star) {
-                <svg
-                  class="star"
-                  [class.filled]="isStarFilled(product.rating, star)"
-                  [attr.fill]="isStarFilled(product.rating, star) ? 'currentColor' : 'none'"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M12 2.5 14.9 8.38 21.39 9.32 16.7 13.89 17.81 20.35 12 17.3 6.19 20.35 7.3 13.89 2.61 9.32 9.1 8.38 12 2.5Z"
-                  />
-                </svg>
-              }
-            </div>
-
-            <div class="price-row">
-              <span class="price">{{ formatPrice(product.price) }}</span>
-              <span class="old-price">{{ formatPrice(product.oldPrice) }}</span>
-            </div>
-          </div>
-
-          <button
-            cardActionMain
-            type="button"
-            class="cart-button"
-            [attr.aria-label]="'HOME.MOST_POPULAR.QUICK_ADD_TO_CART' | translate"
-            [disabled]="product.isOutOfStock"
-            (click)="quickAddToCart(product)"
-          >
-            <svg lucideShoppingCart [size]="18" aria-hidden="true"></svg>
-          </button>
-        </app-ui-card>
+        <app-ui-card
+          [product]="product"
+          (wishlistClick)="addToWishlist(product)"
+          (cartClick)="quickAddToCart(product)"
+        />
       }
     </div>
 
     <div class="section-footer">
       <a class="view-more" href="/roseApp/products">
         {{ 'HOME.MOST_POPULAR.VIEW_MORE' | translate }}
-        <svg lucideArrowRight [size]="14" class="rtl:rotate-180" aria-hidden="true"></svg>
+        <svg lucideMoveRight [size]="14" class="rtl:rotate-180" aria-hidden="true"></svg>
       </a>
     </div>
   }

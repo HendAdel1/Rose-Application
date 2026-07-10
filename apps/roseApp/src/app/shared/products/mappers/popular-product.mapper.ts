@@ -1,5 +1,6 @@
 import { PopularProduct } from '../models/popular-product.model';
 import { ProductApiItem } from '../models/product-api-item.model';
+import { buildProductImageUrl } from '../utils/product-card.utils';
 
 export function toMostPopularProducts(
   products: ProductApiItem[],
@@ -25,7 +26,7 @@ function toPopularProduct(product: ProductApiItem): PopularProduct {
   return {
     id: product.id,
     title: product.title,
-    imageUrl: product.cover,
+    imageUrl: buildProductImageUrl(product.cover),
     price,
     oldPrice,
     rating: product.rating,

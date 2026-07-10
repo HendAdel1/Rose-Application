@@ -1,30 +1,24 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
-import { CurrencyPipe } from '@angular/common';
-import { LucideArrowRight, LucideChevronLeft, LucideChevronRight, LucideEye, LucideHeart, LucideShoppingCart } from '@lucide/angular';
+import { LucideArrowRight, LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 import { ProductsService } from '../../../../shared/products/services/products.service';
 import { PopularProduct } from '../../../../shared/products/models/popular-product.model';
 import { toMostPopularProducts } from '../../../../shared/products/mappers/popular-product.mapper';
-import { finalize, map } from 'rxjs';
+import { finalize, map, of, switchMap } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-best-selling',
   imports: [
     CarouselModule,
     UiCard,
-    CurrencyPipe,
     LucideChevronLeft,
     LucideChevronRight,
     LucideArrowRight,
-    LucideEye,
-    LucideHeart,
-    LucideShoppingCart,
     TranslatePipe,
-    RouterLink
   ],
   templateUrl: './best-selling.html',
   styleUrl: './best-selling.css',
@@ -33,28 +27,29 @@ import { RouterLink } from '@angular/router';
 export class BestSelling {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   readonly products = signal<PopularProduct[]>([]);
   readonly isLoading = signal(false);
-  readonly stars = [1, 2, 3, 4, 5];
-  readonly fallbackImage = '/logos/rose-logo.png';
+  readonly maxCarouselItems = 12;
+  readonly minRating = 4;
 
   responsiveOptions = [
     {
       breakpoint: '1024px',
       numVisible: 3,
-      numScroll: 1
+      numScroll: 1,
     },
     {
       breakpoint: '768px',
       numVisible: 2,
-      numScroll: 1
+      numScroll: 1,
     },
     {
       breakpoint: '560px',
       numVisible: 1,
-      numScroll: 1
-    }
+      numScroll: 1,
+    },
   ];
 
   constructor() {
@@ -65,9 +60,12 @@ export class BestSelling {
     this.isLoading.set(true);
 
     this.productsService
-      .getProducts({ minRating: 4 })
+      .getProducts({ minRating: this.minRating })
       .pipe(
-        map((products) => toMostPopularProducts(products, 12)),
+        switchMap((products) =>
+          products.length > 0 ? of(products) : this.productsService.getProducts(),
+        ),
+        map((products) => toMostPopularProducts(products, this.maxCarouselItems)),
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isLoading.set(false)),
       )
@@ -78,20 +76,19 @@ export class BestSelling {
       });
   }
 
-  exploreGifts() {
+  exploreGifts(): void {
     console.log('Explore gifts clicked');
   }
 
-  addToCart(product: PopularProduct) {
+  addToCart(product: PopularProduct): void {
     console.log('Add to cart clicked for', product.title);
   }
 
-  isStarFilled(rating: number, star: number): boolean {
-    return star <= Math.round(rating);
+  addToWishlist(product: PopularProduct): void {
+    console.log('Add to wishlist', product.id);
   }
 
-  onImageError(event: Event): void {
-    const image = event.target as HTMLImageElement;
-    image.src = this.fallbackImage;
+  viewProduct(product: PopularProduct): void {
+    void this.router.navigate(['/roseApp/products', product.id]);
   }
 }

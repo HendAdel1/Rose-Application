@@ -1,31 +1,19 @@
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
-import { LucideEye, LucideHeart, LucideShoppingCart } from '@lucide/angular';
+import { Router } from '@angular/router';
 import { LoadingService } from '@org/auth-data-access';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Paginator } from 'primeng/paginator';
 import { PaginatorState } from 'primeng/types/paginator';
 import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
 import { ProductsService } from '../../../../shared/products/services/products.service';
-import {
-  buildProductImageUrl,
-  getProductCurrentPrice,
-  getProductOldPrice,
-} from '../../../../shared/products/utils/product-card.utils';
+import { toUiCardProduct } from '../../../../shared/products/utils/product-card.utils';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
+import { UiCardProduct } from '../../../../shared/ui-card/ui-card-product.model';
 
 @Component({
   selector: 'app-products-grid',
-  imports: [
-    UiCard,
-    Paginator,
-    LucideEye,
-    LucideHeart,
-    LucideShoppingCart,
-    TranslatePipe,
-    RouterLink,
-  ],
+  imports: [UiCard, Paginator, TranslatePipe],
   templateUrl: './products-grid.html',
   styleUrl: './products-grid.css',
   host: {
@@ -35,13 +23,13 @@ import { UiCard } from '../../../../shared/ui-card/ui-card';
 export class ProductsGrid {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);
   readonly page = signal(1);
   readonly limit = signal(12);
   readonly totalRecords = signal(0);
-  readonly stars = [1, 2, 3, 4, 5];
 
   readonly paginatorFirst = computed(() => (this.page() - 1) * this.limit());
 
@@ -72,6 +60,10 @@ export class ProductsGrid {
     this.loadProducts();
   }
 
+  toCardProduct(product: ProductApiItem): UiCardProduct {
+    return toUiCardProduct(product);
+  }
+
   quickAddToCart(product: ProductApiItem): void {
     console.log('Quick add to cart', product.id);
   }
@@ -80,32 +72,7 @@ export class ProductsGrid {
     console.log('Add to wishlist', product.id);
   }
 
-  getImageUrl(product: ProductApiItem): string {
-    return buildProductImageUrl(product.cover);
-  }
-
-  getCurrentPrice(product: ProductApiItem): number {
-    return getProductCurrentPrice(product);
-  }
-
-  getOldPrice(product: ProductApiItem): number | null {
-    return getProductOldPrice(product);
-  }
-
-  isOutOfStock(product: ProductApiItem): boolean {
-    return (product.stock ?? 0) <= 0;
-  }
-
-  isStarFilled(product: ProductApiItem, star: number): boolean {
-    return star <= Math.round(product.rating ?? 4);
-  }
-
-  formatPrice(price: number): string {
-    return `${price.toFixed(2)} EGP`;
-  }
-
-  onImageError(event: Event): void {
-    const image = event.target as HTMLImageElement;
-    image.src = '/logos/rose-logo.png';
+  viewProduct(product: ProductApiItem): void {
+    void this.router.navigate(['/roseApp/products', product.id]);
   }
 }
