@@ -1,27 +1,32 @@
 <div class="flex flex-col lg:flex-row w-full mx-auto product-info">
   <!-- Left Side: Image Gallery -->
   <div class="flex-1 w-full lg:max-w-[640px] mx-auto">
-    <p-galleria
-      [value]="images()"
-      [responsiveOptions]="responsiveOptions"
-      [containerStyle]="{ 'max-width': '640px', 'width': '100%' }"
-      [numVisible]="6"
-      [showItemNavigators]="false"
-      [showThumbnailNavigators]="false"
-    >
-      <ng-template #item let-item>
-        <img [src]="item.itemImageSrc" [alt]="item.alt" style="width: 100%" />
-      </ng-template>
-      <ng-template #thumbnail let-item>
-        <div class="thumbnail-wrapper">
-          <img
-            [src]="item.thumbnailImageSrc"
-            [alt]="item.alt"
-            class="thumbnail-img"
-          />
-        </div>
-      </ng-template>
-    </p-galleria>
+    @for (galleryId of [product().id]; track galleryId) {
+      @if (images().length) {
+        <p-galleria
+          [value]="images()"
+          [responsiveOptions]="responsiveOptions"
+          [containerStyle]="{ 'max-width': '640px', 'width': '100%' }"
+          [numVisible]="6"
+          [showItemNavigators]="false"
+          [showThumbnailNavigators]="false"
+          thumbnailsPosition="bottom"
+        >
+          <ng-template #item let-item>
+            <img [src]="item.itemImageSrc" [alt]="item.alt" style="width: 100%" />
+          </ng-template>
+          <ng-template #thumbnail let-item>
+            <div class="thumbnail-wrapper">
+              <img
+                [src]="item.thumbnailImageSrc"
+                [alt]="item.alt"
+                class="thumbnail-img"
+              />
+            </div>
+          </ng-template>
+        </p-galleria>
+      }
+    }
   </div>
 
   <!-- Right Side: Product Details -->

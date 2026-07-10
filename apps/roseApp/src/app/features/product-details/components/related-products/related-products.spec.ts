@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { ProductsService } from '../../../../shared/products/services/products.service';
@@ -12,6 +13,7 @@ describe('RelatedProducts', () => {
     await TestBed.configureTestingModule({
       imports: [RelatedProducts],
       providers: [
+        provideRouter([]),
         provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
         {
           provide: ProductsService,

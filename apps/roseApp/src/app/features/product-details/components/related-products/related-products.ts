@@ -1,12 +1,6 @@
 import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import {
-  LucideChevronLeft,
-  LucideChevronRight,
-  LucideEye,
-  LucideHeart,
-  LucideShoppingCart,
-} from '@lucide/angular';
+import { Router } from '@angular/router';
+import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, map, of, take } from 'rxjs';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
@@ -22,30 +16,26 @@ import { UiCard } from '../../../../shared/ui-card/ui-card';
     UiCard,
     LucideChevronLeft,
     LucideChevronRight,
-    LucideEye,
-    LucideHeart,
-    LucideShoppingCart,
     TranslatePipe,
-    RouterLink,
   ],
   templateUrl: './related-products.html',
   styleUrl: './related-products.css',
 })
 export class RelatedProducts implements OnInit {
   private readonly productsService = inject(ProductsService);
+  private readonly router = inject(Router);
 
   @ViewChild('productsTrack') private productsTrack?: ElementRef<HTMLElement>;
 
   readonly products = signal<PopularProduct[]>([]);
   readonly loading = signal(true);
-  readonly stars = [1, 2, 3, 4, 5];
-  readonly fallbackImage = '/logos/rose-logo.png';
+  readonly maxCards = 10;
 
   ngOnInit(): void {
     this.productsService
       .getProducts()
       .pipe(
-        map((products) => toMostPopularProducts(products, 10)),
+        map((products) => toMostPopularProducts(products, this.maxCards)),
         take(1),
         catchError(() => of([] as PopularProduct[])),
       )
@@ -64,7 +54,7 @@ export class RelatedProducts implements OnInit {
 
     const firstCard = track.querySelector<HTMLElement>('.related-products__item');
     const cardWidth = firstCard?.offsetWidth ?? 302;
-    const gap = 16;
+    const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 16;
     const scrollAmount = cardWidth + gap;
 
     track.scrollBy({
@@ -85,16 +75,7 @@ export class RelatedProducts implements OnInit {
     console.log('Add to wishlist', product.id);
   }
 
-  formatPrice(price: number): string {
-    return `${price.toFixed(2)} EGP`;
-  }
-
-  isStarFilled(rating: number, star: number): boolean {
-    return star <= Math.round(rating);
-  }
-
-  onImageError(event: Event): void {
-    const image = event.target as HTMLImageElement;
-    image.src = this.fallbackImage;
+  viewProduct(product: PopularProduct): void {
+    void this.router.navigate(['/roseApp/products', product.id]);
   }
 }
