@@ -1,0 +1,41 @@
+<section class="bg-white px-4 py-12 dark:bg-zinc-800 md:px-8 lg:px-20">
+  <div class="mx-auto w-full rounded-2xl bg-white p-4 dark:bg-zinc-900 md:p-6">
+    <header class="mb-4 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-end gap-2 text-zinc-800 dark:text-white">
+        <svg lucideFolderHeart [size]="42" aria-hidden="true"></svg>
+        <h1 class="text-3xl font-bold leading-none sm:text-4xl">
+          {{ 'WISHLIST.TITLE' | translate }}
+        </h1>
+        <span class="text-sm text-zinc-400">
+          {{ 'WISHLIST.ITEM_COUNT' | translate:{ count: count() } }}
+        </span>
+      </div>
+
+      <button
+        class="inline-flex h-11 w-[181px] items-center justify-center gap-2.5 rounded-lg bg-[#DC2626] px-4 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-[#DC2626] disabled:text-white disabled:opacity-100 dark:bg-[#DC2626] dark:hover:bg-red-700 dark:disabled:bg-[#DC2626] dark:disabled:text-white"
+        type="button"
+        [disabled]="count() === 0"
+        (click)="openClearConfirmation()"
+      >
+        <svg lucideBrushCleaning [size]="15" aria-hidden="true"></svg>
+        <span>{{ 'WISHLIST.CLEAR' | translate }}</span>
+      </button>
+    </header>
+
+    @if (isLoading()) {
+      <div
+        class="flex min-h-[16rem] items-center justify-center rounded-xl border border-zinc-200 bg-white text-sm font-semibold text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400"
+      >
+        {{ 'WISHLIST.LOADING' | translate }}
+      </div>
+    } @else if (items().length) {
+      <div class="rounded-xl bg-white dark:bg-zinc-900">
+        @for (item of items(); track item.id) {
+          <app-wishlist-item [item]="item" />
+        }
+      </div>
+    } @else {
+      <app-wishlist-empty-state />
+    }
+  </div>
+</section>
