@@ -1,0 +1,21 @@
+<div
+  class="flex min-h-[16rem] flex-col items-center justify-center rounded-xl border border-zinc-200 bg-white px-6 py-10 text-center dark:border-zinc-700 dark:bg-zinc-900"
+>
+  <img
+    class="mb-5 h-48 w-80 object-contain opacity-80 sm:h-56 sm:w-96"
+    [src]="emptyImage"
+    [alt]="'WISHLIST.EMPTY_IMAGE_ALT' | translate"
+    loading="lazy"
+  />
+  <p class="text-sm text-zinc-400 dark:text-zinc-500">
+    {{ 'WISHLIST.EMPTY_MESSAGE' | translate }}
+  </p>
+</div>
+
+<a
+  class="mt-4 inline-flex items-center gap-2 rounded-lg bg-maroon-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800 dark:bg-soft-pink-300 dark:text-zinc-900 dark:hover:bg-soft-pink-400"
+  [routerLink]="['/roseApp/products']"
+>
+  <svg lucideArrowLeft [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg>
+  <span>{{ 'WISHLIST.CONTINUE_SHOPPING' | translate }}</span>
+</a>

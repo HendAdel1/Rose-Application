@@ -176,6 +176,21 @@
       "OUT_OF_STOCK": "Out of stock"
     }
   },
+  "WISHLIST": {
+    "TITLE": "Wishlist",
+    "LOADING": "Loading wishlist...",
+    "ITEM_COUNT": "{{count}} items",
+    "CLEAR": "Clear Wishlist",
+    "EMPTY_MESSAGE": "Your wishlist is empty, wanna save something special?",
+    "EMPTY_IMAGE_ALT": "Empty wishlist",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "IN_STOCK": "In Stock",
+    "OUT_OF_STOCK": "Out of Stock",
+    "RATINGS_COUNT": "({{count}} ratings)",
+    "REMOVE_ITEM": "Remove from wishlist",
+    "ADD_TO_CART": "Add to Cart",
+    "EXPLORE_SIMILAR": "Explore Similar Products"
+  },
   "features": [
     {
       "title": "Free Delivery",
