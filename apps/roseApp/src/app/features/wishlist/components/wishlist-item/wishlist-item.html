@@ -1,0 +1,72 @@
+<article
+  class="grid grid-cols-[5rem_1fr] gap-3 border-b border-zinc-100 py-4 last:border-b-0 dark:border-zinc-700 md:grid-cols-[5.5rem_1fr_auto] md:gap-4"
+>
+  <img
+    class="h-20 w-20 rounded-md object-cover md:h-28 md:w-28"
+    [src]="item().imageUrl"
+    [alt]="item().title"
+    loading="lazy"
+  />
+
+  <div class="min-w-0">
+    <span
+      class="text-xs font-bold"
+      [class.text-emerald-600]="item().inStock"
+      [class.text-red-500]="!item().inStock"
+    >
+      {{ (item().inStock ? 'WISHLIST.IN_STOCK' : 'WISHLIST.OUT_OF_STOCK') | translate }}
+    </span>
+
+    <h2 class="mt-1 text-base font-bold text-zinc-900 dark:text-white">
+      {{ item().title }}
+    </h2>
+
+    <div class="mt-2 flex flex-wrap items-center gap-2 text-xs text-blue-600">
+      <span class="inline-flex items-center gap-1 rounded-sm bg-yellow-400 px-1.5 py-0.5 font-bold text-zinc-900">
+        <svg lucideStar [size]="13" aria-hidden="true"></svg>
+        {{ item().rating | number:'1.1-1' }}
+      </span>
+      <span>{{ 'WISHLIST.RATINGS_COUNT' | translate:{ count: item().ratingsCount } }}</span>
+    </div>
+
+    <div class="mt-6 flex flex-wrap items-end gap-2">
+      <strong class="text-xl font-bold text-zinc-900 dark:text-white">
+        {{ item().price | currency:'EGP':'code':'1.2-2' }}
+      </strong>
+      @if (item().oldPrice) {
+        <span class="text-sm text-zinc-400 line-through">
+          {{ item().oldPrice | currency:'EGP':'code':'1.2-2' }}
+        </span>
+      }
+    </div>
+  </div>
+
+  <div class="col-span-2 flex flex-row items-center justify-end gap-4 md:col-span-1 md:flex-col md:items-end md:justify-between">
+    <button
+      class="inline-flex h-10 w-10 items-center justify-center rounded-md bg-red-50 text-red-500 transition hover:bg-red-100"
+      type="button"
+      [attr.aria-label]="'WISHLIST.REMOVE_ITEM' | translate"
+      (click)="onRemove()"
+    >
+      <svg lucideTrash2 [size]="16" aria-hidden="true"></svg>
+    </button>
+
+    @if (item().inStock) {
+      <button
+        class="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-maroon-900 px-5 text-sm font-semibold text-white transition hover:bg-maroon-800 dark:bg-soft-pink-300 dark:text-zinc-900 dark:hover:bg-soft-pink-400"
+        type="button"
+        (click)="onAddToCart()"
+      >
+        <svg lucideShoppingCart [size]="16" aria-hidden="true"></svg>
+        <span>{{ 'WISHLIST.ADD_TO_CART' | translate }}</span>
+      </button>
+    } @else {
+      <a
+        class="inline-flex min-h-10 items-center justify-center rounded-md bg-red-50 px-5 text-sm font-semibold text-maroon-900 transition hover:bg-red-100 dark:bg-zinc-800 dark:text-soft-pink-200"
+        routerLink="/roseApp/products"
+      >
+        {{ 'WISHLIST.EXPLORE_SIMILAR' | translate }}
+      </a>
+    }
+  </div>
+</article>
