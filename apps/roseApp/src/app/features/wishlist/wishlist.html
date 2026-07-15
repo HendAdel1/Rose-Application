@@ -37,5 +37,15 @@
     } @else {
       <app-wishlist-empty-state />
     }
+
+    @if (!isLoading()) {
+      <a
+        class="mt-4 inline-flex items-center gap-2 rounded-lg bg-maroon-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800 dark:bg-soft-pink-300 dark:text-zinc-900 dark:hover:bg-soft-pink-400"
+        [routerLink]="['/roseApp/products']"
+      >
+        <svg lucideArrowLeft [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg>
+        <span>{{ 'WISHLIST.CONTINUE_SHOPPING' | translate }}</span>
+      </a>
+    }
   </div>
 </section>
