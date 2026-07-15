@@ -32,6 +32,7 @@ function toWishlistItem(item: WishlistApiItem): WishlistItem {
 
   return {
     id: product.id ?? item.productId ?? item.id ?? '',
+    removeId: item.id ?? product.id ?? item.productId ?? '',
     title: product.title ?? '',
     imageUrl: buildProductImageUrl(product.cover),
     price: getCurrentPrice(product),

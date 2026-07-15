@@ -22,11 +22,12 @@ import { WishlistItem as WishlistProduct } from '../../models/wishlist-item.mode
 })
 export class WishlistItem {
   readonly item = input.required<WishlistProduct>();
+  readonly isRemoving = input(false);
   readonly remove = output<string>();
   readonly addToCart = output<string>();
 
   onRemove(): void {
-    this.remove.emit(this.item().id);
+    this.remove.emit(this.item().removeId);
   }
 
   onAddToCart(): void {
