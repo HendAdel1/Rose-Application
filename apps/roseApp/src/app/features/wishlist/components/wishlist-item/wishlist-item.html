@@ -43,8 +43,9 @@
 
   <div class="col-span-2 flex flex-row items-center justify-end gap-4 md:col-span-1 md:flex-col md:items-end md:justify-between">
     <button
-      class="inline-flex h-10 w-10 items-center justify-center rounded-md bg-red-50 text-red-500 transition hover:bg-red-100"
+      class="inline-flex h-10 w-10 items-center justify-center rounded-md bg-red-50 text-red-500 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
       type="button"
+      [disabled]="isRemoving()"
       [attr.aria-label]="'WISHLIST.REMOVE_ITEM' | translate"
       (click)="onRemove()"
     >

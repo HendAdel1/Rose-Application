@@ -45,6 +45,7 @@ export class WishlistActionsService {
   private toWishlistItem(product: WishlistProductSnapshot): WishlistItem {
     return {
       id: product.id,
+      removeId: product.id,
       title: product.title,
       imageUrl: product.imageUrl,
       price: product.price,

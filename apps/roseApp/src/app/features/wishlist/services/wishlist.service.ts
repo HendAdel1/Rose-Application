@@ -48,6 +48,26 @@ export class WishlistService {
     return this.loadWishlist().pipe(switchMap(addToWishlist));
   }
 
+  removeProduct(productId: string): Observable<void> {
+    return this.http.delete<void>(`${this.wishlistUrl}/${productId}`).pipe(
+      tap(() => {
+        this.wishlistItems.update((items) =>
+          items.filter((item) => item.removeId !== productId && item.id !== productId),
+        );
+        this.wishlistLoaded.set(true);
+      }),
+    );
+  }
+
+  clearWishlist(): Observable<void> {
+    return this.http.delete<void>(this.wishlistUrl).pipe(
+      tap(() => {
+        this.wishlistItems.set([]);
+        this.wishlistLoaded.set(true);
+      }),
+    );
+  }
+
   hasItem(productId: string): boolean {
     return this.wishlistItems().some((item) => item.id === productId);
   }
