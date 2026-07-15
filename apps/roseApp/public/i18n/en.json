@@ -189,7 +189,9 @@
     "RATINGS_COUNT": "({{count}} ratings)",
     "REMOVE_ITEM": "Remove from wishlist",
     "ADD_TO_CART": "Add to Cart",
-    "EXPLORE_SIMILAR": "Explore Similar Products"
+    "EXPLORE_SIMILAR": "Explore Similar Products",
+    "ADD_SUCCESS": "Product added to your wishlist.",
+    "ALREADY_EXISTS": "This product is already in your wishlist."
   },
   "features": [
     {
