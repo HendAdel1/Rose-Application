@@ -6,7 +6,8 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LucideBrushCleaning, LucideFolderHeart } from '@lucide/angular';
+import { RouterLink } from '@angular/router';
+import { LucideArrowLeft, LucideBrushCleaning, LucideFolderHeart } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { WishlistEmptyState } from './components/wishlist-empty-state/wishlist-empty-state';
@@ -15,7 +16,15 @@ import { WishlistService } from './services/wishlist.service';
 
 @Component({
   selector: 'app-wishlist',
-  imports: [LucideBrushCleaning, LucideFolderHeart, TranslatePipe, WishlistEmptyState, WishlistItem],
+  imports: [
+    LucideArrowLeft,
+    LucideBrushCleaning,
+    LucideFolderHeart,
+    RouterLink,
+    TranslatePipe,
+    WishlistEmptyState,
+    WishlistItem,
+  ],
   templateUrl: './wishlist.html',
   styleUrl: './wishlist.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
