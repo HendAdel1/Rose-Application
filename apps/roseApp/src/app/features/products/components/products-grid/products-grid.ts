@@ -68,10 +68,6 @@ export class ProductsGrid {
     console.log('Quick add to cart', product.id);
   }
 
-  addToWishlist(product: ProductApiItem): void {
-    console.log('Add to wishlist', product.id);
-  }
-
   viewProduct(product: ProductApiItem): void {
     void this.router.navigate(['/roseApp/products', product.id]);
   }
