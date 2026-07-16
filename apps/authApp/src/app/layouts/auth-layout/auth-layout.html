@@ -1,13 +1,32 @@
-<div class="min-h-screen flex flex-col lg:flex-row bg-white">
+<div class="min-h-screen flex flex-col lg:flex-row bg-white dark:bg-zinc-800">
   <!-- Content -->
   <div class="flex-1 flex items-center justify-center py-12">
-    <div class="w-full max-w-md px-6">
-      <router-outlet></router-outlet>
+    <div class="w-full max-w-md px-5">
+      <div class="text-end">
+        <button
+          type="button"
+          class="language-toggle font-zain text-zinc-700 hover:text-maroon-700 dark:text-zinc-50 dark:hover:text-soft-pink-300"
+          [attr.lang]="languageLabelLang()"
+          [attr.aria-label]="'AUTH.SWITCH_LANGUAGE' | translate"
+          (click)="toggleLanguage()"
+        >
+          {{ languageLabel() }}
+        </button>
+      </div>
+      <img src="/images/maroon-separator.png" alt="" class="my-10 dark:hidden" />
+      <img src="/images/pink-separator.png" alt="" class="my-10 hidden dark:block" />
+        <router-outlet></router-outlet>
+      <img src="/images/maroon-separator.png" alt="" class="rotate-180 my-10 dark:hidden" />
+      <img src="/images/pink-separator.png" alt="" class="rotate-180 my-10 hidden dark:block" />
     </div>
   </div>
 
   <!-- Right Side - image -->
   <div class="hidden lg:flex flex-1 h-screen sticky top-0 overflow-hidden">
-    <img src="/images/auth-background.png" alt="Gifts Cover" class="w-full h-full object-cover" />
+    <img
+      src="/images/auth-background.png"
+      [alt]="'AUTH.GIFTS_COVER' | translate"
+      class="w-full h-full object-cover"
+    />
   </div>
 </div>

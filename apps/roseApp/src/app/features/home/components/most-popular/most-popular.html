@@ -1,0 +1,53 @@
+<section class="most-popular mx-auto w-full" aria-labelledby="most-popular-title">
+  <div
+    class="mb-12 flex items-end justify-between gap-4 max-md:flex-col max-md:items-start"
+  >
+    <app-custom-heading
+      [title]="'HOME.MOST_POPULAR.TITLE' | translate"
+      align="start"
+      headingId="most-popular-title"
+    />
+
+    <div
+      class="flex items-center gap-6 overflow-x-auto whitespace-nowrap pb-2 mt-4 max-md:w-full max-md:pb-0"
+      [attr.aria-label]="'HOME.MOST_POPULAR.CATEGORIES_ARIA' | translate"
+    >
+      @for (tab of tabs; track tab) {
+        <button
+          type="button"
+          class="cursor-pointer border-0 bg-transparent p-0 text-xs leading-normal"
+          [ngClass]="
+            selectedTab() === tab
+              ? 'font-semibold text-maroon-600 dark:text-soft-pink-200'
+              : 'text-zinc-800 dark:text-zinc-100'
+          "
+          (click)="selectTab(tab)"
+        >
+          {{ 'HOME.MOST_POPULAR.TABS.' + tab.toUpperCase() | translate }}
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="state-message">{{ 'HOME.MOST_POPULAR.LOADING' | translate }}</div>
+  } @else {
+    <div class="products-grid">
+      @for (product of products(); track product.id) {
+        <app-ui-card
+          [product]="product"
+          (wishlistClick)="addToWishlist(product)"
+          (viewClick)="viewProduct(product)"
+          (cartClick)="quickAddToCart(product)"
+        />
+      }
+    </div>
+
+    <div class="section-footer">
+      <a class="view-more" href="/roseApp/products">
+        {{ 'HOME.MOST_POPULAR.VIEW_MORE' | translate }}
+        <svg lucideMoveRight [size]="14" class="rtl:rotate-180" aria-hidden="true"></svg>
+      </a>
+    </div>
+  }
+</section>

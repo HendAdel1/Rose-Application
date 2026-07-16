@@ -1,55 +1,57 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <p class="font-edwardian text-maroon-700 text-5xl text-center mb-4">Welcome back!</p>
-    <hr class="text-zinc-200 mb-6">
+  <p class="font-edwardian text-maroon-700 text-5xl text-center mb-4 dark:text-soft-pink-300">
+    {{ 'AUTH.LOGIN.WELCOME' | translate }}
+  </p>
+  <hr class="text-zinc-200 mb-6 dark:text-zinc-600">
 
-    <div class="mb-4">
-        <label for="email" class="block font-inter text-sm font-medium text-zinc-800 mb-1.5">
-            Email
-        </label>
+  <div class="mb-4">
+    <lib-custom-input
+      id="username"
+      [label]="'AUTH.COMMON.USERNAME' | translate"
+      formControlName="username"
+      type="text"
+      placeholder="johndoe"
+      [isInvalid]="!!usernameError()"
+      [errorMessage]="usernameError()"
+    />
+  </div>
 
-        <input type="email" placeholder="user@example.com" formControlName="email"
-            class="w-full font-inter rounded-[10px] border border-zinc-300 p-4 focus:outline-none hover:border-zinc-400 focus:border-maroon-600 placeholder:text-zinc-400" />
-    </div>
-
-    <!-- Password -->
-  <div>
-    <label for="password" class="block text-sm font-medium text-gray-800 mb-2">
-      Password
-    </label>
-
-    <div class="flex flex-col relative">
-      <input [type]="showPassword ? 'text' : 'password'" placeholder="********" formControlName="password"
-        class="w-full font-inter rounded-[10px] border border-zinc-300 p-4 focus:outline-none hover:border-zinc-400 focus:border-maroon-600 placeholder:text-zinc-400"/>
-      
-      
-      <!-- <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer" (click)="togglePassword()">
-        <i-lucide [name]="showPassword ? 'eye-off' : 'eye'" [size]="18" class="text-gray-300"></i-lucide>
-      </span> -->
-    </div>
+  <div class="mb-4">
+    <lib-custom-input
+      id="password"
+      [label]="'AUTH.COMMON.PASSWORD' | translate"
+      formControlName="password"
+      type="password"
+      placeholder="********"
+      [isInvalid]="!!passwordError()"
+      [errorMessage]="passwordError()"
+    />
   </div>
 
   <div class="text-end mt-2.5">
-    <a class="font-inter font-semibold text-maroon-700 cursor-pointer" routerLink="">
-      Forgot your password?
+    <a class="font-inter font-semibold text-maroon-700 cursor-pointer dark:text-soft-pink-300" routerLink="../forgot-password">
+      {{ 'AUTH.LOGIN.FORGOT_PASSWORD' | translate }}
     </a>
   </div>
 
-  
-     <div class="flex items-center gap-2.5 mt-8">
-
-      <input
-      type="checkbox"
-      class="h-5 w-5 rounded border-maroon-700 accent-maroon-700"
-    />
-    <span class="font-inter text-sm text-zinc-800">
-      Remember me
+  <label class="flex items-center gap-2.5 mt-8 cursor-pointer">
+    <span class="relative inline-flex h-5 w-5 shrink-0">
+      <input id="rememberMe" type="checkbox" formControlName="rememberMe"
+        class="peer absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0" />
+      <span aria-hidden="true" class="pointer-events-none absolute inset-0 rounded-md border-2 border-maroon-700
+          peer-checked:bg-maroon-700 peer-checked:border-maroon-700
+          dark:border-soft-pink-300 dark:peer-checked:bg-soft-pink-300 dark:peer-checked:border-soft-pink-300"></span>
+      <span aria-hidden="true"
+        class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 peer-checked:opacity-100">
+        <span class="h-2 w-1 rotate-45 border-r-2 border-b-2 border-white translate-y-px"></span>
+      </span>
     </span>
-    </div>
+    <span class="font-inter text-sm text-zinc-800 dark:text-zinc-50">
+      {{ 'AUTH.LOGIN.REMEMBER_ME' | translate }}
+    </span>
+  </label>
 
-  <!-- Button -->
-  <app-auth-button [loading]="isSubmitting">
-    Login
-  </app-auth-button>
-
-
+  <lib-ui-button type="submit" [loading]="loading.isLoading()">
+    {{ 'AUTH.LOGIN.SUBMIT' | translate }}
+  </lib-ui-button>
 </form>

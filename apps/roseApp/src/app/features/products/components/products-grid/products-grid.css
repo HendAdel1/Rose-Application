@@ -1,0 +1,86 @@
+/* PrimeNG paginator — deep styles only; card layout uses Tailwind in template */
+:host ::ng-deep p-paginator.products-paginator,
+:host ::ng-deep .products-paginator.p-paginator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+:host ::ng-deep .products-paginator .p-paginator-pages {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+:host ::ng-deep .products-paginator .p-paginator-page,
+:host ::ng-deep .products-paginator .p-paginator-first,
+:host ::ng-deep .products-paginator .p-paginator-prev,
+:host ::ng-deep .products-paginator .p-paginator-next,
+:host ::ng-deep .products-paginator .p-paginator-last {
+  display: flex;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-zinc-300);
+  border-radius: 0.6rem;
+  background: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-zinc-900);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+:host ::ng-deep .products-paginator .p-paginator-first-icon,
+:host ::ng-deep .products-paginator .p-paginator-prev-icon,
+:host ::ng-deep .products-paginator .p-paginator-next-icon,
+:host ::ng-deep .products-paginator .p-paginator-last-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: var(--color-zinc-700);
+}
+
+:host ::ng-deep .products-paginator .p-paginator-page-selected,
+:host ::ng-deep .products-paginator .p-paginator-page.p-paginator-page-selected {
+  border-color: var(--color-maroon-600);
+  background: var(--color-maroon-600);
+  color: #fff;
+  font-weight: 600;
+}
+
+:host ::ng-deep .products-paginator .p-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-page,
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-first,
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-prev,
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-next,
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-last {
+  border-color: var(--color-zinc-700);
+  background: var(--color-zinc-700);
+  color: var(--color-zinc-50);
+}
+
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-first-icon,
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-prev-icon,
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-next-icon,
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-last-icon {
+  color: var(--color-zinc-50);
+}
+
+:host-context(html.dark) ::ng-deep .products-paginator .p-paginator-page-selected,
+:host-context(html.dark)
+  ::ng-deep
+  .products-paginator
+  .p-paginator-page.p-paginator-page-selected {
+  border-color: var(--color-soft-pink-300);
+  background: var(--color-soft-pink-300);
+  color: var(--color-maroon-950);
+}

@@ -1,0 +1,52 @@
+<section class="text-center">
+  <div
+    class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-soft-pink-100 text-maroon-700 dark:bg-zinc-700 dark:text-soft-pink-300"
+    aria-hidden="true"
+  >
+    <svg lucideMailCheck [size]="32"></svg>
+  </div>
+
+  <h1
+    class="mb-3 font-edwardian text-5xl text-maroon-700 dark:text-soft-pink-300"
+  >
+    {{ 'AUTH.RESET_LINK.TITLE' | translate }}
+  </h1>
+
+  <p class="font-inter text-base leading-7 text-zinc-700 dark:text-zinc-200">
+    {{ 'AUTH.RESET_LINK.SENT_TO' | translate }}
+  </p>
+  <p
+    class="mt-1 break-all font-inter font-semibold text-maroon-700 dark:text-soft-pink-300"
+  >
+    {{ userEmail() }}
+  </p>
+
+  <p
+    class="mx-auto mt-5 max-w-sm font-inter text-sm leading-6 text-zinc-500 dark:text-zinc-400"
+  >
+    {{ 'AUTH.RESET_LINK.INSTRUCTIONS' | translate }}
+    {{ 'AUTH.RESET_LINK.SPAM_NOTE' | translate }}
+  </p>
+
+  <div class="mt-8">
+    <lib-ui-button
+      type="button"
+      [disabled]="isResendDisabled()"
+      (clicked)="resendLink()"
+    >
+      @if (isResendDisabled()) {
+        {{ 'AUTH.RESET_LINK.RESEND_IN' | translate: { seconds: cooldownSeconds() } }}
+      } @else {
+        {{ 'AUTH.RESET_LINK.RESEND' | translate }}
+      }
+    </lib-ui-button>
+  </div>
+
+  <a
+    routerLink="../login"
+    class="mt-5 inline-flex items-center gap-2 font-inter text-sm font-semibold text-maroon-700 transition-colors hover:text-maroon-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-maroon-700 dark:text-soft-pink-300 dark:hover:text-soft-pink-200"
+  >
+    <svg lucideArrowLeft [size]="18" aria-hidden="true"></svg>
+    {{ 'AUTH.LINKS.BACK_TO_LOGIN' | translate }}
+  </a>
+</section>

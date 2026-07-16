@@ -1,0 +1,21 @@
+.toast-container .ngx-toastr {
+  padding: 0;
+  width: auto;
+  max-width: none;
+  border-radius: 0;
+  background: transparent;
+  background-image: none;
+  box-shadow: none;
+  color: inherit;
+}
+
+.toast-container .ngx-toastr:hover {
+  box-shadow: none;
+}
+
+.toast-container .ngx-toastr.toast-success,
+.toast-container .ngx-toastr.toast-error,
+.toast-container .ngx-toastr.toast-info,
+.toast-container .ngx-toastr.toast-warning {
+  background-image: none;
+}

@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AuthSessionService } from '@org/auth-data-access';
 import { provideTranslateService } from '@ngx-translate/core';
 import { MainLayout } from './main-layout';
 
@@ -7,7 +9,17 @@ describe('MainLayout', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([]), MainLayout],
-      providers: [provideTranslateService({ fallbackLang: 'en', lang: 'en' })],
+      providers: [
+        provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
+        {
+          provide: AuthSessionService,
+          useValue: {
+            currentUser: signal(null),
+            isAuthenticated: signal(false),
+            logout: () => undefined,
+          },
+        },
+      ],
     }).compileComponents();
   });
 

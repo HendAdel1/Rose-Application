@@ -1,0 +1,102 @@
+:host .custom-input__control {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff !important;
+  color: #27272a;
+  border-color: #d4d4d8;
+}
+
+:host-context(html[lang='ar']) .custom-input__control {
+  font-family: 'Zain', sans-serif;
+}
+
+:host .custom-input__control::placeholder {
+  color: #a1a1aa;
+}
+
+:host .custom-input__control:hover:not(:disabled) {
+  border-color: #a1a1aa;
+}
+
+:host .custom-input__control:focus {
+  outline: none;
+  border-color: var(--color-maroon-600);
+}
+
+:host .custom-input__control:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+:host .custom-input__control[aria-invalid='true'] {
+  border-color: #dc2626;
+}
+
+:host .custom-input__control[aria-invalid='true']:hover:not(:disabled),
+:host .custom-input__control[aria-invalid='true']:focus {
+  border-color: #dc2626;
+}
+
+html.dark :host .custom-input__control,
+html:has(#theme-dark:checked) :host .custom-input__control {
+  background-color: #3f3f46 !important;
+  color: #fafafa;
+  border-color: #52525b;
+}
+
+html.dark :host .custom-input__control::placeholder,
+html:has(#theme-dark:checked) :host .custom-input__control::placeholder {
+  color: #71717a;
+}
+
+html.dark :host .custom-input__control:hover:not(:disabled),
+html:has(#theme-dark:checked) :host .custom-input__control:hover:not(:disabled) {
+  border-color: #71717a;
+}
+
+html.dark :host .custom-input__control:focus,
+html:has(#theme-dark:checked) :host .custom-input__control:focus {
+  border-color: var(--color-soft-pink-400);
+}
+
+html.dark :host .custom-input__control[aria-invalid='true'],
+html:has(#theme-dark:checked) :host .custom-input__control[aria-invalid='true'] {
+  border-color: #ef4444;
+}
+
+html.dark :host .custom-input__control[aria-invalid='true']:hover:not(:disabled),
+html.dark :host .custom-input__control[aria-invalid='true']:focus,
+html:has(#theme-dark:checked) :host .custom-input__control[aria-invalid='true']:hover:not(:disabled),
+html:has(#theme-dark:checked) :host .custom-input__control[aria-invalid='true']:focus {
+  border-color: #ef4444;
+}
+
+:host .custom-input__control:-webkit-autofill,
+:host .custom-input__control:-webkit-autofill:hover,
+:host .custom-input__control:-webkit-autofill:focus,
+:host .custom-input__control:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #27272a !important;
+  caret-color: #27272a;
+  transition: background-color 9999s ease-out 0s;
+}
+
+html.dark :host .custom-input__control:-webkit-autofill,
+html.dark :host .custom-input__control:-webkit-autofill:hover,
+html.dark :host .custom-input__control:-webkit-autofill:focus,
+html.dark :host .custom-input__control:-webkit-autofill:active,
+html:has(#theme-dark:checked) :host .custom-input__control:-webkit-autofill,
+html:has(#theme-dark:checked) :host .custom-input__control:-webkit-autofill:hover,
+html:has(#theme-dark:checked) :host .custom-input__control:-webkit-autofill:focus,
+html:has(#theme-dark:checked) :host .custom-input__control:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #3f3f46 inset !important;
+  box-shadow: 0 0 0 1000px #3f3f46 inset !important;
+  -webkit-text-fill-color: #fafafa !important;
+  caret-color: #fafafa;
+}
+
+html.dark :host select.custom-input__control option,
+html:has(#theme-dark:checked) :host select.custom-input__control option {
+  background-color: #3f3f46;
+  color: #fafafa;
+}

@@ -26,6 +26,6 @@ export const appRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'authApp',
+    redirectTo: 'roseApp',
   },
 ];

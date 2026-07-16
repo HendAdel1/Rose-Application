@@ -1,5 +1,5 @@
 .app-layout {
-  background: #f9fafb;
+  /* background: #f9fafb; */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -9,4 +9,9 @@
   flex: 1;
   min-width: 0;
   width: 100%;
+}
+
+:host-context(html.dark) .app-layout,
+:host-context(html:has(#theme-dark:checked)) .app-layout {
+  background: #27272a;
 }

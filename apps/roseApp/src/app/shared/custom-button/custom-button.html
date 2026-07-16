@@ -1,0 +1,12 @@
+<button
+  type="button"
+  [class]="buttonClass()"
+  [disabled]="disabled()"
+  (click)="btnClick.emit()"
+>
+  <ng-content />
+
+  @if (label()) {
+    <span class="btn-label">{{ label() }}</span>
+  }
+</button>

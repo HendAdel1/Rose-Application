@@ -1,0 +1,20 @@
+.home-sections {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-sections > * {
+  display: block;
+}
+
+@media (max-width: 64rem) {
+  .home-sections {
+    gap: 4rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .home-sections {
+    gap: 3rem;
+  }
+}

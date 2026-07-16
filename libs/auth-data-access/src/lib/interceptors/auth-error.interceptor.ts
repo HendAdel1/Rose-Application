@@ -18,7 +18,7 @@ export const authErrorInterceptor: HttpInterceptorFn = (
 ) => {
   const config = inject(AUTH_DATA_ACCESS_CONFIG);
   const toastr = inject(ToastrService);
-  const apiBaseUrl = config.apiBaseUrl.replace(/\/$/, '');
+  const apiBaseUrl = getApiScopeBaseUrl(config.apiBaseUrl);
 
   if (!request.url.startsWith(apiBaseUrl)) {
     return next(request);
@@ -26,6 +26,13 @@ export const authErrorInterceptor: HttpInterceptorFn = (
 
   return next(request).pipe(
     mergeMap((event) => {
+      if (
+        event instanceof HttpResponse &&
+        isCompletedRegisterResponse(request, event.body)
+      ) {
+        return of(event);
+      }
+
       if (event instanceof HttpResponse && isFailedAuthResponse(event.body)) {
         const authError: AuthError = {
           code: 'BAD_REQUEST',
@@ -62,6 +69,17 @@ function isFailedAuthResponse(body: unknown): body is Record<string, unknown> {
   );
 }
 
+function isCompletedRegisterResponse(
+  request: HttpRequest<unknown>,
+  body: unknown
+): boolean {
+  return (
+    request.url.endsWith('/register') &&
+    isFailedAuthResponse(body) &&
+    getResponseMessage(body).includes('Please verify your email first')
+  );
+}
+
 function getResponseMessage(body: Record<string, unknown>): string {
   const message = body['message'];
 
@@ -89,4 +107,8 @@ function getErrorSummary(error: AuthError): string {
   }
 
   return 'Authentication error';
+}
+
+function getApiScopeBaseUrl(apiBaseUrl: string): string {
+  return apiBaseUrl.replace(/\/$/, '').replace(/\/auth$/, '');
 }

@@ -1,0 +1,46 @@
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(3, auto);
+  gap: 1.25rem 1.5rem;
+}
+
+.section-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.view-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #9f1f32;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.state-message {
+  padding: 3rem 1rem;
+  color: #71717a;
+  text-align: center;
+}
+
+:host-context(html.dark) .view-more {
+  color: #ff9dbc;
+}
+
+@media (max-width: 48rem) {
+  .products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+}
+
+@media (max-width: 32rem) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+}

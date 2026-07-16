@@ -1,0 +1,27 @@
+<section class="w-full">
+  <div class="grid grid-cols-1 gap-[25px] md:grid-cols-3">
+    @for (item of occasionsList; track item.title) {
+      <div class="relative h-[220px] overflow-hidden rounded-2xl bg-[#5c1d1d] text-white group cursor-pointer">
+        <img
+          [src]="item.image"
+          [alt]="item.title | translate"
+          class="pointer-events-none absolute inset-0 z-0 block h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+        >
+        <div
+          class="absolute inset-0 z-[1] bg-gradient-to-t from-[rgb(38,6,6,0.78)] from-0% via-[rgb(38,6,6,0.18)] via-[58%] to-transparent"
+        ></div>
+
+        <div class="absolute inset-x-4 bottom-[18px] z-[2]">
+          <span
+            class="inline-flex h-[18px] items-center rounded-full bg-maroon-50 px-2 text-[10px] font-semibold leading-none text-maroon-600"
+          >
+            {{ item.badge | translate }}
+          </span>
+          <h3 class="mt-2 text-lg font-bold leading-[1.1] text-white max-w-[90%]">
+            {{ item.title | translate }}
+          </h3>
+        </div>
+      </div>
+    }
+  </div>
+</section>

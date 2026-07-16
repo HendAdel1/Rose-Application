@@ -1,0 +1,32 @@
+@let _options = options();
+
+<div
+  class="ngx-ui-toast__inner relative box-border w-110 min-h-13.25 rounded-2xl px-4 py-2 font-mulish text-sm font-semibold text-zinc-800 shadow-sm"
+  [class.bg-zinc-300]="variant() === 'info'"
+  [class.bg-emerald-300]="variant() === 'success'"
+  [class.bg-red-300]="variant() === 'error'"
+  role="status"
+  [attr.aria-live]="variant() === 'error' ? 'assertive' : 'polite'"
+>
+  @if (_options.closeButton) {
+    <button
+      type="button"
+      class="ngx-ui-toast__close"
+      aria-label="Dismiss notification"
+      (click)="remove(); $event.stopPropagation()"
+    >
+      <svg lucideIcon="x" [size]="16" aria-hidden="true"></svg>
+    </button>
+  }
+
+  <div class="ngx-ui-toast__content flex items-center gap-3">
+    <svg
+      [lucideIcon]="statusIcon()"
+      class="shrink-0"
+      [size]="24"
+      aria-hidden="true"
+    ></svg>
+
+    <p class="m-0 flex-1 leading-snug">{{ displayText() }}</p>
+  </div>
+</div>

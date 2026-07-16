@@ -1,0 +1,339 @@
+.product-reviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: inherit;
+}
+
+.reviews-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.general-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.general-rating-label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.general-rating-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.rating-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.rating-count {
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.reviews-divider {
+  border: 0;
+  border-top: 1px solid var(--color-zinc-100);
+  margin: 0;
+}
+:host-context(html.dark) .reviews-divider,
+:host-context(html:has(#theme-dark:checked)) .reviews-divider {
+  border-top: 1px solid var(--color-zinc-700);
+}
+
+.reviews-content {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  flex: 3;
+  min-width: 300px;
+  max-height: 367px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.reviews-list::-webkit-scrollbar {
+  display: none;
+}
+
+.review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.review-user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-maroon-600);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.review-date {
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.review-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.review-rating-number {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.review-title {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 100%;
+  margin: 0;
+}
+
+.review-text {
+  font-size: 1rem;
+  line-height: 100%;
+  font-weight: 400;
+  opacity: 0.85;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.review-item-divider {
+  border: 0;
+  border-top: 1px solid var(--color-zinc-100);
+  margin: 0;
+}
+:host-context(html.dark) .review-item-divider,
+:host-context(html:has(#theme-dark:checked)) .review-item-divider {
+  border-top: 1px solid var(--color-zinc-700);
+}
+/* Add Review Form */
+.add-review-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 300px;
+  border-left: 1px solid var(--color-zinc-100);
+  padding-left: 2rem;
+}
+:host-context(html.dark) .add-review-section,
+:host-context(html:has(#theme-dark:checked)) .add-review-section {
+  border-left: 1px solid var(--color-zinc-700);
+}
+
+@media (max-width: 768px) {
+  .add-review-section {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid #e4e4e7;
+    padding-top: 2rem;
+  }
+}
+
+.add-review-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.add-review-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.875rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  background-color: transparent;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  color: inherit;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  opacity: 0.5;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--color-maroon-400);
+  box-shadow: 0 0 0 2px var(--color-maroon-50);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+:host-context(html.dark) .form-input,
+:host-context(html.dark) .form-textarea {
+  border: 0.5px solid var(--color-zinc-700);
+  background: #3f3f46;
+}
+:host-context(html:has(#theme-dark:checked)) .form-input,
+:host-context(html:has(#theme-dark:checked)) .form-textarea {
+  border: 0.5px solid var(--color-zinc-700);
+  background: #3f3f46;
+}
+/* Rating colors */
+:host ::ng-deep .p-rating .p-rating-item.p-rating-item-active .p-rating-icon {
+  color: #ffa508;
+}
+
+/* For empty stars in "Your rating:" row, use yellow outline */
+:host ::ng-deep .empty-stars-yellow .p-rating-item .p-rating-icon {
+  color: #ffa508;
+}
+
+/* For other empty stars, standard color */
+:host
+  ::ng-deep
+  .p-rating:not(.empty-stars-yellow)
+  .p-rating-item
+  .p-rating-icon {
+  color: #ffa508;
+}
+
+/* Ensure the filled stars are always yellow even if .empty-stars-yellow is applied */
+:host
+  ::ng-deep
+  .empty-stars-yellow
+  .p-rating-item.p-rating-item-active
+  .p-rating-icon {
+  color: #ffa508;
+}
+
+:host ::ng-deep .p-rating .p-rating-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #ffa508;
+}
+:host ::ng-deep .p-rating .p-rating-option:hover .p-rating-icon {
+  color: #ffbf47 !important;
+}
+:host ::ng-deep .general-rating .p-rating .p-rating-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: #ffa508;
+}
+
+/* Half-star clipping for read-only ratings */
+.rating-display-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.rating-bg {
+  display: block;
+}
+
+.rating-fg-clip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.rating-fg {
+  display: flex;
+  width: max-content;
+  min-width: max-content;
+}
+
+/* Interactive half stars (10-star trick) */
+.interactive-half-stars ::ng-deep .p-rating {
+  gap: 0 !important;
+}
+
+.interactive-half-stars ::ng-deep .p-rating-item {
+  width: 0.625rem;
+  height: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.interactive-half-stars ::ng-deep .p-rating-item .p-rating-icon {
+  position: absolute;
+  top: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.interactive-half-stars ::ng-deep .p-rating-item:nth-child(odd) .p-rating-icon {
+  left: 0;
+}
+
+.interactive-half-stars
+  ::ng-deep
+  .p-rating-item:nth-child(even)
+  .p-rating-icon {
+  left: -0.625rem;
+}
+
+.interactive-half-stars ::ng-deep .p-rating-item:nth-child(even) {
+  margin-right: 0.5rem;
+}

@@ -22,3 +22,23 @@
 .font-inter {
   font-family: 'Inter', sans-serif;
 }
+
+/* Arabic script snippets (e.g. language toggle label while UI is English) */
+:lang(ar) {
+  font-family: 'Zain', sans-serif;
+}
+
+/* Arabic locale — Zain across the app when lang is ar */
+html[lang='ar'],
+html[lang='ar'] body {
+  font-family: 'Zain', sans-serif;
+}
+
+html[lang='ar'] .font-inter,
+html[lang='ar'] input,
+html[lang='ar'] select,
+html[lang='ar'] textarea,
+html[lang='ar'] button,
+html[lang='ar'] label {
+  font-family: 'Zain', sans-serif;
+}

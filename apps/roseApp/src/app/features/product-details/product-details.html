@@ -1,0 +1,11 @@
+<div class="bg-white dark:bg-zinc-800 product_info_container">
+  @if (loading()) {
+    <div class="p-8 text-center text-zinc-900 dark:text-zinc-100">{{ 'PRODUCT_DETAILS.LOADING' | translate }}</div>
+  } @else if (product()) {
+    <app-product-info [product]="product()!"></app-product-info>
+    <app-product-review [product]="product()!"></app-product-review>
+    <app-related-products></app-related-products>
+  } @else {
+    <div class="p-8 text-center text-red-500 dark:text-red-400">{{ 'PRODUCT_DETAILS.NOT_FOUND' | translate }}</div>
+  }
+</div>
