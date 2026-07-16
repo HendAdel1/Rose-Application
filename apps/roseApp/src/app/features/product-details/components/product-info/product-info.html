@@ -83,7 +83,7 @@
       <span
         >{{ 'PRODUCT_DETAILS.RATING_LABEL' | translate }}
         <strong class="font-bold text-[#1e293b] dark:text-zinc-100"
-          >{{ rating() }}/5</strong
+          >{{ rating() | number:'1.0-2' }}/5</strong
         >
         <a
           href="#"
@@ -105,6 +105,8 @@
           variant="primary"
           [label]="'PRODUCT_DETAILS.ADD_TO_CART' | translate"
           [fullWidth]="true"
+          [disabled]="!isAuthenticated()"
+          (click)="addToCart()"
         >
           <svg lucideShoppingCart [size]="20" aria-hidden="true"></svg>
         </app-custom-button>
