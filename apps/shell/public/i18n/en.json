@@ -290,6 +290,35 @@
     "CANCEL": "Cancel",
     "CONFIRM": "Confirm"
   },
+  "CART": {
+    "TITLE": "Cart",
+    "PRODUCTS": "products",
+    "CLEAR_CART": "Clear Cart",
+    "EMPTY_MESSAGE": "Your cart is empty, wanna try shopping?",
+    "REMOVE": "Remove",
+    "RATING": "Rating",
+    "RATINGS": "ratings",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "COUPON_PLACEHOLDER": "Enter coupon code",
+      "APPLY_COUPON": "Apply Coupon",
+      "NO_COUPONS": "No coupons applied yet.",
+      "SUBTOTAL": "Subtotal",
+      "TOTAL": "Total",
+      "CHECKOUT": "Checkout"
+    },
+    "TOASTS": {
+      "ADD_SUCCESS": "Item added to cart successfully!",
+      "ADD_FAILED": "Failed to add item to cart.",
+      "CLEAR_SUCCESS": "Cart cleared.",
+      "CLEAR_FAILED": "Failed to clear cart.",
+      "REMOVE_SUCCESS": "Item removed from cart.",
+      "REMOVE_FAILED": "Failed to remove item.",
+      "UPDATE_SUCCESS": "Cart item updated.",
+      "UPDATE_FAILED": "Failed to update quantity."
+    }
+  },
   "features": [
     {
       "title": "Free Delivery",

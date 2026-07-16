@@ -290,6 +290,35 @@
     "CANCEL": "إلغاء",
     "CONFIRM": "تأكيد"
   },
+  "CART": {
+    "TITLE": "السلة",
+    "PRODUCTS": "منتجات",
+    "CLEAR_CART": "مسح السلة",
+    "EMPTY_MESSAGE": "سلة التسوق فارغة، هل تريد تجربة التسوق؟",
+    "REMOVE": "حذف",
+    "RATING": "التقييم",
+    "RATINGS": "تقييمات",
+    "CONTINUE_SHOPPING": "متابعة التسوق",
+    "SUMMARY": {
+      "TITLE": "الملخص",
+      "COUPON_PLACEHOLDER": "أدخل كود الخصم",
+      "APPLY_COUPON": "تطبيق الخصم",
+      "NO_COUPONS": "لم يتم تطبيق أي كوبونات بعد.",
+      "SUBTOTAL": "الإجمالي الفرعي",
+      "TOTAL": "الإجمالي",
+      "CHECKOUT": "إتمام الشراء"
+    },
+    "TOASTS": {
+      "ADD_SUCCESS": "تمت إضافة العنصر إلى السلة بنجاح!",
+      "ADD_FAILED": "فشل في إضافة العنصر إلى السلة.",
+      "CLEAR_SUCCESS": "تم مسح السلة.",
+      "CLEAR_FAILED": "فشل في مسح السلة.",
+      "REMOVE_SUCCESS": "تم حذف العنصر من السلة.",
+      "REMOVE_FAILED": "فشل في حذف العنصر.",
+      "UPDATE_SUCCESS": "تم تحديث عنصر السلة.",
+      "UPDATE_FAILED": "فشل في تحديث الكمية."
+    }
+  },
   "features": [
     {
       "title": "شحن مجاني",
