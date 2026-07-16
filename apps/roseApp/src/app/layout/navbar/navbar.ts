@@ -1,5 +1,16 @@
-import { Component, DestroyRef, computed, effect, inject, input, output, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CartService } from '../../core/services/cart.service';
 import {
   ActivatedRoute,
   Router,
@@ -82,6 +93,12 @@ export class Navbar {
   readonly menuOpen = signal(false);
   readonly profileMenuOpen = signal(false);
   readonly wishlistCount = this.wishlistService.count;
+
+  private readonly cartService = inject(CartService);
+  readonly cartItemCount = toSignal(this.cartService.cartItemCount, {
+    initialValue: 0,
+  });
+
   readonly languageLabel = computed(() =>
     this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية',
   );

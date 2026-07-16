@@ -311,5 +311,24 @@
   "GALLERY": {
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
+  },
+  "CART": {
+    "TITLE": "سلة التسوق",
+    "PRODUCTS": "المنتجات",
+    "CLEAR_CART": "مسح السلة",
+    "EMPTY_MESSAGE": "سلة التسوق فارغة، هل ترغب في التسوق؟",
+    "REMOVE": "إزالة",
+    "RATING": "التقييم",
+    "RATINGS": "تقييمات",
+    "CONTINUE_SHOPPING": "متابعة التسوق",
+    "SUMMARY": {
+      "TITLE": "الملخص",
+      "COUPON_PLACEHOLDER": "رمز الكوبون",
+      "APPLY_COUPON": "تطبيق الكوبون",
+      "NO_COUPONS": "لم يتم تطبيق أي كوبونات",
+      "SUBTOTAL": "المجموع الفرعي",
+      "TOTAL": "الإجمالي",
+      "CHECKOUT": "إتمام الشراء"
+    }
   }
 }
