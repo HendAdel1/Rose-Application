@@ -103,7 +103,13 @@
         }
       </button>
 
-      <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.SHOPPING_CART' | translate">
+      <button
+        class="icon-button has-badge"
+        type="button"
+        [routerLink]="['cart']"
+        [relativeTo]="layoutRoute"
+        [attr.aria-label]="'NAV.SHOPPING_CART' | translate"
+      >
         <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
         <span class="badge">8</span>
       </button>
