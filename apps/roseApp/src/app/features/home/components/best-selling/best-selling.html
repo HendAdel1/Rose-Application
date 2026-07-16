@@ -37,32 +37,40 @@
           {{ 'HOME.MOST_POPULAR.LOADING' | translate }}
         </p>
       } @else if (products().length) {
-        <p-carousel
-          [value]="products()"
-          [numVisible]="3"
-          [numScroll]="1"
-          [responsiveOptions]="responsiveOptions"
-          [circular]="products().length > 3"
-          [showIndicators]="false"
-          styleClass="custom-carousel"
-        >
-        <ng-template pTemplate="previousicon">
-          <svg lucideChevronLeft [size]="18" aria-hidden="true"></svg>
-        </ng-template>
-        <ng-template pTemplate="nexticon">
-          <svg lucideChevronRight [size]="18" aria-hidden="true"></svg>
-        </ng-template>
-        <ng-template pTemplate="item" let-product>
-          <div class="p-2 md:p-3">
-            <app-ui-card
-              [product]="product"
-              (wishlistClick)="addToWishlist(product)"
-              (viewClick)="viewProduct(product)"
-              (cartClick)="addToCart(product)"
-            />
+        <div class="relative">
+          <!-- Left Navigation Arrow -->
+          <button
+            type="button"
+            class="nav-button nav-button--floating nav-button--left"
+            (click)="scrollProducts('previous')"
+            aria-label="Previous products"
+          >
+            <svg lucideChevronLeft [size]="18" class="rtl:rotate-180" aria-hidden="true"></svg>
+          </button>
+
+          <!-- Products Track -->
+          <div #productsTrack class="products-track">
+            @for (product of products(); track trackProduct($index, product)) {
+              <app-ui-card
+                class="best-selling__item"
+                [product]="product"
+                (wishlistClick)="addToWishlist(product)"
+                (viewClick)="viewProduct(product)"
+                (cartClick)="addToCart(product)"
+              />
+            }
           </div>
-        </ng-template>
-      </p-carousel>
+
+          <!-- Right Navigation Arrow -->
+          <button
+            type="button"
+            class="nav-button nav-button--floating nav-button--right"
+            (click)="scrollProducts('next')"
+            aria-label="Next products"
+          >
+            <svg lucideChevronRight [size]="18" class="rtl:rotate-180" aria-hidden="true"></svg>
+          </button>
+        </div>
       }
     </div>
   </div>
