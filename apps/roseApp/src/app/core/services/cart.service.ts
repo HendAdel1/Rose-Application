@@ -116,7 +116,22 @@ export class CartService {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          this.cartItemCount.next(this.cartItemCount.value + payload.quantity);
+          if (res.payload?.cartItem) {
+            this.cartItemsAPI.update((items) => {
+              const itemExists = items.some((item) => item.id === res.payload.cartItem.id);
+
+              if (itemExists) {
+                return items.map((item) =>
+                  item.id === res.payload.cartItem.id ? res.payload.cartItem : item,
+                );
+              }
+
+              return [...items, res.payload.cartItem];
+            });
+          }
+
+          const count = this.cartItemsAPI().reduce((acc, item) => acc + item.quantity, 0);
+          this.cartItemCount.next(count || this.cartItemCount.value + payload.quantity);
           this.toastr.success(this.toast('CART.TOASTS.ADD_SUCCESS', 'Item added to cart successfully!'));
           if (onSuccess) onSuccess();
         },
@@ -149,7 +164,7 @@ export class CartService {
 
   removeCartItem(cartItemId: string, onSuccess?: () => void) {
     this.http
-      .delete<{ status: boolean; code: number; message: string }>(`${this.cartUrl}/${cartItemId}`, { context: new HttpContext().set(SKIP_LOADING, true) })
+      .delete<{ status: boolean; code: number; message: string }>(`${this.cartUrl}/${cartItemId}`)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
@@ -158,7 +173,7 @@ export class CartService {
             const newCount = this.cartItemsAPI().reduce((acc, item) => acc + item.quantity, 0);
             this.cartItemCount.next(newCount);
             
-            this.toastr.success(res.message || this.toast('CART.TOASTS.REMOVE_SUCCESS', 'Item removed from cart.'));
+            this.toastr.success(this.toast('CART.TOASTS.REMOVE_SUCCESS', 'Item removed from cart.'));
             if (onSuccess) onSuccess();
           }
         },

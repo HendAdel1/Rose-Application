@@ -1,5 +1,5 @@
 import { Component, DestroyRef, computed, effect, inject, input, output, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   ActivatedRoute,
   Router,
@@ -30,6 +30,7 @@ import { SharedI18nService } from '@org/shared-i18n';
 import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, EMPTY } from 'rxjs';
 import { WishlistService } from '../../features/wishlist/services/wishlist.service';
+import { CartService } from '../../core/services/cart.service';
 
 interface NavItem {
   labelKey: string;
@@ -69,6 +70,7 @@ export class Navbar {
   private readonly i18n = inject(SharedI18nService);
   private readonly authSession = inject(AuthSessionService);
   private readonly wishlistService = inject(WishlistService);
+  private readonly cartService = inject(CartService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   readonly layoutRoute = inject(ActivatedRoute);
@@ -82,11 +84,13 @@ export class Navbar {
   readonly menuOpen = signal(false);
   readonly profileMenuOpen = signal(false);
   readonly wishlistCount = this.wishlistService.count;
+  readonly cartCount = toSignal(this.cartService.cartItemCount, { initialValue: 0 });
   readonly languageLabel = computed(() =>
     this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية',
   );
 
   private wishlistLoaded = false;
+  private cartLoaded = false;
 
   readonly navItems: NavItem[] = [
     { labelKey: 'NAV.HOME', route: [''], icon: 'home', exact: true },
@@ -101,22 +105,28 @@ export class Navbar {
     effect(() => {
       if (!this.isAuthenticated()) {
         this.wishlistLoaded = false;
+        this.cartLoaded = false;
         this.wishlistService.setItems([]);
+        this.cartService.cartItemsAPI.set([]);
+        this.cartService.cartItemCount.next(0);
         return;
       }
 
-      if (this.wishlistLoaded) {
-        return;
+      if (!this.cartLoaded) {
+        this.cartLoaded = true;
+        this.cartService.fetchCart();
       }
 
-      this.wishlistLoaded = true;
-      this.wishlistService
-        .loadWishlist()
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          catchError(() => EMPTY),
-        )
-        .subscribe();
+      if (!this.wishlistLoaded) {
+        this.wishlistLoaded = true;
+        this.wishlistService
+          .loadWishlist()
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => EMPTY),
+          )
+          .subscribe();
+      }
     });
   }
 

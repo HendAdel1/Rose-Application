@@ -33,7 +33,7 @@ export class BestSelling {
 
   readonly products = signal<PopularProduct[]>([]);
   readonly isLoading = signal(false);
-  readonly maxCarouselItems = 12;
+  readonly maxCarouselItems = 3;
   readonly minRating = 4;
 
   responsiveOptions = [
