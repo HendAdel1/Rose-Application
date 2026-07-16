@@ -1,7 +1,6 @@
-import { Component, computed, input, output, inject } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideLoader } from '@lucide/angular';
-import { CartService } from '../../services/cart.service';
 
 export type UiButtonVariant = 'primary' | 'verify';
 
@@ -16,19 +15,7 @@ export class UiButton {
   variant = input<UiButtonVariant>('primary');
   disabled = input<boolean>(false);
   loading = input<boolean>(false);
-  productId = input<string>();
-  quantity = input<number>(1);
   clicked = output<MouseEvent>();
-
-  private readonly cartService = inject(CartService, { optional: true });
-
-  handleClick(event: MouseEvent) {
-    const pid = this.productId();
-    if (pid && this.cartService) {
-      this.cartService.addToCart({ productId: pid, quantity: this.quantity() });
-    }
-    this.clicked.emit(event);
-  }
 
   readonly buttonClasses = computed(() => {
     const base =

@@ -15,7 +15,7 @@ import {
 } from '@lucide/angular';
 import { CustomButton } from '../../../../shared/custom-button/custom-button';
 import { GalleriaModule } from 'primeng/galleria';
-import { DecimalPipe, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
 import { WishlistActionsService } from '../../../wishlist/services/wishlist-actions.service';
 
@@ -27,8 +27,6 @@ export interface ProductImage {
 }
 
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthSessionService } from '@org/auth-data-access';
-import { CartService } from '../../../../core/services/cart.service';
 
 @Component({
   selector: 'app-product-info',
@@ -40,16 +38,12 @@ import { CartService } from '../../../../core/services/cart.service';
     LucideShoppingCart,
     LucidePackage,
     TranslatePipe,
-    DecimalPipe,
   ],
   templateUrl: './product-info.html',
   styleUrl: './product-info.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductInfo {
-  private readonly authSession = inject(AuthSessionService);
-  private readonly cartService = inject(CartService);
-  readonly isAuthenticated = this.authSession.isAuthenticated;
   private readonly wishlistActions = inject(WishlistActionsService);
 
   readonly product = input.required<ProductApiItem>();
@@ -123,10 +117,6 @@ export class ProductInfo {
     return price.toFixed(2);
   }
 
-  addToCart(): void {
-    const p = this.product();
-    this.cartService.addToCart({ productId: p.id, quantity: 1 });
-  }
   addToWishlist(): void {
     this.wishlistActions.addProduct(this.product().id);
   }
