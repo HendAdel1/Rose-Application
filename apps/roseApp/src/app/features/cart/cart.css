@@ -1,0 +1,33 @@
+.cart-container {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  padding: 3.875rem 5rem 10.5rem 5rem;
+  gap: 3.125rem;
+}
+
+.cart-items-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .cart-container {
+    padding: 2.5rem 2rem 6rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-container {
+    padding: 1.5rem 1rem 4rem 1rem;
+    gap: 2rem;
+  }
+
+  .cart-items-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+

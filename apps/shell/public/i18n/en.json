@@ -311,5 +311,24 @@
   "GALLERY": {
     "EYEBROW": "Gallery",
     "TITLE": "Check Out our Wonderful Gallery"
+  },
+  "CART": {
+    "TITLE": "Cart",
+    "PRODUCTS": "products",
+    "CLEAR_CART": "Clear Cart",
+    "EMPTY_MESSAGE": "Your cart is empty, wanna try shopping?",
+    "REMOVE": "Remove",
+    "RATING": "Rating",
+    "RATINGS": "ratings",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "COUPON_PLACEHOLDER": "Coupon Code",
+      "APPLY_COUPON": "Apply Coupon",
+      "NO_COUPONS": "No coupons applied",
+      "SUBTOTAL": "Subtotal",
+      "TOTAL": "Total",
+      "CHECKOUT": "Checkout"
+    }
   }
 }

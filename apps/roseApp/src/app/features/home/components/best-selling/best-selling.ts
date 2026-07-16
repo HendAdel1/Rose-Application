@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { CarouselModule } from 'primeng/carousel';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
 import { LucideArrowRight, LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 import { ProductsService } from '../../../../shared/products/services/products.service';
@@ -13,7 +12,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-best-selling',
   imports: [
-    CarouselModule,
     UiCard,
     LucideChevronLeft,
     LucideChevronRight,
@@ -29,29 +27,11 @@ export class BestSelling {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
 
+  @ViewChild('productsTrack') private productsTrack?: ElementRef<HTMLElement>;
+
   readonly products = signal<PopularProduct[]>([]);
   readonly isLoading = signal(false);
   readonly maxCarouselItems = 12;
-  readonly minRating = 4;
-
-  responsiveOptions = [
-    {
-      breakpoint: '1024px',
-      numVisible: 3,
-      numScroll: 1,
-    },
-    {
-      breakpoint: '768px',
-      numVisible: 2,
-      numScroll: 1,
-    },
-    {
-      breakpoint: '560px',
-      numVisible: 1,
-      numScroll: 1,
-    },
-  ];
-
   constructor() {
     this.loadProducts();
   }
@@ -60,11 +40,8 @@ export class BestSelling {
     this.isLoading.set(true);
 
     this.productsService
-      .getProducts({ minRating: this.minRating })
+      .getProducts()
       .pipe(
-        switchMap((products) =>
-          products.length > 0 ? of(products) : this.productsService.getProducts(),
-        ),
         map((products) => toMostPopularProducts(products, this.maxCarouselItems)),
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isLoading.set(false)),
@@ -74,6 +51,25 @@ export class BestSelling {
           this.products.set(products);
         },
       });
+  }
+
+  scrollProducts(direction: 'previous' | 'next'): void {
+    const track = this.productsTrack?.nativeElement;
+    if (!track) return;
+
+    const firstCard = track.querySelector<HTMLElement>('.best-selling__item');
+    const cardWidth = firstCard?.offsetWidth ?? 302;
+    const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 24;
+    const scrollAmount = cardWidth + gap;
+
+    track.scrollBy({
+      left: direction === 'next' ? scrollAmount : -scrollAmount,
+      behavior: 'smooth',
+    });
+  }
+
+  trackProduct(_: number, product: PopularProduct): string {
+    return product.id ?? product.title;
   }
 
   exploreGifts(): void {
