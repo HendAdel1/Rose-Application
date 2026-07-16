@@ -1,4 +1,13 @@
-import { Component, computed, inject, input, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CartService } from '../../core/services/cart.service';
 import {
   ActivatedRoute,
   Router,
@@ -76,6 +85,10 @@ export class Navbar {
   readonly searchTerm = signal('');
   readonly menuOpen = signal(false);
   readonly profileMenuOpen = signal(false);
+  
+  private readonly cartService = inject(CartService);
+  readonly cartItemCount = toSignal(this.cartService.cartItemCount, { initialValue: 0 });
+
   readonly languageLabel = computed(() =>
     this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية',
   );

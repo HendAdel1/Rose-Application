@@ -68,8 +68,8 @@
 
     <button type="button"
       class="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 bg-maroon-600 text-white shadow-md transition hover:-translate-y-px hover:bg-maroon-500 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-maroon-500"
-      [attr.aria-label]="'HOME.MOST_POPULAR.QUICK_ADD_TO_CART' | translate" [disabled]="isOutOfStock()"
-      (click)="cartClick.emit()">
+      [attr.aria-label]="'HOME.MOST_POPULAR.QUICK_ADD_TO_CART' | translate" [disabled]="isOutOfStock() || !isAuthenticated()"
+      (click)="handleCartClick($event)">
       <svg lucideShoppingCart [size]="18" aria-hidden="true"></svg>
     </button>
   </div>
