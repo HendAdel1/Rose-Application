@@ -97,7 +97,7 @@
   }
 
   <div class="cart-footer">
-    <app-custom-button variant="primary">
+    <app-custom-button variant="primary" (btnClick)="continueShopping()">
       <svg lucideArrowLeft [size]="16" class="rtl:rotate-180"></svg>
       {{ 'CART.CONTINUE_SHOPPING' | translate }}
     </app-custom-button>

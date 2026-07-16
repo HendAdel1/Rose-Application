@@ -104,14 +104,17 @@
       </button>
 
       <button
-        class="icon-button has-badge"
+        class="icon-button"
+        [class.has-badge]="cartCount() > 0"
         type="button"
         [routerLink]="['cart']"
         [relativeTo]="layoutRoute"
         [attr.aria-label]="'NAV.SHOPPING_CART' | translate"
       >
         <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
-        <span class="badge">8</span>
+        @if (cartCount() > 0) {
+          <span class="badge">{{ cartCount() }}</span>
+        }
       </button>
 
       <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.NOTIFICATIONS' | translate">
