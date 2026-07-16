@@ -89,7 +89,13 @@
 
       <span class="divider"></span>
 
-      <button class="icon-button" type="button" [attr.aria-label]="'NAV.WISHLIST' | translate">
+      <button
+        class="icon-button"
+        type="button"
+        [routerLink]="['wishlist']"
+        [relativeTo]="layoutRoute"
+        [attr.aria-label]="'NAV.WISHLIST' | translate"
+      >
         <svg lucideHeart [size]="22" aria-hidden="true"></svg>
       </button>
 

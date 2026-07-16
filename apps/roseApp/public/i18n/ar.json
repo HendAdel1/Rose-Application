@@ -176,6 +176,21 @@
       "OUT_OF_STOCK": "غير متوفر"
     }
   },
+  "WISHLIST": {
+    "TITLE": "المفضلة",
+    "LOADING": "جاري تحميل المفضلة...",
+    "ITEM_COUNT": "{{count}} عناصر",
+    "CLEAR": "مسح المفضلة",
+    "EMPTY_MESSAGE": "قائمة المفضلة فارغة، هل تريد حفظ هدية مميزة؟",
+    "EMPTY_IMAGE_ALT": "قائمة مفضلة فارغة",
+    "CONTINUE_SHOPPING": "متابعة التسوق",
+    "IN_STOCK": "متوفر",
+    "OUT_OF_STOCK": "غير متوفر",
+    "RATINGS_COUNT": "({{count}} تقييمات)",
+    "REMOVE_ITEM": "حذف من المفضلة",
+    "ADD_TO_CART": "أضف إلى السلة",
+    "EXPLORE_SIMILAR": "استكشف منتجات مشابهة"
+  },
   "features": [
     {
       "title": "شحن مجاني",
