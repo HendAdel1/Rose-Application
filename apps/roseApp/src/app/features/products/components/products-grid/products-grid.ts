@@ -10,6 +10,7 @@ import { ProductsService } from '../../../../shared/products/services/products.s
 import { toUiCardProduct } from '../../../../shared/products/utils/product-card.utils';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
 import { UiCardProduct } from '../../../../shared/ui-card/ui-card-product.model';
+import { CartService } from '../../../../core/services/cart.service';
 
 @Component({
   selector: 'app-products-grid',
@@ -24,6 +25,7 @@ export class ProductsGrid {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  private readonly cartService = inject(CartService);
 
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);
@@ -65,7 +67,7 @@ export class ProductsGrid {
   }
 
   quickAddToCart(product: ProductApiItem): void {
-    console.log('Quick add to cart', product.id);
+    this.cartService.addToCart({ productId: product.id, quantity: 1 });
   }
 
   viewProduct(product: ProductApiItem): void {
