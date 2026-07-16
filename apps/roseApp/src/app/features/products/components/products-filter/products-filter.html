@@ -1,4 +1,36 @@
-<aside
-  class="min-h-112 w-70 shrink-0"
-  [attr.aria-label]="'PRODUCTS.FILTERS_ARIA' | translate"
-></aside>
+<aside class="sidebar-filter">
+  <div class="filter-header">
+    <h3>Category</h3>
+
+    <div class="filter-actions">
+      @if (activeCategoryId()) {
+        <button type="button" class="reset-btn" (click)="resetFilter()">
+          <svg lucideX class="btn-icon"></svg>
+          Reset
+        </button>
+      } @else {
+        <span class="select-hint-text">Select Category</span>
+      }
+    </div>
+  </div>
+
+<ul class="category-list flex flex-row gap-3 overflow-x-auto no-scrollbar py-2">
+  @for (category of categories(); track category.id) {
+    <li class="shrink-0">
+      <button
+        type="button"
+        class="category-item-btn"
+        [class.active]="category.id === activeCategoryId()"
+        (click)="selectCategory(category.id)"
+      >
+        @switch (category.id) {
+          @case ('cards') { <svg lucideMail class="category-icon"></svg> }
+          @case ('chocolate') { <svg lucideCandy class="category-icon"></svg> }
+          @case ('flowers') { <svg lucideFlower class="category-icon"></svg> }
+        }
+        <span class="name">{{ category.name }}</span>
+      </button>
+    </li>
+  }
+</ul>
+</aside>

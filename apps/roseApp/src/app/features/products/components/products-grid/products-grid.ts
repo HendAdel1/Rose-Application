@@ -24,7 +24,14 @@ export class ProductsGrid {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  readonly selectedCategoryId = signal<string | null>(null);
+  readonly filteredProducts = computed(() => {
+    const activeId = this.selectedCategoryId();
+    const list = this.products();
 
+    if (!activeId) return list;
+    return list.filter(product => product.categoryId === activeId);
+  });
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);
   readonly page = signal(1);
@@ -70,5 +77,12 @@ export class ProductsGrid {
 
   viewProduct(product: ProductApiItem): void {
     void this.router.navigate(['/roseApp/products', product.id]);
+  }
+  onCategorySelected(categoryId: string): void {
+    this.selectedCategoryId.set(categoryId);
+  }
+
+  onFilterCleared(): void {
+    this.selectedCategoryId.set(null);
   }
 }
