@@ -9,6 +9,7 @@ import { PopularProduct } from '../../../../shared/products/models/popular-produ
 import { toMostPopularProducts } from '../../../../shared/products/mappers/popular-product.mapper';
 import { finalize, map, of, switchMap } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
+import { CartService } from '../../../../core/services/cart.service';
 
 @Component({
   selector: 'app-best-selling',
@@ -28,6 +29,7 @@ export class BestSelling {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  private readonly cartService = inject(CartService);
 
   readonly products = signal<PopularProduct[]>([]);
   readonly isLoading = signal(false);
@@ -81,7 +83,7 @@ export class BestSelling {
   }
 
   addToCart(product: PopularProduct): void {
-    console.log('Add to cart clicked for', product.title);
+    this.cartService.addToCart({ productId: product.id, quantity: 1 });
   }
 
   viewProduct(product: PopularProduct): void {

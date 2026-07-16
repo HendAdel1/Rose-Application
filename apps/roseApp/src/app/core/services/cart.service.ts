@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { signal, computed } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 import { SKIP_LOADING } from '@org/auth-data-access';
 import { environment } from '../../environments/environment';
 
@@ -74,6 +75,7 @@ export class CartService {
   private readonly cartUrl = `${environment.apiBaseUrl}/cart`;
   private readonly destroyRef = inject(DestroyRef);
   private readonly toastr = inject(ToastrService);
+  private readonly translate = inject(TranslateService);
 
   cartItemsAPI = signal<CartItemAPI[]>([]);
   cartItemCount = new BehaviorSubject<number>(0);
@@ -89,6 +91,10 @@ export class CartService {
     // Return subtotal (expandable later if coupons are added)
     return this.cartSubtotal();
   });
+
+  private toast(key: string, fallback: string): string {
+    return this.translate.instant(key) || fallback;
+  }
 
   fetchCart() {
     this.http
@@ -111,12 +117,12 @@ export class CartService {
       .subscribe({
         next: (res) => {
           this.cartItemCount.next(this.cartItemCount.value + payload.quantity);
-          this.toastr.success('Item added to cart successfully!');
+          this.toastr.success(this.toast('CART.TOASTS.ADD_SUCCESS', 'Item added to cart successfully!'));
           if (onSuccess) onSuccess();
         },
         error: (err) => {
           console.error('Failed to add to cart', err);
-          this.toastr.error('Failed to add item to cart.');
+          this.toastr.error(this.toast('CART.TOASTS.ADD_FAILED', 'Failed to add item to cart.'));
         },
       });
   }
@@ -130,13 +136,13 @@ export class CartService {
           if (res.status) {
             this.cartItemsAPI.set([]);
             this.cartItemCount.next(0);
-            this.toastr.success(res.message || 'Cart cleared.');
+            this.toastr.success(res.message || this.toast('CART.TOASTS.CLEAR_SUCCESS', 'Cart cleared.'));
             if (onSuccess) onSuccess();
           }
         },
         error: (err) => {
           console.error('Failed to clear cart', err);
-          this.toastr.error('Failed to clear cart.');
+          this.toastr.error(this.toast('CART.TOASTS.CLEAR_FAILED', 'Failed to clear cart.'));
         },
       });
   }
@@ -152,13 +158,13 @@ export class CartService {
             const newCount = this.cartItemsAPI().reduce((acc, item) => acc + item.quantity, 0);
             this.cartItemCount.next(newCount);
             
-            this.toastr.success(res.message || 'Item removed from cart.');
+            this.toastr.success(res.message || this.toast('CART.TOASTS.REMOVE_SUCCESS', 'Item removed from cart.'));
             if (onSuccess) onSuccess();
           }
         },
         error: (err) => {
           console.error('Failed to remove cart item', err);
-          this.toastr.error('Failed to remove item.');
+          this.toastr.error(this.toast('CART.TOASTS.REMOVE_FAILED', 'Failed to remove item.'));
         },
       });
   }
@@ -182,12 +188,13 @@ export class CartService {
             const newCount = this.cartItemsAPI().reduce((acc, item) => acc + item.quantity, 0);
             this.cartItemCount.next(newCount);
 
+            this.toastr.success(this.toast('CART.TOASTS.UPDATE_SUCCESS', 'Cart item updated.'));
             if (onSuccess) onSuccess(res.payload.cartItem);
           }
         },
         error: (err) => {
           console.error('Failed to update cart item quantity', err);
-          this.toastr.error('Failed to update quantity.');
+          this.toastr.error(this.toast('CART.TOASTS.UPDATE_FAILED', 'Failed to update quantity.'));
         },
       });
   }
