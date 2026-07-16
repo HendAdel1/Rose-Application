@@ -1,7 +1,4 @@
-<header
-  class="rose-header font-sarabun"
-  [attr.aria-label]="'NAV.HEADER_ARIA' | translate"
->
+<header class="rose-header font-sarabun" [attr.aria-label]="'NAV.HEADER_ARIA' | translate">
   <div class="top-bar">
     <a
       class="logo-link"
@@ -13,16 +10,13 @@
     </a>
 
     @if (isAuthenticated()) {
-    <div
-      class="delivery-info"
-      [attr.aria-label]="'NAV.DELIVERY_LOCATION' | translate"
-    >
-      <span class="delivery-label">{{ 'NAV.DELIVER_TO' | translate }}</span>
-      <span class="delivery-city">
-        <svg lucideMapPin [size]="15" aria-hidden="true"></svg>
-        {{ deliveryCity() }}
-      </span>
-    </div>
+      <div class="delivery-info" [attr.aria-label]="'NAV.DELIVERY_LOCATION' | translate">
+        <span class="delivery-label">{{ 'NAV.DELIVER_TO' | translate }}</span>
+        <span class="delivery-city">
+          <svg lucideMapPin [size]="15" aria-hidden="true"></svg>
+          {{ deliveryCity() }}
+        </span>
+      </div>
     }
 
     <form class="search-field" role="search" (submit)="onSearchSubmit($event)">
@@ -37,96 +31,84 @@
 
     <div class="header-actions">
       @if (isAuthenticated()) {
-      <div class="profile-menu-container">
-        <button
-          class="user-menu"
-          type="button"
-          aria-haspopup="menu"
-          [attr.aria-expanded]="profileMenuOpen()"
-          [attr.aria-label]="'NAV.OPEN_PROFILE_MENU' | translate"
-          (click)="toggleProfileMenu()"
-        >
-          <span>
-            <span class="hello">{{ 'NAV.HELLO' | translate }}</span>
-            <strong>{{ currentUserName() }}</strong>
-          </span>
-          <svg lucideChevronDown [size]="14" aria-hidden="true"></svg>
-        </button>
-
-        @if (profileMenuOpen()) {
-        <div class="profile-dropdown" role="menu">
-          <div class="profile-name">{{ currentUserName() }}</div>
-
-          <button class="profile-menu-item" type="button" role="menuitem">
-            <svg lucideUser [size]="18" aria-hidden="true"></svg>
-            <span>{{ 'NAV.ACCOUNT' | translate }}</span>
-          </button>
-          <button class="profile-menu-item" type="button" role="menuitem">
-            <svg lucideMapPin [size]="18" aria-hidden="true"></svg>
-            <span>{{ 'NAV.ADDRESSES' | translate }}</span>
-          </button>
-          <button class="profile-menu-item" type="button" role="menuitem">
-            <svg lucideClipboardList [size]="18" aria-hidden="true"></svg>
-            <span>{{ 'NAV.ORDERS' | translate }}</span>
-          </button>
-
-          <div class="profile-menu-divider"></div>
-
-          <button class="profile-menu-item" type="button" role="menuitem">
-            <svg lucideSettings [size]="18" aria-hidden="true"></svg>
-            <span>{{ 'NAV.DASHBOARD' | translate }}</span>
-          </button>
-
-          <div class="profile-menu-divider"></div>
-
+        <div class="profile-menu-container">
           <button
-            class="profile-menu-item logout-item"
+            class="user-menu"
             type="button"
-            role="menuitem"
-            (click)="logout()"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="profileMenuOpen()"
+            [attr.aria-label]="'NAV.OPEN_PROFILE_MENU' | translate"
+            (click)="toggleProfileMenu()"
           >
-            <svg lucideLogOut [size]="18" aria-hidden="true"></svg>
-            <span>{{ 'NAV.LOGOUT' | translate }}</span>
+            <span>
+              <span class="hello">{{ 'NAV.HELLO' | translate }}</span>
+              <strong>{{ currentUserName() }}</strong>
+            </span>
+            <svg lucideChevronDown [size]="14" aria-hidden="true"></svg>
           </button>
+
+          @if (profileMenuOpen()) {
+            <div class="profile-dropdown" role="menu">
+              <div class="profile-name">{{ currentUserName() }}</div>
+
+              <button class="profile-menu-item" type="button" role="menuitem">
+                <svg lucideUser [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.ACCOUNT' | translate }}</span>
+              </button>
+              <button class="profile-menu-item" type="button" role="menuitem">
+                <svg lucideMapPin [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.ADDRESSES' | translate }}</span>
+              </button>
+              <button class="profile-menu-item" type="button" role="menuitem">
+                <svg lucideClipboardList [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.ORDERS' | translate }}</span>
+              </button>
+
+              <div class="profile-menu-divider"></div>
+
+              <button class="profile-menu-item" type="button" role="menuitem">
+                <svg lucideSettings [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.DASHBOARD' | translate }}</span>
+              </button>
+
+              <div class="profile-menu-divider"></div>
+
+              <button class="profile-menu-item logout-item" type="button" role="menuitem" (click)="logout()">
+                <svg lucideLogOut [size]="18" aria-hidden="true"></svg>
+                <span>{{ 'NAV.LOGOUT' | translate }}</span>
+              </button>
+            </div>
+          }
         </div>
-        }
-      </div>
       } @else {
-      <a class="login-link" routerLink="/authApp/login">
-        <svg lucideUser [size]="18" aria-hidden="true"></svg>
-        <span>{{ 'NAV.LOGIN' | translate }}</span>
-      </a>
+        <a class="login-link" routerLink="/authApp/login">
+          <svg lucideUser [size]="18" aria-hidden="true"></svg>
+          <span>{{ 'NAV.LOGIN' | translate }}</span>
+        </a>
       }
 
       <span class="divider"></span>
 
       <button
         class="icon-button"
+        [class.has-badge]="wishlistCount() > 0"
         type="button"
+        [routerLink]="['wishlist']"
+        [relativeTo]="layoutRoute"
         [attr.aria-label]="'NAV.WISHLIST' | translate"
       >
         <svg lucideHeart [size]="22" aria-hidden="true"></svg>
-      </button>
-
-      @if (isAuthenticated()) {
-      <button
-        class="icon-button has-badge"
-        [routerLink]="'cart'"
-        type="button"
-        [attr.aria-label]="'NAV.SHOPPING_CART' | translate"
-      >
-        <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
-        @if (cartItemCount() > 0) {
-          <span class="badge">{{ cartItemCount() }}</span>
+        @if (wishlistCount() > 0) {
+          <span class="badge">{{ wishlistCount() }}</span>
         }
       </button>
-      }
 
-      <button
-        class="icon-button has-badge"
-        type="button"
-        [attr.aria-label]="'NAV.NOTIFICATIONS' | translate"
-      >
+      <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.SHOPPING_CART' | translate">
+        <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
+        <span class="badge">8</span>
+      </button>
+
+      <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.NOTIFICATIONS' | translate">
         <svg lucideBell [size]="21" aria-hidden="true"></svg>
         <span class="badge">8</span>
       </button>
@@ -156,37 +138,44 @@
   </div>
 
   <nav
-    id="rose-mobile-navigation"
-    class="nav-strip"
-    [class.open]="menuOpen()"
-    [attr.aria-label]="'NAV.PRIMARY_NAVIGATION' | translate"
-  >
+  id="rose-mobile-navigation"
+  class="nav-strip"
+  [class.open]="menuOpen()"
+  [attr.aria-label]="'NAV.PRIMARY_NAVIGATION' | translate"
+>
     <ul class="nav-list">
       @for (item of navItems; track item.labelKey) {
-      <li>
-        <a
-          [routerLink]="item.route"
-          [relativeTo]="layoutRoute"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
-          (click)="closeMenu()"
-        >
-          @switch (item.icon) { @case ('home') {
-          <svg lucideHome [size]="16" aria-hidden="true"></svg>
-          } @case ('products') {
-          <svg lucideGift [size]="16" aria-hidden="true"></svg>
-          } @case ('categories') {
-          <svg lucideClipboardList [size]="16" aria-hidden="true"></svg>
-          } @case ('occasions') {
-          <svg lucidePartyPopper [size]="16" aria-hidden="true"></svg>
-          } @case ('contact') {
-          <svg lucideHeadphones [size]="16" aria-hidden="true"></svg>
-          } @case ('about') {
-          <svg lucideInfo [size]="16" aria-hidden="true"></svg>
-          } }
-          <span>{{ item.labelKey | translate }}</span>
-        </a>
-      </li>
+        <li>
+          <a
+            [routerLink]="item.route"
+            [relativeTo]="layoutRoute"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+            (click)="closeMenu()"
+          >
+            @switch (item.icon) {
+              @case ('home') {
+                <svg lucideHome [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('products') {
+                <svg lucideGift [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('categories') {
+                <svg lucideClipboardList [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('occasions') {
+                <svg lucidePartyPopper [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('contact') {
+                <svg lucideHeadphones [size]="16" aria-hidden="true"></svg>
+              }
+              @case ('about') {
+                <svg lucideInfo [size]="16" aria-hidden="true"></svg>
+              }
+            }
+            <span>{{ item.labelKey | translate }}</span>
+          </a>
+        </li>
       }
     </ul>
   </nav>

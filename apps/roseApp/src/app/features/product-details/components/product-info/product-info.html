@@ -83,7 +83,7 @@
       <span
         >{{ 'PRODUCT_DETAILS.RATING_LABEL' | translate }}
         <strong class="font-bold text-[#1e293b] dark:text-zinc-100"
-          >{{ rating() | number:'1.0-2' }}/5</strong
+          >{{ rating() }}/5</strong
         >
         <a
           href="#"
@@ -97,7 +97,7 @@
     <p class="description_content dark:text-zinc-400">{{ description() }}</p>
 
     <div class="flex items-center gap-4">
-      <app-custom-button variant="icon-only">
+      <app-custom-button variant="icon-only" (click)="addToWishlist()">
         <svg lucideHeart [size]="20" aria-hidden="true"></svg>
       </app-custom-button>
       <div class="flex-1">
@@ -105,8 +105,6 @@
           variant="primary"
           [label]="'PRODUCT_DETAILS.ADD_TO_CART' | translate"
           [fullWidth]="true"
-          [disabled]="!isAuthenticated()"
-          (click)="addToCart()"
         >
           <svg lucideShoppingCart [size]="20" aria-hidden="true"></svg>
         </app-custom-button>

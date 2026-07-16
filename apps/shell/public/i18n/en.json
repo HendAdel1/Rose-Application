@@ -267,6 +267,29 @@
       "OUT_OF_STOCK": "Out of stock"
     }
   },
+  "WISHLIST": {
+    "TITLE": "Wishlist",
+    "LOADING": "Loading wishlist...",
+    "ITEM_COUNT": "{{count}} items",
+    "CLEAR": "Clear Wishlist",
+    "EMPTY_MESSAGE": "Your wishlist is empty, wanna save something special?",
+    "EMPTY_IMAGE_ALT": "Empty wishlist",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "IN_STOCK": "In Stock",
+    "OUT_OF_STOCK": "Out of Stock",
+    "RATINGS_COUNT": "({{count}} ratings)",
+    "REMOVE_ITEM": "Remove from wishlist",
+    "ADD_TO_CART": "Add to Cart",
+    "EXPLORE_SIMILAR": "Explore Similar Products",
+    "ADD_SUCCESS": "Product added to your wishlist.",
+    "ALREADY_EXISTS": "This product is already in your wishlist.",
+    "REMOVE_SUCCESS": "Product removed from your wishlist.",
+    "CLEAR_SUCCESS": "Wishlist cleared.",
+    "CLEAR_DIALOG_LABEL": "Clear wishlist confirmation",
+    "CLEAR_CONFIRMATION_MESSAGE": "Are you sure you want to clear your Wishlist?",
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm"
+  },
   "features": [
     {
       "title": "Free Delivery",
@@ -288,24 +311,5 @@
   "GALLERY": {
     "EYEBROW": "Gallery",
     "TITLE": "Check Out our Wonderful Gallery"
-  },
-  "CART": {
-    "TITLE": "Cart",
-    "PRODUCTS": "products",
-    "CLEAR_CART": "Clear Cart",
-    "EMPTY_MESSAGE": "Your cart is empty, wanna try shopping?",
-    "REMOVE": "Remove",
-    "RATING": "Rating",
-    "RATINGS": "ratings",
-    "CONTINUE_SHOPPING": "Continue Shopping",
-    "SUMMARY": {
-      "TITLE": "Summary",
-      "COUPON_PLACEHOLDER": "Coupon Code",
-      "APPLY_COUPON": "Apply Coupon",
-      "NO_COUPONS": "No coupons applied",
-      "SUBTOTAL": "Subtotal",
-      "TOTAL": "Total",
-      "CHECKOUT": "Checkout"
-    }
   }
 }

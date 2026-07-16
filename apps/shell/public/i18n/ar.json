@@ -267,6 +267,29 @@
       "OUT_OF_STOCK": "غير متوفر"
     }
   },
+  "WISHLIST": {
+    "TITLE": "المفضلة",
+    "LOADING": "جاري تحميل المفضلة...",
+    "ITEM_COUNT": "{{count}} عناصر",
+    "CLEAR": "مسح المفضلة",
+    "EMPTY_MESSAGE": "قائمة المفضلة فارغة، هل تريد حفظ هدية مميزة؟",
+    "EMPTY_IMAGE_ALT": "قائمة مفضلة فارغة",
+    "CONTINUE_SHOPPING": "متابعة التسوق",
+    "IN_STOCK": "متوفر",
+    "OUT_OF_STOCK": "غير متوفر",
+    "RATINGS_COUNT": "({{count}} تقييمات)",
+    "REMOVE_ITEM": "حذف من المفضلة",
+    "ADD_TO_CART": "أضف إلى السلة",
+    "EXPLORE_SIMILAR": "استكشف منتجات مشابهة",
+    "ADD_SUCCESS": "تمت إضافة المنتج إلى المفضلة.",
+    "ALREADY_EXISTS": "هذا المنتج موجود بالفعل في المفضلة.",
+    "REMOVE_SUCCESS": "تم حذف المنتج من المفضلة.",
+    "CLEAR_SUCCESS": "تم مسح المفضلة.",
+    "CLEAR_DIALOG_LABEL": "تأكيد مسح المفضلة",
+    "CLEAR_CONFIRMATION_MESSAGE": "هل أنت متأكد أنك تريد مسح المفضلة؟",
+    "CANCEL": "إلغاء",
+    "CONFIRM": "تأكيد"
+  },
   "features": [
     {
       "title": "شحن مجاني",
@@ -288,24 +311,5 @@
   "GALLERY": {
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
-  },
-  "CART": {
-    "TITLE": "سلة التسوق",
-    "PRODUCTS": "المنتجات",
-    "CLEAR_CART": "مسح السلة",
-    "EMPTY_MESSAGE": "سلة التسوق فارغة، هل ترغب في التسوق؟",
-    "REMOVE": "إزالة",
-    "RATING": "التقييم",
-    "RATINGS": "تقييمات",
-    "CONTINUE_SHOPPING": "متابعة التسوق",
-    "SUMMARY": {
-      "TITLE": "الملخص",
-      "COUPON_PLACEHOLDER": "رمز الكوبون",
-      "APPLY_COUPON": "تطبيق الكوبون",
-      "NO_COUPONS": "لم يتم تطبيق أي كوبونات",
-      "SUBTOTAL": "المجموع الفرعي",
-      "TOTAL": "الإجمالي",
-      "CHECKOUT": "إتمام الشراء"
-    }
   }
 }
