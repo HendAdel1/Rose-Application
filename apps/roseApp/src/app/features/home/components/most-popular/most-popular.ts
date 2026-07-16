@@ -58,10 +58,6 @@ export class MostPopular {
     console.log('Quick add to cart', product.id);
   }
 
-  addToWishlist(product: PopularProduct): void {
-    console.log('Add to wishlist', product.id);
-  }
-
   viewProduct(product: PopularProduct): void {
     void this.router.navigate(['/roseApp/products', product.id]);
   }

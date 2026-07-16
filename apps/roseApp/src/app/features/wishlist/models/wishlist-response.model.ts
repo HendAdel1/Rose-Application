@@ -12,9 +12,14 @@ export type WishlistPayload =
   | {
       data?: WishlistApiItem[];
       items?: WishlistApiItem[];
+      products?: WishlistApiItem[];
       wishlist?: WishlistApiItem[];
+      wishlistItems?: WishlistApiItem[];
     };
 
 export interface WishlistApiItem extends Partial<ProductApiItem> {
   product?: ProductApiItem;
+  productId?: string;
+  productData?: ProductApiItem;
+  productDetails?: ProductApiItem;
 }

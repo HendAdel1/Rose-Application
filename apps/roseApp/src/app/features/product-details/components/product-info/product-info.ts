@@ -5,6 +5,7 @@ import {
   model,
   input,
   computed,
+  inject,
 } from '@angular/core';
 import {
   LucideStar,
@@ -16,6 +17,7 @@ import { CustomButton } from '../../../../shared/custom-button/custom-button';
 import { GalleriaModule } from 'primeng/galleria';
 import { NgOptimizedImage } from '@angular/common';
 import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
+import { WishlistActionsService } from '../../../wishlist/services/wishlist-actions.service';
 
 export interface ProductImage {
   itemImageSrc: string;
@@ -42,6 +44,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductInfo {
+  private readonly wishlistActions = inject(WishlistActionsService);
+
   readonly product = input.required<ProductApiItem>();
 
   readonly productTitle = computed(() => this.product().title);
@@ -111,6 +115,10 @@ export class ProductInfo {
     }
 
     return price.toFixed(2);
+  }
+
+  addToWishlist(): void {
+    this.wishlistActions.addProduct(this.product().id);
   }
 
   private toNumber(value: string | number): number {

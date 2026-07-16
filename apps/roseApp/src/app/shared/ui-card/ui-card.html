@@ -27,7 +27,7 @@
       class="absolute inset-0 z-20 flex items-center justify-center gap-2.5 bg-[#E6507380] p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
       <button type="button"
         class="inline-flex size-9 cursor-pointer items-center justify-center rounded-full border-0 bg-white text-maroon-700 shadow-md transition hover:-translate-y-px hover:bg-maroon-700 hover:text-white"
-        [attr.aria-label]="'HOME.MOST_POPULAR.ADD_TO_WISHLIST' | translate" (click)="wishlistClick.emit()">
+        [attr.aria-label]="'HOME.MOST_POPULAR.ADD_TO_WISHLIST' | translate" (click)="addToWishlist($event, item)">
         <svg lucideHeart [size]="18" aria-hidden="true"></svg>
       </button>
       <button type="button"

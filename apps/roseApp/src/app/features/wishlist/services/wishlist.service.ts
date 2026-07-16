@@ -1,16 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { toWishlistItems } from '../mappers/wishlist.mapper';
 import { WishlistItem } from '../models/wishlist-item.model';
 import { WishlistResponse } from '../models/wishlist-response.model';
+
+export type WishlistAddStatus = 'added' | 'duplicate';
 
 @Injectable({ providedIn: 'root' })
 export class WishlistService {
   private readonly http = inject(HttpClient);
   private readonly wishlistUrl = `${environment.apiBaseUrl}/wishlist`;
   private readonly wishlistItems = signal<WishlistItem[]>([]);
+  private readonly wishlistLoaded = signal(false);
 
   readonly items = this.wishlistItems.asReadonly();
   readonly count = computed(() => this.items().length);
@@ -21,7 +24,44 @@ export class WishlistService {
       .pipe(map((response) => toWishlistItems(response.payload)));
   }
 
+  loadWishlist(): Observable<WishlistItem[]> {
+    return this.getWishlist().pipe(tap((items) => this.setItems(items)));
+  }
+
+  addProduct(productId: string, fallbackItem?: WishlistItem): Observable<WishlistAddStatus> {
+    const addToWishlist = () => {
+      if (this.hasItem(productId)) {
+        return of('duplicate' as const);
+      }
+
+      return this.http.post(this.wishlistUrl, { productId }).pipe(
+        switchMap(() => this.getWishlist()),
+        tap((items) => this.setItems(this.resolveAddedItems(items, fallbackItem))),
+        map(() => 'added' as const),
+      );
+    };
+
+    if (this.wishlistLoaded()) {
+      return addToWishlist();
+    }
+
+    return this.loadWishlist().pipe(switchMap(addToWishlist));
+  }
+
+  hasItem(productId: string): boolean {
+    return this.wishlistItems().some((item) => item.id === productId);
+  }
+
   setItems(items: WishlistItem[]): void {
-    this.wishlistItems.set(items);
+    this.wishlistItems.set(items.filter((item) => item.id));
+    this.wishlistLoaded.set(true);
+  }
+
+  private resolveAddedItems(items: WishlistItem[], fallbackItem?: WishlistItem): WishlistItem[] {
+    if (!fallbackItem || items.some((item) => item.id === fallbackItem.id)) {
+      return items;
+    }
+
+    return [fallbackItem, ...items];
   }
 }
