@@ -10,6 +10,7 @@ import { toMostPopularProducts } from '../../../../shared/products/mappers/popul
 import { PopularProduct } from '../../../../shared/products/models/popular-product.model';
 import { ProductsService } from '../../../../shared/products/services/products.service';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
+import { CartService } from '../../../../core/services/cart.service';
 
 @Component({
   selector: 'app-most-popular',
@@ -21,6 +22,7 @@ export class MostPopular {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  private readonly cartService = inject(CartService);
 
   readonly products = signal<PopularProduct[]>([]);
   readonly isLoading = signal(false);
@@ -55,7 +57,7 @@ export class MostPopular {
   }
 
   quickAddToCart(product: PopularProduct): void {
-    console.log('Quick add to cart', product.id);
+    this.cartService.addToCart({ productId: product.id, quantity: 1 });
   }
 
   viewProduct(product: PopularProduct): void {
