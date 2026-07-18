@@ -1,6 +1,4 @@
-import {
-  buildProductImageUrl,
-} from '../../../shared/products/utils/product-card.utils';
+import { buildProductImageUrl } from '../../../shared/products/utils/product-card.utils';
 import { ProductApiItem } from '../../../shared/products/models/product-api-item.model';
 import {
   WishlistApiItem,
@@ -17,26 +15,34 @@ function extractWishlistEntries(payload: WishlistPayload): WishlistApiItem[] {
     return payload;
   }
 
-  return payload.data ?? payload.items ?? payload.wishlist ?? [];
+  return (
+    payload.data ??
+    payload.items ??
+    payload.products ??
+    payload.wishlist ??
+    payload.wishlistItems ??
+    []
+  );
 }
 
 function toWishlistItem(item: WishlistApiItem): WishlistItem {
   const product = getWishlistProduct(item);
 
   return {
-    id: product.id ?? '',
+    id: product.id ?? item.productId ?? item.id ?? '',
+    removeId: item.id ?? product.id ?? item.productId ?? '',
     title: product.title ?? '',
     imageUrl: buildProductImageUrl(product.cover),
     price: getCurrentPrice(product),
     oldPrice: getOldPrice(product),
     rating: product.rating ?? 0,
     ratingsCount: product.ratings ?? 0,
-    inStock: (product.stock ?? 0) > 0,
+    inStock: product.stock == null || product.stock > 0,
   };
 }
 
 function getWishlistProduct(item: WishlistApiItem): Partial<ProductApiItem> {
-  return item.product ?? item;
+  return item.product ?? item.productData ?? item.productDetails ?? item;
 }
 
 function getCurrentPrice(product: Partial<ProductApiItem>): number {

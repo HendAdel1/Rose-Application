@@ -280,7 +280,15 @@
     "RATINGS_COUNT": "({{count}} ratings)",
     "REMOVE_ITEM": "Remove from wishlist",
     "ADD_TO_CART": "Add to Cart",
-    "EXPLORE_SIMILAR": "Explore Similar Products"
+    "EXPLORE_SIMILAR": "Explore Similar Products",
+    "ADD_SUCCESS": "Product added to your wishlist.",
+    "ALREADY_EXISTS": "This product is already in your wishlist.",
+    "REMOVE_SUCCESS": "Product removed from your wishlist.",
+    "CLEAR_SUCCESS": "Wishlist cleared.",
+    "CLEAR_DIALOG_LABEL": "Clear wishlist confirmation",
+    "CLEAR_CONFIRMATION_MESSAGE": "Are you sure you want to clear your Wishlist?",
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm"
   },
   "features": [
     {

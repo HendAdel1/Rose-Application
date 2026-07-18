@@ -30,12 +30,81 @@
       </div>
     } @else if (items().length) {
       <div class="rounded-xl bg-white dark:bg-zinc-900">
-        @for (item of items(); track item.id) {
-          <app-wishlist-item [item]="item" />
+        @for (item of items(); track item.removeId) {
+          <app-wishlist-item
+            [item]="item"
+            [isRemoving]="removingItemId() === item.removeId"
+            (remove)="removeItem($event)"
+          />
         }
       </div>
     } @else {
       <app-wishlist-empty-state />
     }
+
+    @if (!isLoading()) {
+      <a
+        class="mt-4 inline-flex items-center gap-2 rounded-lg bg-maroon-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800 dark:bg-soft-pink-300 dark:text-zinc-900 dark:hover:bg-soft-pink-400"
+        [routerLink]="['/roseApp/products']"
+      >
+        <svg lucideArrowLeft [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg>
+        <span>{{ 'WISHLIST.CONTINUE_SHOPPING' | translate }}</span>
+      </a>
+    }
   </div>
+
+  @if (isClearDialogOpen()) {
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4"
+      role="presentation"
+      (click)="closeClearConfirmation()"
+    >
+      <section
+        class="relative w-full max-w-[414px] rounded-xl bg-white px-5 pb-5 pt-16 text-center shadow-2xl dark:bg-zinc-900"
+        role="dialog"
+        aria-modal="true"
+        [attr.aria-label]="'WISHLIST.CLEAR_DIALOG_LABEL' | translate"
+        (click)="$event.stopPropagation()"
+      >
+        <button
+          class="absolute end-5 top-5 inline-flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-60 dark:hover:bg-zinc-800 dark:hover:text-white"
+          type="button"
+          [disabled]="isClearing()"
+          [attr.aria-label]="'WISHLIST.CANCEL' | translate"
+          (click)="closeClearConfirmation()"
+        >
+          <svg lucideX [size]="20" aria-hidden="true"></svg>
+        </button>
+
+        <div class="mx-auto mb-9 flex h-[92px] w-[92px] items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+          <span class="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-zinc-200 text-zinc-800 dark:bg-zinc-700 dark:text-white">
+            <svg lucideBrushCleaning [size]="26" aria-hidden="true"></svg>
+          </span>
+        </div>
+
+        <h2 class="mb-10 text-lg font-bold text-zinc-900 dark:text-white">
+          {{ 'WISHLIST.CLEAR_CONFIRMATION_MESSAGE' | translate }}
+        </h2>
+
+        <div class="grid grid-cols-2 gap-2.5">
+          <button
+            class="inline-flex h-[38px] items-center justify-center rounded-md border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-900 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
+            type="button"
+            [disabled]="isClearing()"
+            (click)="closeClearConfirmation()"
+          >
+            {{ 'WISHLIST.CANCEL' | translate }}
+          </button>
+          <button
+            class="inline-flex h-[38px] items-center justify-center rounded-md bg-[#DC2626] px-4 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+            type="button"
+            [disabled]="isClearing()"
+            (click)="confirmClearWishlist()"
+          >
+            {{ 'WISHLIST.CONFIRM' | translate }}
+          </button>
+        </div>
+      </section>
+    </div>
+  }
 </section>

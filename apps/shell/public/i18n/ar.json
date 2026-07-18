@@ -280,7 +280,15 @@
     "RATINGS_COUNT": "({{count}} تقييمات)",
     "REMOVE_ITEM": "حذف من المفضلة",
     "ADD_TO_CART": "أضف إلى السلة",
-    "EXPLORE_SIMILAR": "استكشف منتجات مشابهة"
+    "EXPLORE_SIMILAR": "استكشف منتجات مشابهة",
+    "ADD_SUCCESS": "تمت إضافة المنتج إلى المفضلة.",
+    "ALREADY_EXISTS": "هذا المنتج موجود بالفعل في المفضلة.",
+    "REMOVE_SUCCESS": "تم حذف المنتج من المفضلة.",
+    "CLEAR_SUCCESS": "تم مسح المفضلة.",
+    "CLEAR_DIALOG_LABEL": "تأكيد مسح المفضلة",
+    "CLEAR_CONFIRMATION_MESSAGE": "هل أنت متأكد أنك تريد مسح المفضلة؟",
+    "CANCEL": "إلغاء",
+    "CONFIRM": "تأكيد"
   },
   "features": [
     {

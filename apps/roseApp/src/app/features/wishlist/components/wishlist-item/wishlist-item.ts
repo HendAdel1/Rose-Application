@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+} from '@angular/core';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideShoppingCart, LucideStar, LucideTrash2 } from '@lucide/angular';
@@ -22,11 +27,12 @@ import { WishlistItem as WishlistProduct } from '../../models/wishlist-item.mode
 })
 export class WishlistItem {
   readonly item = input.required<WishlistProduct>();
+  readonly isRemoving = input(false);
   readonly remove = output<string>();
   readonly addToCart = output<string>();
 
   onRemove(): void {
-    this.remove.emit(this.item().id);
+    this.remove.emit(this.item().removeId);
   }
 
   onAddToCart(): void {
