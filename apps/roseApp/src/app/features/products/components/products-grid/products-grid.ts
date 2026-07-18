@@ -10,6 +10,29 @@ import { ProductsService } from '../../../../shared/products/services/products.s
 import { toUiCardProduct } from '../../../../shared/products/utils/product-card.utils';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
 import { UiCardProduct } from '../../../../shared/ui-card/ui-card-product.model';
+interface OccasionDetails {
+  id: string;
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+interface OccasionRelation {
+  id: string;
+  productId: string;
+  occasionId: string;
+  occasion: OccasionDetails;
+}
+
+interface Product {
+  id: string;
+  title: string;
+  description: string;
+  price: string;
+  cover: string;
+  rating: number;
+  categoryId: string;
+  occasions: OccasionRelation[]; }
 
 @Component({
   selector: 'app-products-grid',
@@ -25,13 +48,22 @@ export class ProductsGrid {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   readonly selectedCategoryId = signal<string | null>(null);
+  readonly selectedOccasionId = signal<string | null>(null);
   readonly activeCategoryId = input<string | null>(null);
+  readonly activeOccasionId = input<string | null>(null);
   readonly filteredProducts = computed(() => {
     const activeId = this.activeCategoryId();
+    const OccasionId = this.activeOccasionId();
     const list = this.products();
 
     if (!activeId) return list;
+if (OccasionId) {
+      return list.filter(product =>
+        product.occasions?.some((o: any) => o.occasion?.title === OccasionId)
+      );
+    }
     if (activeId === 'Cards') return list;
+
     return list.filter(product => product.category?.title === activeId);
   });
   readonly loading = inject(LoadingService);
@@ -83,8 +115,12 @@ export class ProductsGrid {
   onCategorySelected(categoryId: string): void {
     this.selectedCategoryId.set(categoryId);
   }
+    onOccasionSelected(occasionId: string): void {
+    this.selectedOccasionId.set(occasionId);
+  }
 
   onFilterCleared(): void {
     this.selectedCategoryId.set(null);
+    this.selectedOccasionId.set(null);
   }
 }

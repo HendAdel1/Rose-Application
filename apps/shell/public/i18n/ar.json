@@ -315,11 +315,19 @@
     "PRODUCT": {
     "CATEGORY": "القسم",
     "SELECT_CATEGORY": "اختر القسم",
-    "RESET": "إعادة تعيين"
+    "RESET": "إعادة تعيين",
+    "OCCASION": "المناسبة",
+    "SELECT_OCCASION": "اختر المناسبة"
   },
   "CATEGORIES": {
     "Cards": "كروت هدايا",
     "Chocolate": "شوكولاتة",
     "Flowers": "زهور"
+  },
+    "OCCASIONS": {
+    "Wedding": "حفل زفاف",
+    "Apology": "اعتذار",
+    "Graduation": "تخرج",
+    "FatherDay": "عيد الأب"
   }
 }
