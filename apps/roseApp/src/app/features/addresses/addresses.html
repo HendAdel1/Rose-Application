@@ -366,13 +366,19 @@
       <div
         class="relative h-[17.5rem] overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800"
       >
-        @if (mapLoaded()) {
         <div #mapCanvas class="map-canvas" aria-hidden="true"></div>
-        } @else {
+
+        @if (!mapLoaded() && !mapLoadFailed()) {
         <p
-          class="grid h-full place-items-center text-zinc-500 dark:text-zinc-300"
+          class="absolute inset-0 z-[1] grid place-items-center bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-300"
         >
           {{ 'ADDRESSES.MODAL.MAP_LOADING' | translate }}
+        </p>
+        } @if (mapLoadFailed()) {
+        <p
+          class="absolute inset-0 z-[1] grid place-items-center bg-zinc-100 px-6 text-center text-red-600 dark:bg-zinc-800"
+        >
+          {{ 'ADDRESSES.MODAL.MAP_ERROR' | translate }}
         </p>
         }
 
