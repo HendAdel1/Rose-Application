@@ -1,11 +1,12 @@
 export interface AddressItem {
   id: string;
-  label: string;
+  title: string;
+  isPrimary: boolean;
   city: string;
   street: string;
   phone: string;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
 }
 
 export type AddressModalMode = 'add' | 'edit';
