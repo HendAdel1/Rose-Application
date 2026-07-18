@@ -18,6 +18,7 @@ import { CustomButton } from '../../../../shared/custom-button/custom-button';
 import { CustomInput } from '@org/sharedComponents';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 import { CartService } from '../../../../core/services/cart.service';
 
 export interface CartItem {
@@ -50,6 +51,7 @@ export interface CartItem {
 })
 export class CartItems implements OnInit {
   cartService = inject(CartService);
+  private readonly router = inject(Router);
 
   cartItems = signal<CartItem[]>([]);
 
@@ -105,5 +107,9 @@ export class CartItems implements OnInit {
     this.cartService.clearCart(() => {
       this.cartItems.set([]);
     });
+  }
+
+  continueShopping(): void {
+    void this.router.navigate(['/roseApp/products']);
   }
 }
