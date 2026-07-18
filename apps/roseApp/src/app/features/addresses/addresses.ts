@@ -23,6 +23,8 @@ import { AddressItem, AddressModalMode } from './models/address.model';
 import { AddressesService } from './services/addresses.service';
 import { GoogleMapsLoaderService } from './services/google-maps-loader.service';
 
+type AddressModalView = 'list' | 'form';
+
 @Component({
   selector: 'app-addresses',
   imports: [
@@ -50,6 +52,7 @@ export class Addresses {
   readonly addresses = this.addressesService.addresses;
   readonly selectedAddress = this.addressesService.selectedAddress;
   readonly modalOpen = signal(false);
+  readonly modalView = signal<AddressModalView>('list');
   readonly modalMode = signal<AddressModalMode>('add');
   readonly modalStep = signal<1 | 2>(1);
   readonly editingAddressId = signal<string | null>(null);
@@ -61,7 +64,7 @@ export class Addresses {
   );
 
   readonly form = this.formBuilder.nonNullable.group({
-    label: ['', Validators.required],
+    label: ['Home'],
     city: ['', Validators.required],
     street: ['', Validators.required],
     phone: ['', [Validators.required, Validators.pattern(/^(\+?20)?1[0125][0-9]{8}$/)]],
@@ -74,12 +77,19 @@ export class Addresses {
     lng: this.form.controls.lng.value,
   }));
 
+  openAddressesModal(): void {
+    this.modalView.set('list');
+    this.modalStep.set(1);
+    this.modalOpen.set(true);
+  }
+
   openAddModal(): void {
+    this.modalView.set('form');
     this.modalMode.set('add');
     this.editingAddressId.set(null);
     this.modalStep.set(1);
     this.form.reset({
-      label: '',
+      label: 'Home',
       city: '',
       street: '',
       phone: '',
@@ -90,6 +100,7 @@ export class Addresses {
   }
 
   openEditModal(address: AddressItem): void {
+    this.modalView.set('form');
     this.modalMode.set('edit');
     this.editingAddressId.set(address.id);
     this.modalStep.set(1);

@@ -292,6 +292,7 @@
   },
   "ADDRESSES": {
     "SHIPPING_TITLE": "Shipping Address",
+    "MY_ADDRESSES": "My Addresses",
     "LIST_LABEL": "Saved shipping addresses",
     "EDIT": "Edit address",
     "DELETE": "Delete address",

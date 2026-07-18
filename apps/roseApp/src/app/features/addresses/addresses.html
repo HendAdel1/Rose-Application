@@ -28,24 +28,6 @@
                 <svg lucidePhone [size]="18" aria-hidden="true"></svg>
                 {{ address.phone }}
               </span>
-
-              <button
-                type="button"
-                class="icon-action"
-                [attr.aria-label]="'ADDRESSES.EDIT' | translate"
-                (click)="$event.stopPropagation(); openEditModal(address)"
-              >
-                <svg lucidePencil [size]="16" aria-hidden="true"></svg>
-              </button>
-
-              <button
-                type="button"
-                class="icon-action icon-action-danger"
-                [attr.aria-label]="'ADDRESSES.DELETE' | translate"
-                (click)="$event.stopPropagation(); requestDelete(address)"
-              >
-                <svg lucideTrash2 [size]="16" aria-hidden="true"></svg>
-              </button>
             </div>
           </article>
         }
@@ -57,7 +39,7 @@
         <span></span>
       </div>
 
-      <button type="button" class="add-address-button" (click)="openAddModal()">
+      <button type="button" class="add-address-button" (click)="openAddressesModal()">
         {{ 'ADDRESSES.ADD_NEW' | translate }}
       </button>
 
@@ -93,86 +75,128 @@
 </section>
 
 @if (modalOpen()) {
-  <div class="modal-backdrop" role="dialog" aria-modal="true" [attr.aria-label]="modalTitleKey() | translate">
+  <div class="modal-backdrop" role="dialog" aria-modal="true" [attr.aria-label]="(modalView() === 'list' ? 'ADDRESSES.MY_ADDRESSES' : modalTitleKey()) | translate">
     <div class="address-modal">
-      <header class="modal-header">
-        <h2>{{ modalTitleKey() | translate }}</h2>
-        <button type="button" class="modal-close" [attr.aria-label]="'ADDRESSES.CLOSE' | translate" (click)="closeModal()">
-          <svg lucideX [size]="18" aria-hidden="true"></svg>
-        </button>
-      </header>
+      @if (modalView() === 'list') {
+        <header class="address-book-header">
+          <h2>{{ 'ADDRESSES.MY_ADDRESSES' | translate }}</h2>
+          <button type="button" class="modal-add-button" (click)="openAddModal()">
+            {{ 'ADDRESSES.ADD_NEW' | translate }}
+          </button>
+        </header>
 
-      <div class="modal-stepper" aria-hidden="true">
-        <span class="modal-line modal-line-active"></span>
-        <span class="modal-dot modal-dot-active">1</span>
-        <span class="modal-line" [class.modal-line-active]="modalStep() === 2"></span>
-        <span class="modal-dot" [class.modal-dot-active]="modalStep() === 2">2</span>
-      </div>
-
-      @if (modalStep() === 1) {
-        <form class="address-form" [formGroup]="form" (ngSubmit)="goToMapStep()">
-          <h3>{{ 'ADDRESSES.MODAL.DETAILS' | translate }}</h3>
-
-          <label>
-            <span>{{ 'ADDRESSES.MODAL.LABEL' | translate }}</span>
-            <input formControlName="label" [placeholder]="'ADDRESSES.MODAL.LABEL_PLACEHOLDER' | translate" />
-            @if (controlInvalid('label')) {
-              <small>{{ 'ADDRESSES.ERRORS.REQUIRED' | translate }}</small>
-            }
-          </label>
-
-          <label>
-            <span>{{ 'ADDRESSES.MODAL.CITY' | translate }}</span>
-            <input formControlName="city" [placeholder]="'ADDRESSES.MODAL.CITY_PLACEHOLDER' | translate" />
-            @if (controlInvalid('city')) {
-              <small>{{ 'ADDRESSES.ERRORS.REQUIRED' | translate }}</small>
-            }
-          </label>
-
-          <label>
-            <span>{{ 'ADDRESSES.MODAL.ADDRESS' | translate }}</span>
-            <textarea formControlName="street" [placeholder]="'ADDRESSES.MODAL.ADDRESS_PLACEHOLDER' | translate"></textarea>
-            @if (controlInvalid('street')) {
-              <small>{{ 'ADDRESSES.ERRORS.REQUIRED' | translate }}</small>
-            }
-          </label>
-
-          <label>
-            <span>{{ 'ADDRESSES.MODAL.PHONE' | translate }}</span>
-            <input formControlName="phone" [placeholder]="'ADDRESSES.MODAL.PHONE_PLACEHOLDER' | translate" />
-            @if (controlInvalid('phone')) {
-              <small>{{ 'ADDRESSES.ERRORS.PHONE' | translate }}</small>
-            }
-          </label>
-
-          <button type="submit" class="modal-primary-button">{{ 'ADDRESSES.NEXT' | translate }}</button>
-        </form>
+        <div class="address-book-list">
+          @for (address of addresses(); track address.id) {
+            <article
+              class="address-book-card"
+              [class.address-book-card-selected]="isSelected(address)"
+              (click)="selectAddress(address.id)"
+            >
+              <p class="address-label">{{ address.label }}</p>
+              <div class="address-book-content">
+                <span class="pin-icon">
+                  <svg lucideMapPin [size]="16" aria-hidden="true"></svg>
+                </span>
+                <div class="min-w-0">
+                  <p class="address-city">{{ address.city }}</p>
+                  <p class="address-street">{{ address.street }}</p>
+                </div>
+                <span class="book-phone">
+                  <svg lucidePhone [size]="14" aria-hidden="true"></svg>
+                  {{ address.phone }}
+                </span>
+                <button
+                  type="button"
+                  class="icon-action edit-action"
+                  [attr.aria-label]="'ADDRESSES.EDIT' | translate"
+                  (click)="$event.stopPropagation(); openEditModal(address)"
+                >
+                  <svg lucidePencil [size]="16" aria-hidden="true"></svg>
+                </button>
+                <button
+                  type="button"
+                  class="icon-action delete-action"
+                  [attr.aria-label]="'ADDRESSES.DELETE' | translate"
+                  (click)="$event.stopPropagation(); requestDelete(address)"
+                >
+                  <svg lucideTrash2 [size]="16" aria-hidden="true"></svg>
+                </button>
+              </div>
+            </article>
+          }
+        </div>
       } @else {
-        <div class="map-step">
-          <h3>
-            <button type="button" (click)="goToDetailsStep()">
-              <svg lucideArrowLeft [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg>
-            </button>
-            {{ 'ADDRESSES.MODAL.FIND_LOCATION' | translate }}
-          </h3>
+        <header class="modal-header">
+          <h2>{{ modalTitleKey() | translate }}</h2>
+          <button type="button" class="modal-close" [attr.aria-label]="'ADDRESSES.CLOSE' | translate" (click)="closeModal()">
+            <svg lucideX [size]="18" aria-hidden="true"></svg>
+          </button>
+        </header>
 
-          <div class="map-box">
-            @if (mapLoaded()) {
-              <div #mapCanvas class="map-canvas" aria-hidden="true"></div>
-            } @else {
-              <p>{{ 'ADDRESSES.MODAL.MAP_LOADING' | translate }}</p>
-            }
+        <div class="modal-stepper" aria-hidden="true">
+          <span class="modal-line modal-line-active"></span>
+          <span class="modal-dot modal-dot-active">1</span>
+          <span class="modal-line" [class.modal-line-active]="modalStep() === 2"></span>
+          <span class="modal-dot" [class.modal-dot-active]="modalStep() === 2">2</span>
+        </div>
 
-            <button type="button" class="location-button" (click)="useCurrentLocation()">
-              <svg lucideMapPin [size]="14" aria-hidden="true"></svg>
-              {{ 'ADDRESSES.MODAL.MY_LOCATION' | translate }}
+        @if (modalStep() === 1) {
+          <form class="address-form" [formGroup]="form" (ngSubmit)="goToMapStep()">
+            <h3>{{ 'ADDRESSES.MODAL.DETAILS' | translate }}</h3>
+
+            <label>
+              <span>{{ 'ADDRESSES.MODAL.CITY' | translate }}</span>
+              <input formControlName="city" [placeholder]="'ADDRESSES.MODAL.CITY_PLACEHOLDER' | translate" />
+              @if (controlInvalid('city')) {
+                <small>{{ 'ADDRESSES.ERRORS.REQUIRED' | translate }}</small>
+              }
+            </label>
+
+            <label>
+              <span>{{ 'ADDRESSES.MODAL.ADDRESS' | translate }}</span>
+              <textarea formControlName="street" [placeholder]="'ADDRESSES.MODAL.ADDRESS_PLACEHOLDER' | translate"></textarea>
+              @if (controlInvalid('street')) {
+                <small>{{ 'ADDRESSES.ERRORS.REQUIRED' | translate }}</small>
+              }
+            </label>
+
+            <label>
+              <span>{{ 'ADDRESSES.MODAL.PHONE' | translate }}</span>
+              <input formControlName="phone" [placeholder]="'ADDRESSES.MODAL.PHONE_PLACEHOLDER' | translate" />
+              @if (controlInvalid('phone')) {
+                <small>{{ 'ADDRESSES.ERRORS.PHONE' | translate }}</small>
+              }
+            </label>
+
+            <button type="submit" class="modal-primary-button">{{ 'ADDRESSES.NEXT' | translate }}</button>
+          </form>
+        } @else {
+          <div class="map-step">
+            <h3>
+              <button type="button" (click)="goToDetailsStep()">
+                <svg lucideArrowLeft [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg>
+              </button>
+              {{ 'ADDRESSES.MODAL.FIND_LOCATION' | translate }}
+            </h3>
+
+            <div class="map-box">
+              @if (mapLoaded()) {
+                <div #mapCanvas class="map-canvas" aria-hidden="true"></div>
+              } @else {
+                <p>{{ 'ADDRESSES.MODAL.MAP_LOADING' | translate }}</p>
+              }
+
+              <button type="button" class="location-button" (click)="useCurrentLocation()">
+                <svg lucideMapPin [size]="14" aria-hidden="true"></svg>
+                {{ 'ADDRESSES.MODAL.MY_LOCATION' | translate }}
+              </button>
+            </div>
+
+            <button type="button" class="modal-primary-button" (click)="saveAddress()">
+              {{ modalMode() === 'add' ? ('ADDRESSES.MODAL.ADD_ACTION' | translate) : ('ADDRESSES.MODAL.UPDATE_ACTION' | translate) }}
             </button>
           </div>
-
-          <button type="button" class="modal-primary-button" (click)="saveAddress()">
-            {{ modalMode() === 'add' ? ('ADDRESSES.MODAL.ADD_ACTION' | translate) : ('ADDRESSES.MODAL.UPDATE_ACTION' | translate) }}
-          </button>
-        </div>
+        }
       }
     </div>
   </div>
