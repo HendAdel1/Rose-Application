@@ -27,6 +27,8 @@ export interface ProductImage {
 }
 
 import { TranslatePipe } from '@ngx-translate/core';
+import { AuthSessionService } from '@org/auth-data-access';
+import { CartService } from '../../../../core/services/cart.service';
 
 @Component({
   selector: 'app-product-info',
@@ -44,6 +46,9 @@ import { TranslatePipe } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductInfo {
+  private readonly authSession = inject(AuthSessionService);
+  private readonly cartService = inject(CartService);
+  readonly isAuthenticated = this.authSession.isAuthenticated;
   private readonly wishlistActions = inject(WishlistActionsService);
 
   readonly product = input.required<ProductApiItem>();
@@ -120,6 +125,8 @@ export class ProductInfo {
   addToWishlist(): void {
     this.wishlistActions.addProduct(this.product().id);
   }
+
+
 
   private toNumber(value: string | number): number {
     return typeof value === 'number' ? value : Number.parseFloat(value);
