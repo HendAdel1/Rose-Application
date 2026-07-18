@@ -1,8 +1,11 @@
+@reference "../../../styles.css";
+
 .addresses-page {
-  padding: 3.875rem 5rem 8rem;
-  --maroon-600: #b4242b;
-  --maroon-50: #fee2e2;
-  --primary-text: #27272a;
+  --maroon-600: var(--color-maroon-600);
+  --maroon-50: var(--color-maroon-50);
+  --primary-text: var(--color-maroon-950);
+  font-family: 'Sarabun', sans-serif;
+  @apply px-20 pb-32 pt-[3.875rem] max-lg:px-8 max-lg:pb-24 max-lg:pt-10 max-sm:px-4 max-sm:pb-16 max-sm:pt-6;
 }
 
 .checkout-panel {
@@ -31,24 +34,15 @@
 }
 
 .step-line-active {
-  background: var(--maroon-600);
+  @apply bg-maroon-600;
 }
 
 .step-dot {
-  display: grid;
-  place-items: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 999rem;
-  background: #e5e7eb;
-  color: #6b7280;
-  font-size: 0.75rem;
-  font-weight: 700;
+  @apply grid size-6 place-items-center rounded-full bg-zinc-200 text-xs font-bold text-zinc-500;
 }
 
 .step-dot-active {
-  background: var(--maroon-600);
-  color: #fff;
+  @apply bg-maroon-600 text-white;
 }
 
 .section-title,
@@ -66,17 +60,8 @@
 }
 
 .address-card {
-  display: grid;
+  @apply grid min-h-22 cursor-pointer items-center gap-4 rounded-xl border border-zinc-300 bg-white p-4 text-zinc-900;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 1rem;
-  align-items: center;
-  min-height: 5.5rem;
-  padding: 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.75rem;
-  background: #fff;
-  color: #111827;
-  cursor: pointer;
   transition:
     background-color 160ms ease,
     border-color 160ms ease,
@@ -84,9 +69,7 @@
 }
 
 .address-card-selected {
-  border-color: var(--maroon-600);
-  background: var(--maroon-600);
-  color: #fff;
+  @apply border-maroon-600 bg-maroon-600 text-white;
 }
 
 .address-city {
@@ -124,34 +107,19 @@
 }
 
 .phone-chip svg {
-  display: grid;
-  box-sizing: content-box;
-  padding: 0.5rem;
-  border-radius: 999rem;
-  background: var(--maroon-600);
-  color: #fff;
+  @apply box-content grid rounded-full bg-maroon-600 p-2 text-white;
 }
 
 .address-card-selected .phone-chip svg {
-  background: #fff;
-  color: var(--maroon-600);
+  @apply bg-white text-maroon-600;
 }
 
 .icon-action {
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border: 0;
-  border-radius: 999rem;
-  background: #f3f4f6;
-  color: #6b7280;
-  cursor: pointer;
+  @apply grid size-8 cursor-pointer place-items-center rounded-full border-0 bg-zinc-100 text-zinc-500;
 }
 
 .icon-action-danger {
-  background: var(--maroon-50);
-  color: #dc2626;
+  @apply bg-maroon-50 text-red-600;
 }
 
 .or-divider {
@@ -170,14 +138,7 @@
 }
 
 .add-address-button {
-  width: 100%;
-  height: 2.75rem;
-  border: 0;
-  border-radius: 0.625rem;
-  background: var(--maroon-50);
-  color: var(--maroon-600);
-  font-weight: 700;
-  cursor: pointer;
+  @apply h-11 w-full cursor-pointer rounded-[0.625rem] border-0 bg-maroon-50 font-bold text-maroon-600;
 }
 
 .next-row {
@@ -192,17 +153,7 @@
 .modal-primary-button,
 .summary-card button,
 .dialog-confirm {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  height: 2.75rem;
-  border: 0;
-  border-radius: 0.625rem;
-  background: var(--maroon-600);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
+  @apply inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-[0.625rem] border-0 bg-maroon-600 font-bold text-white;
 }
 
 .next-button {
@@ -313,21 +264,11 @@
 }
 
 .address-book-header h2 {
-  margin: 0;
-  color: var(--primary-text);
-  font-size: 1.5rem;
-  font-weight: 700;
+  @apply m-0 text-2xl font-bold text-maroon-950;
 }
 
 .modal-add-button {
-  min-width: 10rem;
-  height: 2.5rem;
-  border: 0;
-  border-radius: 0.5rem;
-  background: var(--maroon-50);
-  color: var(--maroon-600);
-  font-weight: 700;
-  cursor: pointer;
+  @apply h-10 min-w-40 cursor-pointer rounded-lg border-0 bg-maroon-50 font-bold text-maroon-600;
 }
 
 .address-book-list {
@@ -337,10 +278,7 @@
 }
 
 .address-book-card {
-  position: relative;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.625rem;
-  background: #fff;
+  @apply relative rounded-[0.625rem] border border-zinc-200 bg-white;
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease;
@@ -348,19 +286,11 @@
 
 .address-book-card:hover,
 .address-book-card-selected {
-  border-color: var(--maroon-600);
+  @apply border-maroon-600;
 }
 
 .address-label {
-  position: absolute;
-  top: -0.625rem;
-  left: 0.75rem;
-  margin: 0;
-  padding: 0 0.375rem;
-  background: #fff;
-  color: var(--maroon-600);
-  font-size: 0.875rem;
-  font-weight: 700;
+  @apply absolute -top-2.5 left-3 m-0 bg-white px-1.5 text-sm font-bold text-maroon-600;
 }
 
 .address-book-content {
@@ -373,21 +303,11 @@
 }
 
 .pin-icon {
-  display: grid;
-  place-items: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 999rem;
-  background: #10b981;
-  color: #fff;
+  @apply grid size-7 place-items-center rounded-full bg-emerald-500 text-white;
 }
 
 .book-phone {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  color: #374151;
-  white-space: nowrap;
+  @apply inline-flex items-center gap-1.5 whitespace-nowrap text-zinc-700;
 }
 
 .edit-action,
@@ -400,16 +320,11 @@
 }
 
 .edit-action {
-  top: 1.25rem;
-  background: #fff;
-  color: #6b7280;
+  @apply top-5 bg-white text-zinc-500;
 }
 
 .delete-action {
-  bottom: 1rem;
-  border-color: transparent;
-  background: #dc2626;
-  color: #fff;
+  @apply bottom-4 border-transparent bg-red-600 text-white;
 }
 
 .modal-header {
@@ -420,22 +335,11 @@
 }
 
 .modal-header h2 {
-  margin: 0;
-  color: var(--primary-text);
-  font-size: 1.5rem;
-  font-weight: 700;
+  @apply m-0 text-2xl font-bold text-maroon-950;
 }
 
 .modal-close {
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border: 0;
-  border-radius: 999rem;
-  background: transparent;
-  color: #6b7280;
-  cursor: pointer;
+  @apply grid size-8 cursor-pointer place-items-center rounded-full border-0 bg-transparent text-zinc-500;
 }
 
 .modal-stepper {
@@ -453,20 +357,11 @@
 
 .modal-line-active,
 .modal-dot-active {
-  background: var(--maroon-600);
-  color: #fff;
+  @apply bg-maroon-600 text-white;
 }
 
 .modal-dot {
-  display: grid;
-  place-items: center;
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 999rem;
-  background: #e5e7eb;
-  color: #6b7280;
-  font-size: 0.75rem;
-  font-weight: 700;
+  @apply grid size-5 place-items-center rounded-full bg-zinc-200 text-xs font-bold text-zinc-500;
 }
 
 .address-form,
@@ -477,25 +372,11 @@
 
 .address-form h3,
 .map-step h3 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0;
-  color: var(--maroon-600);
-  font-size: 1.125rem;
-  font-weight: 500;
+  @apply m-0 flex items-center gap-2 text-lg font-medium text-maroon-600;
 }
 
 .map-step h3 button {
-  display: grid;
-  place-items: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 0;
-  border-radius: 999rem;
-  background: var(--maroon-600);
-  color: #fff;
-  cursor: pointer;
+  @apply grid size-6 cursor-pointer place-items-center rounded-full border-0 bg-maroon-600 text-white;
 }
 
 .address-form label {
@@ -517,7 +398,7 @@
 }
 
 .address-form small {
-  color: #dc2626;
+  @apply text-red-600;
 }
 
 .modal-primary-button {
@@ -526,11 +407,7 @@
 }
 
 .map-box {
-  position: relative;
-  overflow: hidden;
-  height: 17.5rem;
-  border-radius: 0.75rem;
-  background: #f3f4f6;
+  @apply relative h-[17.5rem] overflow-hidden rounded-xl bg-zinc-100;
 }
 
 .map-box p {
@@ -547,22 +424,7 @@
 }
 
 .location-button {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  height: 2rem;
-  border: 1px solid var(--maroon-600);
-  border-radius: 999rem;
-  background: #fff;
-  color: var(--maroon-600);
-  padding: 0 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  cursor: pointer;
+  @apply absolute right-3 top-3 z-[2] inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full border border-maroon-600 bg-white px-3 text-xs font-bold text-maroon-600;
 }
 
 .delete-dialog {
@@ -582,14 +444,7 @@
 }
 
 .delete-icon {
-  display: grid;
-  place-items: center;
-  width: 5.75rem;
-  height: 5.75rem;
-  border: 1rem solid #f3f4f6;
-  border-radius: 999rem;
-  background: #e5e7eb;
-  color: #374151;
+  @apply grid size-[5.75rem] place-items-center rounded-full border-[1rem] border-zinc-100 bg-zinc-200 text-zinc-700;
 }
 
 .delete-dialog p {
@@ -606,17 +461,11 @@
 }
 
 .dialog-cancel {
-  height: 2.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.625rem;
-  background: #f9fafb;
-  color: #111827;
-  font-weight: 700;
-  cursor: pointer;
+  @apply h-11 cursor-pointer rounded-[0.625rem] border border-zinc-300 bg-zinc-50 font-bold text-zinc-900;
 }
 
 .dialog-confirm {
-  background: #dc2626;
+  @apply bg-red-600;
 }
 
 .address-form input,
