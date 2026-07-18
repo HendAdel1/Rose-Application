@@ -2,6 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   ElementRef,
+  OnInit,
   ViewChild,
   computed,
   inject,
@@ -20,6 +21,7 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { AddressItem, AddressModalMode } from './models/address.model';
+import { AddressPayload } from './models/address-api.model';
 import { AddressesService } from './services/addresses.service';
 import { GoogleMapsLoaderService } from './services/google-maps-loader.service';
 
@@ -42,7 +44,7 @@ type AddressModalView = 'list' | 'form';
   styleUrl: './addresses.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Addresses {
+export class Addresses implements OnInit {
   private readonly addressesService = inject(AddressesService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly mapsLoader = inject(GoogleMapsLoaderService);
@@ -50,6 +52,7 @@ export class Addresses {
   @ViewChild('mapCanvas') private mapCanvas?: ElementRef<HTMLDivElement>;
 
   readonly addresses = this.addressesService.addresses;
+  readonly isLoading = this.addressesService.isLoading;
   readonly selectedAddress = this.addressesService.selectedAddress;
   readonly modalOpen = signal(false);
   readonly modalView = signal<AddressModalView>('list');
@@ -60,22 +63,29 @@ export class Addresses {
   readonly mapLoaded = signal(false);
 
   readonly modalTitleKey = computed(() =>
-    this.modalMode() === 'add' ? 'ADDRESSES.MODAL.ADD_TITLE' : 'ADDRESSES.MODAL.EDIT_TITLE',
+    this.modalMode() === 'add'
+      ? 'ADDRESSES.MODAL.ADD_TITLE'
+      : 'ADDRESSES.MODAL.EDIT_TITLE',
   );
 
   readonly form = this.formBuilder.nonNullable.group({
-    label: ['Home'],
+    title: ['Home'],
+    isPrimary: [false],
     city: ['', Validators.required],
     street: ['', Validators.required],
-    phone: ['', [Validators.required, Validators.pattern(/^(\+?20)?1[0125][0-9]{8}$/)]],
-    lat: [30.0444, Validators.required],
-    lng: [31.2357, Validators.required],
+    phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9]{7,15}$/)]],
+    latitude: [30.0444, Validators.required],
+    longitude: [31.2357, Validators.required],
   });
 
   readonly mapCenter = computed(() => ({
-    lat: this.form.controls.lat.value,
-    lng: this.form.controls.lng.value,
+    lat: this.form.controls.latitude.value,
+    lng: this.form.controls.longitude.value,
   }));
+
+  ngOnInit(): void {
+    this.addressesService.loadAddresses();
+  }
 
   openAddressesModal(): void {
     this.modalView.set('list');
@@ -89,30 +99,44 @@ export class Addresses {
     this.editingAddressId.set(null);
     this.modalStep.set(1);
     this.form.reset({
-      label: 'Home',
+      title: 'Home',
+      isPrimary: this.addresses().length === 0,
       city: '',
       street: '',
       phone: '',
-      lat: 30.0444,
-      lng: 31.2357,
+      latitude: 30.0444,
+      longitude: 31.2357,
     });
     this.modalOpen.set(true);
   }
 
   openEditModal(address: AddressItem): void {
+    this.prepareEditModal(address);
+    this.addressesService.getAddressById(address.id).subscribe({
+      next: (freshAddress) => this.populateEditForm(freshAddress),
+      error: () => undefined,
+    });
+  }
+
+  private prepareEditModal(address: AddressItem): void {
     this.modalView.set('form');
     this.modalMode.set('edit');
     this.editingAddressId.set(address.id);
     this.modalStep.set(1);
+    this.populateEditForm(address);
+    this.modalOpen.set(true);
+  }
+
+  private populateEditForm(address: AddressItem): void {
     this.form.setValue({
-      label: address.label,
+      title: address.title,
+      isPrimary: address.isPrimary,
       city: address.city,
       street: address.street,
       phone: address.phone,
-      lat: address.lat,
-      lng: address.lng,
+      latitude: address.latitude,
+      longitude: address.longitude,
     });
-    this.modalOpen.set(true);
   }
 
   closeModal(): void {
@@ -140,8 +164,8 @@ export class Addresses {
   useCurrentLocation(): void {
     navigator.geolocation?.getCurrentPosition((position) => {
       this.form.patchValue({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
       });
       this.renderMap();
     });
@@ -156,24 +180,26 @@ export class Addresses {
     }
 
     const value = this.form.getRawValue();
-    const payload = {
-      label: value.label,
+    const payload: AddressPayload = {
+      title: value.title || 'Home',
+      isPrimary: value.isPrimary,
       city: value.city,
       street: value.street,
       phone: value.phone,
-      lat: value.lat,
-      lng: value.lng,
+      latitude: value.latitude,
+      longitude: value.longitude,
     };
 
     const editingId = this.editingAddressId();
+    const request =
+      this.modalMode() === 'edit' && editingId
+        ? this.addressesService.updateAddress(editingId, payload)
+        : this.addressesService.addAddress(payload);
 
-    if (this.modalMode() === 'edit' && editingId) {
-      this.addressesService.updateAddress(editingId, payload);
-    } else {
-      this.addressesService.addAddress(payload);
-    }
-
-    this.closeModal();
+    request.subscribe({
+      next: () => this.closeModal(),
+      error: () => undefined,
+    });
   }
 
   selectAddress(id: string): void {
@@ -195,8 +221,10 @@ export class Addresses {
       return;
     }
 
-    this.addressesService.deleteAddress(target.id);
-    this.deleteTarget.set(null);
+    this.addressesService.deleteAddress(target.id).subscribe({
+      next: () => this.deleteTarget.set(null),
+      error: () => undefined,
+    });
   }
 
   isSelected(address: AddressItem): boolean {
@@ -227,19 +255,25 @@ export class Addresses {
       position: this.mapCenter(),
     });
 
-    map.addListener('click', (event: { latLng?: { lat: () => number; lng: () => number } }) => {
-      if (!event.latLng) {
-        return;
-      }
+    map.addListener(
+      'click',
+      (event: { latLng?: { lat: () => number; lng: () => number } }) => {
+        if (!event.latLng) {
+          return;
+        }
 
-      const position = {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-      };
+        const position = {
+          lat: event.latLng.lat(),
+          lng: event.latLng.lng(),
+        };
 
-      this.form.patchValue(position);
-      marker.setPosition(position);
-      map.panTo(position);
-    });
+        this.form.patchValue({
+          latitude: position.lat,
+          longitude: position.lng,
+        });
+        marker.setPosition(position);
+        map.panTo(position);
+      },
+    );
   }
 }

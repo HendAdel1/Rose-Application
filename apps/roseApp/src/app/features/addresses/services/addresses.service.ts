@@ -1,42 +1,26 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { Observable, finalize, map, tap } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
+import { toAddressItem, toAddressItems } from '../mappers/address.mapper';
+import {
+  AddressApiResponse,
+  AddressDto,
+  AddressListPayload,
+  AddressPayload,
+} from '../models/address-api.model';
 import { AddressItem } from '../models/address.model';
 
 @Injectable({ providedIn: 'root' })
 export class AddressesService {
-  private readonly items = signal<AddressItem[]>([
-    {
-      id: 'giza',
-      label: 'Home',
-      city: 'Giza',
-      street: '21 Ahmed Mohamed St., King Faisal St., Giza',
-      phone: '+201012346578',
-      lat: 30.0131,
-      lng: 31.2089,
-    },
-    {
-      id: 'cairo',
-      label: 'Work',
-      city: 'Cairo',
-      street: '14 Omar Ibn Alkhatab St., Ramsis St., Cairo',
-      phone: '+201112345678',
-      lat: 30.0444,
-      lng: 31.2357,
-    },
-    {
-      id: 'alexandria',
-      label: 'Family',
-      city: 'Alexandria',
-      street: '16 El-Gaish Rd, San Stefano, El-Raml 2, Alexandria',
-      phone: '+201512345678',
-      lat: 31.2001,
-      lng: 29.9187,
-    },
-  ]);
-
-  private readonly selectedAddressId = signal('cairo');
+  private readonly http = inject(HttpClient);
+  private readonly addressesUrl = `${environment.apiBaseUrl}/addresses`;
+  private readonly items = signal<AddressItem[]>([]);
+  private readonly selectedAddressId = signal<string | null>(null);
 
   readonly addresses = this.items.asReadonly();
+  readonly isLoading = signal(false);
   readonly selectedAddress = computed(
     () =>
       this.items().find((address) => address.id === this.selectedAddressId()) ??
@@ -48,24 +32,110 @@ export class AddressesService {
     this.selectedAddressId.set(id);
   }
 
-  addAddress(address: Omit<AddressItem, 'id'>): void {
-    const id = crypto.randomUUID();
-    this.items.update((addresses) => [...addresses, { ...address, id }]);
-    this.selectedAddressId.set(id);
+  loadAddresses(): void {
+    this.isLoading.set(true);
+    this.http
+      .get<AddressApiResponse<AddressListPayload> | AddressDto[]>(
+        this.addressesUrl,
+      )
+      .pipe(
+        map(toAddressItems),
+        finalize(() => this.isLoading.set(false)),
+      )
+      .subscribe({
+        next: (addresses) => {
+          this.items.set(addresses);
+          this.ensureSelectedAddress();
+        },
+        error: () => undefined,
+      });
   }
 
-  updateAddress(id: string, updates: Omit<AddressItem, 'id'>): void {
-    this.items.update((addresses) =>
-      addresses.map((address) => (address.id === id ? { ...updates, id } : address)),
+  getAddressById(id: string): Observable<AddressItem> {
+    return this.http
+      .get<
+        AddressApiResponse<AddressDto> | AddressDto
+      >(`${this.addressesUrl}/${id}`)
+      .pipe(
+        map(toAddressItem),
+        tap((address) => this.upsertAddress(address)),
+      );
+  }
+
+  addAddress(address: AddressPayload): Observable<AddressItem> {
+    return this.http
+      .post<
+        AddressApiResponse<AddressDto> | AddressDto
+      >(this.addressesUrl, address)
+      .pipe(
+        map(toAddressItem),
+        tap((createdAddress) => {
+          this.upsertAddress(createdAddress);
+          this.selectedAddressId.set(createdAddress.id);
+        }),
+      );
+  }
+
+  updateAddress(id: string, updates: AddressPayload): Observable<AddressItem> {
+    return this.http
+      .patch<
+        AddressApiResponse<AddressDto> | AddressDto
+      >(`${this.addressesUrl}/${id}`, updates)
+      .pipe(
+        map(toAddressItem),
+        tap((updatedAddress) => {
+          this.upsertAddress({
+            ...updatedAddress,
+            id: updatedAddress.id || id,
+          });
+          this.selectedAddressId.set(updatedAddress.id || id);
+        }),
+      );
+  }
+
+  deleteAddress(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.addressesUrl}/${id}`).pipe(
+      tap(() => {
+        this.items.update((addresses) =>
+          addresses.filter((address) => address.id !== id),
+        );
+
+        if (this.selectedAddressId() === id) {
+          this.selectedAddressId.set(this.items()[0]?.id ?? null);
+        }
+      }),
     );
-    this.selectedAddressId.set(id);
   }
 
-  deleteAddress(id: string): void {
-    this.items.update((addresses) => addresses.filter((address) => address.id !== id));
+  private upsertAddress(address: AddressItem): void {
+    if (!address.id) {
+      return;
+    }
 
-    if (this.selectedAddressId() === id) {
-      this.selectedAddressId.set(this.items()[0]?.id ?? '');
+    this.items.update((addresses) => {
+      const exists = addresses.some((item) => item.id === address.id);
+      return exists
+        ? addresses.map((item) => (item.id === address.id ? address : item))
+        : [address, ...addresses];
+    });
+  }
+
+  private ensureSelectedAddress(): void {
+    const addresses = this.items();
+
+    if (!addresses.length) {
+      this.selectedAddressId.set(null);
+      return;
+    }
+
+    const selectedExists = addresses.some(
+      (address) => address.id === this.selectedAddressId(),
+    );
+
+    if (!selectedExists) {
+      this.selectedAddressId.set(
+        addresses.find((address) => address.isPrimary)?.id ?? addresses[0].id,
+      );
     }
   }
 }

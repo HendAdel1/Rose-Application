@@ -294,6 +294,8 @@
     "SHIPPING_TITLE": "Shipping Address",
     "MY_ADDRESSES": "My Addresses",
     "LIST_LABEL": "Saved shipping addresses",
+    "LOADING": "Loading addresses...",
+    "EMPTY": "No saved addresses yet.",
     "EDIT": "Edit address",
     "DELETE": "Delete address",
     "OR": "OR",
