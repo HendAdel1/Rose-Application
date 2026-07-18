@@ -292,6 +292,7 @@
   },
   "ADDRESSES": {
     "SHIPPING_TITLE": "عنوان الشحن",
+    "MY_ADDRESSES": "عناويني",
     "LIST_LABEL": "عناوين الشحن المحفوظة",
     "EDIT": "تعديل العنوان",
     "DELETE": "حذف العنوان",
