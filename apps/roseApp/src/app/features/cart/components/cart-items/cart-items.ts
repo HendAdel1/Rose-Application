@@ -28,6 +28,7 @@ export interface CartItem {
   reviews: number;
   price: number;
   quantity: number;
+  stock: number;
 }
 
 @Component({
@@ -66,6 +67,7 @@ export class CartItems implements OnInit {
             reviews: apiItem.product.ratings,
             price: parseFloat(apiItem.product.price),
             quantity: apiItem.quantity,
+            stock: apiItem.product.stock,
           })),
         );
       },
@@ -77,20 +79,20 @@ export class CartItems implements OnInit {
     this.cartService.fetchCart();
   }
 
-  updateQuantity(id: string, delta: number) {
-    const item = this.cartItems().find(i => i.id === id);
+  updateQuantity(id: string, delta: number): void {
+    const item = this.cartItems().find((i) => i.id === id);
     if (item) {
-      const newQuantity = Math.max(1, item.quantity + delta);
+      const newQuantity = Math.min(item.stock, Math.max(1, item.quantity + delta));
       if (newQuantity !== item.quantity) {
         this.cartService.updateCartItemQuantity(id, newQuantity);
       }
     }
   }
 
-  setQuantity(id: string, quantity: number) {
-    const item = this.cartItems().find(i => i.id === id);
+  setQuantity(id: string, quantity: number): void {
+    const item = this.cartItems().find((i) => i.id === id);
     if (item) {
-      const newQuantity = Math.max(1, quantity);
+      const newQuantity = Math.min(item.stock, Math.max(1, quantity));
       if (newQuantity !== item.quantity) {
         this.cartService.updateCartItemQuantity(id, newQuantity);
       }
