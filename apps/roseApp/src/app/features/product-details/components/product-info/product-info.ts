@@ -17,7 +17,6 @@ import { CustomButton } from '../../../../shared/custom-button/custom-button';
 import { GalleriaModule } from 'primeng/galleria';
 import { DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
-import { WishlistActionsService } from '../../../wishlist/services/wishlist-actions.service';
 
 export interface ProductImage {
   itemImageSrc: string;
@@ -47,7 +46,6 @@ import { CartService } from '../../../../core/services/cart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductInfo {
-  private readonly wishlistActions = inject(WishlistActionsService);
   private readonly authSession = inject(AuthSessionService);
   private readonly cartService = inject(CartService);
   readonly isAuthenticated = this.authSession.isAuthenticated;
@@ -123,9 +121,6 @@ export class ProductInfo {
     return price.toFixed(2);
   }
 
-  addToWishlist(): void {
-    this.wishlistActions.addProduct(this.product().id);
-  }
   addToCart(): void {
     const p = this.product();
     this.cartService.addToCart({ productId: p.id, quantity: 1 });

@@ -33,9 +33,8 @@ export class NgxUiToast extends Toast {
   readonly variant = computed<UiToastVariant>(() => {
     switch (this.toastPackage.toastType) {
       case 'toast-error':
-        return 'error';
       case 'toast-warning':
-        return 'warning';
+        return 'error';
       case 'toast-info':
         return 'info';
       default:

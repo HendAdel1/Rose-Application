@@ -1,14 +1,11 @@
 import {
   Component,
-  DestroyRef,
   computed,
-  effect,
   inject,
   input,
   output,
   signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CartService } from '../../core/services/cart.service';
 import {
@@ -39,8 +36,6 @@ import { AuthSessionService } from '@org/auth-data-access';
 import { CustomInput } from '@org/shared-components';
 import { SharedI18nService } from '@org/shared-i18n';
 import { TranslatePipe } from '@ngx-translate/core';
-import { catchError, EMPTY } from 'rxjs';
-import { WishlistService } from '../../features/wishlist/services/wishlist.service';
 
 interface NavItem {
   labelKey: string;
@@ -79,8 +74,6 @@ interface NavItem {
 export class Navbar {
   private readonly i18n = inject(SharedI18nService);
   private readonly authSession = inject(AuthSessionService);
-  private readonly wishlistService = inject(WishlistService);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   readonly layoutRoute = inject(ActivatedRoute);
 
@@ -92,18 +85,13 @@ export class Navbar {
   readonly searchTerm = signal('');
   readonly menuOpen = signal(false);
   readonly profileMenuOpen = signal(false);
-  readonly wishlistCount = this.wishlistService.count;
-
+  
   private readonly cartService = inject(CartService);
-  readonly cartItemCount = toSignal(this.cartService.cartItemCount, {
-    initialValue: 0,
-  });
+  readonly cartItemCount = toSignal(this.cartService.cartItemCount, { initialValue: 0 });
 
   readonly languageLabel = computed(() =>
     this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية',
   );
-
-  private wishlistLoaded = false;
 
   readonly navItems: NavItem[] = [
     { labelKey: 'NAV.HOME', route: [''], icon: 'home', exact: true },
@@ -113,29 +101,6 @@ export class Navbar {
     { labelKey: 'NAV.CONTACT', route: ['contact'], icon: 'contact' },
     { labelKey: 'NAV.ABOUT', route: ['about'], icon: 'about' },
   ];
-
-  constructor() {
-    effect(() => {
-      if (!this.isAuthenticated()) {
-        this.wishlistLoaded = false;
-        this.wishlistService.setItems([]);
-        return;
-      }
-
-      if (this.wishlistLoaded) {
-        return;
-      }
-
-      this.wishlistLoaded = true;
-      this.wishlistService
-        .loadWishlist()
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          catchError(() => EMPTY),
-        )
-        .subscribe();
-    });
-  }
 
   onSearchChange(value: string): void {
     this.searchTerm.set(value);

@@ -102,16 +102,10 @@
 
       <button
         class="icon-button"
-        [class.has-badge]="wishlistCount() > 0"
         type="button"
-        [routerLink]="['wishlist']"
-        [relativeTo]="layoutRoute"
         [attr.aria-label]="'NAV.WISHLIST' | translate"
       >
         <svg lucideHeart [size]="22" aria-hidden="true"></svg>
-        @if (wishlistCount() > 0) {
-        <span class="badge">{{ wishlistCount() }}</span>
-        }
       </button>
 
       @if (isAuthenticated()) {
@@ -123,7 +117,7 @@
       >
         <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
         @if (cartItemCount() > 0) {
-        <span class="badge">{{ cartItemCount() }}</span>
+          <span class="badge">{{ cartItemCount() }}</span>
         }
       </button>
       }

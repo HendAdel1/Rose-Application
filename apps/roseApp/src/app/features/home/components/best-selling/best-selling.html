@@ -26,66 +26,51 @@
         (click)="exploreGifts()"
       >
         {{ 'HOME.BEST_SELLING.EXPLORE_GIFTS' | translate }}
-        <svg
-          lucideArrowRight
-          [size]="16"
-          class="rtl:rotate-180"
-          aria-hidden="true"
-        ></svg>
+        <svg lucideArrowRight [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg>
       </button>
     </div>
 
     <!-- Right Column: Carousel -->
     <div class="w-full lg:col-span-9 relative">
       @if (isLoading()) {
-      <p class="py-12 text-center font-sarabun text-zinc-500" aria-busy="true">
-        {{ 'HOME.MOST_POPULAR.LOADING' | translate }}
-      </p>
+        <p class="py-12 text-center font-sarabun text-zinc-500" aria-busy="true">
+          {{ 'HOME.MOST_POPULAR.LOADING' | translate }}
+        </p>
       } @else if (products().length) {
-      <div class="relative">
-        <!-- Left Navigation Arrow -->
-        <button
-          type="button"
-          class="nav-button nav-button--floating nav-button--left"
-          (click)="scrollProducts('previous')"
-          aria-label="Previous products"
-        >
-          <svg
-            lucideChevronLeft
-            [size]="18"
-            class="rtl:rotate-180"
-            aria-hidden="true"
-          ></svg>
-        </button>
+        <div class="relative">
+          <!-- Left Navigation Arrow -->
+          <button
+            type="button"
+            class="nav-button nav-button--floating nav-button--left"
+            (click)="scrollProducts('previous')"
+            aria-label="Previous products"
+          >
+            <svg lucideChevronLeft [size]="18" class="rtl:rotate-180" aria-hidden="true"></svg>
+          </button>
 
-        <!-- Products Track -->
-        <div #productsTrack class="products-track">
-          @for (product of products(); track trackProduct($index, product)) {
-          <app-ui-card
-            class="best-selling__item"
-            [product]="product"
-            (wishlistClick)="addToWishlist(product)"
-            (viewClick)="viewProduct(product)"
-            (cartClick)="addToCart(product)"
-          />
-          }
+          <!-- Products Track -->
+          <div #productsTrack class="products-track">
+            @for (product of products(); track trackProduct($index, product)) {
+              <app-ui-card
+                class="best-selling__item"
+                [product]="product"
+                (wishlistClick)="addToWishlist(product)"
+                (viewClick)="viewProduct(product)"
+                (cartClick)="addToCart(product)"
+              />
+            }
+          </div>
+
+          <!-- Right Navigation Arrow -->
+          <button
+            type="button"
+            class="nav-button nav-button--floating nav-button--right"
+            (click)="scrollProducts('next')"
+            aria-label="Next products"
+          >
+            <svg lucideChevronRight [size]="18" class="rtl:rotate-180" aria-hidden="true"></svg>
+          </button>
         </div>
-
-        <!-- Right Navigation Arrow -->
-        <button
-          type="button"
-          class="nav-button nav-button--floating nav-button--right"
-          (click)="scrollProducts('next')"
-          aria-label="Next products"
-        >
-          <svg
-            lucideChevronRight
-            [size]="18"
-            class="rtl:rotate-180"
-            aria-hidden="true"
-          ></svg>
-        </button>
-      </div>
       }
     </div>
   </div>

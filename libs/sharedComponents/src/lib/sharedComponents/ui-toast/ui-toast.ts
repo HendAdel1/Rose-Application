@@ -7,7 +7,7 @@ import {
   provideLucideIcons,
 } from '@lucide/angular';
 
-export type UiToastVariant = 'info' | 'success' | 'warning' | 'error';
+export type UiToastVariant = 'info' | 'success' | 'error';
 
 @Component({
   selector: 'lib-ui-toast',
