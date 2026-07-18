@@ -1,0 +1,532 @@
+.addresses-page {
+  padding: 3.875rem 5rem 8rem;
+}
+
+.checkout-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(20rem, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.checkout-main,
+.summary-card {
+  min-width: 0;
+}
+
+.stepper {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.step-line {
+  height: 0.375rem;
+  background: #e5e7eb;
+  border-radius: 999rem;
+}
+
+.step-line-active {
+  background: #b4242b;
+}
+
+.step-dot {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999rem;
+  background: #e5e7eb;
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.step-dot-active {
+  background: #b4242b;
+  color: #fff;
+}
+
+.section-title,
+.summary-card h2 {
+  margin: 0 0 1.5rem;
+  color: #111827;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.address-list {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.address-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  min-height: 5.5rem;
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #111827;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.address-card-selected {
+  border-color: #b4242b;
+  background: #b4242b;
+  color: #fff;
+}
+
+.address-city {
+  margin: 0 0 0.625rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.address-street {
+  display: inline;
+  margin: 0;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999rem;
+  background: #f3f4f6;
+  color: #111827;
+  font-size: 0.875rem;
+}
+
+.address-card-selected .address-street {
+  background: #111827;
+  color: #fff;
+}
+
+.address-actions,
+.phone-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.phone-chip {
+  color: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.phone-chip svg {
+  display: grid;
+  box-sizing: content-box;
+  padding: 0.5rem;
+  border-radius: 999rem;
+  background: #b4242b;
+  color: #fff;
+}
+
+.address-card-selected .phone-chip svg {
+  background: #fff;
+  color: #b4242b;
+}
+
+.icon-action {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 999rem;
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.icon-action-danger {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.or-divider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.25rem 0 1rem;
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.or-divider span {
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.add-address-button {
+  width: 100%;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 0.625rem;
+  background: #fee2e2;
+  color: #b4242b;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.next-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.next-button,
+.modal-primary-button,
+.summary-card button,
+.dialog-confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 0.625rem;
+  background: #b4242b;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.next-button {
+  min-width: 9.5rem;
+}
+
+.summary-card {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background: #fafafa;
+}
+
+.coupon-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.625rem;
+}
+
+.coupon-row input,
+.address-form input,
+.address-form textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.625rem;
+  background: #fff;
+  color: #111827;
+  font: inherit;
+}
+
+.coupon-row input {
+  height: 3rem;
+  padding: 0 1rem;
+}
+
+.summary-card button {
+  padding: 0 1.25rem;
+}
+
+.coupon-box {
+  display: grid;
+  place-items: center;
+  min-height: 11.25rem;
+  margin: 0.625rem 0 1.25rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.625rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.summary-line,
+.summary-discount,
+.summary-total {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.875rem;
+}
+
+.summary-line,
+.summary-total {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.summary-discount {
+  color: #111827;
+  font-size: 0.875rem;
+}
+
+.summary-total {
+  padding-top: 0.875rem;
+  border-top: 1px solid #d1d5db;
+  color: #111827;
+  font-size: 1.5rem;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgb(0 0 0 / 0.62);
+}
+
+.address-modal,
+.delete-dialog {
+  width: min(100%, 43.75rem);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 1.25rem 4rem rgb(0 0 0 / 0.25);
+}
+
+.address-modal {
+  padding: 1.5rem;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.modal-close {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 999rem;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.modal-stepper {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  margin: 1.25rem 0;
+}
+
+.modal-line {
+  height: 0.25rem;
+  background: #e5e7eb;
+  border-radius: 999rem;
+}
+
+.modal-line-active,
+.modal-dot-active {
+  background: #b4242b;
+  color: #fff;
+}
+
+.modal-dot {
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999rem;
+  background: #e5e7eb;
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.address-form,
+.map-step {
+  display: grid;
+  gap: 1rem;
+}
+
+.address-form h3,
+.map-step h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #b4242b;
+  font-size: 1rem;
+}
+
+.map-step h3 button {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: 999rem;
+  background: #b4242b;
+  color: #fff;
+  cursor: pointer;
+}
+
+.address-form label {
+  display: grid;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.address-form input {
+  height: 2.75rem;
+  padding: 0 0.875rem;
+}
+
+.address-form textarea {
+  min-height: 7rem;
+  padding: 0.875rem;
+  resize: vertical;
+}
+
+.address-form small {
+  color: #dc2626;
+}
+
+.modal-primary-button {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.map-box {
+  position: relative;
+  overflow: hidden;
+  height: 17.5rem;
+  border-radius: 0.75rem;
+  background: #f3f4f6;
+}
+
+.map-box p {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  margin: 0;
+  color: #6b7280;
+}
+
+.map-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.location-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 2rem;
+  border: 1px solid #b4242b;
+  border-radius: 999rem;
+  background: #fff;
+  color: #b4242b;
+  padding: 0 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.delete-dialog {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 1.5rem;
+  max-width: 32rem;
+  padding: 3.5rem 2rem 2rem;
+  text-align: center;
+}
+
+.delete-dialog .modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.delete-icon {
+  display: grid;
+  place-items: center;
+  width: 5.75rem;
+  height: 5.75rem;
+  border: 1rem solid #f3f4f6;
+  border-radius: 999rem;
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.delete-dialog p {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.dialog-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.dialog-cancel {
+  height: 2.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.625rem;
+  background: #f9fafb;
+  color: #111827;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .addresses-page {
+    padding: 2.5rem 2rem 6rem;
+  }
+
+  .checkout-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .addresses-page {
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .address-card {
+    grid-template-columns: 1fr;
+  }
+
+  .address-actions,
+  .coupon-row {
+    grid-template-columns: 1fr;
+    flex-wrap: wrap;
+  }
+
+  .section-title,
+  .summary-card h2 {
+    font-size: 1.5rem;
+  }
+}
