@@ -71,6 +71,7 @@
           <div class="quantity-control">
             <button
               class="qty-btn bg-maroon-50"
+              [disabled]="item.quantity <= 1"
               (click)="updateQuantity(item.id, -1)"
             >
               <svg lucideMinus [size]="20"></svg>
@@ -84,6 +85,7 @@
             ></lib-custom-input>
             <button
               class="qty-btn bg-maroon-50"
+              [disabled]="item.quantity >= item.stock"
               (click)="updateQuantity(item.id, 1)"
             >
               <svg lucidePlus [size]="20"></svg>
