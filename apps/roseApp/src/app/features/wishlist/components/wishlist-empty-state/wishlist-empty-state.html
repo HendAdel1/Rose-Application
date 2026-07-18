@@ -1,0 +1,13 @@
+<div
+  class="flex min-h-[16rem] flex-col items-center justify-center rounded-xl border border-zinc-200 bg-white px-6 py-10 text-center dark:border-zinc-700 dark:bg-zinc-900"
+>
+  <img
+    class="mb-5 h-48 w-80 object-contain opacity-80 sm:h-56 sm:w-96"
+    [src]="emptyImage"
+    [alt]="'WISHLIST.EMPTY_IMAGE_ALT' | translate"
+    loading="lazy"
+  />
+  <p class="text-sm text-zinc-400 dark:text-zinc-500">
+    {{ 'WISHLIST.EMPTY_MESSAGE' | translate }}
+  </p>
+</div>
