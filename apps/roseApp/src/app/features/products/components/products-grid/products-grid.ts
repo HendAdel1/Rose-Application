@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { LoadingService } from '@org/auth-data-access';
@@ -25,12 +25,14 @@ export class ProductsGrid {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   readonly selectedCategoryId = signal<string | null>(null);
+  readonly activeCategoryId = input<string | null>(null);
   readonly filteredProducts = computed(() => {
-    const activeId = this.selectedCategoryId();
+    const activeId = this.activeCategoryId();
     const list = this.products();
 
     if (!activeId) return list;
-    return list.filter(product => product.categoryId === activeId);
+    if (activeId === 'Cards') return list;
+    return list.filter(product => product.category?.title === activeId);
   });
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);

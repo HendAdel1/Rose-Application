@@ -1,92 +1,9 @@
-.filter-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+.no-scrollbar {
+  scrollbar-width: none; 
+  
+  -ms-overflow-style: none; 
 }
 
-.filter-header h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.select-hint-text {
-  font-size: 0.85rem;
-  color: #888;
-  font-style: italic;
-}
-
-
-.reset-btn {
-  background: none;
-  border: none;
-  color: #b54747; /* Matches the soft reddish color in your mockup */
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: color 0.2s ease;
-  padding: 0;
-}
-
-.reset-btn:hover {
-  color: #8b2c2c;
-}
-
-/* 1. Container styling for horizontal scrolling (if they are in a row) */
-.category-list {
-  display: flex;
-  flex-direction: row; /* Change to 'column' if you want a vertical scroll instead */
-  gap: 12px;
-  overflow-x: auto;   /* Enables horizontal scrolling */
-  overflow-y: hidden;
-  white-space: nowrap;
-  padding: 8px 4px;
-
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-/* Ensure buttons don't shrink when scrolling horizontally */
-.category-list li {
-  flex-shrink: 0;
-}
-
-.category-icon {
-  width: 20px;
-  height: 20px;
-  stroke-width: 2px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-icon {
-  width: 16px;
-  height: 16px;
-  stroke-width: 2px;
-}
-
-
-.reset-btn {
-  background: none;
-  border: none;
-  color: #b54747;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 0;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

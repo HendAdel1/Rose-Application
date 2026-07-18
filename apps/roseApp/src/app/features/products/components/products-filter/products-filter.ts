@@ -16,12 +16,15 @@ export class ProductsFilter {
   readonly filterCleared = output<void>();
 
 readonly categories = signal<Category[]>([
-{ id: 'cards', name: 'Cards' },
-    { id: 'chocolate', name: 'Chocolate' },
-    { id: 'flowers', name: 'Flowers' },
-    { id: 'cards', name: 'Cards' },
-    { id: 'chocolate', name: 'Chocolate' },
-    { id: 'flowers', name: 'Flowers' }
+{ id: 'Cards', name: 'Cards' },
+    { id: 'Chocolate', name: 'Chocolate' },
+    { id: 'Flowers', name: 'Flowers' },
+    { id: 'Cards', name: 'Cards' },
+    { id: 'Chocolate', name: 'Chocolate' },
+    { id: 'Flowers', name: 'Flowers' },
+    { id: 'Cards', name: 'Cards' },
+    { id: 'Chocolate', name: 'Chocolate' },
+    { id: 'Flowers', name: 'Flowers' },
   ]);
 
   selectCategory(id: string): void {

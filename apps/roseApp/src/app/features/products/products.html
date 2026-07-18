@@ -1,7 +1,11 @@
 <section class="mx-auto w-full px-4 py-18 pb-12 md:px-8 lg:px-20">
   <div class="flex items-start gap-8 max-lg:flex-col">
 
-    <app-products-filter />
+    <app-products-filter
+      [activeCategoryId]="activeCategoryId()"
+      (categorySelected)="onCategorySelected($event)"
+      (filterCleared)="onFilterCleared()"
+    />
 
     <!-- Divider -->
     <div
@@ -11,7 +15,7 @@
     <!-- Mobile Divider -->
     <hr class="block lg:hidden w-full border-zinc-100 dark:border-zinc-700" />
 
-    <app-products-grid />
+    <app-products-grid [activeCategoryId]="activeCategoryId()" />
 
   </div>
 </section>

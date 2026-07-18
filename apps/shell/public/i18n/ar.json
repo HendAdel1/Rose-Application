@@ -311,5 +311,15 @@
   "GALLERY": {
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
+  },
+    "PRODUCT": {
+    "CATEGORY": "القسم",
+    "SELECT_CATEGORY": "اختر القسم",
+    "RESET": "إعادة تعيين"
+  },
+  "CATEGORIES": {
+    "Cards": "كروت هدايا",
+    "Chocolate": "شوكولاتة",
+    "Flowers": "زهور"
   }
 }

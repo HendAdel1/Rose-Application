@@ -1,36 +1,60 @@
-<aside class="sidebar-filter">
-  <div class="filter-header">
-    <h3>Category</h3>
+<aside class="w-full md:w-60">
+  <div class="flex items-center justify-between gap-5 mb-3">
+    <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">
+      {{ 'PRODUCT.CATEGORY' | translate }}
+    </h3>
 
     <div class="filter-actions">
       @if (activeCategoryId()) {
-        <button type="button" class="reset-btn" (click)="resetFilter()">
-          <svg lucideX class="btn-icon"></svg>
-          Reset
+        <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetFilter()">
+          <svg lucideX class="w-4 h-4"></svg>
+          {{ 'PRODUCT.RESET' | translate }}
         </button>
       } @else {
-        <span class="select-hint-text">Select Category</span>
+        <span class="text-zinc-400 font-sarabun font-normal text-xs italic">
+          {{ 'PRODUCT.SELECT_CATEGORY' | translate }}
+        </span>
       }
     </div>
   </div>
 
-<ul class="category-list flex flex-row gap-3 overflow-x-auto no-scrollbar py-2">
-  @for (category of categories(); track category.id) {
-    <li class="shrink-0">
-      <button
-        type="button"
-        class="category-item-btn"
-        [class.active]="category.id === activeCategoryId()"
-        (click)="selectCategory(category.id)"
-      >
-        @switch (category.id) {
-          @case ('cards') { <svg lucideMail class="category-icon"></svg> }
-          @case ('chocolate') { <svg lucideCandy class="category-icon"></svg> }
-          @case ('flowers') { <svg lucideFlower class="category-icon"></svg> }
-        }
-        <span class="name">{{ category.name }}</span>
-      </button>
-    </li>
-  }
-</ul>
+  <ul class="flex flex-col gap-2 w-full max-h-50 overflow-y-auto no-scrollbar">
+    @for (category of categories(); track category.id) {
+      <li class="w-full">
+        <button
+          type="button"
+          class="w-full flex items-center gap-3 pe-3  font-sarabun font-medium text-sm text-left rounded-lg transition-all group"
+          [ngClass]="category.id === activeCategoryId()
+            ? 'bg-maroon-50 text-zinc-700 dark:bg-soft-pink-100 dark:text-zinc-600'
+            : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'"
+          (click)="selectCategory(category.id)"
+        >
+          @switch (category.id) {
+            @case ('Cards') {
+              <svg lucideMail
+                class="w-9 h-9 p-2 rounded-md shrink-0 transition-colors"
+                [ngClass]="category.id === activeCategoryId() ? 'text-white bg-maroon-600 dark:bg-soft-pink-300' : 'text-white bg-zinc-600 dark:bg-zinc-500 dark:text-zinc-200'">
+              </svg>
+            }
+            @case ('Chocolate') {
+              <svg lucideCandy
+                class="w-9 h-9 p-2 rounded-md shrink-0 transition-colors"
+                [ngClass]="category.id === activeCategoryId() ? 'text-white bg-maroon-600 dark:bg-soft-pink-300' : 'text-white bg-zinc-600 dark:bg-zinc-500 dark:text-zinc-200'">
+              </svg>
+            }
+            @case ('Flowers') {
+              <svg lucideFlower
+                class="w-9 h-9 p-2 rounded-md shrink-0 transition-colors"
+                [ngClass]="category.id === activeCategoryId() ? 'text-white bg-maroon-600 dark:bg-soft-pink-300' : 'text-white bg-zinc-600 dark:bg-zinc-500 dark:text-zinc-200'">
+              </svg>
+            }
+          }
+
+          <span class="font-semibold tracking-wide">
+            {{ 'CATEGORIES.' + category.id | translate }}
+          </span>
+        </button>
+      </li>
+    }
+  </ul>
 </aside>
