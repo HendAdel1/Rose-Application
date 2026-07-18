@@ -366,7 +366,12 @@
       <div
         class="relative h-[17.5rem] overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800"
       >
-        <div #mapCanvas class="map-canvas" aria-hidden="true"></div>
+        <div
+          #mapCanvas
+          class="map-canvas"
+          [class.hidden]="mapLoadFailed()"
+          aria-hidden="true"
+        ></div>
 
         @if (!mapLoaded() && !mapLoadFailed()) {
         <p

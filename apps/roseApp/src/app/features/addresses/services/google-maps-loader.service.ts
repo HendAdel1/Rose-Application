@@ -3,6 +3,11 @@ import { Injectable, inject } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
 
+type GoogleMapsWindow = Window & {
+  google?: { maps?: unknown };
+  gm_authFailure?: () => void;
+};
+
 @Injectable({ providedIn: 'root' })
 export class GoogleMapsLoaderService {
   private readonly scriptId = 'google-maps-script';
@@ -19,6 +24,17 @@ export class GoogleMapsLoaderService {
     }
 
     this.loadingPromise = new Promise((resolve, reject) => {
+      const win = this.document.defaultView as GoogleMapsWindow | null;
+      const previousAuthFailure = win?.gm_authFailure;
+
+      if (win) {
+        win.gm_authFailure = () => {
+          previousAuthFailure?.();
+          this.loadingPromise = undefined;
+          reject(new Error('Google Maps authentication failed'));
+        };
+      }
+
       const existingScript = this.document.getElementById(
         this.scriptId,
       ) as HTMLScriptElement | null;
@@ -51,11 +67,7 @@ export class GoogleMapsLoaderService {
   }
 
   private isLoaded(): boolean {
-    const win = this.document.defaultView as
-      | (Window & {
-          google?: { maps?: unknown };
-        })
-      | null;
+    const win = this.document.defaultView as GoogleMapsWindow | null;
 
     return Boolean(win?.google?.maps);
   }

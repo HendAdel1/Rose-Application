@@ -26,6 +26,10 @@ import { AddressesService } from './services/addresses.service';
 import { GoogleMapsLoaderService } from './services/google-maps-loader.service';
 
 type AddressModalView = 'list' | 'form';
+type GoogleMapsWindow = Window & {
+  google?: any;
+  gm_authFailure?: () => void;
+};
 
 @Component({
   selector: 'app-addresses',
@@ -248,11 +252,20 @@ export class Addresses implements OnInit {
 
   private renderMap(): void {
     const element = this.mapCanvas?.nativeElement;
-    const win = window as Window & { google?: any };
+    const win = window as GoogleMapsWindow;
 
     if (!element || !win.google?.maps) {
       return;
     }
+
+    const previousAuthFailure = win.gm_authFailure;
+    win.gm_authFailure = () => {
+      previousAuthFailure?.();
+      this.mapLoadFailed.set(true);
+      this.mapLoaded.set(false);
+      this.map = undefined;
+      this.marker = undefined;
+    };
 
     if (this.map && this.marker) {
       this.marker.setPosition(this.mapCenter());
