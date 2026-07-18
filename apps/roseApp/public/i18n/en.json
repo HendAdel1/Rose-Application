@@ -239,6 +239,7 @@
       "FIND_LOCATION": "Find Your Location",
       "MY_LOCATION": "Find My Location",
       "MAP_LOADING": "Loading map...",
+      "MAP_ERROR": "Unable to load the map. Please try again.",
       "ADD_ACTION": "Add Address",
       "UPDATE_ACTION": "Update Address"
     },

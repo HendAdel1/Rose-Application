@@ -61,6 +61,9 @@ export class Addresses implements OnInit {
   readonly editingAddressId = signal<string | null>(null);
   readonly deleteTarget = signal<AddressItem | null>(null);
   readonly mapLoaded = signal(false);
+  readonly mapLoadFailed = signal(false);
+  private map?: any;
+  private marker?: any;
 
   readonly modalTitleKey = computed(() =>
     this.modalMode() === 'add'
@@ -141,6 +144,8 @@ export class Addresses implements OnInit {
 
   closeModal(): void {
     this.modalOpen.set(false);
+    this.map = undefined;
+    this.marker = undefined;
   }
 
   goToMapStep(): void {
@@ -151,10 +156,15 @@ export class Addresses implements OnInit {
     }
 
     this.modalStep.set(2);
-    void this.mapsLoader.load().then(() => {
-      this.mapLoaded.set(true);
-      setTimeout(() => this.renderMap());
-    });
+    this.mapLoaded.set(false);
+    this.mapLoadFailed.set(false);
+    this.map = undefined;
+    this.marker = undefined;
+
+    void this.mapsLoader
+      .load()
+      .then(() => this.scheduleMapRender())
+      .catch(() => this.mapLoadFailed.set(true));
   }
 
   goToDetailsStep(): void {
@@ -244,18 +254,25 @@ export class Addresses implements OnInit {
       return;
     }
 
-    const map = new win.google.maps.Map(element, {
+    if (this.map && this.marker) {
+      this.marker.setPosition(this.mapCenter());
+      this.map.panTo(this.mapCenter());
+      return;
+    }
+
+    this.map = new win.google.maps.Map(element, {
       center: this.mapCenter(),
       disableDefaultUI: true,
       zoom: 13,
       zoomControl: true,
     });
-    const marker = new win.google.maps.Marker({
-      map,
+
+    this.marker = new win.google.maps.Marker({
+      map: this.map,
       position: this.mapCenter(),
     });
 
-    map.addListener(
+    this.map.addListener(
       'click',
       (event: { latLng?: { lat: () => number; lng: () => number } }) => {
         if (!event.latLng) {
@@ -271,9 +288,22 @@ export class Addresses implements OnInit {
           latitude: position.lat,
           longitude: position.lng,
         });
-        marker.setPosition(position);
-        map.panTo(position);
+        this.marker?.setPosition(position);
+        this.map?.panTo(position);
       },
     );
+
+    this.mapLoaded.set(true);
+  }
+
+  private scheduleMapRender(retries = 8): void {
+    setTimeout(() => {
+      if (!this.mapCanvas?.nativeElement && retries > 0) {
+        this.scheduleMapRender(retries - 1);
+        return;
+      }
+
+      this.renderMap();
+    });
   }
 }
