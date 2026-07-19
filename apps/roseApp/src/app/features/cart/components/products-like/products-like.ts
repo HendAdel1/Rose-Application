@@ -1,7 +1,8 @@
 import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, map, of, take } from 'rxjs';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
 import { toMostPopularProducts } from '../../../../shared/products/mappers/popular-product.mapper';
@@ -24,6 +25,8 @@ import { UiCard } from '../../../../shared/ui-card/ui-card';
 export class ProductsLike implements OnInit {
   private readonly productsService = inject(ProductsService);
   private readonly router = inject(Router);
+  private readonly toastr = inject(ToastrService);
+  private readonly translate = inject(TranslateService);
 
   @ViewChild('productsTrack') private productsTrack?: ElementRef<HTMLElement>;
 
@@ -69,6 +72,10 @@ export class ProductsLike implements OnInit {
   }
 
   quickAddToCart(product: PopularProduct): void {
+    if (product.isOutOfStock || product.stock <= 0) {
+      this.toastr.warning(this.translate.instant('CART.PRODUCT_OUT_OF_STOCK'));
+      return;
+    }
     console.log('Quick add to cart', product.id);
   }
 

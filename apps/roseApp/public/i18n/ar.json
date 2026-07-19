@@ -219,7 +219,8 @@
   ],
   "CART": {
     "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك",
-    "NO_PRODUCTS_LIKE": "لا توجد اقتراحات للمنتجات حالياً."
+    "NO_PRODUCTS_LIKE": "لا توجد اقتراحات للمنتجات حالياً.",
+    "PRODUCT_OUT_OF_STOCK": "المنتج غير متوفر في المخزون"
   },
   "GALLERY": {
     "EYEBROW": "المعرض",
