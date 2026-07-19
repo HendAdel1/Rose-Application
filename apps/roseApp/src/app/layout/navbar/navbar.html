@@ -123,6 +123,13 @@
       >
         <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
         @if (cartItemCount() > 0) {
+          <span class="badge">{{ cartItemCount() }}</span>
+        }
+      </button>
+
+      <button class="icon-button has-badge" type="button" [attr.aria-label]="'NAV.SHOPPING_CART' | translate">
+        <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
+        @if (cartItemCount() > 0) {
         <span class="badge">{{ cartItemCount() }}</span>
         }
       </button>
@@ -158,7 +165,7 @@
       >
         <svg lucideMenu [size]="24" aria-hidden="true"></svg>
       </button>
-    </div>
+      }</div>
   </div>
 
   <nav

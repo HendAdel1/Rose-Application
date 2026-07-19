@@ -47,6 +47,9 @@ import { CartService } from '../../../../core/services/cart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductInfo {
+  private readonly authSession = inject(AuthSessionService);
+  private readonly cartService = inject(CartService);
+  readonly isAuthenticated = this.authSession.isAuthenticated;
   private readonly wishlistActions = inject(WishlistActionsService);
   private readonly authSession = inject(AuthSessionService);
   private readonly cartService = inject(CartService);
@@ -130,6 +133,8 @@ export class ProductInfo {
     const p = this.product();
     this.cartService.addToCart({ productId: p.id, quantity: 1 });
   }
+
+
 
   private toNumber(value: string | number): number {
     return typeof value === 'number' ? value : Number.parseFloat(value);

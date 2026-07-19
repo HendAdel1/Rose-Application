@@ -28,7 +28,10 @@ export class WishlistService {
     return this.getWishlist().pipe(tap((items) => this.setItems(items)));
   }
 
-  addProduct(productId: string, fallbackItem?: WishlistItem): Observable<WishlistAddStatus> {
+  addProduct(
+    productId: string,
+    fallbackItem?: WishlistItem,
+  ): Observable<WishlistAddStatus> {
     const addToWishlist = () => {
       if (this.hasItem(productId)) {
         return of('duplicate' as const);
@@ -36,7 +39,9 @@ export class WishlistService {
 
       return this.http.post(this.wishlistUrl, { productId }).pipe(
         switchMap(() => this.getWishlist()),
-        tap((items) => this.setItems(this.resolveAddedItems(items, fallbackItem))),
+        tap((items) =>
+          this.setItems(this.resolveAddedItems(items, fallbackItem)),
+        ),
         map(() => 'added' as const),
       );
     };
@@ -52,7 +57,9 @@ export class WishlistService {
     return this.http.delete<void>(`${this.wishlistUrl}/${productId}`).pipe(
       tap(() => {
         this.wishlistItems.update((items) =>
-          items.filter((item) => item.removeId !== productId && item.id !== productId),
+          items.filter(
+            (item) => item.removeId !== productId && item.id !== productId,
+          ),
         );
         this.wishlistLoaded.set(true);
       }),
@@ -77,7 +84,10 @@ export class WishlistService {
     this.wishlistLoaded.set(true);
   }
 
-  private resolveAddedItems(items: WishlistItem[], fallbackItem?: WishlistItem): WishlistItem[] {
+  private resolveAddedItems(
+    items: WishlistItem[],
+    fallbackItem?: WishlistItem,
+  ): WishlistItem[] {
     if (!fallbackItem || items.some((item) => item.id === fallbackItem.id)) {
       return items;
     }

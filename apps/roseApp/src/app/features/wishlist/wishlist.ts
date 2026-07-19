@@ -6,14 +6,19 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
-import { LucideArrowLeft, LucideBrushCleaning, LucideFolderHeart, LucideX } from '@lucide/angular';
+import {
+  LucideArrowLeft,
+  LucideBrushCleaning,
+  LucideFolderHeart,
+  LucideX,
+} from '@lucide/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, finalize, take } from 'rxjs';
 import { WishlistEmptyState } from './components/wishlist-empty-state/wishlist-empty-state';
 import { WishlistItem } from './components/wishlist-item/wishlist-item';
 import { WishlistService } from './services/wishlist.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-wishlist',

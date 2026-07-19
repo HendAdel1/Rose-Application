@@ -3,6 +3,7 @@ import {
   DestroyRef,
   computed,
   effect,
+  computed,
   inject,
   input,
   output,
@@ -92,6 +93,8 @@ export class Navbar {
   readonly searchTerm = signal('');
   readonly menuOpen = signal(false);
   readonly profileMenuOpen = signal(false);
+  private readonly cartService = inject(CartService);
+  readonly cartItemCount = toSignal(this.cartService.cartItemCount, { initialValue: 0 });
   readonly wishlistCount = this.wishlistService.count;
 
   private readonly cartService = inject(CartService);
