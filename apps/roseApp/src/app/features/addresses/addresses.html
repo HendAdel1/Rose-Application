@@ -103,6 +103,8 @@
         <button
           type="button"
           class="inline-flex h-11 min-w-38 cursor-pointer items-center justify-center gap-2 rounded-[0.625rem] border-0 bg-maroon-600 px-6 font-bold text-white transition hover:brightness-95 dark:bg-soft-pink-300 dark:text-zinc-900"
+          [disabled]="!selectedAddress()"
+          (click)="goToPayment()"
         >
           {{ 'ADDRESSES.NEXT' | translate }}
           <svg

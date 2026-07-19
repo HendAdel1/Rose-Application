@@ -248,6 +248,37 @@
       "PHONE": "Enter a valid Egyptian phone number"
     }
   },
+  "PAYMENT": {
+    "BACK": "Back",
+    "TITLE": "Payment Method",
+    "CHECKOUT": "Checkout",
+    "CASH": {
+      "TITLE": "Cash on Delivery",
+      "DESCRIPTION": "You'll pay in cash when your order is delivered."
+    },
+    "CARD": {
+      "TITLE": "Credit Card",
+      "DESCRIPTION": "You'll be securely redirected to Stripe to complete your payment."
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "COUPON": "Coupon Code",
+      "APPLY": "Apply Coupon",
+      "NO_COUPONS": "No coupons applied",
+      "SUBTOTAL": "Subtotal",
+      "TOTAL": "Total"
+    },
+    "FEEDBACK": {
+      "SELECT_ADDRESS": "Please select a shipping address first.",
+      "CREATE_ORDER_ERROR": "Unable to create your order.",
+      "ORDER_SUCCESS": "Order placed successfully."
+    }
+  },
+  "ORDER_CONFIRMATION": {
+    "TITLE": "Order placed successfully",
+    "DESCRIPTION": "Thanks for shopping with Rose. Your order has been created and your cart is now clear.",
+    "CONTINUE_SHOPPING": "Continue Shopping"
+  },
   "features": [
     {
       "title": "Free Delivery",

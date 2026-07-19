@@ -1,0 +1,20 @@
+<section class="grid min-h-[32rem] place-items-center px-20 py-24 font-sarabun max-lg:px-8 max-sm:px-4 dark:text-white">
+  <div class="grid max-w-xl justify-items-center gap-5 rounded-xl border border-zinc-200 bg-white p-10 text-center shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+    <span class="grid size-20 place-items-center rounded-full bg-maroon-50 text-maroon-600 dark:bg-zinc-800 dark:text-soft-pink-200">
+      <svg lucideCheckCircle2 [size]="44" aria-hidden="true"></svg>
+    </span>
+    <h1 class="text-3xl font-bold text-zinc-950 dark:text-white">
+      {{ 'ORDER_CONFIRMATION.TITLE' | translate }}
+    </h1>
+    <p class="text-base leading-7 text-zinc-500 dark:text-zinc-300">
+      {{ 'ORDER_CONFIRMATION.DESCRIPTION' | translate }}
+    </p>
+    <a
+      routerLink="/roseApp/products"
+      class="mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-[0.625rem] bg-maroon-600 px-6 font-bold text-white no-underline transition hover:brightness-95 dark:bg-soft-pink-300 dark:text-zinc-900"
+    >
+      {{ 'ORDER_CONFIRMATION.CONTINUE_SHOPPING' | translate }}
+      <svg lucideArrowRight [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg>
+    </a>
+  </div>
+</section>
