@@ -15,7 +15,7 @@ import {
 } from '@lucide/angular';
 import { CustomButton } from '../../../../shared/custom-button/custom-button';
 import { GalleriaModule } from 'primeng/galleria';
-import { DecimalPipe, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
 import { WishlistActionsService } from '../../../wishlist/services/wishlist-actions.service';
 
@@ -40,7 +40,6 @@ import { CartService } from '../../../../core/services/cart.service';
     LucideShoppingCart,
     LucidePackage,
     TranslatePipe,
-    DecimalPipe,
   ],
   templateUrl: './product-info.html',
   styleUrl: './product-info.css',
@@ -123,14 +122,11 @@ export class ProductInfo {
     return price.toFixed(2);
   }
 
-  addToCart(): void {
-    const p = this.product();
-    this.cartService.addToCart({ productId: p.id, quantity: 1 });
-  }
-
   addToWishlist(): void {
     this.wishlistActions.addProduct(this.product().id);
   }
+
+
 
   private toNumber(value: string | number): number {
     return typeof value === 'number' ? value : Number.parseFloat(value);

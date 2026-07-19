@@ -1,7 +1,7 @@
 <button
   [type]="type()"
   [disabled]="disabled() || loading()"
-  (click)="handleClick($event)"
+  (click)="clicked.emit($event)"
   [class]="buttonClasses()"
 >
   @if (loading()) {

@@ -199,6 +199,55 @@
     "CANCEL": "Cancel",
     "CONFIRM": "Confirm"
   },
+  "ADDRESSES": {
+    "SHIPPING_TITLE": "Shipping Address",
+    "MY_ADDRESSES": "My Addresses",
+    "LIST_LABEL": "Saved shipping addresses",
+    "LOADING": "Loading addresses...",
+    "EMPTY": "No saved addresses yet.",
+    "EDIT": "Edit address",
+    "DELETE": "Delete address",
+    "OR": "OR",
+    "ADD_NEW": "Add a New Address",
+    "NEXT": "Next",
+    "CLOSE": "Close",
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm",
+    "DELETE_DIALOG_LABEL": "Delete address confirmation",
+    "DELETE_CONFIRMATION": "Are you sure you want to delete this address?",
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "COUPON": "Coupon Code",
+      "APPLY": "Apply Coupon",
+      "NO_COUPONS": "No coupons applied",
+      "SUBTOTAL": "Subtotal",
+      "DISCOUNT": "Discount",
+      "TOTAL": "Total"
+    },
+    "MODAL": {
+      "ADD_TITLE": "Add a New Address",
+      "EDIT_TITLE": "Update Address Info",
+      "DETAILS": "Enter address details",
+      "LABEL": "Address type",
+      "LABEL_PLACEHOLDER": "Home, Work, Family...",
+      "CITY": "City",
+      "CITY_PLACEHOLDER": "Enter city name",
+      "ADDRESS": "Address",
+      "ADDRESS_PLACEHOLDER": "Enter your full address",
+      "PHONE": "Phone",
+      "PHONE_PLACEHOLDER": "Phone number",
+      "FIND_LOCATION": "Find Your Location",
+      "MY_LOCATION": "Find My Location",
+      "MAP_LOADING": "Loading map...",
+      "MAP_ERROR": "Unable to load the map. Please try again.",
+      "ADD_ACTION": "Add Address",
+      "UPDATE_ACTION": "Update Address"
+    },
+    "ERRORS": {
+      "REQUIRED": "This field is required",
+      "PHONE": "Enter a valid Egyptian phone number"
+    }
+  },
   "features": [
     {
       "title": "Free Delivery",

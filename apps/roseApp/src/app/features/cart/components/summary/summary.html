@@ -45,7 +45,7 @@
     </div>
   </div>
 
-  <app-custom-button variant="primary" [fullWidth]="true">
+  <app-custom-button variant="primary" [fullWidth]="true" (btnClick)="checkout()">
     {{ 'CART.SUMMARY.CHECKOUT' | translate }}
     <svg lucideArrowRight [size]="16" class="rtl:rotate-180"></svg>
   </app-custom-button>
