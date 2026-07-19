@@ -329,6 +329,8 @@
       "SUBTOTAL": "Subtotal",
       "TOTAL": "Total",
       "CHECKOUT": "Checkout"
-    }
+    },
+    "PRODUCTS_YOU_MAY_LIKE": "Products You May Like",
+    "NO_PRODUCTS_LIKE": "No product suggestions available."
   }
 }

@@ -217,6 +217,10 @@
       "description": "تواصل معنا في أي وقت"
     }
   ],
+  "CART": {
+    "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك",
+    "NO_PRODUCTS_LIKE": "لا توجد اقتراحات للمنتجات حالياً."
+  },
   "GALLERY": {
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
