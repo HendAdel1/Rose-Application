@@ -6,6 +6,7 @@ import { Home } from '../features/home/home';
 import { ProductDetails } from '../features/product-details/product-details';
 import { Products } from '../features/products/products';
 import { Cart } from '../features/cart/cart';
+import { Addresses } from '../features/addresses/addresses';
 import { authGuard } from '../core/guards/auth.guard';
 import { Wishlist } from '../features/wishlist/wishlist';
 export const remoteRoutes: Route[] = [
@@ -24,6 +25,18 @@ export const remoteRoutes: Route[] = [
       { path: 'wishlist', component: Wishlist },
       { path: 'product-details', component: ProductDetails },
       { path: 'products/:id', component: ProductDetails },
+      {
+        path: 'cart',
+        component: Cart,
+        title: 'Cart',
+        canActivate: [authGuard],
+      },
+      {
+        path: 'addresses',
+        component: Addresses,
+        title: 'Addresses',
+        canActivate: [authGuard],
+      },
     ],
   },
 ];
