@@ -266,6 +266,11 @@
       "description": "Contact us at any time"
     }
   ],
+  "CART": {
+    "PRODUCTS_YOU_MAY_LIKE": "Products You May Like",
+    "NO_PRODUCTS_LIKE": "No product suggestions available.",
+    "PRODUCT_OUT_OF_STOCK": "Product out of stock"
+  },
   "GALLERY": {
     "EYEBROW": "Gallery",
     "TITLE": "Check Out our Wonderful Gallery"
