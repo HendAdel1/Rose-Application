@@ -19,6 +19,7 @@ import {
   LucideX,
 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 import { AddressItem, AddressModalMode } from './models/address.model';
 import { AddressPayload } from './models/address-api.model';
@@ -47,6 +48,7 @@ export class Addresses implements OnInit {
   private readonly addressesService = inject(AddressesService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly mapsLoader = inject(GoogleMapsLoaderService);
+  private readonly router = inject(Router);
 
   @ViewChild('mapCanvas') private mapCanvas?: ElementRef<HTMLDivElement>;
 
@@ -213,6 +215,14 @@ export class Addresses implements OnInit {
 
   selectAddress(id: string): void {
     this.addressesService.selectAddress(id);
+  }
+
+  goToPayment(): void {
+    if (!this.selectedAddress()) {
+      return;
+    }
+
+    void this.router.navigate(['/roseApp/payment']);
   }
 
   requestDelete(address: AddressItem): void {

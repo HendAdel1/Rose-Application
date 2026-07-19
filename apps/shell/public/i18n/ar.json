@@ -339,6 +339,37 @@
       "PHONE": "أدخل رقم هاتف مصري صحيح"
     }
   },
+  "PAYMENT": {
+    "BACK": "رجوع",
+    "TITLE": "طريقة الدفع",
+    "CHECKOUT": "إتمام الدفع",
+    "CASH": {
+      "TITLE": "الدفع عند الاستلام",
+      "DESCRIPTION": "ستدفع نقدا عند توصيل طلبك."
+    },
+    "CARD": {
+      "TITLE": "بطاقة ائتمان",
+      "DESCRIPTION": "سيتم تحويلك بأمان إلى Stripe لإكمال الدفع."
+    },
+    "SUMMARY": {
+      "TITLE": "الملخص",
+      "COUPON": "كود الخصم",
+      "APPLY": "تطبيق الخصم",
+      "NO_COUPONS": "لا توجد كوبونات مطبقة",
+      "SUBTOTAL": "الإجمالي الفرعي",
+      "TOTAL": "الإجمالي"
+    },
+    "FEEDBACK": {
+      "SELECT_ADDRESS": "برجاء اختيار عنوان الشحن أولا.",
+      "CREATE_ORDER_ERROR": "تعذر إنشاء الطلب.",
+      "ORDER_SUCCESS": "تم إنشاء الطلب بنجاح."
+    }
+  },
+  "ORDER_CONFIRMATION": {
+    "TITLE": "تم إنشاء الطلب بنجاح",
+    "DESCRIPTION": "شكرا للتسوق من Rose. تم إنشاء طلبك وتفريغ سلة التسوق.",
+    "CONTINUE_SHOPPING": "متابعة التسوق"
+  },
   "features": [
     {
       "title": "شحن مجاني",
