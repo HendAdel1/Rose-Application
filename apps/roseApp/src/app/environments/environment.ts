@@ -4,5 +4,5 @@ export const environment = {
   apiRoot: apiBaseUrl,
   apiBaseUrl,
   baseUrl: `${apiBaseUrl}/auth`,
-  mapApiKey: 'AIzaSyB4aerA51NN2BG27sC7Bieh8jANfHn3gBc',
+  mapApiKey: 'AIzaSyClVrNye-SWRAcYrxf7_WXkBcz0S6kwCgw',
 };
