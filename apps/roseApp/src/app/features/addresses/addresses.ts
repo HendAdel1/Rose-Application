@@ -22,14 +22,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 import { AddressItem, AddressModalMode } from './models/address.model';
 import { AddressPayload } from './models/address-api.model';
+import { AddressModalView, GoogleMapsWindow } from './models/address-ui.model';
 import { AddressesService } from './services/addresses.service';
 import { GoogleMapsLoaderService } from './services/google-maps-loader.service';
-
-type AddressModalView = 'list' | 'form';
-type GoogleMapsWindow = Window & {
-  google?: any;
-  gm_authFailure?: () => void;
-};
 
 @Component({
   selector: 'app-addresses',
