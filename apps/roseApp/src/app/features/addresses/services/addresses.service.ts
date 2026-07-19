@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, finalize, map, tap } from 'rxjs';
+import { Observable, finalize, map, take, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { toAddressItem, toAddressItems } from '../mappers/address.mapper';
@@ -40,6 +40,7 @@ export class AddressesService {
       )
       .pipe(
         map(toAddressItems),
+        take(1),
         finalize(() => this.isLoading.set(false)),
       )
       .subscribe({
