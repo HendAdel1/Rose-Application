@@ -1,8 +1,8 @@
 import {
   HttpHandlerFn,
-  HttpContextToken,
   HttpInterceptorFn,
   HttpRequest,
+  HttpContextToken
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { finalize } from 'rxjs';
