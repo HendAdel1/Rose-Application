@@ -7,7 +7,7 @@
 
     <div class="filter-actions">
       @if (activeCategoryId()) {
-        <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetFilter()">
+        <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetCategoryFilter()">
           <svg lucideX class="w-4 h-4"></svg>
           Reset
         </button>
@@ -51,7 +51,7 @@
 
     <div class="filter-actions">
       @if (activeOccasionId()) {
-        <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetFilter()">
+        <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetOccasionFilter()">
           <svg lucideX class="w-4 h-4"></svg>
           Reset
         </button>
@@ -88,4 +88,39 @@
     }
   </div>
 </div>
+ <div class="w-full md:w-60 mt-6 flex flex-col gap-3">
+  <div class="flex items-center justify-between mb-2">
+    <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">Rating</h3>
+    
+    @if (activeRating()) {
+      <button 
+        type="button" 
+        (click)="resetRatingFilter()" 
+        class="text-sm text-red-500 hover:text-red-700 flex items-center gap-1 transition-colors">
+        <svg lucideX class="w-4 h-4"></svg>
+         Reset
+      </button>
+    }@else {
+        <span class="text-zinc-400 font-sarabun font-normal text-xs italic">
+         Select Rating
+        </span>
+      }
+  </div>
+
+  <p-rating 
+    [(ngModel)]="activeRating" 
+    (ngModelChange)="activeRating.set($event)"  
+  Class="flex gap-1 text-yellow-400 w-[100px] text-2xl">
+  </p-rating>
+
+  @if (activeCategoryId() || activeOccasionId() || activeRating()) {
+      <button 
+        type="button" 
+        (click)="resetFilter()" 
+        class="text-sm text-maroon-600 font-medium bg-maroon-50 py-3 px-12  rounded-2xl hover:text-maroon-800 hover:bg-maroon-200 my-2 dark:bg-zinc-700 dark:text-soft-pink-300 flex flex-nowrap items-center  gap-2 transition-colors">
+        <svg lucideRotateCcw class="w-6 h-6"></svg> Reset All
+      </button>
+    }
+</div>
+
 </aside>

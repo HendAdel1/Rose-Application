@@ -27,11 +27,14 @@ export class ProductsGrid {
   private readonly router = inject(Router);
   readonly selectedCategoryId = signal<string | null>(null);
   readonly selectedOccasionId = signal<string | null>(null);
+  readonly selectedRating = signal<number | null>(null);
   readonly activeCategoryId = input<string | null>(null);
   readonly activeOccasionId = input<string | null>(null);
+  readonly activeRating = input<number | null>(null);
   readonly filteredProducts = computed(() => {
     const activeId = this.activeCategoryId();
     const OccasionId = this.activeOccasionId();
+    const rating = this.activeRating();
     const list = this.products();
     if (activeId && activeId !== 'Cards') {
     return list.filter(product => 
@@ -50,6 +53,12 @@ if (OccasionId) {
       });
     });
   }
+  if (rating && rating > 0) {
+      return list.filter(product => {
+        const productRating = product.rating ?? product.ratings ?? 0;
+        return Math.floor(productRating) >= rating;
+      });
+    }
 
      return list;
 
@@ -107,9 +116,22 @@ if (OccasionId) {
     onOccasionSelected(occasionId: string): void {
     this.selectedOccasionId.set(occasionId);
   }
+  onRatingSelected(rating: number): void {
+    this.selectedRating.set(rating);
+  }
 
-  onFilterCleared(): void {
+  onFilterCategoryCleared(): void {
+    this.selectedCategoryId.set(null);
+  }
+    onFilterOccasionCleared(): void {
+    this.selectedOccasionId.set(null);
+  }
+  onFilterRatingCleared(): void {
+    this.selectedRating.set(null);
+  }
+  onFilterCleared(): void { 
     this.selectedCategoryId.set(null);
     this.selectedOccasionId.set(null);
+    this.selectedRating.set(0);
   }
 }
