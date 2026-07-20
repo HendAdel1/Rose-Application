@@ -1,6 +1,4 @@
-import {
-  buildProductImageUrl,
-} from '../../../shared/products/utils/product-card.utils';
+import { buildProductImageUrl } from '../../../shared/products/utils/product-card.utils';
 import { ProductApiItem } from '../../../shared/products/models/product-api-item.model';
 import {
   WishlistApiItem,

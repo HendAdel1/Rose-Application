@@ -12,7 +12,7 @@
       </div>
       <div class="general-rating-value-row">
         <span class="rating-number dark:text-zinc-100"
-          >{{ generalRating() }}</span
+          >{{ generalRating() | number:'1.0-2' }}</span
         >
         <span class="rating-count dark:text-zinc-400"
           >({{ totalRatings() }} {{ 'PRODUCT_DETAILS.REVIEWS.RATINGS' |
@@ -71,7 +71,7 @@
             </div>
           </div>
           <span class="review-rating-number dark:text-zinc-400"
-            >({{ review.rating }})</span
+            >({{ review.rating | number:'1.0-2' }})</span
           >
         </div>
         <h4 class="review-title dark:text-zinc-100">{{ review.title }}</h4>

@@ -1,0 +1,57 @@
+<section
+  class="products-like-section font-sarabun"
+  aria-labelledby="products-like-title"
+>
+  <div class="mx-auto w-full">
+    <header class="text-center" id="products-like-title">
+      <app-custom-heading
+        [title]="'CART.PRODUCTS_YOU_MAY_LIKE' | translate"
+        align="start"
+      />
+    </header>
+
+    <div class="relative">
+      <button
+        type="button"
+        class="nav-button nav-button--floating nav-button--left"
+        aria-label="Previous products"
+        (click)="scrollProducts('previous')"
+      >
+        <svg lucideChevronLeft [size]="18" aria-hidden="true"></svg>
+      </button>
+
+      <div #productsTrack class="products-track">
+        @if (loading()) { @for (item of skeletonItems; track item) {
+        <div class="products-like__item">
+          <div
+            class="h-[30rem] animate-pulse rounded-[1.75rem] bg-soft-pink-50 dark:bg-zinc-700"
+          ></div>
+        </div>
+        } } @else { @if (products().length) { @for (product of products(); track
+        trackProduct($index, product)) {
+        <app-ui-card
+          class="products-like__item"
+          [product]="product"
+          (viewClick)="viewProduct(product)"
+          (cartClick)="quickAddToCart(product)"
+        />
+        } } @else {
+        <p
+          class="py-8 text-center text-sm font-semibold text-zinc-500 dark:text-zinc-300"
+        >
+          {{ 'CART.NO_PRODUCTS_LIKE' | translate }}
+        </p>
+        } }
+      </div>
+
+      <button
+        type="button"
+        class="nav-button nav-button--floating nav-button--right"
+        aria-label="Next products"
+        (click)="scrollProducts('next')"
+      >
+        <svg lucideChevronRight [size]="18" aria-hidden="true"></svg>
+      </button>
+    </div>
+  </div>
+</section>

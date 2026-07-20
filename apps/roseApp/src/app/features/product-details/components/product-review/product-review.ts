@@ -2,7 +2,7 @@ import { Component, computed, input, signal } from '@angular/core';
 import { ProductApiItem } from '../../../../shared/products/models/product-api-item.model';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { CustomInput } from '@org/sharedComponents';
 import { CustomButton } from '../../../../shared/custom-button/custom-button';
 import { CustomHeading } from '../../../../shared/custom-heading/custom-heading';
@@ -22,6 +22,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     LucideUser,
     LucideCalendar,
     TranslatePipe,
+    DecimalPipe,
   ],
   templateUrl: './product-review.html',
   styleUrl: './product-review.css',

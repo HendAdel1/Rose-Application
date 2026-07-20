@@ -1,0 +1,92 @@
+:host {
+  display: block;
+}
+.products-like-section {
+  margin-top: 3.75rem;
+}
+#products-like-title {
+  margin-bottom: 1.5rem;
+}
+.products-track {
+  display: grid;
+  gap: 1.5rem;
+  grid-auto-columns: calc((100% - 4.5rem) / 4);
+  grid-auto-flow: column;
+  overflow-x: auto;
+  padding: 0 0.25rem 0.75rem;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.products-track::-webkit-scrollbar {
+  display: none;
+}
+
+.products-like__item {
+  min-width: 0;
+  scroll-snap-align: start;
+  width: 100%;
+}
+
+.nav-button {
+  align-items: center;
+  background: var(--color-maroon-600);
+  border: 0;
+  border-radius: 999rem;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  height: 2.25rem;
+  justify-content: center;
+  padding: 0;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+  width: 2.25rem;
+}
+
+.nav-button:hover {
+  background: var(--color-maroon-800);
+  transform: translateY(-1px);
+}
+
+.nav-button--floating {
+  position: absolute;
+  top: 39%;
+  z-index: 30;
+}
+
+.nav-button--left {
+  left: -0.45rem;
+}
+
+.nav-button--right {
+  right: -0.45rem;
+}
+
+:host-context(.dark) .nav-button {
+  background: var(--color-soft-pink-400);
+  color: var(--color-maroon-950);
+}
+
+:host-context(.dark) .nav-button:hover {
+  background: var(--color-soft-pink-300);
+}
+
+@media (max-width: 64rem) {
+  .products-track {
+    gap: 1rem;
+    grid-auto-columns: calc((100% - 1rem) / 2);
+  }
+}
+
+@media (max-width: 40rem) {
+  .products-track {
+    grid-auto-columns: min(85vw, 302px);
+  }
+
+  .nav-button--floating {
+    display: none;
+  }
+}

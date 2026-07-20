@@ -199,6 +199,86 @@
     "CANCEL": "إلغاء",
     "CONFIRM": "تأكيد"
   },
+  "ADDRESSES": {
+    "SHIPPING_TITLE": "عنوان الشحن",
+    "MY_ADDRESSES": "عناويني",
+    "LIST_LABEL": "عناوين الشحن المحفوظة",
+    "LOADING": "جاري تحميل العناوين...",
+    "EMPTY": "لا توجد عناوين محفوظة حتى الآن.",
+    "EDIT": "تعديل العنوان",
+    "DELETE": "حذف العنوان",
+    "OR": "أو",
+    "ADD_NEW": "إضافة عنوان جديد",
+    "NEXT": "التالي",
+    "CLOSE": "إغلاق",
+    "CANCEL": "إلغاء",
+    "CONFIRM": "تأكيد",
+    "DELETE_DIALOG_LABEL": "تأكيد حذف العنوان",
+    "DELETE_CONFIRMATION": "هل أنت متأكد أنك تريد حذف هذا العنوان؟",
+    "SUMMARY": {
+      "TITLE": "الملخص",
+      "COUPON": "كود الخصم",
+      "APPLY": "تطبيق الخصم",
+      "NO_COUPONS": "لا توجد كوبونات مطبقة",
+      "SUBTOTAL": "الإجمالي الفرعي",
+      "DISCOUNT": "خصم",
+      "TOTAL": "الإجمالي"
+    },
+    "MODAL": {
+      "ADD_TITLE": "إضافة عنوان جديد",
+      "EDIT_TITLE": "تحديث بيانات العنوان",
+      "DETAILS": "أدخل تفاصيل العنوان",
+      "LABEL": "نوع العنوان",
+      "LABEL_PLACEHOLDER": "المنزل، العمل، العائلة...",
+      "CITY": "المدينة",
+      "CITY_PLACEHOLDER": "أدخل اسم المدينة",
+      "ADDRESS": "العنوان",
+      "ADDRESS_PLACEHOLDER": "أدخل العنوان بالكامل",
+      "PHONE": "الهاتف",
+      "PHONE_PLACEHOLDER": "رقم الهاتف",
+      "FIND_LOCATION": "حدد موقعك",
+      "MY_LOCATION": "تحديد موقعي",
+      "MAP_LOADING": "جاري تحميل الخريطة...",
+      "MAP_ERROR": "تعذر تحميل الخريطة. حاول مرة أخرى.",
+      "ADD_ACTION": "إضافة العنوان",
+      "UPDATE_ACTION": "تحديث العنوان"
+    },
+    "ERRORS": {
+      "REQUIRED": "هذا الحقل مطلوب",
+      "PHONE": "أدخل رقم هاتف مصري صحيح"
+    }
+  },
+  "PAYMENT": {
+    "BACK": "رجوع",
+    "TITLE": "طريقة الدفع",
+    "CHECKOUT": "إتمام الدفع",
+    "CASH": {
+      "TITLE": "الدفع عند الاستلام",
+      "DESCRIPTION": "ستدفع نقدا عند توصيل طلبك."
+    },
+    "CARD": {
+      "TITLE": "بطاقة ائتمان",
+      "DESCRIPTION": "سيتم تحويلك بأمان إلى Stripe لإكمال الدفع."
+    },
+    "SUMMARY": {
+      "TITLE": "الملخص",
+      "COUPON": "كود الخصم",
+      "APPLY": "تطبيق الخصم",
+      "NO_COUPONS": "لا توجد كوبونات مطبقة",
+      "SUBTOTAL": "الإجمالي الفرعي",
+      "TOTAL": "الإجمالي"
+    },
+    "FEEDBACK": {
+      "SELECT_ADDRESS": "برجاء اختيار عنوان الشحن أولا.",
+      "CREATE_ORDER_ERROR": "تعذر إنشاء الطلب.",
+      "ORDER_SUCCESS": "تم إنشاء الطلب بنجاح."
+    }
+  },
+  "ORDER_CONFIRMATION": {
+    "TITLE": "تم إنشاء الطلب بنجاح",
+    "DESCRIPTION": "شكرا للتسوق من Rose. تم إنشاء طلبك وتفريغ سلة التسوق.",
+    "CONTINUE_SHOPPING": "متابعة التسوق"
+  },
   "features": [
     {
       "title": "شحن مجاني",
@@ -217,6 +297,11 @@
       "description": "تواصل معنا في أي وقت"
     }
   ],
+  "CART": {
+    "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك",
+    "NO_PRODUCTS_LIKE": "لا توجد اقتراحات للمنتجات حالياً.",
+    "PRODUCT_OUT_OF_STOCK": "المنتج غير متوفر في المخزون"
+  },
   "GALLERY": {
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
