@@ -1,9 +1,10 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Category } from '../../interface/Category';
 import { CommonModule } from '@angular/common';
 import { LucideMail, LucideCandy, LucideFlower, LucideX } from '@lucide/angular';
 import { Occasion } from '../../interface/Occasion';
+import { OccasionService } from '../../../../shared/products/services/occasion-service.service';
 
 @Component({
   selector: 'app-products-filter',
@@ -11,7 +12,7 @@ import { Occasion } from '../../interface/Occasion';
   templateUrl: './products-filter.html',
   styleUrl: './products-filter.css',
 })
-export class ProductsFilter {
+export class ProductsFilter implements OnInit {
   readonly activeCategoryId = input<string | null>(null);
   readonly categorySelected = output<string>();
   readonly filterCleared = output<void>();
@@ -39,19 +40,17 @@ readonly categories = signal<Category[]>([
   // filter by occasion
   readonly activeOccasionId = input<string | null>(null);
   readonly occasionSelected = output<string>();
+  readonly occasionService=inject(OccasionService);
+  readonly occasions = signal<Occasion[]>([]);
 
-  readonly occasions = signal<Occasion[]>([
-    { id: 'Wedding', name: 'Wedding', imageUrl: '/occasions/wedding.webp' },
-    { id: 'Apology', name: 'Apology', imageUrl: '/occasions/apology.webp' },
-    { id: 'Graduation', name: 'Graduation', imageUrl: '/occasions/graduation.jpg' },
-        { id: 'Wedding', name: 'Wedding', imageUrl: '/occasions/wedding.webp' },
-    { id: 'FatherDay', name: 'Father\'s Day', imageUrl: '/occasions/father.webp' },
-        { id: 'Graduation', name: 'Graduation', imageUrl: '/occasions/graduation.jpg' },
-  ]);
+  ngOnInit(): void {
+this.occasionService.getOccasions().subscribe((occasions: Occasion[]) => {
+  this.occasions.set(occasions);
+})
+  }
 
   selectOccasion(id: string): void {
     this.occasionSelected.emit(id);
-console.log(this.occasionSelected);
   }
 
 }

@@ -62,18 +62,18 @@
 <div class="w-full md:w-60 mt-6">
   <div class="flex items-center justify-between gap-5 mb-3">
     <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">
-      {{ 'PRODUCT.OCCASION' | translate }}
+      Occasion
     </h3>
 
     <div class="filter-actions">
       @if (activeOccasionId()) {
         <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetFilter()">
           <svg lucideX class="w-4 h-4"></svg>
-          {{ 'PRODUCT.RESET' | translate }}
+          Reset
         </button>
       } @else {
         <span class="text-zinc-400 font-sarabun font-normal text-xs italic">
-          {{ 'PRODUCT.SELECT_OCCASION' | translate }}
+         Select Occasion
         </span>
       }
     </div>
@@ -88,16 +88,16 @@
         (click)="selectOccasion(occasion.id)"
       >
         <img
-          [src]="occasion.imageUrl"
+          [src]="occasion.image"
 
-          [alt]="occasion.name"
+          [alt]="occasion.title"
           class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
 
         <div [class.bg-maroon-900]="occasion.id === activeOccasionId()" class="absolute inset-0 bg-black opacity-50 transition-colors group-hover:bg-black/50 dark-hover:bg-soft-pink-900/50 "></div>
 
         <span class="relative z-10 text-white font-sarabun font-semibold text-sm tracking-wide px-2 drop-shadow-md">
-          {{ 'OCCASIONS.' + occasion.id | translate }}
+          {{ occasion.title }}
         </span>
 
       </button>

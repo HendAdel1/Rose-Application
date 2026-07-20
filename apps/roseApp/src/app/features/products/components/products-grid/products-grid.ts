@@ -10,29 +10,7 @@ import { ProductsService } from '../../../../shared/products/services/products.s
 import { toUiCardProduct } from '../../../../shared/products/utils/product-card.utils';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
 import { UiCardProduct } from '../../../../shared/ui-card/ui-card-product.model';
-interface OccasionDetails {
-  id: string;
-  title: string;
-  description?: string;
-  image?: string;
-}
 
-interface OccasionRelation {
-  id: string;
-  productId: string;
-  occasionId: string;
-  occasion: OccasionDetails;
-}
-
-interface Product {
-  id: string;
-  title: string;
-  description: string;
-  price: string;
-  cover: string;
-  rating: number;
-  categoryId: string;
-  occasions: OccasionRelation[]; }
 
 @Component({
   selector: 'app-products-grid',
@@ -55,16 +33,27 @@ export class ProductsGrid {
     const activeId = this.activeCategoryId();
     const OccasionId = this.activeOccasionId();
     const list = this.products();
+    if (activeId && activeId !== 'Cards') {
+    return list.filter(product => 
+      product.category?.id === activeId || 
+      product.categoryId === activeId
+    );
+  }
 
-    if (!activeId) return list;
 if (OccasionId) {
-      return list.filter(product =>
-        product.occasions?.some((o: any) => o.occasion?.title === OccasionId)
-      );
-    }
-    if (activeId === 'Cards') return list;
+   return list.filter(product => {
+      return product.occasions?.some((o: any) => {
+        return o.id === OccasionId || 
+               o.occasionId === OccasionId || 
+               o.occasion?.id === OccasionId ||
+               o === OccasionId;
+      });
+    });
+  }
 
-    return list.filter(product => product.category?.title === activeId);
+     return list;
+
+   
   });
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);
