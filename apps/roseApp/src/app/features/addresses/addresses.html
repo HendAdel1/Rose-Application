@@ -168,9 +168,11 @@
   role="dialog"
   aria-modal="true"
   [attr.aria-label]="(modalView() === 'list' ? 'ADDRESSES.MY_ADDRESSES' : modalTitleKey()) | translate"
+  (click)="closeModal()"
 >
   <div
     class="w-full max-w-[43.75rem] rounded-xl bg-white p-6 text-zinc-950 shadow-2xl dark:bg-zinc-900 dark:text-white"
+    (click)="$event.stopPropagation()"
   >
     @if (modalView() === 'list') {
     <header
@@ -417,9 +419,11 @@
   role="dialog"
   aria-modal="true"
   [attr.aria-label]="'ADDRESSES.DELETE_DIALOG_LABEL' | translate"
+  (click)="cancelDelete()"
 >
   <div
     class="relative grid w-full max-w-lg justify-items-center gap-6 rounded-xl bg-white px-8 pb-8 pt-14 text-center text-zinc-950 shadow-2xl dark:bg-zinc-900 dark:text-white"
+    (click)="$event.stopPropagation()"
   >
     <button
       type="button"
