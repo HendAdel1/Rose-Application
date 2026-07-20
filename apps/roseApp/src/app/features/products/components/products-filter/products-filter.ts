@@ -1,8 +1,9 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Category } from '../../interface/Category';
 import { CommonModule } from '@angular/common';
 import { LucideMail, LucideCandy, LucideFlower, LucideX } from '@lucide/angular';
+import { categoriesService } from '../../../../shared/products/services/categoriesService.service';
 
 @Component({
   selector: 'app-products-filter',
@@ -10,22 +11,21 @@ import { LucideMail, LucideCandy, LucideFlower, LucideX } from '@lucide/angular'
   templateUrl: './products-filter.html',
   styleUrl: './products-filter.css',
 })
-export class ProductsFilter {
+export class ProductsFilter implements OnInit {
+  private readonly categoriesService = inject(categoriesService);
   readonly activeCategoryId = input<string | null>(null);
   readonly categorySelected = output<string>();
   readonly filterCleared = output<void>();
 
-readonly categories = signal<Category[]>([
-{ id: 'Cards', name: 'Cards' },
-    { id: 'Chocolate', name: 'Chocolate' },
-    { id: 'Flowers', name: 'Flowers' },
-    { id: 'Cards', name: 'Cards' },
-    { id: 'Chocolate', name: 'Chocolate' },
-    { id: 'Flowers', name: 'Flowers' },
-    { id: 'Cards', name: 'Cards' },
-    { id: 'Chocolate', name: 'Chocolate' },
-    { id: 'Flowers', name: 'Flowers' },
-  ]);
+  readonly categories = signal<Category[]>([])
+  ngOnInit(): void {
+this.categoriesService.getCategories().subscribe({
+  next: (res) => {
+const activeCategories = res.filter(category => category._count?.products > 0);
+  this.categories.set(activeCategories);
+  }
+});
+  }
 
   selectCategory(id: string): void {
     this.categorySelected.emit(id);

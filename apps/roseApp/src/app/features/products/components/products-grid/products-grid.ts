@@ -32,7 +32,7 @@ export class ProductsGrid {
 
     if (!activeId) return list;
     if (activeId === 'Cards') return list;
-    return list.filter(product => product.category?.title === activeId);
+    return list.filter(product => product.category?.id === activeId);
   });
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);
