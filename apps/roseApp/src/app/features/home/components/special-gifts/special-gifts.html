@@ -1,11 +1,15 @@
 <section class="w-full">
-  <div class="grid w-full grid-cols-[226px_minmax(0,1fr)] gap-6.25 max-md:grid-cols-1">
-    <div class="relative h-82.5 not-visited:overflow-hidden rounded-xl bg-[#5c1d1d] text-white max-md:h-75">
+  <div
+    class="grid w-full grid-cols-[226px_minmax(0,1fr)] gap-6.25 max-md:grid-cols-1"
+  >
+    <div
+      class="relative h-82.5 not-visited:overflow-hidden rounded-xl bg-[#5c1d1d] text-white max-md:h-75"
+    >
       <img
         src="special-gifts/gifts.png"
         [alt]="'HOME.SPECIAL_GIFTS.FEATURED_IMAGE_ALT' | translate"
         class="pointer-events-none absolute inset-0 z-0 block h-full w-full object-cover object-center"
-      >
+      />
       <div
         class="absolute inset-0 z-1 bg-linear-to-t from-[rgb(38,6,6,0.78)] from-0% via-[rgb(38,6,6,0.18)] via-58% to-transparent"
       ></div>
@@ -16,7 +20,9 @@
         >
           {{ 'HOME.SPECIAL_GIFTS.STARTING_FROM' | translate }}
         </span>
-        <h2 class="mt-2 max-w-46.25 text-lg font-bold leading-[1.05] text-white">
+        <h2
+          class="mt-2 max-w-46.25 text-lg font-bold leading-[1.05] text-white"
+        >
           {{ 'HOME.SPECIAL_GIFTS.TITLE' | translate }}
         </h2>
         <button
@@ -25,7 +31,14 @@
           [routerLink]="['products']"
         >
           {{ 'HOME.SPECIAL_GIFTS.SHOP_NOW' | translate }}
-          <span><svg lucideArrowRight [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg></span>
+          <span
+            ><svg
+              lucideArrowRight
+              [size]="16"
+              class="rtl:rotate-180"
+              aria-hidden="true"
+            ></svg
+          ></span>
         </button>
       </div>
     </div>
@@ -40,7 +53,7 @@
         [src]="activeBanner().image"
         [alt]="activeBanner().title | translate"
         class="pointer-events-none absolute inset-0 z-0 block h-full w-full object-cover object-center"
-      >
+      />
 
       <div
         class="pointer-events-none absolute inset-0 z-1 bg-linear-to-r from-black/58 to-black/20"
@@ -49,7 +62,9 @@
       <div
         class="absolute bottom-9 left-7 z-2 max-w-97.5 text-white max-md:inset-x-5 max-md:bottom-7 rtl:left-auto rtl:right-7"
       >
-        <h1 class="text-[28px] font-bold leading-[1.1] text-white max-md:text-2xl">
+        <h1
+          class="text-[28px] font-bold leading-[1.1] text-white max-md:text-2xl"
+        >
           {{ activeBanner().title | translate }}
         </h1>
         <p class="mt-1 text-sm leading-tight text-white/95">
@@ -68,14 +83,14 @@
         aria-label="Carousel slides"
       >
         @for (banner of banners; track $index; let index = $index) {
-          <button
-            type="button"
-            class="special-gifts-carousel__dot"
-            [class.active]="activeBannerIndex() === index"
-            [attr.aria-label]="'Go to slide ' + (index + 1)"
-            [attr.aria-current]="activeBannerIndex() === index ? 'true' : null"
-            (click)="selectBanner(index)"
-          ></button>
+        <button
+          type="button"
+          class="special-gifts-carousel__dot"
+          [class.active]="activeBannerIndex() === index"
+          [attr.aria-label]="'Go to slide ' + (index + 1)"
+          [attr.aria-current]="activeBannerIndex() === index ? 'true' : null"
+          (click)="selectBanner(index)"
+        ></button>
         }
       </div>
 
@@ -89,8 +104,18 @@
           aria-label="Previous slide"
           (click)="showPreviousBanner()"
         >
-          <svg lucideChevronLeft [size]="24" class="block rtl:hidden" aria-hidden="true"></svg>
-          <svg lucideChevronRight [size]="24" class="hidden rtl:block" aria-hidden="true"></svg>
+          <svg
+            lucideChevronLeft
+            [size]="24"
+            class="block rtl:hidden"
+            aria-hidden="true"
+          ></svg>
+          <svg
+            lucideChevronRight
+            [size]="24"
+            class="hidden rtl:block"
+            aria-hidden="true"
+          ></svg>
         </button>
         <button
           type="button"
@@ -98,8 +123,18 @@
           aria-label="Next slide"
           (click)="showNextBanner()"
         >
-          <svg lucideChevronRight [size]="24" class="block rtl:hidden" aria-hidden="true"></svg>
-          <svg lucideChevronLeft [size]="24" class="hidden rtl:block" aria-hidden="true"></svg>
+          <svg
+            lucideChevronRight
+            [size]="24"
+            class="block rtl:hidden"
+            aria-hidden="true"
+          ></svg>
+          <svg
+            lucideChevronLeft
+            [size]="24"
+            class="hidden rtl:block"
+            aria-hidden="true"
+          ></svg>
         </button>
       </div>
     </div>
