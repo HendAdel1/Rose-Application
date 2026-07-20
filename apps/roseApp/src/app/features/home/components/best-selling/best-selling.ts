@@ -14,9 +14,8 @@ import { LucideArrowRight, LucideChevronLeft, LucideChevronRight } from '@lucide
 import { ProductsService } from '../../../../shared/products/services/products.service';
 import { PopularProduct } from '../../../../shared/products/models/popular-product.model';
 import { toMostPopularProducts } from '../../../../shared/products/mappers/popular-product.mapper';
-import { finalize, map, of, switchMap } from 'rxjs';
+import { finalize, map } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
-import { WishlistActionsService } from '../../../wishlist/services/wishlist-actions.service';
 
 @Component({
   selector: 'app-best-selling',
@@ -35,7 +34,6 @@ export class BestSelling {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
-  private readonly wishlistActions = inject(WishlistActionsService);
 
   @ViewChild('productsTrack') private productsTrack?: ElementRef<HTMLElement>;
 
@@ -84,14 +82,6 @@ export class BestSelling {
 
   exploreGifts(): void {
     console.log('Explore gifts clicked');
-  }
-
-  addToCart(product: PopularProduct): void {
-    console.log('Add to cart clicked for', product.title);
-  }
-
-  addToWishlist(product: PopularProduct): void {
-    this.wishlistActions.addProduct(product.id);
   }
 
   viewProduct(product: PopularProduct): void {

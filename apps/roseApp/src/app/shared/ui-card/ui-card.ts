@@ -65,7 +65,7 @@ export class UiCard {
 
   addToWishlist(event: Event, product: UiCardProduct): void {
     event.stopPropagation();
-    this.wishlistActions.addProduct(product.id);
+    this.wishlistActions.addProduct(product);
     this.wishlistClick.emit();
   }
 

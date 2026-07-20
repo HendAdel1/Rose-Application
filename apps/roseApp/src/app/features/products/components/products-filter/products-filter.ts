@@ -20,13 +20,22 @@ export class ProductsFilter implements OnInit {
   readonly filterCleared = output<void>();
 
   readonly categories = signal<Category[]>([])
+  readonly activeOccasionId = input<string | null>(null);
+  readonly occasionSelected = output<string>();
+  readonly occasionService=inject(OccasionService);
+  readonly occasions = signal<Occasion[]>([]);
+
   ngOnInit(): void {
-this.categoriesService.getCategories().subscribe({
-  next: (res) => {
-const activeCategories = res.filter(category => category._count?.products > 0);
-  this.categories.set(activeCategories);
-  }
-});
+    this.categoriesService.getCategories().subscribe({
+      next: (res) => {
+        const activeCategories = res.filter(category => category._count?.products > 0);
+        this.categories.set(activeCategories);
+      }
+    });
+
+    this.occasionService.getOccasions().subscribe((occasions: Occasion[]) => {
+      this.occasions.set(occasions);
+    });
   }
 
   selectCategory(id: string): void {
@@ -37,17 +46,6 @@ const activeCategories = res.filter(category => category._count?.products > 0);
 
   resetFilter(): void {
     this.filterCleared.emit();
-  }
-  // filter by occasion
-  readonly activeOccasionId = input<string | null>(null);
-  readonly occasionSelected = output<string>();
-  readonly occasionService=inject(OccasionService);
-  readonly occasions = signal<Occasion[]>([]);
-
-  ngOnInit(): void {
-this.occasionService.getOccasions().subscribe((occasions: Occasion[]) => {
-  this.occasions.set(occasions);
-})
   }
 
   selectOccasion(id: string): void {

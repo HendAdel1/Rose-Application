@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { SKIP_LOADING } from '@org/auth-data-access';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { toWishlistItems } from '../mappers/wishlist.mapper';
@@ -20,7 +21,7 @@ export class WishlistService {
 
   getWishlist(): Observable<WishlistItem[]> {
     return this.http
-      .get<WishlistResponse>(this.wishlistUrl)
+      .get<WishlistResponse>(this.wishlistUrl, this.skipLoadingOptions())
       .pipe(map((response) => toWishlistItems(response.payload)));
   }
 
@@ -37,11 +38,24 @@ export class WishlistService {
         return of('duplicate' as const);
       }
 
-      return this.http.post(this.wishlistUrl, { productId }).pipe(
+      const request = this.http.post(
+        this.wishlistUrl,
+        { productId },
+        this.skipLoadingOptions(),
+      );
+
+      if (fallbackItem) {
+        return request.pipe(
+          tap(() =>
+            this.setItems(this.resolveAddedItems(this.items(), fallbackItem)),
+          ),
+          map(() => 'added' as const),
+        );
+      }
+
+      return request.pipe(
         switchMap(() => this.getWishlist()),
-        tap((items) =>
-          this.setItems(this.resolveAddedItems(items, fallbackItem)),
-        ),
+        tap((items) => this.setItems(items)),
         map(() => 'added' as const),
       );
     };
@@ -54,7 +68,10 @@ export class WishlistService {
   }
 
   removeProduct(productId: string): Observable<void> {
-    return this.http.delete<void>(`${this.wishlistUrl}/${productId}`).pipe(
+    return this.http.delete<void>(
+      `${this.wishlistUrl}/${productId}`,
+      this.skipLoadingOptions(),
+    ).pipe(
       tap(() => {
         this.wishlistItems.update((items) =>
           items.filter(
@@ -67,7 +84,10 @@ export class WishlistService {
   }
 
   clearWishlist(): Observable<void> {
-    return this.http.delete<void>(this.wishlistUrl).pipe(
+    return this.http.delete<void>(
+      this.wishlistUrl,
+      this.skipLoadingOptions(),
+    ).pipe(
       tap(() => {
         this.wishlistItems.set([]);
         this.wishlistLoaded.set(true);
@@ -93,5 +113,11 @@ export class WishlistService {
     }
 
     return [fallbackItem, ...items];
+  }
+
+  private skipLoadingOptions(): { context: HttpContext } {
+    return {
+      context: new HttpContext().set(SKIP_LOADING, true),
+    };
   }
 }

@@ -19,6 +19,7 @@ import { WishlistEmptyState } from './components/wishlist-empty-state/wishlist-e
 import { WishlistItem } from './components/wishlist-item/wishlist-item';
 import { WishlistService } from './services/wishlist.service';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -41,6 +42,7 @@ export class Wishlist {
   private readonly destroyRef = inject(DestroyRef);
   private readonly toastr = inject(ToastrService);
   private readonly translate = inject(TranslateService);
+  private readonly cartService = inject(CartService);
 
   readonly items = this.wishlistService.items;
   readonly count = this.wishlistService.count;
@@ -120,5 +122,9 @@ export class Wishlist {
       .subscribe(() => {
         this.toastr.success(this.translate.instant('WISHLIST.REMOVE_SUCCESS'));
       });
+  }
+
+  addItemToCart(productId: string): void {
+    this.cartService.addToCart({ productId, quantity: 1 });
   }
 }

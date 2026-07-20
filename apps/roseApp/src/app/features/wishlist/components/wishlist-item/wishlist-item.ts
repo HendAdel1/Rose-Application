@@ -8,12 +8,14 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideShoppingCart, LucideStar, LucideTrash2 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
+import { CustomButton } from '../../../../shared/custom-button/custom-button';
 import { WishlistItem as WishlistProduct } from '../../models/wishlist-item.model';
 
 @Component({
   selector: 'app-wishlist-item',
   imports: [
     CurrencyPipe,
+    CustomButton,
     DecimalPipe,
     LucideShoppingCart,
     LucideStar,
