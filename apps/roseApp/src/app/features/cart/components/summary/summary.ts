@@ -4,6 +4,7 @@ import { CustomButton } from '../../../../shared/custom-button/custom-button';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CartService } from '../../../../core/services/cart.service';
 import { DecimalPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-summary',
@@ -14,7 +15,12 @@ import { DecimalPipe } from '@angular/common';
 })
 export class Summary {
   private readonly cartService = inject(CartService);
+  private readonly router = inject(Router);
 
   readonly subtotal = this.cartService.cartSubtotal;
   readonly total = this.cartService.cartTotal;
+
+  goToCheckout(): void {
+    void this.router.navigate(['/roseApp/addresses']);
+  }
 }
