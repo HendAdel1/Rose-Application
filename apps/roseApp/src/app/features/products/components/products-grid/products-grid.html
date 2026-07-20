@@ -9,7 +9,7 @@
     </p>
   } @else {
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      @for (product of products(); track product.id) {
+      @for (product of filteredProducts(); track product.id) {
         <app-ui-card
           [product]="toCardProduct(product)"
           (viewClick)="viewProduct(product)"

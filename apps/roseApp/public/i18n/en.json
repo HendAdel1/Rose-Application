@@ -305,5 +305,15 @@
   "GALLERY": {
     "EYEBROW": "Gallery",
     "TITLE": "Check Out our Wonderful Gallery"
+  },
+  "PRODUCT": {
+    "CATEGORY": "Category",
+    "SELECT_CATEGORY": "Select Category",
+    "RESET": "Reset"
+  },
+  "CATEGORIES": {
+    "Cards": "Cards",
+    "Chocolate": "Chocolate",
+    "Flowers": "Flowers"
   }
 }

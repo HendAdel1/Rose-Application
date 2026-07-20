@@ -1,4 +1,44 @@
-<aside
-  class="min-h-112 w-70 shrink-0"
-  [attr.aria-label]="'PRODUCTS.FILTERS_ARIA' | translate"
-></aside>
+<aside class="w-full md:w-60">
+  <div class="flex items-center justify-between gap-5 mb-3">
+    <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">
+      Category
+    </h3>
+
+    <div class="filter-actions">
+      @if (activeCategoryId()) {
+        <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetFilter()">
+          <svg lucideX class="w-4 h-4"></svg>
+          Reset
+        </button>
+      } @else {
+        <span class="text-zinc-400 font-sarabun font-normal text-xs italic">
+         select category
+        </span>
+      }
+    </div>
+  </div>
+
+  <ul class="flex flex-col gap-2 w-full max-h-50 overflow-y-auto no-scrollbar">
+    @for (category of categories(); track category.id) {
+      <li class="w-full">
+        <button
+          type="button"
+          class="w-full flex items-center gap-3 pe-3  font-sarabun font-medium text-sm text-left rounded-lg transition-all group"
+          [ngClass]="category.id === activeCategoryId()
+            ? 'bg-maroon-50 text-zinc-700 dark:bg-soft-pink-100 dark:text-zinc-600'
+            : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'"
+          (click)="selectCategory(category.id)"
+        >
+
+          <img   class="w-9 h-9 p-2 rounded-md shrink-0 transition-colors"
+                [ngClass]="category.id === activeCategoryId() ? 'text-white bg-maroon-600 dark:bg-soft-pink-300' : 'text-white bg-zinc-600 dark:bg-zinc-500 dark:text-zinc-200'"
+          [src]="category.image" [alt]="category.title">
+
+          <span class="font-semibold tracking-wide">
+            {{  category.title }}
+          </span>
+        </button>
+      </li>
+    }
+  </ul>
+</aside>

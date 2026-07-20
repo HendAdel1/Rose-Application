@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { LoadingService } from '@org/auth-data-access';
@@ -24,7 +24,16 @@ export class ProductsGrid {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  readonly selectedCategoryId = signal<string | null>(null);
+  readonly activeCategoryId = input<string | null>(null);
+  readonly filteredProducts = computed(() => {
+    const activeId = this.activeCategoryId();
+    const list = this.products();
 
+    if (!activeId) return list;
+    if (activeId === 'Cards') return list;
+    return list.filter(product => product.category?.id === activeId);
+  });
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);
   readonly page = signal(1);
@@ -70,5 +79,12 @@ export class ProductsGrid {
 
   viewProduct(product: ProductApiItem): void {
     void this.router.navigate(['/roseApp/products', product.id]);
+  }
+  onCategorySelected(categoryId: string): void {
+    this.selectedCategoryId.set(categoryId);
+  }
+
+  onFilterCleared(): void {
+    this.selectedCategoryId.set(null);
   }
 }
