@@ -11,6 +11,7 @@ import { toUiCardProduct } from '../../../../shared/products/utils/product-card.
 import { UiCard } from '../../../../shared/ui-card/ui-card';
 import { UiCardProduct } from '../../../../shared/ui-card/ui-card-product.model';
 
+
 @Component({
   selector: 'app-products-grid',
   imports: [UiCard, Paginator, TranslatePipe],
@@ -25,14 +26,34 @@ export class ProductsGrid {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   readonly selectedCategoryId = signal<string | null>(null);
+  readonly selectedOccasionId = signal<string | null>(null);
   readonly activeCategoryId = input<string | null>(null);
+  readonly activeOccasionId = input<string | null>(null);
   readonly filteredProducts = computed(() => {
     const activeId = this.activeCategoryId();
+    const OccasionId = this.activeOccasionId();
     const list = this.products();
+    if (activeId && activeId !== 'Cards') {
+    return list.filter(product => 
+      product.category?.id === activeId || 
+      product.categoryId === activeId
+    );
+  }
 
-    if (!activeId) return list;
-    if (activeId === 'Cards') return list;
-    return list.filter(product => product.category?.id === activeId);
+if (OccasionId) {
+   return list.filter(product => {
+      return product.occasions?.some((o: any) => {
+        return o.id === OccasionId || 
+               o.occasionId === OccasionId || 
+               o.occasion?.id === OccasionId ||
+               o === OccasionId;
+      });
+    });
+  }
+
+     return list;
+
+   
   });
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);
@@ -83,8 +104,12 @@ export class ProductsGrid {
   onCategorySelected(categoryId: string): void {
     this.selectedCategoryId.set(categoryId);
   }
+    onOccasionSelected(occasionId: string): void {
+    this.selectedOccasionId.set(occasionId);
+  }
 
   onFilterCleared(): void {
     this.selectedCategoryId.set(null);
+    this.selectedOccasionId.set(null);
   }
 }

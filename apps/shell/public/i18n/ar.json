@@ -392,6 +392,23 @@
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
   },
+    "PRODUCT": {
+    "CATEGORY": "القسم",
+    "SELECT_CATEGORY": "اختر القسم",
+    "RESET": "إعادة تعيين",
+    "OCCASION": "المناسبة",
+    "SELECT_OCCASION": "اختر المناسبة"
+  },
+  "CATEGORIES": {
+    "Cards": "كروت هدايا",
+    "Chocolate": "شوكولاتة",
+    "Flowers": "زهور"
+  },
+    "OCCASIONS": {
+    "Wedding": "حفل زفاف",
+    "Apology": "اعتذار",
+    "Graduation": "تخرج",
+    "FatherDay": "عيد الأب"
   "CART": {
     "TITLE": "سلة التسوق",
     "PRODUCTS": "المنتجات",

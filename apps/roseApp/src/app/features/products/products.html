@@ -3,7 +3,9 @@
 
     <app-products-filter
       [activeCategoryId]="activeCategoryId()"
+      [activeOccasionId]="activeOccasionId()"
       (categorySelected)="onCategorySelected($event)"
+      (occasionSelected)="onOccasionSelected($event)"
       (filterCleared)="onFilterCleared()"
     />
 
@@ -15,7 +17,7 @@
     <!-- Mobile Divider -->
     <hr class="block lg:hidden w-full border-zinc-100 dark:border-zinc-700" />
 
-    <app-products-grid [activeCategoryId]="activeCategoryId()" />
+    <app-products-grid [activeCategoryId]="activeCategoryId()" [activeOccasionId]="activeOccasionId()" />
 
   </div>
 </section>

@@ -1,4 +1,5 @@
 <aside class="w-full md:w-60">
+  <!-- filter by category -->
   <div class="flex items-center justify-between gap-5 mb-3">
     <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">
       Category
@@ -41,4 +42,50 @@
       </li>
     }
   </ul>
+  <!-- filter by ocassion -->
+<div class="w-full md:w-60 mt-6">
+  <div class="flex items-center justify-between gap-5 mb-3">
+    <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">
+      Occasion
+    </h3>
+
+    <div class="filter-actions">
+      @if (activeOccasionId()) {
+        <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetFilter()">
+          <svg lucideX class="w-4 h-4"></svg>
+          Reset
+        </button>
+      } @else {
+        <span class="text-zinc-400 font-sarabun font-normal text-xs italic">
+         Select Occasion
+        </span>
+      }
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-3 w-full max-h-[350px] overflow-y-auto no-scrollbar">
+    @for (occasion of occasions(); track occasion.id) {
+      <button
+        type="button"
+        class="occasion-card relative w-full h-[74px] rounded-lg overflow-hidden transition-all text-center flex items-center justify-center  group"
+        [ngClass]="occasion.id === activeOccasionId() ? ' scale-[0.98]' : 'border-transparent'"
+        (click)="selectOccasion(occasion.id)"
+      >
+        <img
+          [src]="occasion.image"
+
+          [alt]="occasion.title"
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+
+        <div [class.bg-maroon-900]="occasion.id === activeOccasionId()" class="absolute inset-0 bg-black opacity-50 transition-colors group-hover:bg-black/50 dark-hover:bg-soft-pink-900/50 "></div>
+
+        <span class="relative z-10 text-white font-sarabun font-semibold text-sm tracking-wide px-2 drop-shadow-md">
+          {{ occasion.title }}
+        </span>
+
+      </button>
+    }
+  </div>
+</div>
 </aside>

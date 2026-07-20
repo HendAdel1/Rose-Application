@@ -392,6 +392,23 @@
     "EYEBROW": "Gallery",
     "TITLE": "Check Out our Wonderful Gallery"
   },
+    "PRODUCT": {
+    "CATEGORY": "Category",
+    "SELECT_CATEGORY": "Select Category",
+    "RESET": "Reset",
+            "OCCASION": "Occasion",
+    "SELECT_OCCASION": "Select Occasion"
+  },
+  "CATEGORIES": {
+    "Cards": "Cards",
+    "Chocolate": "Chocolate",
+    "Flowers": "Flowers"
+  },
+    "OCCASIONS": {
+    "Wedding": "Wedding",
+    "Apology": "Apology",
+    "Graduation": "Graduation",
+    "FatherDay": "Father's Day"
   "CART": {
     "TITLE": "Cart",
     "PRODUCTS": "products",
