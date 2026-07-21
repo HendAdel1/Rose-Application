@@ -11,6 +11,8 @@ export class Products {
   readonly activeCategoryId = signal<string | null>(null);
   readonly activeOccasionId = signal<string | null>(null);
   readonly activeRating = signal<number | null>(null);
+  readonly minPrice = signal<number | null>(null);
+  readonly maxPrice = signal<number | null>(null);
 
   onCategorySelected(categoryId: string): void {
     this.activeCategoryId.set(categoryId);
@@ -30,11 +32,11 @@ export class Products {
   }
   onFilterCategoryCleared(): void {
     this.activeCategoryId.set(null);
-  } 
-  onFilterOccasionCleared(): void {   
+  }
+  onFilterOccasionCleared(): void {
      this.activeOccasionId.set(null);
   }
   onFilterRatingCleared(): void {
     this.activeRating.set(0);
-  } 
+  }
 }

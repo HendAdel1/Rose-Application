@@ -12,6 +12,7 @@ import { UiCard } from '../../../../shared/ui-card/ui-card';
 import { UiCardProduct } from '../../../../shared/ui-card/ui-card-product.model';
 
 
+
 @Component({
   selector: 'app-products-grid',
   imports: [UiCard, Paginator, TranslatePipe],
@@ -31,38 +32,64 @@ export class ProductsGrid {
   readonly activeCategoryId = input<string | null>(null);
   readonly activeOccasionId = input<string | null>(null);
   readonly activeRating = input<number | null>(null);
+  readonly minPrice = input<number | null>(null);
+  readonly maxPrice = input<number | null>(null);
+
   readonly filteredProducts = computed(() => {
     const activeId = this.activeCategoryId();
     const OccasionId = this.activeOccasionId();
     const rating = this.activeRating();
-    const list = this.products();
+
+  const minP = this.minPrice() !== null ? Number(this.minPrice()) : null;
+  const maxP = this.maxPrice() !== null ? Number(this.maxPrice()) : null;
+  let filtered = [...(this.products() || [])];
+const isValidPriceRange =
+      (minP === null || minP >= 0) &&
+      (maxP === null || maxP >= 0) &&
+      (minP === null || maxP === null || minP <= maxP);
+
+    if (isValidPriceRange) {
+if (minP !== null && !isNaN(minP)) {
+   filtered = filtered.filter(p => {
+      const price = parseFloat(p.price) || 0;
+      return price >= minP;
+    });
+  }
+
+  if (maxP !== null && !isNaN(maxP)) {
+    filtered= filtered.filter(p => {
+      const price = parseFloat(p.price) || 0;
+      return price <= maxP;
+    });
+  }
+    }
     if (activeId && activeId !== 'Cards') {
-    return list.filter(product => 
-      product.category?.id === activeId || 
+    filtered = filtered.filter(product =>
+      product.category?.id === activeId ||
       product.categoryId === activeId
     );
   }
 
 if (OccasionId) {
-   return list.filter(product => {
+  filtered = filtered.filter(product => {
       return product.occasions?.some((o: any) => {
-        return o.id === OccasionId || 
-               o.occasionId === OccasionId || 
+        return o.id === OccasionId ||
+               o.occasionId === OccasionId ||
                o.occasion?.id === OccasionId ||
                o === OccasionId;
       });
     });
   }
   if (rating && rating > 0) {
-      return list.filter(product => {
+    filtered = filtered.filter(product => {
         const productRating = product.rating ?? product.ratings ?? 0;
         return Math.floor(productRating) >= rating;
       });
     }
 
-     return list;
+     return filtered;
 
-   
+
   });
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);
@@ -129,7 +156,7 @@ if (OccasionId) {
   onFilterRatingCleared(): void {
     this.selectedRating.set(null);
   }
-  onFilterCleared(): void { 
+  onFilterCleared(): void {
     this.selectedCategoryId.set(null);
     this.selectedOccasionId.set(null);
     this.selectedRating.set(0);
