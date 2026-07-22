@@ -297,11 +297,6 @@
       "description": "تواصل معنا في أي وقت"
     }
   ],
-  "CART": {
-    "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك",
-    "NO_PRODUCTS_LIKE": "لا توجد اقتراحات للمنتجات حالياً.",
-    "PRODUCT_OUT_OF_STOCK": "المنتج غير متوفر في المخزون"
-  },
   "GALLERY": {
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
@@ -323,6 +318,28 @@
     "Apology": "اعتذار",
     "Graduation": "تخرج",
     "FatherDay": "عيد الأب"
+  },
+  "CART": {
+    "TITLE": "Shopping Cart",
+    "PRODUCTS": "Products",
+    "CLEAR_CART": "Clear Cart",
+    "EMPTY_MESSAGE": "Your shopping cart is empty. Would you like to go shopping?",
+    "REMOVE": "Remove",
+    "RATING": "Rating",
+    "RATINGS": "Ratings",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "COUPON_PLACEHOLDER": "Coupon Code",
+      "APPLY_COUPON": "Apply Coupon",
+      "NO_COUPONS": "No coupons applied",
+      "SUBTOTAL": "Subtotal",
+      "TOTAL": "Total",
+      "CHECKOUT": "Checkout"
+    },
+    "PRODUCTS_YOU_MAY_LIKE": "Products You May Like",
+    "NO_PRODUCTS_LIKE": "No product recommendations available at the moment.",
+    "PRODUCT_OUT_OF_STOCK": "Product is out of stock"
   }
 
 }

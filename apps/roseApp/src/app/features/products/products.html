@@ -4,9 +4,16 @@
     <app-products-filter
       [activeCategoryId]="activeCategoryId()"
       [activeOccasionId]="activeOccasionId()"
+      [(activeRating)]="activeRating"
       (categorySelected)="onCategorySelected($event)"
       (occasionSelected)="onOccasionSelected($event)"
+      (ratingSelected)="onRatingSelected($event)"
+      (filterCategoryCleared)="onFilterCategoryCleared()"
+      (filterOccasionCleared)="onFilterOccasionCleared()"
+      (filterRatingCleared)="onFilterRatingCleared()"
       (filterCleared)="onFilterCleared()"
+      [(minPrice)]="minPrice"
+  [(maxPrice)]="maxPrice"
     />
 
     <!-- Divider -->
@@ -17,7 +24,10 @@
     <!-- Mobile Divider -->
     <hr class="block lg:hidden w-full border-zinc-100 dark:border-zinc-700" />
 
-    <app-products-grid [activeCategoryId]="activeCategoryId()" [activeOccasionId]="activeOccasionId()" />
+    <app-products-grid [activeCategoryId]="activeCategoryId()" [activeOccasionId]="activeOccasionId()"
+    [activeRating]="activeRating()"
+    [minPrice]="minPrice()"
+  [maxPrice]="maxPrice()"/>
 
   </div>
 </section>
