@@ -319,27 +319,27 @@
     "Graduation": "تخرج",
     "FatherDay": "عيد الأب"
   },
-  "CART": {
-    "TITLE": "Shopping Cart",
-    "PRODUCTS": "Products",
-    "CLEAR_CART": "Clear Cart",
-    "EMPTY_MESSAGE": "Your shopping cart is empty. Would you like to go shopping?",
-    "REMOVE": "Remove",
-    "RATING": "Rating",
-    "RATINGS": "Ratings",
-    "CONTINUE_SHOPPING": "Continue Shopping",
+    "CART": {
+    "TITLE": "سلة التسوق",
+    "PRODUCTS": "المنتجات",
+    "CLEAR_CART": "مسح السلة",
+    "EMPTY_MESSAGE": "سلة التسوق فارغة، هل ترغب في التسوق؟",
+    "REMOVE": "إزالة",
+    "RATING": "التقييم",
+    "RATINGS": "تقييمات",
+    "CONTINUE_SHOPPING": "متابعة التسوق",
     "SUMMARY": {
-      "TITLE": "Summary",
-      "COUPON_PLACEHOLDER": "Coupon Code",
-      "APPLY_COUPON": "Apply Coupon",
-      "NO_COUPONS": "No coupons applied",
-      "SUBTOTAL": "Subtotal",
-      "TOTAL": "Total",
-      "CHECKOUT": "Checkout"
+      "TITLE": "الملخص",
+      "COUPON_PLACEHOLDER": "رمز الكوبون",
+      "APPLY_COUPON": "تطبيق الكوبون",
+      "NO_COUPONS": "لم يتم تطبيق أي كوبونات",
+      "SUBTOTAL": "المجموع الفرعي",
+      "TOTAL": "الإجمالي",
+      "CHECKOUT": "إتمام الشراء"
     },
-    "PRODUCTS_YOU_MAY_LIKE": "Products You May Like",
-    "NO_PRODUCTS_LIKE": "No product recommendations available at the moment.",
-    "PRODUCT_OUT_OF_STOCK": "Product is out of stock"
+    "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك",
+    "NO_PRODUCTS_LIKE": "لا توجد اقتراحات للمنتجات حالياً.",
+    "PRODUCT_OUT_OF_STOCK": "المنتج غير متوفر في المخزون"
   }
 
 }
