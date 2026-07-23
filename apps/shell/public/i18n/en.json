@@ -301,12 +301,23 @@
     "EYEBROW": "Gallery",
     "TITLE": "Check Out our Wonderful Gallery"
   },
-  "PRODUCT": {
+"PRODUCT": {
+    "FILTERS": "Filters",
+    "CLEAR_ALL": "Clear all",
+    "FILTER_PRODUCTS": "Filter Products",
+    "ACTIVE": "active",
+    "SHOW_RESULTS": "Show Results",
+    "RESET_ALL": "Reset All Filters",
     "CATEGORY": "Category",
-    "SELECT_CATEGORY": "Select Category",
-    "RESET": "Reset",
-        "OCCASION": "Occasion",
-    "SELECT_OCCASION": "Select Occasion"
+    "SELECT_CATEGORY": "Select category",
+    "OCCASION": "Occasion",
+    "SELECT_OCCASION": "Select Occasion",
+    "RATING": "Rating",
+    "SELECT_RATING": "Select Rating",
+    "PRICE": "Price",
+    "FROM": "from",
+    "TO": "to",
+    "RESET": "Reset"
   },
   "CATEGORIES": {
     "Cards": "Cards",

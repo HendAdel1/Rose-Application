@@ -301,12 +301,23 @@
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
   },
-  "PRODUCT": {
+"PRODUCT": {
+    "FILTERS": "الفلاتر",
+    "CLEAR_ALL": "مسح الكل",
+    "FILTER_PRODUCTS": "فلترة المنتجات",
+    "ACTIVE": "نشط",
+    "SHOW_RESULTS": "عرض النتائج",
+    "RESET_ALL": "إعادة تعيين الكل",
     "CATEGORY": "القسم",
     "SELECT_CATEGORY": "اختر القسم",
-    "RESET": "إعادة تعيين",
-        "OCCASION": "المناسبة",
-    "SELECT_OCCASION": "اختر المناسبة"
+    "OCCASION": "المناسبة",
+    "SELECT_OCCASION": "اختر المناسبة",
+    "RATING": "التقييم",
+    "SELECT_RATING": "اختر التقييم",
+    "PRICE": "السعر",
+    "FROM": "من",
+    "TO": "إلى",
+    "RESET": "إعادة تعيين"
   },
   "CATEGORIES": {
     "Cards": "كروت هدايا",
