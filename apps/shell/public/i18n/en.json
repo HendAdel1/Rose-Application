@@ -1,4 +1,95 @@
 {
+  "AUTH": {
+    "LOGIN_TOAST": {
+      "SUCCESS_TITLE": "Welcome back",
+      "SUCCESS": "You have signed in successfully."
+    },
+    "SWITCH_LANGUAGE": "Switch language",
+    "GIFTS_COVER": "Rose gifts",
+    "COMMON": {
+      "EMAIL": "Email",
+      "USERNAME": "Username",
+      "PASSWORD": "Password",
+      "CONFIRM_PASSWORD": "Confirm Password",
+      "CONTINUE": "Continue",
+      "NEXT": "Next",
+      "SENDING": "Sending..."
+    },
+    "LOGIN": {
+      "WELCOME": "Welcome back!",
+      "FORGOT_PASSWORD": "Forgot your password?",
+      "REMEMBER_ME": "Remember me",
+      "SUBMIT": "Login"
+    },
+    "FORGOT": {
+      "TITLE": "Forgot Password?",
+      "DESCRIPTION": "Worry not, we'll send you instructions to help you reset it.",
+      "SUCCESS": "Password reset instructions have been sent to your email."
+    },
+    "RESET": {
+      "TITLE": "Create a new password",
+      "DESCRIPTION": "Set a strong password to secure your account.",
+      "NEW_PASSWORD": "New Password",
+      "SUBMIT": "Reset Password",
+      "INVALID_LINK": "Reset link is invalid or expired. Please request a new password reset.",
+      "FAILED": "Reset failed",
+      "SUCCESS_TITLE": "Password reset",
+      "SUCCESS": "Your password has been reset successfully."
+    },
+    "RESET_LINK": {
+      "TITLE": "Password Reset Sent",
+      "SENT_TO": "We have sent a password reset link to:",
+      "INSTRUCTIONS": "Please check your inbox and follow the instructions to reset your password.",
+      "SPAM_NOTE": "If you don't see the email within a few minutes, check your spam or junk folder.",
+      "RESEND_IN": "Resend link in ({{seconds}}s)",
+      "RESEND": "Didn't get the email? Resend link"
+    },
+    "REGISTER": {
+      "TITLE": "Create Account",
+      "VERIFY_IDENTITY": "Verify Identity",
+      "OTP_SENT_TO": "Enter the {{length}}-digit code sent to {{email}}.",
+      "VERIFY_CODE": "Verify Code",
+      "CODE_EXPIRES": "This code will expire in:",
+      "CODE_EXPIRED": "The code has expired. Please request a new one.",
+      "RESEND_ACTIVE": "Resend option active in {{seconds}}s",
+      "RESEND_OTP": "Resend OTP",
+      "OTP_RESENT": "A fresh security code has been sent.",
+      "FAMILY_TITLE": "Become part of our family!",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "USERNAME": "Username",
+      "GENDER": "Gender",
+      "SELECT_GENDER": "Select gender",
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "CREATE_ACCOUNT": "Create Account",
+      "SUCCESS_TITLE": "Account created",
+      "SUCCESS": "Your account has been created successfully."
+    },
+    "LINKS": {
+      "NO_ACCOUNT": "Don't have an account yet?",
+      "CREATE_ACCOUNT": "Create one now!",
+      "HAVE_ACCOUNT": "Already have an account?",
+      "REMEMBER_PASSWORD": "Remember your password?",
+      "BACK_TO_LOGIN": "Back to login"
+    },
+    "ERRORS": {
+      "EMAIL_REQUIRED": "Email is required",
+      "EMAIL_INVALID": "Please enter a valid email address",
+      "PASSWORD_REQUIRED": "Password is required",
+      "PASSWORD_STRENGTH": "Password must be at least 8 characters and include uppercase, lowercase, number, and special character",
+      "CONFIRM_PASSWORD_REQUIRED": "Please confirm your password",
+      "PASSWORD_MISMATCH": "Passwords do not match",
+      "FIRST_NAME_REQUIRED": "First name is required",
+      "LAST_NAME_REQUIRED": "Last name is required",
+      "USERNAME_REQUIRED": "Username is required",
+      "USERNAME_MIN": "Username must be at least 3 characters",
+      "USERNAME_MAX": "Username must be at most 20 characters",
+      "GENDER_REQUIRED": "Please select your gender",
+      "OTP_REQUIRED": "Please fill out all verification boxes.",
+      "OTP_COMPLETE": "Enter the complete verification code."
+    }
+  },
   "NAV": {
     "ACCOUNT": "Account",
     "ADDRESSES": "Addresses",
