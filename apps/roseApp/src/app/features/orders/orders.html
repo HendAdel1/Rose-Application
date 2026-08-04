@@ -57,9 +57,11 @@
               <span class="text-xl font-bold tracking-tight">
                 {{ 'ORDERS.ORDER_NUMBER' | translate }} {{ getOrderNumber(order) }}
               </span>
-              <span class="text-sm text-zinc-200">
-                {{ 'ORDERS.CREATED_IN' | translate }} {{ order.createdAt | date: 'dd MMMM, yyyy \'at\' hh:mm a' }}
-              </span>
+              @if (order.createdAt) {
+                <span class="text-sm text-zinc-200">
+                  {{ 'ORDERS.CREATED_IN' | translate }} {{ order.createdAt | date: 'dd MMMM, yyyy \'at\' hh:mm a' }}
+                </span>
+              }
             </div>
 
             <!-- Order Body -->
