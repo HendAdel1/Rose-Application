@@ -98,6 +98,15 @@ if (OccasionId) {
   readonly totalRecords = signal(0);
 
   readonly paginatorFirst = computed(() => (this.page() - 1) * this.limit());
+  readonly totalPages = computed(() =>
+    Math.ceil(this.totalRecords() / this.limit()),
+  );
+  readonly showPaginator = computed(
+    () =>
+      !this.loading.isLoading() &&
+      this.products().length > 0 &&
+      this.totalPages() > 1,
+  );
 
   constructor() {
     this.loadProducts();
