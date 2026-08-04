@@ -9,12 +9,20 @@
     <p class="text-base leading-7 text-zinc-500 dark:text-zinc-300">
       {{ 'ORDER_CONFIRMATION.DESCRIPTION' | translate }}
     </p>
-    <a
-      routerLink="/roseApp/products"
-      class="mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-[0.625rem] bg-maroon-600 px-6 font-bold text-white no-underline transition hover:brightness-95 dark:bg-soft-pink-300 dark:text-zinc-900"
-    >
-      {{ 'ORDER_CONFIRMATION.CONTINUE_SHOPPING' | translate }}
-      <svg lucideArrowRight [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg>
-    </a>
+    <div class="mt-2 flex flex-wrap justify-center gap-3">
+      <a
+        routerLink="/roseApp/orders"
+        class="inline-flex h-11 items-center justify-center gap-2 rounded-[0.625rem] bg-maroon-600 px-6 font-bold text-white no-underline transition hover:brightness-95 dark:bg-soft-pink-300 dark:text-zinc-900"
+      >
+        {{ 'NAV.ORDERS' | translate }}
+      </a>
+      <a
+        routerLink="/roseApp/products"
+        class="inline-flex h-11 items-center justify-center gap-2 rounded-[0.625rem] border border-zinc-300 bg-white px-6 font-bold text-zinc-800 no-underline transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
+      >
+        {{ 'ORDER_CONFIRMATION.CONTINUE_SHOPPING' | translate }}
+        <svg lucideArrowRight [size]="16" class="rtl:rotate-180" aria-hidden="true"></svg>
+      </a>
+    </div>
   </div>
 </section>

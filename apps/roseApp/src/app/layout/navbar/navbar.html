@@ -61,11 +61,11 @@
             <svg lucideUser [size]="18" aria-hidden="true"></svg>
             <span>{{ 'NAV.ACCOUNT' | translate }}</span>
           </button>
-          <button class="profile-menu-item" type="button" role="menuitem">
+          <button class="profile-menu-item" type="button" role="menuitem" [routerLink]="['addresses']" [relativeTo]="layoutRoute" (click)="profileMenuOpen.set(false)">
             <svg lucideMapPin [size]="18" aria-hidden="true"></svg>
             <span>{{ 'NAV.ADDRESSES' | translate }}</span>
           </button>
-          <button class="profile-menu-item" type="button" role="menuitem">
+          <button class="profile-menu-item" type="button" role="menuitem" [routerLink]="['orders']" [relativeTo]="layoutRoute" (click)="profileMenuOpen.set(false)">
             <svg lucideClipboardList [size]="18" aria-hidden="true"></svg>
             <span>{{ 'NAV.ORDERS' | translate }}</span>
           </button>

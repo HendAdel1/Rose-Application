@@ -11,6 +11,7 @@ import { Payment } from '../features/payment/payment';
 import { OrderConfirmation } from '../features/order-confirmation/order-confirmation';
 import { authGuard } from '../core/guards/auth.guard';
 import { Wishlist } from '../features/wishlist/wishlist';
+import { Orders } from '../features/orders/orders';
 export const remoteRoutes: Route[] = [
   {
     path: '',
@@ -49,6 +50,12 @@ export const remoteRoutes: Route[] = [
         path: 'order-confirmation',
         component: OrderConfirmation,
         title: 'Order Confirmation',
+        canActivate: [authGuard],
+      },
+      {
+        path: 'orders',
+        component: Orders,
+        title: 'Orders',
         canActivate: [authGuard],
       },
     ],
