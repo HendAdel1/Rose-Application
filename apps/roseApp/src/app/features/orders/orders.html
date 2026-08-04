@@ -1,16 +1,224 @@
 <section class="px-20 py-16 font-sarabun max-lg:px-8 max-sm:px-4 dark:text-white">
   <div class="mx-auto max-w-5xl">
-    <div class="mb-8 flex items-center justify-between">
-      <h1 class="text-3xl font-bold text-zinc-950 dark:text-white">
-        {{ 'NAV.ORDERS' | translate }}
-      </h1>
-    </div>
+    <!-- Page Title -->
+    <h1 class="mb-8 text-4xl font-bold text-zinc-950 dark:text-white">
+      {{ 'NAV.ORDERS' | translate }}
+    </h1>
 
-    <!-- Initial placeholder container for Orders -->
-    <div class="rounded-xl border border-zinc-200 bg-white p-8 dark:border-zinc-700 dark:bg-zinc-900">
-      <p class="text-zinc-500 dark:text-zinc-400">
-        Orders component initialized. Ready for API endpoint & design integration.
-      </p>
-    </div>
+    <!-- Loading State -->
+    @if (isLoading() && orders().length === 0) {
+      <div class="flex min-h-64 flex-col items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-900">
+        <svg lucidePackage [size]="48" class="animate-bounce text-maroon-600 dark:text-soft-pink-200" aria-hidden="true"></svg>
+        <p class="text-lg font-medium text-zinc-600 dark:text-zinc-300">
+          Loading your orders...
+        </p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (errorMessage()) {
+      <div class="mb-6 flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300">
+        <svg lucideAlertCircle [size]="20" aria-hidden="true"></svg>
+        <span>{{ errorMessage() }}</span>
+        <button type="button" class="ms-auto font-bold underline cursor-pointer" (click)="loadOrders()">
+          Retry
+        </button>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if (!isLoading() && orders().length === 0 && !errorMessage()) {
+      <div class="flex min-h-80 flex-col items-center justify-center gap-4 rounded-xl border border-zinc-200 bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-900">
+        <div class="grid size-20 place-items-center rounded-full bg-maroon-50 text-maroon-600 dark:bg-zinc-800 dark:text-soft-pink-200">
+          <svg lucideShoppingBag [size]="40" aria-hidden="true"></svg>
+        </div>
+        <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">
+          No Orders Found
+        </h2>
+        <p class="max-w-md text-zinc-500 dark:text-zinc-400">
+          You haven't placed any orders yet. Start exploring our flowers and gifts collection!
+        </p>
+        <a
+          routerLink="/roseApp/products"
+          class="mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-[0.625rem] bg-maroon-600 px-6 font-bold text-white no-underline transition hover:brightness-95 dark:bg-soft-pink-300 dark:text-zinc-900"
+        >
+          Start Shopping
+        </a>
+      </div>
+    }
+
+    <!-- Orders List -->
+    @if (orders().length > 0) {
+      <div class="flex flex-col gap-8">
+        @for (order of orders(); track order.id) {
+          <div class="overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+            <!-- Order Header Banner -->
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-maroon-700 px-6 py-3.5 text-white dark:bg-maroon-800">
+              <span class="text-xl font-bold tracking-tight">
+                Order {{ getOrderNumber(order) }}
+              </span>
+              <span class="text-sm text-zinc-200">
+                Created in: {{ order.createdAt | date: 'dd MMMM, yyyy \'at\' hh:mm a' }}
+              </span>
+            </div>
+
+            <!-- Order Body -->
+            <div class="p-6">
+              <!-- Price and Status Row -->
+              <div class="mb-4 flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200 pb-4 dark:border-zinc-800">
+                <div class="flex items-center gap-3">
+                  <span class="text-xl font-bold text-zinc-950 dark:text-white">
+                    Total Price: <strong class="text-2xl">{{ getTotalPrice(order) | number: '1.0-2' }} EGP</strong>
+                  </span>
+
+                  <!-- Payment Status Badge -->
+                  @if (order.paymentStatus === 'SUCCEEDED' || order.paymentStatus === 'PAID') {
+                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-white">
+                      <svg lucideCheckCircle2 [size]="14" aria-hidden="true"></svg>
+                      Paid
+                    </span>
+                  } @else if (order.paymentStatus === 'CANCELLED' || order.paymentStatus === 'FAILED') {
+                    <span class="inline-flex items-center gap-1 rounded-full bg-red-500 px-3 py-1 text-xs font-bold text-white">
+                      <svg lucideXCircle [size]="14" aria-hidden="true"></svg>
+                      Failed
+                    </span>
+                  } @else {
+                    <span class="inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white">
+                      <svg lucideClock [size]="14" aria-hidden="true"></svg>
+                      Pending
+                    </span>
+                  }
+                </div>
+
+                <!-- Order Status Badge -->
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-semibold text-zinc-600 dark:text-zinc-400">Status:</span>
+                  @if (order.status === 'DELIVERED' || order.status === 'DONE') {
+                    <span class="inline-flex items-center rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-white">
+                      Done
+                    </span>
+                  } @else if (order.status === 'CANCELLED') {
+                    <span class="inline-flex items-center rounded-full bg-red-500 px-3 py-1 text-xs font-bold text-white">
+                      Canceled
+                    </span>
+                  } @else {
+                    <span class="inline-flex items-center rounded-full bg-sky-500 px-3 py-1 text-xs font-bold text-white">
+                      In Progress
+                    </span>
+                  }
+                </div>
+              </div>
+
+              <!-- Payment Method & Delivery Status -->
+              <div class="mb-4 flex flex-wrap gap-6 text-sm text-zinc-700 dark:text-zinc-300">
+                <div class="flex items-center gap-1.5 font-medium">
+                  <span>Payment Method:</span>
+                  <span class="inline-flex items-center gap-1 font-bold text-zinc-900 dark:text-white">
+                    <svg lucideCreditCard [size]="16" class="text-zinc-500" aria-hidden="true"></svg>
+                    {{ order.paymentMethod === 'CREDIT_CARD' ? 'Credit Card' : 'Cash' }}
+                  </span>
+                </div>
+
+                <div class="flex items-center gap-1.5 font-medium">
+                  <span>Delivery Status:</span>
+                  <span class="inline-flex items-center gap-1 font-bold">
+                    @if (order.status === 'DELIVERED') {
+                      <svg lucideTruck [size]="16" class="text-emerald-600" aria-hidden="true"></svg>
+                      <span class="text-emerald-600">Delivered</span>
+                    } @else if (order.status === 'CANCELLED') {
+                      <svg lucideXCircle [size]="16" class="text-red-500" aria-hidden="true"></svg>
+                      <span class="text-red-500">Canceled</span>
+                    } @else {
+                      <svg lucideClock [size]="16" class="text-amber-500" aria-hidden="true"></svg>
+                      <span class="text-amber-600 dark:text-amber-400">Pending</span>
+                    }
+                  </span>
+                </div>
+              </div>
+
+              <!-- Order Items Section -->
+              <div>
+                <h3 class="mb-3 text-sm font-bold text-zinc-900 dark:text-white">
+                  Order Items:
+                </h3>
+
+                <div class="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
+                  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    @for (item of getVisibleItems(order); track item.id || item.productId) {
+                      <div class="flex items-center gap-4 rounded-lg border border-zinc-100 bg-zinc-50/50 p-3 dark:border-zinc-800 dark:bg-zinc-900/50">
+                        <!-- Product Image -->
+                        <img
+                          [src]="getItemCover(item)"
+                          [alt]="getItemTitle(item)"
+                          class="size-20 rounded-md object-cover"
+                        />
+
+                        <!-- Product Info -->
+                        <div class="flex min-w-0 flex-1 flex-col gap-1">
+                          <h4 class="truncate text-base font-bold text-zinc-900 dark:text-white">
+                            {{ getItemTitle(item) }}
+                          </h4>
+
+                          <!-- Rating -->
+                          <div class="flex items-center gap-1 text-xs text-amber-500">
+                            <span>★</span>
+                            <span class="font-bold text-zinc-700 dark:text-zinc-300">
+                              Rating: {{ getItemRating(item) }}/5
+                            </span>
+                            <span class="text-zinc-400">
+                              ({{ getItemRatingsCount(item) }} ratings)
+                            </span>
+                          </div>
+
+                          <!-- Quantity & Price -->
+                          <div class="mt-1 flex items-center gap-2">
+                            <span class="text-sm font-semibold text-red-600 dark:text-red-400">
+                              (x{{ item.quantity }})
+                            </span>
+                            <span class="text-base font-bold text-zinc-950 dark:text-white">
+                              {{ getItemPrice(item) | number: '1.0-2' }} EGP
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Show All / Show Less Toggle Button -->
+                  @if (hasMoreItems(order)) {
+                    <div class="mt-4 flex justify-center border-t border-zinc-100 pt-3 dark:border-zinc-800">
+                      <button
+                        type="button"
+                        class="inline-flex items-center gap-1.5 text-xs font-bold text-maroon-600 hover:underline dark:text-soft-pink-200 cursor-pointer"
+                        (click)="toggleExpandOrder(order.id)"
+                      >
+                        <span>{{ isExpanded(order.id) ? 'Show Less' : 'Show All' }}</span>
+                        @if (isExpanded(order.id)) {
+                          <svg lucideChevronUp [size]="14" aria-hidden="true"></svg>
+                        } @else {
+                          <svg lucideChevronDown [size]="14" aria-hidden="true"></svg>
+                        }
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Pagination -->
+      @if (totalRecords() > limit()) {
+        <div class="mt-8 flex justify-center">
+          <p-paginator
+            [first]="paginatorFirst()"
+            [rows]="limit()"
+            [totalRecords]="totalRecords()"
+            (onPageChange)="onPageChange($event)"
+          ></p-paginator>
+        </div>
+      }
+    }
   </div>
 </section>
