@@ -145,7 +145,7 @@ export class Orders implements OnInit {
     if (this.isExpanded(order.id) || items.length <= 2) {
       return items;
     }
-    return items.slice(0, 2);
+    return items.slice(0, Math.min(items.length, 4));
   }
 
   hasMoreItems(order: Order): boolean {
