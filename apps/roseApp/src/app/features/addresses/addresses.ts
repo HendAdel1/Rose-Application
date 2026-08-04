@@ -21,11 +21,13 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 
+import { DecimalPipe } from '@angular/common';
 import { AddressItem, AddressModalMode } from './models/address.model';
 import { AddressPayload } from './models/address-api.model';
 import { AddressModalView, GoogleMapsWindow } from './models/address-ui.model';
 import { AddressesService } from './services/addresses.service';
 import { GoogleMapsLoaderService } from './services/google-maps-loader.service';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-addresses',
@@ -39,6 +41,7 @@ import { GoogleMapsLoaderService } from './services/google-maps-loader.service';
     LucideX,
     ReactiveFormsModule,
     TranslatePipe,
+    DecimalPipe,
   ],
   templateUrl: './addresses.html',
   styleUrl: './addresses.css',
@@ -46,9 +49,13 @@ import { GoogleMapsLoaderService } from './services/google-maps-loader.service';
 })
 export class Addresses implements OnInit {
   private readonly addressesService = inject(AddressesService);
+  private readonly cartService = inject(CartService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly mapsLoader = inject(GoogleMapsLoaderService);
   private readonly router = inject(Router);
+
+  readonly subtotal = this.cartService.cartSubtotal;
+  readonly total = this.cartService.cartTotal;
 
   @ViewChild('mapCanvas') private mapCanvas?: ElementRef<HTMLDivElement>;
 
@@ -89,6 +96,7 @@ export class Addresses implements OnInit {
 
   ngOnInit(): void {
     this.addressesService.loadAddresses();
+    this.cartService.fetchCart();
   }
 
   openAddressesModal(): void {
