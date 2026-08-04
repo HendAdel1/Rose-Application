@@ -107,7 +107,11 @@
                   <span>{{ 'ORDERS.PAYMENT_METHOD' | translate }}</span>
                   <span class="inline-flex items-center gap-1 font-bold text-zinc-900 dark:text-white">
                     <svg lucideCreditCard [size]="16" class="text-zinc-500" aria-hidden="true"></svg>
-                    {{ (order.paymentMethod === 'CREDIT_CARD' ? 'ORDERS.CREDIT_CARD' : 'ORDERS.CASH') | translate }}
+                    @if (order.paymentMethod === 'CREDIT_CARD') {
+                      {{ 'ORDERS.CREDIT_CARD' | translate }}
+                    } @else {
+                      {{ 'ORDERS.CASH' | translate }}
+                    }
                   </span>
                 </div>
 
