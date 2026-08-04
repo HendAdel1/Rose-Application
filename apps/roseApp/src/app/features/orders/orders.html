@@ -53,7 +53,7 @@
         @for (order of orders(); track order.id) {
           <div class="overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
             <!-- Order Header Banner -->
-            <div class="flex flex-wrap items-center justify-between gap-2 bg-maroon-700 px-6 py-3.5 text-white dark:bg-maroon-800">
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-maroon-600 px-6 py-3.5 text-white">
               <span class="text-xl font-bold tracking-tight">
                 Order {{ getOrderNumber(order) }}
               </span>
@@ -110,7 +110,7 @@
               </div>
 
               <!-- Payment Method & Delivery Status -->
-              <div class="mb-4 flex flex-wrap gap-6 text-sm text-zinc-700 dark:text-zinc-300">
+              <div class="mb-4 flex flex-col gap-2.5 text-sm text-zinc-700 dark:text-zinc-300">
                 <div class="flex items-center gap-1.5 font-medium">
                   <span>Payment Method:</span>
                   <span class="inline-flex items-center gap-1 font-bold text-zinc-900 dark:text-white">
