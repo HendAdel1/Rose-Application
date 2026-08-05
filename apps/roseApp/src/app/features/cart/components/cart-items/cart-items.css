@@ -203,11 +203,6 @@
   gap: 10px;
 }
 
-.qty-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
 .qty-input {
   display: grid;
   place-items: center;

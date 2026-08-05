@@ -140,16 +140,10 @@
 
       <button
         class="icon-button"
-        [class.has-badge]="wishlistCount() > 0"
         type="button"
-        [routerLink]="['wishlist']"
-        [relativeTo]="layoutRoute"
         [attr.aria-label]="'NAV.WISHLIST' | translate"
       >
         <svg lucideHeart [size]="22" aria-hidden="true"></svg>
-        @if (wishlistCount() > 0) {
-          <span class="badge">{{ wishlistCount() }}</span>
-        }
       </button>
 
       @if (isAuthenticated()) {

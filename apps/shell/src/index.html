@@ -10,7 +10,8 @@
       // Apply the saved/system theme before Angular boots to avoid a flash (FOUC).
       (function () {
         try {
-          var saved = localStorage.getItem('theme');
+          var match = document.cookie.match(/(?:^|;\s*)rose\.theme=([^;]*)/);
+          var saved = match ? decodeURIComponent(match[1]) : null;
           var dark = saved
             ? saved === 'dark'
             : window.matchMedia('(prefers-color-scheme: dark)').matches;
