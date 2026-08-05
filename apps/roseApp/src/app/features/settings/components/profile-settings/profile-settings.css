@@ -1,0 +1,91 @@
+@reference "../../../../../styles.css";
+
+:host {
+  display: block;
+}
+
+.profile-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Photo Upload */
+.photo-upload {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.photo-avatar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.photo-avatar__img {
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  @apply border border-zinc-200 dark:border-zinc-700;
+}
+
+.photo-avatar__fallback {
+  @apply flex h-[7.5rem] w-[7.5rem] items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-[2.5rem] font-semibold text-zinc-600 uppercase dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300;
+}
+
+.photo-avatar__edit {
+  @apply absolute -bottom-1 -right-1 flex cursor-pointer items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-800 p-[7px] transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700;
+}
+
+.photo-upload__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.photo-upload__title {
+  @apply text-base font-semibold text-zinc-800 dark:text-zinc-50;
+  font-family: Inter, sans-serif;
+}
+
+.photo-upload__hint {
+  @apply text-sm text-zinc-500 dark:text-zinc-400;
+  font-family: Inter, sans-serif;
+}
+
+/* Profile Form */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.profile-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .profile-form__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Actions */
+.profile-form__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4.125rem;
+}
+
+.delete-account-btn {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 0%;
+  @apply cursor-pointer border-none bg-transparent text-maroon-500 transition-colors hover:text-maroon-600 dark:text-maroon-400 dark:hover:text-maroon-500;
+  font-family: Inter, sans-serif;
+}

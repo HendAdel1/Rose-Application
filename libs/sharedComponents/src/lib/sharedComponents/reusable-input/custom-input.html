@@ -39,6 +39,7 @@
       [readOnly]="readonly()"
       [disabled]="disabled"
       [attr.aria-invalid]="isInvalid()"
+      [attr.dir]="type() === 'tel' ? 'ltr' : null"
       (input)="onInputChange($event)"
       (blur)="onInputBlur()"
     />

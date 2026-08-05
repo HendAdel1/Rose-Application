@@ -3,20 +3,29 @@
 }
 
 .settings-page {
-  padding: 1.5rem clamp(1.25rem, 3.7vw, 3.25rem);
+  padding: 3.875rem 5rem 18.9375rem 5rem;
+}
+
+.settings-title {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: 0%;
+  padding-bottom: 2.25rem;
 }
 
 .settings-layout {
   display: grid;
-  gap: 1.5rem;
-  grid-template-columns: 14rem 1fr;
-  min-height: 28rem;
+  gap: 2.25rem;
+  grid-template-columns: 18.6875rem 1fr;
+  min-height: 45rem;
 }
 
 .settings-sidebar {
   position: sticky;
   top: 1.5rem;
   align-self: start;
+  height: 100%;
 }
 
 @media (max-width: 768px) {

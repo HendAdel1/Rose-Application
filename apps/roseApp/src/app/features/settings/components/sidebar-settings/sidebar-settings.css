@@ -1,14 +1,16 @@
+@reference "../../../../../styles.css";
+
 :host {
   display: block;
   height: 100%;
 }
 
 .sidebar-nav {
-  background: #f8f8fa;
   border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
   padding: 1rem;
 }
 
@@ -24,10 +26,8 @@
 
 .nav-item {
   align-items: center;
-  background: transparent;
   border: 0;
   border-radius: 0.5rem;
-  color: #4b4b52;
   cursor: pointer;
   display: flex;
   font-family: inherit;
@@ -41,47 +41,40 @@
     background-color 160ms ease,
     color 160ms ease;
   width: 100%;
+  @apply bg-transparent text-[#4b4b52] dark:text-zinc-300;
 }
 
 .nav-item:hover {
-  background: #e8e8eb;
-  color: #1a1a1a;
+  @apply bg-[#e8e8eb]  dark:bg-zinc-700;
 }
 
 .nav-item.active {
-  background: #2c2c2c;
-  color: #ffffff;
+  @apply bg-[#2c2c2c] text-[#ffffff] dark:bg-white dark:text-zinc-900;
 }
 
 .nav-item.active svg {
-  color: #ffffff;
+  @apply text-[#ffffff] dark:text-zinc-900;
 }
 
 .nav-item svg {
-  color: #6b6b73;
   flex-shrink: 0;
   transition: color 160ms ease;
-}
-
-.nav-item:hover svg {
-  color: #1a1a1a;
+  @apply text-[#6b6b73] dark:text-zinc-400;
 }
 
 .logout-item {
-  background: #f0f0f4;
-  color: #dc2626;
   margin-top: auto;
+  @apply bg-[#f0f0f4] text-[#dc2626] dark:bg-zinc-600 dark:text-red-400;
 }
 
 .logout-item svg {
-  color: #dc2626;
+  @apply text-[#dc2626] dark:text-red-400;
 }
 
 .logout-item:hover {
-  background: #fef2f2;
-  color: #b91c1c;
+  @apply bg-[#fef2f2] text-[#b91c1c] dark:bg-red-900/20 dark:text-red-300;
 }
 
 .logout-item:hover svg {
-  color: #b91c1c;
+  @apply text-[#b91c1c] dark:text-red-300;
 }
