@@ -392,7 +392,7 @@
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
   },
-"PRODUCT": {
+  "PRODUCT": {
     "FILTERS": "الفلاتر",
     "CLEAR_ALL": "مسح الكل",
     "FILTER_PRODUCTS": "فلترة المنتجات",
@@ -421,7 +421,7 @@
     "Graduation": "تخرج",
     "FatherDay": "عيد الأب"
   },
-    "CART": {
+  "CART": {
     "TITLE": "سلة التسوق",
     "PRODUCTS": "المنتجات",
     "CLEAR_CART": "مسح السلة",
@@ -444,10 +444,26 @@
     "PRODUCT_OUT_OF_STOCK": "المنتج غير متوفر في المخزون"
   },
   "SETTINGS": {
+    "TITLE": "إعدادات الحساب",
     "SIDEBAR": {
       "PROFILE": "الملف الشخصي",
       "CHANGE_PASSWORD": "تغيير كلمة المرور",
       "LOGOUT": "تسجيل الخروج"
+    },
+    "PROFILE": {
+      "UPLOAD_PHOTO": "تحميل صورة",
+      "IMAGE_INFO": "يمكنك تحميل صورة بصيغة .jpg أو .png أو .gif بحجم أقصى 5 ميجابايت.",
+      "FIRST_NAME": "الاسم الأول",
+      "LAST_NAME": "الاسم الأخير",
+      "EMAIL": "البريد الإلكتروني",
+      "PHONE": "الهاتف",
+      "GENDER": "النوع",
+      "DELETE_MY_ACCOUNT": "حذف حسابي",
+      "SAVE_CHANGES": "حفظ التغييرات",
+      "DELETE_ACCOUNT_CONFIRMATION": "هل أنت متأكد أنك تريد حذف حسابك؟",
+      "DELETE_ACCOUNT_PERMANENT": "هذا الإجراء دائم ولا يمكن التراجع عنه.",
+      "DELETE_ACCOUNT": "نعم، حذف حسابي",
+      "DELETE_ACCOUNT_CANCEL": "لا، ليس الآن"
     }
   }
 }
