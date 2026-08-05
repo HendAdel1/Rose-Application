@@ -4,15 +4,7 @@
 @import "./app/styles/base/tailwind.css";
 
 
-@layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-}
+
 
 
 

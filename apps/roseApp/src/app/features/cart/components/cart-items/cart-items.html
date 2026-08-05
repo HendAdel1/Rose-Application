@@ -71,7 +71,6 @@
           <div class="quantity-control">
             <button
               class="qty-btn bg-maroon-50"
-              [disabled]="item.quantity <= 1"
               (click)="updateQuantity(item.id, -1)"
             >
               <svg lucideMinus [size]="20"></svg>
@@ -85,7 +84,6 @@
             ></lib-custom-input>
             <button
               class="qty-btn bg-maroon-50"
-              [disabled]="item.quantity >= item.stock"
               (click)="updateQuantity(item.id, 1)"
             >
               <svg lucidePlus [size]="20"></svg>
@@ -99,7 +97,7 @@
   }
 
   <div class="cart-footer">
-    <app-custom-button variant="primary" (btnClick)="continueShopping()">
+    <app-custom-button variant="primary">
       <svg lucideArrowLeft [size]="16" class="rtl:rotate-180"></svg>
       {{ 'CART.CONTINUE_SHOPPING' | translate }}
     </app-custom-button>
