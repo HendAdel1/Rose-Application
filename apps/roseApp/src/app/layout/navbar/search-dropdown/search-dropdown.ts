@@ -10,7 +10,7 @@ import {
   buildProductImageUrl,
   getProductCurrentPrice,
 } from '../../../shared/products/utils/product-card.utils';
-import { TitleSegment } from './title-segment.model';
+import { TitleSegment } from './models/title-segment.model';
 
 @Component({
   selector: 'app-navbar-search-dropdown',
