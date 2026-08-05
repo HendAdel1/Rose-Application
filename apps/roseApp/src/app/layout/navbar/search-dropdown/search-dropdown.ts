@@ -10,11 +10,7 @@ import {
   buildProductImageUrl,
   getProductCurrentPrice,
 } from '../../../shared/products/utils/product-card.utils';
-
-export interface TitleSegment {
-  text: string;
-  matched: boolean;
-}
+import { TitleSegment } from './title-segment.model';
 
 @Component({
   selector: 'app-navbar-search-dropdown',
