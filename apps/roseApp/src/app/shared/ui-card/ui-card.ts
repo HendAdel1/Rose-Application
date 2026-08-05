@@ -7,6 +7,7 @@ import {
   LucideStar,
 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
+import { WishlistActionsService } from '../../features/wishlist/services/wishlist-actions.service';
 import { UiCardProduct } from './ui-card-product.model';
 import { CartService } from '../../core/services/cart.service';
 import { AuthSessionService } from '@org/auth-data-access';
@@ -24,6 +25,8 @@ import { AuthSessionService } from '@org/auth-data-access';
   templateUrl: './ui-card.html',
 })
 export class UiCard {
+  private readonly wishlistActions = inject(WishlistActionsService);
+
   product = input<UiCardProduct | null>(null);
   imageAspect = input('aspect-[1/0.9]');
 
@@ -58,6 +61,12 @@ export class UiCard {
 
   isStarFilled(rating: number, star: number): boolean {
     return star <= Math.round(rating);
+  }
+
+  addToWishlist(event: Event, product: UiCardProduct): void {
+    event.stopPropagation();
+    this.wishlistActions.addProduct(product);
+    this.wishlistClick.emit();
   }
 
   onImageError(event: Event): void {

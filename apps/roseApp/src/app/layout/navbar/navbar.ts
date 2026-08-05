@@ -5,10 +5,11 @@ import {
   input,
   output,
   signal,
+  DestroyRef,
+  effect,
 } from '@angular/core';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { CartService } from '../../core/services/cart.service';
 import {
   ActivatedRoute,
@@ -83,6 +84,8 @@ interface NavItem {
 export class Navbar {
   private readonly i18n = inject(SharedI18nService);
   private readonly authSession = inject(AuthSessionService);
+  private readonly wishlistService = inject(WishlistService);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   readonly layoutRoute = inject(ActivatedRoute);
 
@@ -95,13 +98,14 @@ export class Navbar {
   readonly searchOpen = signal(false);
   readonly menuOpen = signal(false);
   readonly profileMenuOpen = signal(false);
-  
   private readonly cartService = inject(CartService);
   readonly cartItemCount = toSignal(this.cartService.cartItemCount, { initialValue: 0 });
-
+  readonly wishlistCount = this.wishlistService.count;
   readonly languageLabel = computed(() =>
     this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية',
   );
+
+  private wishlistLoaded = false;
 
   readonly navItems: NavItem[] = [
     { labelKey: 'NAV.HOME', route: [''], icon: 'home', exact: true },
@@ -111,6 +115,29 @@ export class Navbar {
     { labelKey: 'NAV.CONTACT', route: ['contact'], icon: 'contact' },
     { labelKey: 'NAV.ABOUT', route: ['about'], icon: 'about' },
   ];
+
+  constructor() {
+    effect(() => {
+      if (!this.isAuthenticated()) {
+        this.wishlistLoaded = false;
+        this.wishlistService.setItems([]);
+        return;
+      }
+
+      if (this.wishlistLoaded) {
+        return;
+      }
+
+      this.wishlistLoaded = true;
+      this.wishlistService
+        .loadWishlist()
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => EMPTY),
+        )
+        .subscribe();
+    });
+  }
 
   onSearchChange(value: string): void {
     this.searchTerm.set(value);

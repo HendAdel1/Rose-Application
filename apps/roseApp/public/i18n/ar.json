@@ -1,4 +1,95 @@
 {
+  "AUTH": {
+    "LOGIN_TOAST": {
+      "SUCCESS_TITLE": "تم تسجيل الدخول",
+      "SUCCESS": "تم تسجيل الدخول بنجاح."
+    },
+    "SWITCH_LANGUAGE": "تغيير اللغة",
+    "GIFTS_COVER": "هدايا Rose",
+    "COMMON": {
+      "EMAIL": "البريد الإلكتروني",
+      "USERNAME": "اسم المستخدم",
+      "PASSWORD": "كلمة المرور",
+      "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+      "CONTINUE": "متابعة",
+      "NEXT": "التالي",
+      "SENDING": "جارٍ الإرسال..."
+    },
+    "LOGIN": {
+      "WELCOME": "مرحبًا بعودتك!",
+      "FORGOT_PASSWORD": "هل نسيت كلمة المرور؟",
+      "REMEMBER_ME": "تذكرني",
+      "SUBMIT": "تسجيل الدخول"
+    },
+    "FORGOT": {
+      "TITLE": "نسيت كلمة المرور؟",
+      "DESCRIPTION": "لا تقلق، سنرسل لك تعليمات تساعدك على إعادة تعيينها.",
+      "SUCCESS": "تم إرسال تعليمات إعادة تعيين كلمة المرور إلى بريدك الإلكتروني."
+    },
+    "RESET": {
+      "TITLE": "إنشاء كلمة مرور جديدة",
+      "DESCRIPTION": "اختر كلمة مرور قوية لحماية حسابك.",
+      "NEW_PASSWORD": "كلمة المرور الجديدة",
+      "SUBMIT": "إعادة تعيين كلمة المرور",
+      "INVALID_LINK": "رابط إعادة التعيين غير صالح أو انتهت صلاحيته. اطلب رابطًا جديدًا.",
+      "FAILED": "فشلت إعادة التعيين",
+      "SUCCESS_TITLE": "تمت إعادة تعيين كلمة المرور",
+      "SUCCESS": "تمت إعادة تعيين كلمة المرور بنجاح."
+    },
+    "RESET_LINK": {
+      "TITLE": "تم إرسال رابط إعادة التعيين",
+      "SENT_TO": "أرسلنا رابط إعادة تعيين كلمة المرور إلى:",
+      "INSTRUCTIONS": "تحقق من بريدك واتبع التعليمات لإعادة تعيين كلمة المرور.",
+      "SPAM_NOTE": "إذا لم تجد الرسالة خلال دقائق، تحقق من مجلد الرسائل غير المرغوب فيها.",
+      "RESEND_IN": "إعادة الإرسال خلال ({{seconds}} ث)",
+      "RESEND": "لم تصلك الرسالة؟ أعد إرسال الرابط"
+    },
+    "REGISTER": {
+      "TITLE": "إنشاء حساب",
+      "VERIFY_IDENTITY": "تأكيد الهوية",
+      "OTP_SENT_TO": "أدخل الرمز المكون من {{length}} أرقام والمرسل إلى {{email}}.",
+      "VERIFY_CODE": "تأكيد الرمز",
+      "CODE_EXPIRES": "ستنتهي صلاحية الرمز خلال:",
+      "CODE_EXPIRED": "انتهت صلاحية الرمز. اطلب رمزًا جديدًا.",
+      "RESEND_ACTIVE": "يمكنك إعادة الإرسال خلال {{seconds}} ث",
+      "RESEND_OTP": "إعادة إرسال الرمز",
+      "OTP_RESENT": "تم إرسال رمز أمان جديد.",
+      "FAMILY_TITLE": "انضم إلى عائلتنا!",
+      "FIRST_NAME": "الاسم الأول",
+      "LAST_NAME": "اسم العائلة",
+      "USERNAME": "اسم المستخدم",
+      "GENDER": "النوع",
+      "SELECT_GENDER": "اختر النوع",
+      "MALE": "ذكر",
+      "FEMALE": "أنثى",
+      "CREATE_ACCOUNT": "إنشاء حساب",
+      "SUCCESS_TITLE": "تم إنشاء الحساب",
+      "SUCCESS": "تم إنشاء حسابك بنجاح."
+    },
+    "LINKS": {
+      "NO_ACCOUNT": "ليس لديك حساب بعد؟",
+      "CREATE_ACCOUNT": "أنشئ حسابًا الآن!",
+      "HAVE_ACCOUNT": "لديك حساب بالفعل؟",
+      "REMEMBER_PASSWORD": "تذكرت كلمة المرور؟",
+      "BACK_TO_LOGIN": "العودة لتسجيل الدخول"
+    },
+    "ERRORS": {
+      "EMAIL_REQUIRED": "البريد الإلكتروني مطلوب",
+      "EMAIL_INVALID": "أدخل بريدًا إلكترونيًا صحيحًا",
+      "PASSWORD_REQUIRED": "كلمة المرور مطلوبة",
+      "PASSWORD_STRENGTH": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتتضمن حرفًا كبيرًا وصغيرًا ورقمًا ورمزًا خاصًا",
+      "CONFIRM_PASSWORD_REQUIRED": "يرجى تأكيد كلمة المرور",
+      "PASSWORD_MISMATCH": "كلمتا المرور غير متطابقتين",
+      "FIRST_NAME_REQUIRED": "الاسم الأول مطلوب",
+      "LAST_NAME_REQUIRED": "اسم العائلة مطلوب",
+      "USERNAME_REQUIRED": "اسم المستخدم مطلوب",
+      "USERNAME_MIN": "يجب ألا يقل اسم المستخدم عن 3 أحرف",
+      "USERNAME_MAX": "يجب ألا يزيد اسم المستخدم عن 20 حرفًا",
+      "GENDER_REQUIRED": "يرجى اختيار النوع",
+      "OTP_REQUIRED": "يرجى إدخال جميع أرقام رمز التحقق.",
+      "OTP_COMPLETE": "أدخل رمز التحقق كاملًا."
+    }
+  },
   "NAV": {
     "ACCOUNT": "الحساب",
     "ADDRESSES": "العناوين",
@@ -181,6 +272,109 @@
       "OUT_OF_STOCK": "غير متوفر"
     }
   },
+  "WISHLIST": {
+    "TITLE": "المفضلة",
+    "LOADING": "جاري تحميل المفضلة...",
+    "ITEM_COUNT": "{{count}} عناصر",
+    "CLEAR": "مسح المفضلة",
+    "EMPTY_MESSAGE": "قائمة المفضلة فارغة، هل تريد حفظ هدية مميزة؟",
+    "EMPTY_IMAGE_ALT": "قائمة مفضلة فارغة",
+    "CONTINUE_SHOPPING": "متابعة التسوق",
+    "IN_STOCK": "متوفر",
+    "OUT_OF_STOCK": "غير متوفر",
+    "RATINGS_COUNT": "({{count}} تقييمات)",
+    "REMOVE_ITEM": "حذف من المفضلة",
+    "ADD_TO_CART": "أضف إلى السلة",
+    "EXPLORE_SIMILAR": "استكشف منتجات مشابهة",
+    "ADD_SUCCESS": "تمت إضافة المنتج إلى المفضلة.",
+    "ALREADY_EXISTS": "هذا المنتج موجود بالفعل في المفضلة.",
+    "REMOVE_SUCCESS": "تم حذف المنتج من المفضلة.",
+    "CLEAR_SUCCESS": "تم مسح المفضلة.",
+    "CLEAR_DIALOG_LABEL": "تأكيد مسح المفضلة",
+    "CLEAR_CONFIRMATION_MESSAGE": "هل أنت متأكد أنك تريد مسح المفضلة؟",
+    "CANCEL": "إلغاء",
+    "CONFIRM": "تأكيد"
+  },
+  "ADDRESSES": {
+    "SHIPPING_TITLE": "عنوان الشحن",
+    "MY_ADDRESSES": "عناويني",
+    "LIST_LABEL": "عناوين الشحن المحفوظة",
+    "LOADING": "جاري تحميل العناوين...",
+    "EMPTY": "لا توجد عناوين محفوظة حتى الآن.",
+    "EDIT": "تعديل العنوان",
+    "DELETE": "حذف العنوان",
+    "OR": "أو",
+    "ADD_NEW": "إضافة عنوان جديد",
+    "NEXT": "التالي",
+    "CLOSE": "إغلاق",
+    "CANCEL": "إلغاء",
+    "CONFIRM": "تأكيد",
+    "DELETE_DIALOG_LABEL": "تأكيد حذف العنوان",
+    "DELETE_CONFIRMATION": "هل أنت متأكد أنك تريد حذف هذا العنوان؟",
+    "SUMMARY": {
+      "TITLE": "الملخص",
+      "COUPON": "كود الخصم",
+      "APPLY": "تطبيق الخصم",
+      "NO_COUPONS": "لا توجد كوبونات مطبقة",
+      "SUBTOTAL": "الإجمالي الفرعي",
+      "DISCOUNT": "خصم",
+      "TOTAL": "الإجمالي"
+    },
+    "MODAL": {
+      "ADD_TITLE": "إضافة عنوان جديد",
+      "EDIT_TITLE": "تحديث بيانات العنوان",
+      "DETAILS": "أدخل تفاصيل العنوان",
+      "LABEL": "نوع العنوان",
+      "LABEL_PLACEHOLDER": "المنزل، العمل، العائلة...",
+      "CITY": "المدينة",
+      "CITY_PLACEHOLDER": "أدخل اسم المدينة",
+      "ADDRESS": "العنوان",
+      "ADDRESS_PLACEHOLDER": "أدخل العنوان بالكامل",
+      "PHONE": "الهاتف",
+      "PHONE_PLACEHOLDER": "رقم الهاتف",
+      "FIND_LOCATION": "حدد موقعك",
+      "MY_LOCATION": "تحديد موقعي",
+      "MAP_LOADING": "جاري تحميل الخريطة...",
+      "MAP_ERROR": "تعذر تحميل الخريطة. حاول مرة أخرى.",
+      "ADD_ACTION": "إضافة العنوان",
+      "UPDATE_ACTION": "تحديث العنوان"
+    },
+    "ERRORS": {
+      "REQUIRED": "هذا الحقل مطلوب",
+      "PHONE": "أدخل رقم هاتف مصري صحيح"
+    }
+  },
+  "PAYMENT": {
+    "BACK": "رجوع",
+    "TITLE": "طريقة الدفع",
+    "CHECKOUT": "إتمام الدفع",
+    "CASH": {
+      "TITLE": "الدفع عند الاستلام",
+      "DESCRIPTION": "ستدفع نقدا عند توصيل طلبك."
+    },
+    "CARD": {
+      "TITLE": "بطاقة ائتمان",
+      "DESCRIPTION": "سيتم تحويلك بأمان إلى Stripe لإكمال الدفع."
+    },
+    "SUMMARY": {
+      "TITLE": "الملخص",
+      "COUPON": "كود الخصم",
+      "APPLY": "تطبيق الخصم",
+      "NO_COUPONS": "لا توجد كوبونات مطبقة",
+      "SUBTOTAL": "الإجمالي الفرعي",
+      "TOTAL": "الإجمالي"
+    },
+    "FEEDBACK": {
+      "SELECT_ADDRESS": "برجاء اختيار عنوان الشحن أولا.",
+      "CREATE_ORDER_ERROR": "تعذر إنشاء الطلب.",
+      "ORDER_SUCCESS": "تم إنشاء الطلب بنجاح."
+    }
+  },
+  "ORDER_CONFIRMATION": {
+    "TITLE": "تم إنشاء الطلب بنجاح",
+    "DESCRIPTION": "شكرا للتسوق من Rose. تم إنشاء طلبك وتفريغ سلة التسوق.",
+    "CONTINUE_SHOPPING": "متابعة التسوق"
+  },
   "features": [
     {
       "title": "شحن مجاني",
@@ -202,5 +396,63 @@
   "GALLERY": {
     "EYEBROW": "المعرض",
     "TITLE": "شاهد معرضنا المميز"
+  },
+"PRODUCT": {
+    "FILTERS": "الفلاتر",
+    "CLEAR_ALL": "مسح الكل",
+    "FILTER_PRODUCTS": "فلترة المنتجات",
+    "ACTIVE": "نشط",
+    "SHOW_RESULTS": "عرض النتائج",
+    "RESET_ALL": "إعادة تعيين الكل",
+    "CATEGORY": "القسم",
+    "SELECT_CATEGORY": "اختر القسم",
+    "OCCASION": "المناسبة",
+    "SELECT_OCCASION": "اختر المناسبة",
+    "RATING": "التقييم",
+    "SELECT_RATING": "اختر التقييم",
+    "PRICE": "السعر",
+    "FROM": "من",
+    "TO": "إلى",
+    "RESET": "إعادة تعيين"
+  },
+  "CATEGORIES": {
+    "Cards": "كروت هدايا",
+    "Chocolate": "شوكولاتة",
+    "Flowers": "زهور"
+  },
+  "OCCASIONS": {
+    "Wedding": "حفل زفاف",
+    "Apology": "اعتذار",
+    "Graduation": "تخرج",
+    "FatherDay": "عيد الأب"
+  },
+    "CART": {
+    "TITLE": "سلة التسوق",
+    "PRODUCTS": "المنتجات",
+    "CLEAR_CART": "مسح السلة",
+    "EMPTY_MESSAGE": "سلة التسوق فارغة، هل ترغب في التسوق؟",
+    "REMOVE": "إزالة",
+    "RATING": "التقييم",
+    "RATINGS": "تقييمات",
+    "CONTINUE_SHOPPING": "متابعة التسوق",
+    "SUMMARY": {
+      "TITLE": "الملخص",
+      "COUPON_PLACEHOLDER": "رمز الكوبون",
+      "APPLY_COUPON": "تطبيق الكوبون",
+      "NO_COUPONS": "لم يتم تطبيق أي كوبونات",
+      "SUBTOTAL": "المجموع الفرعي",
+      "TOTAL": "الإجمالي",
+      "CHECKOUT": "إتمام الشراء"
+    },
+    "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك",
+    "NO_PRODUCTS_LIKE": "لا توجد اقتراحات للمنتجات حالياً.",
+    "PRODUCT_OUT_OF_STOCK": "المنتج غير متوفر في المخزون"
+  },
+  "SETTINGS": {
+    "SIDEBAR": {
+      "PROFILE": "الملف الشخصي",
+      "CHANGE_PASSWORD": "تغيير كلمة المرور",
+      "LOGOUT": "تسجيل الخروج"
+    }
   }
 }

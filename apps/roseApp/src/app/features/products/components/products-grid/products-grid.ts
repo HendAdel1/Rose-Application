@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { LoadingService } from '@org/auth-data-access';
@@ -10,6 +10,8 @@ import { ProductsService } from '../../../../shared/products/services/products.s
 import { toUiCardProduct } from '../../../../shared/products/utils/product-card.utils';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
 import { UiCardProduct } from '../../../../shared/ui-card/ui-card-product.model';
+
+
 
 @Component({
   selector: 'app-products-grid',
@@ -24,7 +26,71 @@ export class ProductsGrid {
   private readonly productsService = inject(ProductsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  readonly selectedCategoryId = signal<string | null>(null);
+  readonly selectedOccasionId = signal<string | null>(null);
+  readonly selectedRating = signal<number | null>(null);
+  readonly activeCategoryId = input<string | null>(null);
+  readonly activeOccasionId = input<string | null>(null);
+  readonly activeRating = input<number | null>(null);
+  readonly minPrice = input<number | null>(null);
+  readonly maxPrice = input<number | null>(null);
 
+  readonly filteredProducts = computed(() => {
+    const activeId = this.activeCategoryId();
+    const OccasionId = this.activeOccasionId();
+    const rating = this.activeRating();
+
+  const minP = this.minPrice() !== null ? Number(this.minPrice()) : null;
+  const maxP = this.maxPrice() !== null ? Number(this.maxPrice()) : null;
+  let filtered = [...(this.products() || [])];
+const isValidPriceRange =
+      (minP === null || minP >= 0) &&
+      (maxP === null || maxP >= 0) &&
+      (minP === null || maxP === null || minP <= maxP);
+
+    if (isValidPriceRange) {
+if (minP !== null && !isNaN(minP)) {
+   filtered = filtered.filter(p => {
+      const price = parseFloat(p.price) || 0;
+      return price >= minP;
+    });
+  }
+
+  if (maxP !== null && !isNaN(maxP)) {
+    filtered= filtered.filter(p => {
+      const price = parseFloat(p.price) || 0;
+      return price <= maxP;
+    });
+  }
+    }
+    if (activeId && activeId !== 'Cards') {
+    filtered = filtered.filter(product =>
+      product.category?.id === activeId ||
+      product.categoryId === activeId
+    );
+  }
+
+if (OccasionId) {
+  filtered = filtered.filter(product => {
+      return product.occasions?.some((o: any) => {
+        return o.id === OccasionId ||
+               o.occasionId === OccasionId ||
+               o.occasion?.id === OccasionId ||
+               o === OccasionId;
+      });
+    });
+  }
+  if (rating && rating > 0) {
+    filtered = filtered.filter(product => {
+        const productRating = product.rating ?? product.ratings ?? 0;
+        return Math.floor(productRating) >= rating;
+      });
+    }
+
+     return filtered;
+
+
+  });
   readonly loading = inject(LoadingService);
   readonly products = signal<ProductApiItem[]>([]);
   readonly page = signal(1);
@@ -32,6 +98,15 @@ export class ProductsGrid {
   readonly totalRecords = signal(0);
 
   readonly paginatorFirst = computed(() => (this.page() - 1) * this.limit());
+  readonly totalPages = computed(() =>
+    Math.ceil(this.totalRecords() / this.limit()),
+  );
+  readonly showPaginator = computed(
+    () =>
+      !this.loading.isLoading() &&
+      this.products().length > 0 &&
+      this.totalPages() > 1,
+  );
 
   constructor() {
     this.loadProducts();
@@ -68,11 +143,31 @@ export class ProductsGrid {
     console.log('Quick add to cart', product.id);
   }
 
-  addToWishlist(product: ProductApiItem): void {
-    console.log('Add to wishlist', product.id);
-  }
-
   viewProduct(product: ProductApiItem): void {
     void this.router.navigate(['/roseApp/products', product.id]);
+  }
+  onCategorySelected(categoryId: string): void {
+    this.selectedCategoryId.set(categoryId);
+  }
+    onOccasionSelected(occasionId: string): void {
+    this.selectedOccasionId.set(occasionId);
+  }
+  onRatingSelected(rating: number): void {
+    this.selectedRating.set(rating);
+  }
+
+  onFilterCategoryCleared(): void {
+    this.selectedCategoryId.set(null);
+  }
+    onFilterOccasionCleared(): void {
+    this.selectedOccasionId.set(null);
+  }
+  onFilterRatingCleared(): void {
+    this.selectedRating.set(null);
+  }
+  onFilterCleared(): void {
+    this.selectedCategoryId.set(null);
+    this.selectedOccasionId.set(null);
+    this.selectedRating.set(0);
   }
 }
