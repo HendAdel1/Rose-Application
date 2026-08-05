@@ -3,6 +3,8 @@ import {
   Component,
   OnInit,
   signal,
+  inject,
+  DestroyRef,
 } from '@angular/core';
 import {
   FormControl,
@@ -12,18 +14,12 @@ import {
 } from '@angular/forms';
 import { LucideCloudUpload, LucideTrash2, LucideX } from '@lucide/angular';
 import { CustomInput } from '@org/sharedComponents';
-
-
 import { CustomButton } from '../../../../shared/custom-button/custom-button';
 import { TranslatePipe } from '@ngx-translate/core';
-
-interface ProfileFormValue {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  gender: 'male' | 'female' | '';
-}
+import { ProfileService, UserProfile, UpdateProfileRequest } from '../../services/profile.service';
+import { AuthSessionService } from '@org/auth-data-access';
+import { ToastrService } from 'ngx-toastr';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-profile-settings',
@@ -35,17 +31,22 @@ interface ProfileFormValue {
     LucideTrash2,
     LucideX,
     TranslatePipe,
-
   ],
   templateUrl: './profile-settings.html',
   styleUrl: './profile-settings.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileSettings implements OnInit {
+  private readonly profileService = inject(ProfileService);
+  private readonly authSession = inject(AuthSessionService);
+  private readonly toastr = inject(ToastrService);
+  private readonly destroyRef = inject(DestroyRef);
+
   readonly avatarUrl = signal<string | null>('');
   readonly photoError = signal<string | null>(null);
   readonly isDeleteDialogOpen = signal(false);
   readonly isDeleting = signal(false);
+  readonly isLoading = signal(false);
 
   readonly profileForm = new FormGroup({
     firstName: new FormControl('', {
@@ -69,15 +70,46 @@ export class ProfileSettings implements OnInit {
   });
 
   ngOnInit(): void {
+    this.profileForm.controls.gender.disable();
+    this.loadProfile();
+  }
+
+  private loadProfile(): void {
+    this.isLoading.set(true);
+    this.profileService.getProfile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.isLoading.set(false);
+          if (res.status && res.payload?.user) {
+            this.updateForm(res.payload.user);
+          }
+        },
+        error: () => {
+          this.isLoading.set(false);
+          this.toastr.error('Failed to load profile data');
+          
+          // Fallback to auth session user if API fails
+          const user = this.authSession.currentUser();
+          if (user) {
+            this.updateForm(user as any);
+          }
+        }
+      });
+  }
+
+  private updateForm(user: UserProfile): void {
     this.profileForm.patchValue({
-      firstName: 'Jonathan',
-      lastName: 'Adrian',
-      email: 'jonathan@gmail.com',
-      phone: '1012345678',
-      gender: 'male',
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      email: user.email || '',
+      phone: user.phone || '',
+      gender: user.gender?.toLowerCase() as any || '',
     });
 
-    this.profileForm.controls.gender.disable();
+    if (user.photo) {
+      this.avatarUrl.set(user.photo);
+    }
   }
 
   getInitial(): string {
@@ -126,8 +158,37 @@ export class ProfileSettings implements OnInit {
       return;
     }
 
-    const value = this.profileForm.getRawValue() as ProfileFormValue;
-    console.log('Profile save:', value);
+    const value = this.profileForm.getRawValue();
+    const updateData: UpdateProfileRequest = {
+      firstName: value.firstName,
+      lastName: value.lastName,
+      phone: value.phone,
+      gender: value.gender?.toUpperCase(),
+    };
+
+    this.profileService.updateProfile(updateData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          if (res.status) {
+            this.toastr.success('Profile updated successfully');
+            
+            // Update the auth session with new user data
+            const currentToken = this.authSession.token();
+            if (currentToken) {
+               this.authSession.setSession({
+                 user: res.payload.user as any,
+                 token: currentToken
+               });
+            }
+          } else {
+             this.toastr.error('Failed to update profile');
+          }
+        },
+        error: () => {
+          this.toastr.error('Failed to update profile');
+        }
+      });
   }
 
   openDeleteDialog(): void {
@@ -149,3 +210,4 @@ export class ProfileSettings implements OnInit {
     }, 1000);
   }
 }
+
