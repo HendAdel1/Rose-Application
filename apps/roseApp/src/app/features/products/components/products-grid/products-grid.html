@@ -9,10 +9,9 @@
     </p>
   } @else {
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      @for (product of products(); track product.id) {
+      @for (product of filteredProducts(); track product.id) {
         <app-ui-card
           [product]="toCardProduct(product)"
-          (wishlistClick)="addToWishlist(product)"
           (viewClick)="viewProduct(product)"
           (cartClick)="quickAddToCart(product)"
         />
@@ -20,21 +19,23 @@
     </div>
   }
 
-  <hr class="border-zinc-100 dark:border-zinc-700" />
+  @if (showPaginator()) {
+    <hr class="border-zinc-100 dark:border-zinc-700" />
 
-  <nav
-    class="flex justify-center pt-1"
-    [attr.aria-label]="'PRODUCTS.PAGINATION' | translate"
-  >
-    <p-paginator
-      class="products-paginator"
-      [first]="paginatorFirst()"
-      [rows]="limit()"
-      [totalRecords]="totalRecords()"
-      [pageLinkSize]="3"
-      [showFirstLastIcon]="true"
-      [alwaysShow]="true"
-      (onPageChange)="onPageChange($event)"
-    />
-  </nav>
+    <nav
+      class="flex justify-center pt-1"
+      [attr.aria-label]="'PRODUCTS.PAGINATION' | translate"
+    >
+      <p-paginator
+        class="products-paginator"
+        [first]="paginatorFirst()"
+        [rows]="limit()"
+        [totalRecords]="totalRecords()"
+        [pageLinkSize]="3"
+        [showFirstLastIcon]="true"
+        [alwaysShow]="false"
+        (onPageChange)="onPageChange($event)"
+      />
+    </nav>
+  }
 </div>

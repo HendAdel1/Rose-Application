@@ -1,4 +1,217 @@
+<div class="md:hidden w-full mb-4 flex items-center justify-between gap-3">
+  <button
+    type="button"
+    (click)="isOpen.set(true)"
+    class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-sm text-zinc-800 dark:text-zinc-100 font-semibold text-sm hover:bg-zinc-50 dark:hover:bg-maroon-100 transition-all">
+    <svg lucideSlidersHorizontal class="w-4 h-4 text-maroon-600 dark:text-soft-pink-400"></svg>
+    <span>{{ 'PRODUCT.FILTERS' | translate }}</span>
+
+    @if (activeFiltersCount() > 0) {
+      <span class="ml-1 px-2 py-0.5 text-xs font-bold bg-maroon-600 text-white rounded-full">
+        {{ activeFiltersCount() }}
+      </span>
+    }
+  </button>
+
+  @if (activeFiltersCount() > 0) {
+    <button
+      type="button"
+      (click)="resetFilter()"
+      class="text-xs font-medium text-red-600 dark:text-red-400 underline hover:text-red-800">
+      {{ 'PRODUCT.CLEAR_ALL' | translate }}
+    </button>
+  }
+</div>
+
+@if (isOpen()) {
+  <div
+    (click)="isOpen.set(false)"
+    (keyup.escape)="isOpen.set(false)"
+    role="button"
+    tabindex="0"
+    aria-label="Close filters"
+    class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 md:hidden transition-opacity">
+  </div>
+}
+
 <aside
-  class="min-h-112 w-70 shrink-0"
-  [attr.aria-label]="'PRODUCTS.FILTERS_ARIA' | translate"
-></aside>
+  [class.translate-x-0]="isOpen()"
+  [class.-translate-x-full]="!isOpen()"
+  class="fixed inset-y-0 left-0 z-50 w-[85%] max-w-xs bg-white dark:bg-zinc-800 p-5 shadow-2xl transition-transform duration-300 ease-in-out overflow-y-auto
+         md:static md:translate-x-0 md:w-60 md:p-0 md:bg-transparent md:dark:bg-transparent md:shadow-none md:overflow-visible flex flex-col justify-between">
+
+  <div>
+    <!-- Mobile Header -->
+    <div class="flex items-center justify-between pb-4 mb-4 border-b border-zinc-200 dark:border-zinc-700 md:hidden">
+      <div class="flex items-center gap-2">
+        <h2 class="text-lg font-bold text-zinc-800 dark:text-white">{{ 'PRODUCT.FILTER_PRODUCTS' | translate }}</h2>
+        @if (activeFiltersCount() > 0) {
+          <span class="px-2 py-0.5 text-xs font-semibold bg-maroon-100 text-maroon-700 dark:bg-soft-pink-900 dark:text-soft-pink-200 rounded-full">
+            {{ activeFiltersCount() }} {{ 'PRODUCT.ACTIVE' | translate }}
+          </span>
+        }
+      </div>
+      <button type="button" (click)="isOpen.set(false)" class="p-1 text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-white">
+        <svg lucideX class="w-6 h-6"></svg>
+      </button>
+    </div>
+
+    <!-- 1. Category Filter -->
+    <div class="filter-section">
+      <div class="flex items-center justify-between gap-5 mb-3">
+        <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">{{ 'PRODUCT.CATEGORY' | translate }}</h3>
+        <div class="filter-actions">
+          @if (activeCategoryId()) {
+            <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetCategoryFilter()">
+              <svg lucideX class="w-4 h-4"></svg> {{ 'PRODUCT.RESET' | translate }}
+            </button>
+          } @else {
+            <span class="text-zinc-400 font-sarabun font-normal text-xs italic">{{ 'PRODUCT.SELECT_CATEGORY' | translate }}</span>
+          }
+        </div>
+      </div>
+
+      <ul class="flex flex-col gap-2 w-full max-h-48 overflow-y-auto no-scrollbar">
+        @for (category of categories(); track category.id) {
+          <li class="w-full">
+            <button
+              type="button"
+              class="w-full flex items-center gap-3 pe-3 font-sarabun font-medium text-sm text-left rounded-lg transition-all group p-1"
+              [ngClass]="category.id === activeCategoryId()
+                ? 'bg-maroon-50 text-zinc-700 dark:bg-soft-pink-100 dark:text-zinc-600'
+                : 'bg-zinc-100 dark:bg-zinc-700/60 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-600'"
+              (click)="selectCategory(category.id)"
+            >
+              <img class="w-9 h-9 p-2 rounded-md shrink-0 transition-colors"
+                [ngClass]="category.id === activeCategoryId() ? 'text-white bg-maroon-600 dark:bg-soft-pink-300' : 'text-white bg-zinc-600 dark:bg-zinc-500 dark:text-zinc-200'"
+                [src]="category.image" [alt]="category.title">
+
+              <span class="font-semibold tracking-wide truncate">{{ category.title }}</span>
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <!-- 2. Occasion Filter -->
+    <div class="w-full mt-6">
+      <div class="flex items-center justify-between gap-5 mb-3">
+        <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">{{ 'PRODUCT.OCCASION' | translate }}</h3>
+        <div class="filter-actions">
+          @if (activeOccasionId()) {
+            <button type="button" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 transition-all p-0 hover:text-red-800" (click)="resetOccasionFilter()">
+              <svg lucideX class="w-4 h-4"></svg> {{ 'PRODUCT.RESET' | translate }}
+            </button>
+          } @else {
+            <span class="text-zinc-400 font-sarabun font-normal text-xs italic">{{ 'PRODUCT.SELECT_OCCASION' | translate }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2.5 w-full max-h-[260px] overflow-y-auto no-scrollbar">
+        @for (occasion of occasions(); track occasion.id) {
+          <button
+            type="button"
+            class="occasion-card relative w-full h-[68px] rounded-lg overflow-hidden transition-all text-center flex items-center justify-center group"
+            [ngClass]="occasion.id === activeOccasionId() ? 'ring-2 ring-maroon-600 scale-[0.98]' : ''"
+            (click)="selectOccasion(occasion.id)"
+          >
+            <img [src]="occasion.image" [alt]="occasion.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+            <div [class.bg-maroon-900]="occasion.id === activeOccasionId()" class="absolute inset-0 bg-black/50 transition-colors"></div>
+            <span class="relative z-10 text-white font-sarabun font-semibold text-xs tracking-wide px-2 drop-shadow-md">
+              {{ occasion.title }}
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- 3. Rating Filter -->
+    <div class="w-full mt-6">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">{{ 'PRODUCT.RATING' | translate }}</h3>
+        @if (activeRating()) {
+          <button type="button" (click)="resetRatingFilter()" class="text-sm text-red-500 hover:text-red-700 flex items-center gap-1 transition-colors">
+            <svg lucideX class="w-4 h-4"></svg> {{ 'PRODUCT.RESET' | translate }}
+          </button>
+        } @else {
+          <span class="text-zinc-400 font-sarabun font-normal text-xs italic">{{ 'PRODUCT.SELECT_RATING' | translate }}</span>
+        }
+      </div>
+
+      <p-rating
+        [ngModel]="activeRating()"
+        (ngModelChange)="activeRating.set($event)"
+        styleClass="flex gap-1 text-amber-400 text-2xl">
+      </p-rating>
+    </div>
+
+    <!-- 4. Price Filter -->
+    <div class="filter-section mt-6">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-zinc-800 font-sarabun font-semibold text-lg dark:text-white">{{ 'PRODUCT.PRICE' | translate }}</h3>
+        @if (minPrice() || maxPrice()) {
+          <button type="button" (click)="resetPrice()" class="border-0 text-red-600 font-inter text-sm font-normal flex items-center gap-1 p-0 hover:text-red-800">
+            <svg lucideX class="w-4 h-4"></svg> {{ 'PRODUCT.RESET' | translate }}
+          </button>
+        }
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex-1">
+          <label for="minPriceInput" class="block text-xs text-zinc-500 dark:text-zinc-400 mb-1">{{ 'PRODUCT.FROM' | translate }}</label>
+          <input
+            type="number"
+            id="minPriceInput"
+            min="0"
+            placeholder="0"
+            [ngModel]="minPrice()"
+            (ngModelChange)="minPrice.set($event !== '' && $event !== null ? +$event : null)"
+            [class.border-red-500]="priceErrorMessage()"
+            class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-maroon-500 transition-colors"
+          />
+        </div>
+
+        <div class="flex-1">
+          <label for="maxPriceInput" class="block text-xs text-zinc-500 dark:text-zinc-400 mb-1">{{ 'PRODUCT.TO' | translate }}</label>
+          <input
+            type="number"
+            id="maxPriceInput"
+            min="0"
+            placeholder="10000"
+            [ngModel]="maxPrice()"
+            (ngModelChange)="maxPrice.set($event !== '' && $event !== null ? +$event : null)"
+            [class.border-red-500]="priceErrorMessage()"
+            class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-maroon-500 transition-colors"
+          />
+        </div>
+      </div>
+
+      @if (priceErrorMessage()) {
+        <p class="text-xs text-red-500 mt-2 flex items-center gap-1 font-medium">
+          <svg lucideTriangleAlert class="w-4 h-4"></svg> {{ priceErrorMessage() }}
+        </p>
+      }
+    </div>
+  </div>
+
+  <!-- Footer Actions -->
+  <div class="w-full mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-700 flex flex-col gap-2">
+    @if (activeFiltersCount() > 0) {
+      <button
+        type="button"
+        (click)="resetFilter()"
+        class="w-full text-sm text-maroon-600 dark:text-soft-pink-300 font-semibold bg-maroon-50 dark:bg-zinc-700/80 py-3 px-4 rounded-xl hover:bg-maroon-100 transition-all flex items-center justify-center gap-2">
+        <svg lucideRotateCcw class="w-5 h-5"></svg> {{ 'PRODUCT.RESET_ALL' | translate }}
+      </button>
+    }
+
+    <button
+      type="button"
+      (click)="isOpen.set(false)"
+      class="md:hidden w-full py-3 bg-maroon-700 text-white rounded-xl font-bold text-sm shadow-md active:scale-95 transition-transform">
+      {{ 'PRODUCT.SHOW_RESULTS' | translate }}
+    </button>
+  </div>
+
+</aside>
