@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  ViewChild,
+  inject,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { UiCard } from '../../../../shared/ui-card/ui-card';
@@ -6,7 +14,7 @@ import { LucideArrowRight, LucideChevronLeft, LucideChevronRight } from '@lucide
 import { ProductsService } from '../../../../shared/products/services/products.service';
 import { PopularProduct } from '../../../../shared/products/models/popular-product.model';
 import { toMostPopularProducts } from '../../../../shared/products/mappers/popular-product.mapper';
-import { finalize, map, of, switchMap } from 'rxjs';
+import { finalize, map } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -74,14 +82,6 @@ export class BestSelling {
 
   exploreGifts(): void {
     console.log('Explore gifts clicked');
-  }
-
-  addToCart(product: PopularProduct): void {
-    console.log('Add to cart clicked for', product.title);
-  }
-
-  addToWishlist(product: PopularProduct): void {
-    console.log('Add to wishlist', product.id);
   }
 
   viewProduct(product: PopularProduct): void {
