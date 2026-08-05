@@ -442,5 +442,12 @@
     "PRODUCTS_YOU_MAY_LIKE": "Products You May Like",
     "NO_PRODUCTS_LIKE": "No product recommendations available at the moment.",
     "PRODUCT_OUT_OF_STOCK": "Product is out of stock"
+  },
+  "SETTINGS": {
+    "SIDEBAR": {
+      "PROFILE": "Profile",
+      "CHANGE_PASSWORD": "Change Password",
+      "LOGOUT": "Logout"
+    }
   }
 }
