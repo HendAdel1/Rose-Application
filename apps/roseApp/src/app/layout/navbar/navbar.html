@@ -57,12 +57,7 @@
         <div class="profile-dropdown" role="menu">
           <div class="profile-name">{{ currentUserName() }}</div>
 
-          <button
-            class="profile-menu-item"
-            type="button"
-            role="menuitem"
-            [routerLink]="'settings'"
-          >
+          <button class="profile-menu-item" type="button" role="menuitem">
             <svg lucideUser [size]="18" aria-hidden="true"></svg>
             <span>{{ 'NAV.ACCOUNT' | translate }}</span>
           </button>
@@ -107,16 +102,10 @@
 
       <button
         class="icon-button"
-        [class.has-badge]="wishlistCount() > 0"
         type="button"
-        [routerLink]="['wishlist']"
-        [relativeTo]="layoutRoute"
         [attr.aria-label]="'NAV.WISHLIST' | translate"
       >
         <svg lucideHeart [size]="22" aria-hidden="true"></svg>
-        @if (wishlistCount() > 0) {
-        <span class="badge">{{ wishlistCount() }}</span>
-        }
       </button>
 
       @if (isAuthenticated()) {
@@ -128,7 +117,7 @@
       >
         <svg lucideShoppingCart [size]="22" aria-hidden="true"></svg>
         @if (cartItemCount() > 0) {
-        <span class="badge">{{ cartItemCount() }}</span>
+          <span class="badge">{{ cartItemCount() }}</span>
         }
       </button>
       }
