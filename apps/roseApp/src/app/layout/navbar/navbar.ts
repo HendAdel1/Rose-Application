@@ -6,6 +6,8 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CartService } from '../../core/services/cart.service';
 import {
@@ -31,11 +33,15 @@ import {
   LucideShoppingCart,
   LucideLogOut,
   LucideUser,
+  LucideX,
 } from '@lucide/angular';
 import { AuthSessionService } from '@org/auth-data-access';
 import { CustomInput } from '@org/shared-components';
 import { SharedI18nService } from '@org/shared-i18n';
 import { TranslatePipe } from '@ngx-translate/core';
+import { catchError, EMPTY } from 'rxjs';
+import { WishlistService } from '../../features/wishlist/services/wishlist.service';
+import { SearchDropdown } from './search-dropdown/search-dropdown';
 
 interface NavItem {
   labelKey: string;
@@ -47,6 +53,8 @@ interface NavItem {
 @Component({
   imports: [
     CustomInput,
+    FormsModule,
+    SearchDropdown,
     LucideBell,
     LucideChevronDown,
     LucideClipboardList,
@@ -63,6 +71,7 @@ interface NavItem {
     LucideShoppingCart,
     LucideLogOut,
     LucideUser,
+    LucideX,
     RouterLink,
     RouterLinkActive,
     TranslatePipe,
@@ -83,6 +92,7 @@ export class Navbar {
   readonly deliveryCity = input('Cairo');
   readonly searchSubmitted = output<string>();
   readonly searchTerm = signal('');
+  readonly searchOpen = signal(false);
   readonly menuOpen = signal(false);
   readonly profileMenuOpen = signal(false);
   
@@ -104,6 +114,25 @@ export class Navbar {
 
   onSearchChange(value: string): void {
     this.searchTerm.set(value);
+    this.searchOpen.set(true);
+  }
+
+  onSearchFocus(): void {
+    this.searchOpen.set(true);
+  }
+
+  clearSearch(): void {
+    this.searchTerm.set('');
+    this.searchOpen.set(true);
+  }
+
+  closeSearch(): void {
+    this.searchOpen.set(false);
+  }
+
+  onSearchResultSelected(): void {
+    this.searchTerm.set('');
+    this.searchOpen.set(false);
   }
 
   onSearchSubmit(event: Event): void {
