@@ -25,14 +25,52 @@
     </div>
     }
 
-    <form class="search-field" role="search" (submit)="onSearchSubmit($event)">
+    <form
+      class="search-field"
+      role="search"
+      (submit)="onSearchSubmit($event)"
+      (focusin)="onSearchFocus()"
+    >
       <svg lucideSearch [size]="17" aria-hidden="true"></svg>
       <lib-custom-input
         type="text"
+        name="search"
+        [ngModel]="searchTerm()"
         [placeholder]="'NAV.SEARCH_PLACEHOLDER' | translate"
         [attr.aria-label]="'NAV.SEARCH_PRODUCTS' | translate"
-        (valueChange)="onSearchChange($event)"
+        (ngModelChange)="onSearchChange($event)"
       ></lib-custom-input>
+
+      @if (searchTerm()) {
+        <button
+          type="button"
+          class="search-clear"
+          [attr.aria-label]="'NAV.CLEAR_SEARCH' | translate"
+          (click)="clearSearch()"
+        >
+          <svg lucideX [size]="16" aria-hidden="true"></svg>
+        </button>
+      }
+
+      @if (searchOpen()) {
+        <div
+          class="fixed inset-0 z-30"
+          role="button"
+          tabindex="0"
+          [attr.aria-label]="'NAV.CLOSE_SEARCH' | translate"
+          (click)="closeSearch()"
+          (keyup.escape)="closeSearch()"
+        ></div>
+
+        <div
+          class="fixed inset-x-3 top-[4.9rem] z-40 mx-auto max-w-[26rem] overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-600 dark:bg-zinc-800 sm:absolute sm:inset-x-0 sm:top-[calc(100%+0.55rem)] sm:mx-0 sm:max-w-none"
+        >
+          <app-navbar-search-dropdown
+            [searchTerm]="searchTerm()"
+            (resultSelected)="onSearchResultSelected()"
+          />
+        </div>
+      }
     </form>
 
     <div class="header-actions">
