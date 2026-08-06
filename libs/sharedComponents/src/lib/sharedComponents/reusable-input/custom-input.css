@@ -9,6 +9,10 @@
   font-family: 'Zain', sans-serif;
 }
 
+:host-context(html[lang='ar']) .custom-input__control[dir='ltr'] {
+  text-align: right;
+}
+
 :host .custom-input__control::placeholder {
   color: #a1a1aa;
 }

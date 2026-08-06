@@ -1,1 +1,195 @@
-<p>profile-settings works!</p>
+<section class="profile-settings">
+  <!-- Upload Photo -->
+  <div class="photo-upload">
+    <div class="photo-avatar">
+      @if (isLoading()) {
+      <p-skeleton shape="circle" size="6rem" />
+      } @else { @if (avatarUrl()) {
+      <img [src]="avatarUrl()" alt="Profile photo" class="photo-avatar__img" />
+      } @else {
+      <div class="photo-avatar__fallback">{{ getInitial() }}</div>
+      }
+      <button
+        type="button"
+        class="photo-avatar__edit"
+        (click)="fileInput.click()"
+        aria-label="Change profile photo"
+      >
+        <svg lucideCloudUpload [size]="20" aria-hidden="true"></svg>
+      </button>
+      <input
+        #fileInput
+        type="file"
+        accept=".jpg,.jpeg,.png,.gif"
+        class="hidden"
+        (change)="onFileSelected($event)"
+      />
+      }
+    </div>
+    <div class="photo-upload__info">
+      <span class="photo-upload__title"
+        >{{ 'SETTINGS.PROFILE.UPLOAD_PHOTO' | translate }}</span
+      >
+      <span class="photo-upload__hint">
+        {{ 'SETTINGS.PROFILE.IMAGE_INFO' | translate }}
+      </span>
+      @if (photoError()) {
+      <span class="mt-1 text-sm font-medium text-red-500 dark:text-red-400">
+        {{ photoError() }}
+      </span>
+      }
+    </div>
+  </div>
+
+  <!-- Profile Form -->
+  @if (isLoading()) {
+  <div class="profile-form mt-4">
+    <div class="profile-form__row mb-[0.625rem]">
+      <p-skeleton width="100%" height="4.5rem" />
+      <p-skeleton width="100%" height="4.5rem" />
+    </div>
+    <p-skeleton width="100%" height="4.5rem" class="mb-[0.625rem] block" />
+    <p-skeleton width="100%" height="4.5rem" class="mb-[0.625rem] block" />
+    <p-skeleton width="100%" height="4.5rem" class="block" />
+  </div>
+  } @else {
+  <form [formGroup]="profileForm" (ngSubmit)="onSave()" class="profile-form">
+    <!-- First name & Last name -->
+    <div class="profile-form__row">
+      <lib-custom-input
+        id="firstName"
+        label="{{ 'SETTINGS.PROFILE.FIRST_NAME' | translate }}"
+        formControlName="firstName"
+        type="text"
+        placeholder="Jonathan"
+        [isInvalid]="!!firstNameError()"
+        [errorMessage]="firstNameError()"
+      />
+
+      <lib-custom-input
+        id="lastName"
+        label=" {{ 'SETTINGS.PROFILE.LAST_NAME' | translate }}"
+        formControlName="lastName"
+        type="text"
+        placeholder="Adrian"
+        [isInvalid]="!!lastNameError()"
+        [errorMessage]="lastNameError()"
+      />
+    </div>
+
+    <!-- Email (readonly, like login page) -->
+    <lib-custom-input
+      id="email"
+      label=" {{ 'SETTINGS.PROFILE.EMAIL' | translate }}"
+      formControlName="email"
+      type="email"
+      placeholder="jonathan@gmail.com"
+    />
+
+    @if (isEmailChangeSuccessful()) {
+    <lib-custom-input
+      id="emailVerificationCode"
+      label="{{ 'SETTINGS.PROFILE.EMAIL_VERIFICATION_CODE' | translate }}"
+      formControlName="emailVerificationCode"
+      type="text"
+      placeholder="{{ 'SETTINGS.PROFILE.EMAIL_VERIFICATION_CODE_PLACEHOLDER' | translate }}"
+    />
+    }
+
+    <!-- Phone -->
+    <lib-custom-input
+      id="phone"
+      label="{{ 'SETTINGS.PROFILE.PHONE' | translate }}"
+      formControlName="phone"
+      type="tel"
+      placeholder="1012345678"
+    />
+
+    <!-- Gender (disabled) -->
+    <lib-custom-input
+      id="gender"
+      label=" {{ 'SETTINGS.PROFILE.GENDER' | translate }}"
+      formControlName="gender"
+    />
+
+    <!-- Actions -->
+    <div class="profile-form__actions">
+      <button
+        type="button"
+        class="delete-account-btn"
+        (click)="openDeleteDialog()"
+      >
+        {{ 'SETTINGS.PROFILE.DELETE_MY_ACCOUNT' | translate }}
+      </button>
+
+      <app-custom-button
+        variant="primary"
+        label="{{ 'SETTINGS.PROFILE.SAVE_CHANGES' | translate }}"
+        (btnClick)="onSave()"
+        [disabled]="!profileForm.dirty && !uploadedPhotoUrl()"
+      />
+    </div>
+  </form>
+  } @if (isDeleteDialogOpen()) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4"
+    role="presentation"
+    (click)="closeDeleteDialog()"
+  >
+    <section
+      class="relative w-full max-w-[474px] rounded-xl bg-white px-5 pb-5 pt-16 text-center shadow-2xl dark:bg-zinc-900"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Delete Account Confirmation"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        class="absolute end-5 top-5 inline-flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-60 dark:hover:bg-zinc-800 dark:hover:text-white"
+        type="button"
+        [disabled]="isDeleting()"
+        aria-label="Cancel"
+        (click)="closeDeleteDialog()"
+      >
+        <svg lucideX [size]="20" aria-hidden="true"></svg>
+      </button>
+
+      <div
+        class="mx-auto mb-9 flex h-[92px] w-[92px] items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800"
+      >
+        <span
+          class="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-zinc-200 text-zinc-800 dark:bg-zinc-700 dark:text-white"
+        >
+          <svg lucideTrash2 [size]="26" aria-hidden="true"></svg>
+        </span>
+      </div>
+
+      <h2 class="mb-2 text-zinc-900 dark:text-white text-[20px] font-[600]">
+        {{ 'SETTINGS.PROFILE.DELETE_ACCOUNT_CONFIRMATION' | translate }}
+      </h2>
+
+      <p class="mb-10 text-[0.9375rem] text-[#DC2626] dark:text-red-400">
+        {{ 'SETTINGS.PROFILE.DELETE_ACCOUNT_PERMANENT' | translate }}
+      </p>
+
+      <div class="grid grid-cols-2 gap-2.5">
+        <button
+          class="inline-flex h-[38px] items-center justify-center rounded-md border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-900 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
+          type="button"
+          [disabled]="isDeleting()"
+          (click)="closeDeleteDialog()"
+        >
+          {{ 'SETTINGS.PROFILE.DELETE_ACCOUNT_CANCEL' | translate }}
+        </button>
+        <button
+          class="inline-flex h-[38px] items-center justify-center rounded-md bg-[#DC2626] px-4 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+          type="button"
+          [disabled]="isDeleting()"
+          (click)="deleteAccount()"
+        >
+          {{ 'SETTINGS.PROFILE.DELETE_ACCOUNT' | translate }}
+        </button>
+      </div>
+    </section>
+  </div>
+  }
+</section>

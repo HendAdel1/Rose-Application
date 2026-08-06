@@ -428,7 +428,7 @@
     "EYEBROW": "Gallery",
     "TITLE": "Check Out our Wonderful Gallery"
   },
-"PRODUCT": {
+  "PRODUCT": {
     "FILTERS": "Filters",
     "CLEAR_ALL": "Clear all",
     "FILTER_PRODUCTS": "Filter Products",
@@ -485,6 +485,25 @@
       "PROFILE": "Profile",
       "CHANGE_PASSWORD": "Change Password",
       "LOGOUT": "Logout"
+    },
+    "PROFILE": {
+      "UPLOAD_PHOTO": "Upload Photo",
+      "IMAGE_INFO": "You can upload a .jpg, .png, or .gif photo with max size of 5MB.",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "EMAIL": "Email",
+      "EMAIL_VERIFICATION_CODE": "Email Verification Code",
+      "EMAIL_VERIFICATION_CODE_PLACEHOLDER": "Enter verification code",
+      "PHONE": "Phone",
+      "GENDER": "Gender",
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "DELETE_MY_ACCOUNT": "Delete My Account",
+      "SAVE_CHANGES": "Save Changes",
+      "DELETE_ACCOUNT_CONFIRMATION": "Are you sure you want to delete your account?",
+      "DELETE_ACCOUNT_PERMANENT": "This action is permanent and cannot be undone.",
+      "DELETE_ACCOUNT": "Yes, delete my account",
+      "DELETE_ACCOUNT_CANCEL": "Nope, not doing it"
     },
     "CHANGE_PASSWORD": {
       "OLD_PASSWORD": "Old Password",

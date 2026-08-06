@@ -1,23 +1,17 @@
 <section class="settings-page">
-  <h1
-    class="mb-6 font-sarabun text-2xl font-bold text-zinc-900 dark:text-white"
-  >
+  <h1 class="settings-title text-zinc-800 dark:text-zinc-50">
     {{ 'SETTINGS.TITLE' | translate }}
   </h1>
-
   <div class="settings-layout">
     <aside class="settings-sidebar">
       <app-sidebar-settings [(activeTab)]="activeTab" />
     </aside>
     <main class="settings-content">
-      @switch (activeTab()) {
-        @case ('profile') {
-          <app-profile-settings />
-        }
-        @case ('change-password') {
-          <app-change-password />
-        }
-      }
+      @switch (activeTab()) { @case ('profile') {
+      <app-profile-settings />
+      } @case ('change-password') {
+      <app-change-password />
+      } }
     </main>
   </div>
 </section>

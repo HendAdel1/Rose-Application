@@ -1,4 +1,7 @@
-<nav class="sidebar-nav" aria-label="Settings navigation">
+<nav
+  class="sidebar-nav bg-zinc-50 dark:bg-zinc-500"
+  aria-label="Settings navigation"
+>
   <ul class="nav-list" role="list">
     @for (item of navItems; track item.id) {
     <li>
@@ -8,26 +11,24 @@
         [class.active]="activeTab() === item.id"
         (click)="selectTab(item.id)"
       >
-        @switch (item.icon) {
-          @case ('profile') {
-            <svg lucideUserRoundKey [size]="18" aria-hidden="true"></svg>
-          }
-          @case ('password') {
-            <svg lucideLock [size]="18" aria-hidden="true"></svg>
-          }
-        }
+        @switch (item.icon) { @case ('profile') {
+        <svg lucideUserRoundKey [size]="18" aria-hidden="true"></svg>
+        } @case ('password') {
+        <svg lucideLock [size]="18" aria-hidden="true"></svg>
+        } }
         <span>{{ item.labelKey | translate }}</span>
       </button>
     </li>
     }
   </ul>
 
-  <button
-    type="button"
-    class="nav-item logout-item"
-    (click)="logout()"
-  >
-    <svg lucideLogOut [size]="18" aria-hidden="true"></svg>
+  <button type="button" class="nav-item logout-item" (click)="logout()">
+    <svg
+      lucideLogOut
+      [size]="18"
+      aria-hidden="true"
+      class="ltr:rotate-180"
+    ></svg>
     <span>{{ 'SETTINGS.SIDEBAR.LOGOUT' | translate }}</span>
   </button>
 </nav>
