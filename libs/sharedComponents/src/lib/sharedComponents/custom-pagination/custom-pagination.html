@@ -1,0 +1,10 @@
+@if (showPaginator()) {
+  <div class="flex justify-center my-6">
+    <p-paginator
+      [first]="first()"
+      [rows]="limit()"
+      [totalRecords]="totalRecords()"
+      (onPageChange)="onPageChange($event)"
+    ></p-paginator>
+  </div>
+}
