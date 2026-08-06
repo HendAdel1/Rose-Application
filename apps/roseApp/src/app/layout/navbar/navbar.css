@@ -74,7 +74,9 @@
 
 .search-field lib-custom-input {
   display: block;
+  position: relative;
   width: 100%;
+  z-index: 35;
 }
 
 .search-field ::ng-deep input {
@@ -86,10 +88,38 @@
   font-family: 'Sarabun', sans-serif;
   font-size: 0.86rem;
   height: 2.8rem;
-  padding: 0 1rem 0 2.95rem;
+  padding: 0 2.6rem 0 2.95rem;
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease;
+}
+
+.search-field .search-clear {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #9da3ad;
+  cursor: pointer;
+  display: inline-flex;
+  inset-inline-end: 0.85rem;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: color 160ms ease;
+  z-index: 36;
+}
+
+.search-field .search-clear:hover {
+  color: #861a22;
+}
+
+.search-field .search-clear svg {
+  left: auto;
+  pointer-events: none;
+  position: static;
+  z-index: auto;
 }
 
 .search-field ::ng-deep input::placeholder {
@@ -330,6 +360,16 @@
   box-shadow: 0 0 0 3px rgba(255, 157, 188, 0.16);
 }
 
+:host-context(html.dark) .search-field .search-clear,
+:host-context(html:has(#theme-dark:checked)) .search-field .search-clear {
+  color: #b6b6bf;
+}
+
+:host-context(html.dark) .search-field .search-clear:hover,
+:host-context(html:has(#theme-dark:checked)) .search-field .search-clear:hover {
+  color: #ff9dbc;
+}
+
 :host-context(html.dark) .login-link,
 :host-context(html.dark) .user-menu,
 :host-context(html.dark) .icon-button,
@@ -489,10 +529,15 @@
     font-size: 0.78rem;
     height: 2.45rem;
     padding-left: 2.35rem;
+    padding-right: 2.2rem;
   }
 
   .search-field svg {
     left: 0.8rem;
+  }
+
+  .search-field .search-clear {
+    inset-inline-end: 0.6rem;
   }
 
   .login-link span,

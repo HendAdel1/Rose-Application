@@ -133,6 +133,11 @@
     "DELIVER_TO": "Deliver to:",
     "SEARCH_PLACEHOLDER": "What awesome gift are you looking for?",
     "SEARCH_PRODUCTS": "Search products",
+    "CLEAR_SEARCH": "Clear search",
+    "SEARCH_RESULTS_ARIA": "Search results",
+    "CLOSE_SEARCH": "Close search results",
+    "SEARCH_LOADING": "Loading products...",
+    "SEARCH_NO_RESULTS": "No products found.",
     "OPEN_PROFILE_MENU": "Open profile menu",
     "HELLO": "Hello",
     "LOGIN": "Login",
@@ -473,5 +478,12 @@
     "PRODUCTS_YOU_MAY_LIKE": "Products You May Like",
     "NO_PRODUCTS_LIKE": "No product recommendations available at the moment.",
     "PRODUCT_OUT_OF_STOCK": "Product is out of stock"
+  },
+  "SETTINGS": {
+    "SIDEBAR": {
+      "PROFILE": "Profile",
+      "CHANGE_PASSWORD": "Change Password",
+      "LOGOUT": "Logout"
+    }
   }
 }
