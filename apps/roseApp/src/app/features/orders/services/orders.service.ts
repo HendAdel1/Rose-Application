@@ -71,7 +71,7 @@ export class OrdersService {
     queryParams: OrdersQueryParams,
   ): PaginatedOrdersResult {
     const defaultPage = queryParams.page ?? 1;
-    const defaultLimit = queryParams.limit ?? 20;
+    const defaultLimit = queryParams.limit ?? 5;
 
     if (!res || !res.payload) {
       return {
@@ -80,25 +80,30 @@ export class OrdersService {
       };
     }
 
+    let allOrders: Order[] = [];
+    let total = 0;
+    let page = defaultPage;
+    let limit = defaultLimit;
+
     if (Array.isArray(res.payload)) {
-      const orders = res.payload;
-      return {
-        data: orders,
-        metadata: {
-          total: orders.length,
-          page: defaultPage,
-          limit: defaultLimit,
-          totalPages: Math.ceil(orders.length / defaultLimit) || 1,
-        },
-      };
+      allOrders = res.payload;
+      total = allOrders.length;
+    } else {
+      const payloadObj = res.payload;
+      allOrders = payloadObj.orders ?? payloadObj.data ?? [];
+      total = payloadObj.total ?? payloadObj.count ?? allOrders.length;
+      page = payloadObj.page ?? defaultPage;
+      limit = payloadObj.limit ?? defaultLimit;
     }
 
-    const payloadObj = res.payload;
-    const data = payloadObj.orders ?? payloadObj.data ?? [];
-    const total = payloadObj.total ?? payloadObj.count ?? data.length;
-    const page = payloadObj.page ?? defaultPage;
-    const limit = payloadObj.limit ?? defaultLimit;
-    const totalPages = payloadObj.totalPages ?? (Math.ceil(total / limit) || 1);
+    // Slice array for client-side pagination if backend returns unpaginated list
+    let data = allOrders;
+    if (allOrders.length > limit) {
+      const startIndex = (page - 1) * limit;
+      data = allOrders.slice(startIndex, startIndex + limit);
+    }
+
+    const totalPages = Math.ceil(total / limit) || 1;
 
     return {
       data,
