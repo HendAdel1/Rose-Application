@@ -1,4 +1,35 @@
 {
+  "ORDERS": {
+    "TITLE": "My Orders",
+    "ORDER_NUMBER": "Order",
+    "CREATED_IN": "Created in:",
+    "TOTAL_PRICE": "Total Price:",
+    "STATUS": "Status:",
+    "PAYMENT_METHOD": "Payment Method:",
+    "DELIVERY_STATUS": "Delivery Status:",
+    "ITEMS_HEADER": "Order Items:",
+    "RATING": "Rating:",
+    "RATINGS_COUNT": "ratings",
+    "SHOW_ALL": "Show All",
+    "SHOW_LESS": "Show Less",
+    "LOADING": "Loading your orders...",
+    "RETRY": "Retry",
+    "EMPTY_TITLE": "No Orders Found",
+    "EMPTY_MESSAGE": "You haven't placed any orders yet. Start exploring our flowers and gifts collection!",
+    "START_SHOPPING": "Start Shopping",
+    "CASH": "Cash",
+    "CREDIT_CARD": "Credit Card",
+    "PAYMENT_STATUS": {
+      "PAID": "Paid"
+    },
+    "STATUS_VALUES": {
+      "DONE": "Done",
+      "DELIVERED": "Delivered",
+      "IN_PROGRESS": "In Progress",
+      "PENDING": "Pending",
+      "CANCELED": "Canceled"
+    }
+  },
   "AUTH": {
     "LOGIN_TOAST": {
       "SUCCESS_TITLE": "Welcome back",
@@ -473,6 +504,22 @@
       "DELETE_ACCOUNT_PERMANENT": "This action is permanent and cannot be undone.",
       "DELETE_ACCOUNT": "Yes, delete my account",
       "DELETE_ACCOUNT_CANCEL": "Nope, not doing it"
+    },
+    "CHANGE_PASSWORD": {
+      "OLD_PASSWORD": "Old Password",
+      "NEW_PASSWORD": "New Password",
+      "CONFIRM_NEW_PASSWORD": "Confirm New Password",
+      "SUBMIT": "Change Password",
+      "SUBMITTING": "Changing Password...",
+      "SUCCESS_TITLE": "Password updated",
+      "SUCCESS": "Your password has been changed successfully.",
+      "ERRORS": {
+        "CURRENT_PASSWORD_REQUIRED": "Current password is required",
+        "NEW_PASSWORD_REQUIRED": "New password is required",
+        "PASSWORD_STRENGTH": "Password must be at least 8 characters and include uppercase, lowercase, number, and special character",
+        "CONFIRM_PASSWORD_REQUIRED": "Please confirm your new password",
+        "PASSWORD_MISMATCH": "Passwords do not match"
+      }
     }
   }
 }

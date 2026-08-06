@@ -1,4 +1,35 @@
 {
+  "ORDERS": {
+    "TITLE": "طلباتي",
+    "ORDER_NUMBER": "طلب",
+    "CREATED_IN": "تاريخ الطلب:",
+    "TOTAL_PRICE": "السعر الإجمالي:",
+    "STATUS": "الحالة:",
+    "PAYMENT_METHOD": "طريقة الدفع:",
+    "DELIVERY_STATUS": "حالة التوصيل:",
+    "ITEMS_HEADER": "منتجات الطلب:",
+    "RATING": "التقييم:",
+    "RATINGS_COUNT": "تقييمات",
+    "SHOW_ALL": "عرض الكل",
+    "SHOW_LESS": "عرض أقل",
+    "LOADING": "جاري تحميل طلباتك...",
+    "RETRY": "إعادة المحاولة",
+    "EMPTY_TITLE": "لا توجد طلبات حتى الآن",
+    "EMPTY_MESSAGE": "لم تقم بإجراء أي طلبات حتى الآن. استكشف مجموعتنا المميزة من الهدايا والزهور!",
+    "START_SHOPPING": "بدء التسوق",
+    "CASH": "نقداً عند الاستلام",
+    "CREDIT_CARD": "بطاقة ائتمان",
+    "PAYMENT_STATUS": {
+      "PAID": "تم الدفع"
+    },
+    "STATUS_VALUES": {
+      "DONE": "مكتمل",
+      "DELIVERED": "تم التوصيل",
+      "IN_PROGRESS": "قيد التنفيذ",
+      "PENDING": "قيد الانتظار",
+      "CANCELED": "ملغي"
+    }
+  },
   "AUTH": {
     "LOGIN_TOAST": {
       "SUCCESS_TITLE": "تم تسجيل الدخول",
@@ -473,6 +504,22 @@
       "DELETE_ACCOUNT_PERMANENT": "هذا الإجراء دائم ولا يمكن التراجع عنه.",
       "DELETE_ACCOUNT": "نعم، حذف حسابي",
       "DELETE_ACCOUNT_CANCEL": "لا، ليس الآن"
+    },
+    "CHANGE_PASSWORD": {
+      "OLD_PASSWORD": "كلمة المرور القديمة",
+      "NEW_PASSWORD": "كلمة المرور الجديدة",
+      "CONFIRM_NEW_PASSWORD": "تأكيد كلمة المرور الجديدة",
+      "SUBMIT": "تغيير كلمة المرور",
+      "SUBMITTING": "جاري تغيير كلمة المرور...",
+      "SUCCESS_TITLE": "تم تحديث كلمة المرور",
+      "SUCCESS": "تم تغيير كلمة المرور بنجاح.",
+      "ERRORS": {
+        "CURRENT_PASSWORD_REQUIRED": "كلمة المرور الحالية مطلوبة",
+        "NEW_PASSWORD_REQUIRED": "كلمة المرور الجديدة مطلوبة",
+        "PASSWORD_STRENGTH": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتحتوي على حرف كبير وحرف صغير ورقم ورمز خاص",
+        "CONFIRM_PASSWORD_REQUIRED": "يرجى تأكيد كلمة المرور الجديدة",
+        "PASSWORD_MISMATCH": "كلمتا المرور غير متطابقتين"
+      }
     }
   }
 }
