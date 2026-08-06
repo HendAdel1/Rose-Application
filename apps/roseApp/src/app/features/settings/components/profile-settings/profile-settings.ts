@@ -269,13 +269,19 @@ export class ProfileSettings implements OnInit {
     this.isLoading.set(true);
     let formattedPhone = value.phone?.trim();
     if (formattedPhone) {
-      if (formattedPhone.startsWith('+2')) {
-        // Already formatted
+      if (formattedPhone.startsWith('+')) {
+        // Already has a country code (e.g. +20, +44), keep it as is
+      } else if (formattedPhone.startsWith('00')) {
+        // International prefix 00, convert to +
+        formattedPhone = '+' + formattedPhone.substring(2);
       } else if (formattedPhone.startsWith('0')) {
+        // Local Egyptian number (e.g. 010...), prepend +2 to make it +2010...
         formattedPhone = '+2' + formattedPhone;
-      } else if (formattedPhone.startsWith('2')) {
+      } else if (formattedPhone.startsWith('20')) {
+        // Missing the +, just prepend it
         formattedPhone = '+' + formattedPhone;
       } else {
+        // No prefix, default to Egypt country code
         formattedPhone = '+20' + formattedPhone;
       }
     }
