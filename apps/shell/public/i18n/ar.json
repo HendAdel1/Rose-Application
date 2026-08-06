@@ -449,10 +449,27 @@
     "PRODUCT_OUT_OF_STOCK": "المنتج غير متوفر في المخزون"
   },
   "SETTINGS": {
+    "TITLE": "إعدادات الحساب",
     "SIDEBAR": {
       "PROFILE": "الملف الشخصي",
       "CHANGE_PASSWORD": "تغيير كلمة المرور",
       "LOGOUT": "تسجيل الخروج"
+    },
+    "CHANGE_PASSWORD": {
+      "OLD_PASSWORD": "كلمة المرور القديمة",
+      "NEW_PASSWORD": "كلمة المرور الجديدة",
+      "CONFIRM_NEW_PASSWORD": "تأكيد كلمة المرور الجديدة",
+      "SUBMIT": "تغيير كلمة المرور",
+      "SUBMITTING": "جاري تغيير كلمة المرور...",
+      "SUCCESS_TITLE": "تم تحديث كلمة المرور",
+      "SUCCESS": "تم تغيير كلمة المرور بنجاح.",
+      "ERRORS": {
+        "CURRENT_PASSWORD_REQUIRED": "كلمة المرور الحالية مطلوبة",
+        "NEW_PASSWORD_REQUIRED": "كلمة المرور الجديدة مطلوبة",
+        "PASSWORD_STRENGTH": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتحتوي على حرف كبير وحرف صغير ورقم ورمز خاص",
+        "CONFIRM_PASSWORD_REQUIRED": "يرجى تأكيد كلمة المرور الجديدة",
+        "PASSWORD_MISMATCH": "كلمتا المرور غير متطابقتين"
+      }
     }
   }
 }
