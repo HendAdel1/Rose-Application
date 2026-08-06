@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
-import { Observable, finalize, map, take } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, map, take } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
   Order,
@@ -24,14 +24,10 @@ export class OrdersService {
   private readonly http = inject(HttpClient);
   private readonly ordersUrl = `${environment.apiBaseUrl}/orders`;
 
-  readonly isLoading = signal(false);
-
   /**
    * Get current user's orders (paginated, filtered by status/search)
    */
   getOrders(queryParams: OrdersQueryParams = {}): Observable<PaginatedOrdersResult> {
-    this.isLoading.set(true);
-
     let params = new HttpParams();
 
     if (queryParams.page != null) {
@@ -57,7 +53,6 @@ export class OrdersService {
     return this.http.get<OrdersApiResponse>(this.ordersUrl, { params }).pipe(
       take(1),
       map((response) => this.normalizeOrdersResponse(response, queryParams)),
-      finalize(() => this.isLoading.set(false)),
     );
   }
 
@@ -65,12 +60,9 @@ export class OrdersService {
    * Get single order details by ID
    */
   getOrderById(id: string): Observable<Order> {
-    this.isLoading.set(true);
-
     return this.http.get<SingleOrderApiResponse>(`${this.ordersUrl}/${id}`).pipe(
       take(1),
       map((response) => this.normalizeSingleOrderResponse(response)),
-      finalize(() => this.isLoading.set(false)),
     );
   }
 

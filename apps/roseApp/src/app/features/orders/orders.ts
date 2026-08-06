@@ -1,10 +1,9 @@
-import { DecimalPipe, DatePipe, NgClass } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
   OnInit,
-  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -12,27 +11,26 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import {
   LucideAlertCircle,
-  LucideCalendar,
   LucideCheckCircle2,
   LucideChevronDown,
   LucideChevronUp,
   LucideClock,
   LucideCreditCard,
   LucidePackage,
-  LucideSearch,
   LucideShoppingBag,
   LucideTruck,
   LucideXCircle,
 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { PaginatorModule } from 'primeng/paginator';
-import { PaginatorState } from 'primeng/types/paginator';
+import { LoadingService } from '@org/auth-data-access';
+import { CustomPagination } from '@org/shared-components';
 import { Order, OrderItem, OrderStatus } from './models/order.model';
 import { OrdersService } from './services/orders.service';
 
 @Component({
   selector: 'app-orders',
   imports: [
+    CustomPagination,
     DatePipe,
     DecimalPipe,
     LucideAlertCircle,
@@ -45,7 +43,6 @@ import { OrdersService } from './services/orders.service';
     LucideShoppingBag,
     LucideTruck,
     LucideXCircle,
-    PaginatorModule,
     RouterLink,
     TranslatePipe,
   ],
@@ -55,10 +52,11 @@ import { OrdersService } from './services/orders.service';
 })
 export class Orders implements OnInit {
   private readonly ordersService = inject(OrdersService);
+  private readonly loadingService = inject(LoadingService);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly orders = signal<Order[]>([]);
-  readonly isLoading = this.ordersService.isLoading;
+  readonly isLoading = this.loadingService.isLoading;
   readonly errorMessage = signal<string | null>(null);
 
   readonly page = signal<number>(1);
@@ -68,7 +66,6 @@ export class Orders implements OnInit {
   readonly searchTerm = signal<string>('');
 
   readonly expandedOrderIds = signal<Set<string>>(new Set());
-  readonly paginatorFirst = computed(() => (this.page() - 1) * this.limit());
 
   ngOnInit(): void {
     this.loadOrders();
@@ -97,10 +94,9 @@ export class Orders implements OnInit {
       });
   }
 
-  onPageChange(event: PaginatorState): void {
-    const nextPage = Math.floor((event.first ?? 0) / this.limit()) + 1;
-    if (nextPage !== this.page()) {
-      this.page.set(nextPage);
+  onPageChange(newPage: number): void {
+    if (newPage !== this.page()) {
+      this.page.set(newPage);
       this.loadOrders();
     }
   }

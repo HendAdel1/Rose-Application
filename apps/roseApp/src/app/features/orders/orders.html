@@ -217,16 +217,14 @@
       </div>
 
       <!-- Pagination -->
-      @if (totalRecords() > limit()) {
-        <div class="mt-8 flex justify-center">
-          <p-paginator
-            [first]="paginatorFirst()"
-            [rows]="limit()"
-            [totalRecords]="totalRecords()"
-            (onPageChange)="onPageChange($event)"
-          ></p-paginator>
-        </div>
-      }
+      <div class="mt-8">
+        <lib-custom-pagination
+          [page]="page()"
+          [limit]="limit()"
+          [totalRecords]="totalRecords()"
+          (pageChange)="onPageChange($event)"
+        ></lib-custom-pagination>
+      </div>
     }
   </div>
 </section>
