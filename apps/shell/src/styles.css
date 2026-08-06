@@ -3,3 +3,4 @@
 @import "ngx-toastr/toastr";
 @import "../../../libs/shared-theme/src/theme.css";
 @import "./app/styles/base/tailwind.css";
+@import "flag-icons/css/flag-icons.min.css";

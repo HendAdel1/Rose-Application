@@ -2,6 +2,7 @@
 @import "tailwindcss";
 @import "../../../libs/shared-theme/src/theme.css";
 @import "./app/styles/base/tailwind.css";
+@import "flag-icons/css/flag-icons.min.css";
 
 
 @layer utilities {
