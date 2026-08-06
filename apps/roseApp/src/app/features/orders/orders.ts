@@ -60,7 +60,7 @@ export class Orders implements OnInit {
   readonly errorMessage = signal<string | null>(null);
 
   readonly page = signal<number>(1);
-  readonly limit = signal<number>(10);
+  readonly limit = signal<number>(5);
   readonly totalRecords = signal<number>(0);
   readonly selectedStatus = signal<OrderStatus | null>(null);
   readonly searchTerm = signal<string>('');
