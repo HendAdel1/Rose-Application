@@ -23,6 +23,9 @@ export class CustomPagination {
   readonly pageChange = output<number>();
 
   readonly first = computed(() => (this.page() - 1) * this.limit());
+  readonly showPaginator = computed(
+    () => this.totalRecords() >= this.limit() && this.limit() > 0,
+  );
 
   onPageChange(event: PaginatorState): void {
     const newPage = Math.floor((event.first ?? 0) / this.limit()) + 1;

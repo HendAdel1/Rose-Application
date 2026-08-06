@@ -1,5 +1,5 @@
-@if (totalRecords() > limit()) {
-  <div class="flex justify-center">
+@if (showPaginator()) {
+  <div class="flex justify-center my-6">
     <p-paginator
       [first]="first()"
       [rows]="limit()"

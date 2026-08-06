@@ -80,27 +80,54 @@ export class OrdersService {
       };
     }
 
-    let allOrders: Order[] = [];
-    let total = 0;
-    let page = defaultPage;
-    let limit = defaultLimit;
+    const resAny = res as any;
+    const payloadObj = Array.isArray(res.payload) ? null : (res.payload as any);
 
+    let allOrders: Order[] = [];
     if (Array.isArray(res.payload)) {
       allOrders = res.payload;
-      total = allOrders.length;
-    } else {
-      const payloadObj = res.payload;
+    } else if (payloadObj) {
       allOrders = payloadObj.orders ?? payloadObj.data ?? [];
-      total = payloadObj.total ?? payloadObj.count ?? allOrders.length;
-      page = payloadObj.page ?? defaultPage;
-      limit = payloadObj.limit ?? defaultLimit;
     }
 
-    // Slice array for client-side pagination if backend returns unpaginated list
+    const hasExplicitTotal =
+      resAny.total != null ||
+      resAny.count != null ||
+      resAny.totalCount != null ||
+      resAny.totalRecords != null ||
+      resAny.metadata?.total != null ||
+      payloadObj?.total != null ||
+      payloadObj?.count != null ||
+      payloadObj?.totalOrders != null ||
+      payloadObj?.totalCount != null ||
+      payloadObj?.totalRecords != null ||
+      payloadObj?.metadata?.total != null;
+
+    let total =
+      resAny.total ??
+      resAny.count ??
+      resAny.totalCount ??
+      resAny.totalRecords ??
+      resAny.metadata?.total ??
+      payloadObj?.total ??
+      payloadObj?.count ??
+      payloadObj?.totalOrders ??
+      payloadObj?.totalCount ??
+      payloadObj?.totalRecords ??
+      payloadObj?.metadata?.total ??
+      allOrders.length;
+
+    const page = payloadObj?.page ?? defaultPage;
+    const limit = payloadObj?.limit ?? defaultLimit;
+
     let data = allOrders;
     if (allOrders.length > limit) {
       const startIndex = (page - 1) * limit;
       data = allOrders.slice(startIndex, startIndex + limit);
+    }
+
+    if (!hasExplicitTotal && data.length === limit) {
+      total = Math.max(total, page * limit + 1);
     }
 
     const totalPages = Math.ceil(total / limit) || 1;
