@@ -2,7 +2,9 @@
   <!-- Upload Photo -->
   <div class="photo-upload">
     <div class="photo-avatar">
-      @if (avatarUrl()) {
+      @if (isLoading()) {
+      <p-skeleton shape="circle" size="6rem" />
+      } @else { @if (avatarUrl()) {
       <img [src]="avatarUrl()" alt="Profile photo" class="photo-avatar__img" />
       } @else {
       <div class="photo-avatar__fallback">{{ getInitial() }}</div>
@@ -22,6 +24,7 @@
         class="hidden"
         (change)="onFileSelected($event)"
       />
+      }
     </div>
     <div class="photo-upload__info">
       <span class="photo-upload__title"
@@ -39,6 +42,17 @@
   </div>
 
   <!-- Profile Form -->
+  @if (isLoading()) {
+  <div class="profile-form mt-4">
+    <div class="profile-form__row mb-[0.625rem]">
+      <p-skeleton width="100%" height="4.5rem" />
+      <p-skeleton width="100%" height="4.5rem" />
+    </div>
+    <p-skeleton width="100%" height="4.5rem" class="mb-[0.625rem] block" />
+    <p-skeleton width="100%" height="4.5rem" class="mb-[0.625rem] block" />
+    <p-skeleton width="100%" height="4.5rem" class="block" />
+  </div>
+  } @else {
   <form [formGroup]="profileForm" (ngSubmit)="onSave()" class="profile-form">
     <!-- First name & Last name -->
     <div class="profile-form__row">
@@ -70,8 +84,17 @@
       formControlName="email"
       type="email"
       placeholder="jonathan@gmail.com"
-      [readonly]="true"
     />
+
+    @if (isEmailChangeSuccessful()) {
+    <lib-custom-input
+      id="emailVerificationCode"
+      label="{{ 'SETTINGS.PROFILE.EMAIL_VERIFICATION_CODE' | translate }}"
+      formControlName="emailVerificationCode"
+      type="text"
+      placeholder="{{ 'SETTINGS.PROFILE.EMAIL_VERIFICATION_CODE_PLACEHOLDER' | translate }}"
+    />
+    }
 
     <!-- Phone -->
     <lib-custom-input
@@ -103,11 +126,11 @@
         variant="primary"
         label="{{ 'SETTINGS.PROFILE.SAVE_CHANGES' | translate }}"
         (btnClick)="onSave()"
+        [disabled]="!profileForm.dirty && !uploadedPhotoUrl()"
       />
     </div>
   </form>
-
-  @if (isDeleteDialogOpen()) {
+  } @if (isDeleteDialogOpen()) {
   <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4"
     role="presentation"
