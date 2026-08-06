@@ -2,6 +2,92 @@
   <lib-ui-label [forId]="id()">{{ label() }}</lib-ui-label>
 }
 
+@if (isPhoneWithCountryCode()) {
+  <div class="relative">
+    <div [class]="phoneWrapperClasses()">
+      <button
+        type="button"
+        [class]="countryButtonClasses"
+        [disabled]="disabled"
+        [attr.aria-expanded]="countryListOpen()"
+        aria-haspopup="listbox"
+        [attr.aria-label]="'Select country code: ' + selectedCountry().name"
+        (click)="toggleCountryList()"
+        (keyup.escape)="closeCountryList()"
+      >
+        <span
+          class="fi shrink-0 rounded-xs"
+          [class]="'fi-' + selectedCountry().iso2.toLowerCase()"
+          aria-hidden="true"
+        ></span>
+        <span>{{ selectedCountry().dialCode }}</span>
+        <svg
+          lucideIcon="chevron-down"
+          [size]="16"
+          aria-hidden="true"
+          class="text-zinc-400 transition-transform dark:text-zinc-400"
+          [class.rotate-180]="countryListOpen()"
+        ></svg>
+      </button>
+
+      <span
+        class="my-2.5 w-px shrink-0 bg-zinc-300 dark:bg-zinc-600"
+        aria-hidden="true"
+      ></span>
+
+      <input
+        class="custom-input__control"
+        [class]="phoneInputClasses"
+        [id]="id() || null"
+        type="tel"
+        [value]="phoneDigits()"
+        [placeholder]="placeholder()"
+        [readOnly]="readonly()"
+        [disabled]="disabled"
+        [attr.aria-invalid]="isInvalid()"
+        (input)="onPhoneDigitsChange($event)"
+        (blur)="onInputBlur()"
+      />
+    </div>
+
+    @if (countryListOpen()) {
+      <div
+        class="fixed inset-0 z-10"
+        role="presentation"
+        (click)="closeCountryList()"
+      ></div>
+
+      <ul
+        class="absolute inset-s-0 top-full z-20 mt-1.5 max-h-64 w-64 overflow-y-auto rounded-lg border border-zinc-200 bg-white p-1 shadow-lg dark:border-zinc-600 dark:bg-zinc-800"
+        role="listbox"
+      >
+        @for (country of countries; track country.iso2) {
+          <li>
+            <button
+              type="button"
+              class="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-start text-sm text-zinc-700 transition-colors hover:bg-soft-pink-50 dark:text-zinc-100 dark:hover:bg-zinc-700"
+              [class.bg-soft-pink-50]="country.iso2 === selectedCountry().iso2"
+              [class.dark:bg-zinc-700]="country.iso2 === selectedCountry().iso2"
+              role="option"
+              [attr.aria-selected]="country.iso2 === selectedCountry().iso2"
+              (click)="selectCountry(country)"
+            >
+              <span
+                class="fi shrink-0 rounded-xs"
+                [class]="'fi-' + country.iso2.toLowerCase()"
+                aria-hidden="true"
+              ></span>
+              <span class="min-w-0 flex-1 truncate">{{ country.name }}</span>
+              <span class="text-zinc-400 dark:text-zinc-400">{{
+                country.dialCode
+              }}</span>
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+} @else {
 <div class="relative">
   @if (hasLeadingIcon()) {
     <svg
@@ -67,6 +153,7 @@
     ></svg>
   }
 </div>
+}
 
 @if (helperText() && !isInvalid()) {
   <span class="mt-1 block text-sm text-zinc-500 dark:text-zinc-400">
