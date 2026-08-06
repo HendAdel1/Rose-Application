@@ -11,18 +11,8 @@ import { PaginatorState } from 'primeng/types/paginator';
 @Component({
   selector: 'lib-custom-pagination',
   imports: [PaginatorModule],
-  template: `
-    @if (totalRecords() > limit()) {
-      <div class="flex justify-center">
-        <p-paginator
-          [first]="first()"
-          [rows]="limit()"
-          [totalRecords]="totalRecords()"
-          (onPageChange)="onPageChange($event)"
-        ></p-paginator>
-      </div>
-    }
-  `,
+  templateUrl: './custom-pagination.html',
+  styleUrl: './custom-pagination.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomPagination {

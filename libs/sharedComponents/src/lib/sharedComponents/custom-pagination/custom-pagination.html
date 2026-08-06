@@ -1,0 +1,10 @@
+@if (totalRecords() > limit()) {
+  <div class="flex justify-center">
+    <p-paginator
+      [first]="first()"
+      [rows]="limit()"
+      [totalRecords]="totalRecords()"
+      (onPageChange)="onPageChange($event)"
+    ></p-paginator>
+  </div>
+}
