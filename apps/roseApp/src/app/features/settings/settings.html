@@ -1,4 +1,10 @@
 <section class="settings-page">
+  <h1
+    class="mb-6 font-sarabun text-2xl font-bold text-zinc-900 dark:text-white"
+  >
+    {{ 'SETTINGS.TITLE' | translate }}
+  </h1>
+
   <div class="settings-layout">
     <aside class="settings-sidebar">
       <app-sidebar-settings [(activeTab)]="activeTab" />
