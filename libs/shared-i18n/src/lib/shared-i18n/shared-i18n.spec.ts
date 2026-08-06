@@ -7,6 +7,9 @@ import { SharedI18nService } from './shared-i18n';
 
 describe('SharedI18nService', () => {
   let service: SharedI18nService;
+  const clearLanguageCookie = () => {
+    document.cookie = 'rose.lang=; Max-Age=0; Path=/; SameSite=Lax';
+  };
 
   const translateServiceMock = {
     setFallbackLang: vi.fn(() => of({})),
@@ -15,7 +18,7 @@ describe('SharedI18nService', () => {
   };
 
   beforeEach(() => {
-    localStorage.clear();
+    clearLanguageCookie();
 
     TestBed.configureTestingModule({
       providers: [
@@ -34,7 +37,7 @@ describe('SharedI18nService', () => {
   });
 
   afterEach(() => {
-    localStorage.clear();
+    clearLanguageCookie();
     document.documentElement.lang = '';
     document.documentElement.dir = '';
     vi.clearAllMocks();

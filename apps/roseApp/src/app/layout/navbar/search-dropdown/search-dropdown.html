@@ -1,0 +1,74 @@
+<div
+  class="max-h-[70vh] overflow-y-auto py-2 font-sarabun"
+  role="listbox"
+  [attr.aria-label]="'NAV.SEARCH_RESULTS_ARIA' | translate"
+>
+  @if (loading()) {
+    <div class="flex items-center justify-center gap-2 px-4 py-10 text-sm text-zinc-500 dark:text-zinc-400">
+      <span
+        class="size-4 shrink-0 animate-spin rounded-full border-2 border-zinc-300 border-t-maroon-600 dark:border-zinc-600 dark:border-t-soft-pink-400"
+        aria-hidden="true"
+      ></span>
+      {{ 'NAV.SEARCH_LOADING' | translate }}
+    </div>
+  } @else if (!results().length) {
+    <p class="px-4 py-10 text-center text-sm text-zinc-500 dark:text-zinc-400">
+      {{ 'NAV.SEARCH_NO_RESULTS' | translate }}
+    </p>
+  } @else {
+    <ul class="divide-y divide-zinc-100 dark:divide-zinc-700">
+      @for (product of results(); track product.id) {
+        <li>
+          <button
+            type="button"
+            class="grid w-full cursor-pointer grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1.5 px-3 py-3 text-start transition hover:bg-zinc-50 dark:hover:bg-zinc-700 sm:grid-cols-[auto_1fr_auto] sm:px-4"
+            role="option"
+            aria-selected="false"
+            (click)="selectProduct(product)"
+          >
+            <img
+              class="row-span-2 size-10 shrink-0 self-start rounded-lg bg-gray-50 object-cover dark:bg-zinc-800 sm:row-span-1 sm:size-12 sm:self-center"
+              [src]="imageUrl(product)"
+              [alt]="product.title"
+              loading="lazy"
+            />
+
+            <span class="min-w-0">
+              <span class="block truncate text-sm font-medium">
+                @for (segment of titleSegments(product); track $index) {
+                  <span
+                    [class.text-maroon-600]="segment.matched"
+                    [class.dark:text-soft-pink-300]="segment.matched"
+                    [class.text-zinc-800]="!segment.matched"
+                    [class.dark:text-zinc-100]="!segment.matched"
+                    >{{ segment.text }}</span
+                  >
+                }
+              </span>
+
+              <span class="mt-1 flex items-baseline gap-1">
+                <span class="text-lg font-bold text-zinc-800 dark:text-zinc-100 sm:text-xl">
+                  {{ priceAmount(product) }}
+                </span>
+                <span class="text-xs font-bold text-zinc-800 dark:text-zinc-100 sm:text-sm">EGP</span>
+              </span>
+            </span>
+
+            <span
+              class="col-start-2 flex flex-wrap items-center gap-1 text-xs text-zinc-600 dark:text-zinc-300 sm:col-start-3 sm:flex-nowrap sm:justify-end"
+            >
+              <svg lucideStar [size]="20" class="shrink-0 fill-amber-400 stroke-amber-400" aria-hidden="true"></svg>
+              <span>
+                {{ 'PRODUCT_DETAILS.RATING_LABEL' | translate }}
+                <strong class="font-bold text-zinc-800 dark:text-zinc-100">{{ formatRating(product) }}/5</strong>
+                <span class="text-blue-600 dark:text-blue-400">
+                  ({{ product.ratings }} {{ 'PRODUCT_DETAILS.RATINGS' | translate }})
+                </span>
+              </span>
+            </span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>

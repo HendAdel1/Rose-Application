@@ -12,6 +12,7 @@ import { OrderConfirmation } from '../features/order-confirmation/order-confirma
 import { authGuard } from '../core/guards/auth.guard';
 import { Wishlist } from '../features/wishlist/wishlist';
 import { Orders } from '../features/orders/orders';
+import { Settings } from '../features/settings/settings';
 export const remoteRoutes: Route[] = [
   {
     path: '',
@@ -56,6 +57,11 @@ export const remoteRoutes: Route[] = [
         path: 'orders',
         component: Orders,
         title: 'Orders',
+      },
+      {
+        path: 'settings',
+        component: Settings,
+        title: 'Settings',
         canActivate: [authGuard],
       },
     ],

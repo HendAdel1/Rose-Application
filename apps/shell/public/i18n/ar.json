@@ -133,6 +133,11 @@
     "DELIVER_TO": "التوصيل إلى:",
     "SEARCH_PLACEHOLDER": "ما الهدية الرائعة التي تبحث عنها؟",
     "SEARCH_PRODUCTS": "البحث عن المنتجات",
+    "CLEAR_SEARCH": "مسح البحث",
+    "SEARCH_RESULTS_ARIA": "نتائج البحث",
+    "CLOSE_SEARCH": "إغلاق نتائج البحث",
+    "SEARCH_LOADING": "جاري تحميل المنتجات...",
+    "SEARCH_NO_RESULTS": "لم يتم العثور على منتجات.",
     "OPEN_PROFILE_MENU": "فتح قائمة الحساب",
     "HELLO": "مرحبا",
     "LOGIN": "تسجيل الدخول",
@@ -473,6 +478,12 @@
     "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك",
     "NO_PRODUCTS_LIKE": "لا توجد اقتراحات للمنتجات حالياً.",
     "PRODUCT_OUT_OF_STOCK": "المنتج غير متوفر في المخزون"
+  },
+  "SETTINGS": {
+    "SIDEBAR": {
+      "PROFILE": "الملف الشخصي",
+      "CHANGE_PASSWORD": "تغيير كلمة المرور",
+      "LOGOUT": "تسجيل الخروج"
+    }
   }
-
 }
