@@ -1,0 +1,230 @@
+<section class="px-20 py-16 font-sarabun max-lg:px-8 max-sm:px-4 dark:text-white">
+  <div class="mx-auto max-w-5xl">
+    <!-- Page Title -->
+    <h1 class="mb-8 text-4xl font-bold text-zinc-950 dark:text-white">
+      {{ 'NAV.ORDERS' | translate }}
+    </h1>
+
+    <!-- Loading State -->
+    @if (isLoading() && orders().length === 0) {
+      <div class="flex min-h-64 flex-col items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-900">
+        <svg lucidePackage [size]="48" class="animate-bounce text-maroon-600 dark:text-soft-pink-200" aria-hidden="true"></svg>
+        <p class="text-lg font-medium text-zinc-600 dark:text-zinc-300">
+          {{ 'ORDERS.LOADING' | translate }}
+        </p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (errorMessage()) {
+      <div class="mb-6 flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300">
+        <svg lucideAlertCircle [size]="20" aria-hidden="true"></svg>
+        <span>{{ errorMessage() }}</span>
+        <button type="button" class="ms-auto font-bold underline cursor-pointer" (click)="loadOrders()">
+          {{ 'ORDERS.RETRY' | translate }}
+        </button>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if (!isLoading() && orders().length === 0 && !errorMessage()) {
+      <div class="flex min-h-80 flex-col items-center justify-center gap-4 rounded-xl border border-zinc-200 bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-900">
+        <div class="grid size-20 place-items-center rounded-full bg-maroon-50 text-maroon-600 dark:bg-zinc-800 dark:text-soft-pink-200">
+          <svg lucideShoppingBag [size]="40" aria-hidden="true"></svg>
+        </div>
+        <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">
+          {{ 'ORDERS.EMPTY_TITLE' | translate }}
+        </h2>
+        <p class="max-w-md text-zinc-500 dark:text-zinc-400">
+          {{ 'ORDERS.EMPTY_MESSAGE' | translate }}
+        </p>
+        <a
+          routerLink="/roseApp/products"
+          class="mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-[0.625rem] bg-maroon-600 px-6 font-bold text-white no-underline transition hover:brightness-95 dark:bg-soft-pink-300 dark:text-zinc-900"
+        >
+          {{ 'ORDERS.START_SHOPPING' | translate }}
+        </a>
+      </div>
+    }
+
+    <!-- Orders List -->
+    @if (orders().length > 0) {
+      <div class="flex flex-col gap-8">
+        @for (order of orders(); track order.id) {
+          <div class="overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+            <!-- Order Header Banner -->
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-maroon-600 px-6 py-3.5 text-white">
+              <span class="text-xl font-bold tracking-tight">
+                {{ 'ORDERS.ORDER_NUMBER' | translate }} {{ getOrderNumber(order) }}
+              </span>
+              @if (order.createdAt) {
+                <span class="text-sm text-zinc-200">
+                  {{ 'ORDERS.CREATED_IN' | translate }} {{ order.createdAt | date: 'dd MMMM, yyyy \'at\' hh:mm a' }}
+                </span>
+              }
+            </div>
+
+            <!-- Order Body -->
+            <div class="p-6">
+              <!-- Price and Status Row -->
+              <div class="mb-4 flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200 pb-4 dark:border-zinc-800">
+                <div class="flex items-center gap-3">
+                  <span class="text-xl font-bold text-zinc-950 dark:text-white">
+                    {{ 'ORDERS.TOTAL_PRICE' | translate }} <strong class="text-2xl">{{ getTotalPrice(order) | number: '1.0-2' }} EGP</strong>
+                  </span>
+
+                  <!-- Payment Status Badge (Paid ONLY if paid, else hidden) -->
+                  @if (order.paymentStatus === 'SUCCEEDED' || order.paymentStatus === 'PAID') {
+                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-white">
+                      <svg lucideCheckCircle2 [size]="14" aria-hidden="true"></svg>
+                      {{ 'ORDERS.PAYMENT_STATUS.PAID' | translate }}
+                    </span>
+                  }
+                </div>
+
+                <!-- Order Status Badge -->
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-semibold text-zinc-600 dark:text-zinc-400">
+                    {{ 'ORDERS.STATUS' | translate }}
+                  </span>
+                  @if (order.status === 'DELIVERED' || order.status === 'DONE') {
+                    <span class="inline-flex items-center rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-white">
+                      {{ 'ORDERS.STATUS_VALUES.DONE' | translate }}
+                    </span>
+                  } @else if (order.status === 'CANCELLED') {
+                    <span class="inline-flex items-center rounded-full bg-red-500 px-3 py-1 text-xs font-bold text-white">
+                      {{ 'ORDERS.STATUS_VALUES.CANCELED' | translate }}
+                    </span>
+                  } @else {
+                    <span class="inline-flex items-center rounded-full bg-sky-500 px-3 py-1 text-xs font-bold text-white">
+                      {{ 'ORDERS.STATUS_VALUES.IN_PROGRESS' | translate }}
+                    </span>
+                  }
+                </div>
+              </div>
+
+              <!-- Payment Method & Delivery Status (Stacked vertically) -->
+              <div class="mb-4 flex flex-col gap-2.5 text-sm text-zinc-700 dark:text-zinc-300">
+                <div class="flex items-center gap-1.5 font-medium">
+                  <span>{{ 'ORDERS.PAYMENT_METHOD' | translate }}</span>
+                  <span class="inline-flex items-center gap-1 font-bold text-zinc-900 dark:text-white">
+                    <svg lucideCreditCard [size]="16" class="text-zinc-500" aria-hidden="true"></svg>
+                    @if (order.paymentMethod === 'CREDIT_CARD') {
+                      {{ 'ORDERS.CREDIT_CARD' | translate }}
+                    } @else {
+                      {{ 'ORDERS.CASH' | translate }}
+                    }
+                  </span>
+                </div>
+
+                <div class="flex items-center gap-1.5 font-medium">
+                  <span>{{ 'ORDERS.DELIVERY_STATUS' | translate }}</span>
+                  <span class="inline-flex items-center gap-1 font-bold">
+                    @if (order.status === 'DELIVERED') {
+                      <svg lucideTruck [size]="16" class="text-emerald-600" aria-hidden="true"></svg>
+                      <span class="text-emerald-600">{{ 'ORDERS.STATUS_VALUES.DELIVERED' | translate }}</span>
+                    } @else if (order.status === 'CANCELLED') {
+                      <svg lucideXCircle [size]="16" class="text-red-500" aria-hidden="true"></svg>
+                      <span class="text-red-500">{{ 'ORDERS.STATUS_VALUES.CANCELED' | translate }}</span>
+                    } @else {
+                      <svg lucideClock [size]="16" class="text-amber-500" aria-hidden="true"></svg>
+                      <span class="text-amber-600 dark:text-amber-400">{{ 'ORDERS.STATUS_VALUES.PENDING' | translate }}</span>
+                    }
+                  </span>
+                </div>
+              </div>
+
+              <!-- Order Items Section -->
+              <div>
+                <h3 class="mb-3 text-sm font-bold text-zinc-900 dark:text-white">
+                  {{ 'ORDERS.ITEMS_HEADER' | translate }}
+                </h3>
+
+                <div class="relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
+                  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    @for (item of getVisibleItems(order); track item.id || item.productId) {
+                      <div class="flex items-center gap-4 rounded-lg border border-zinc-100 bg-zinc-50/50 p-3 dark:border-zinc-800 dark:bg-zinc-900/50">
+                        <!-- Product Image -->
+                        <img
+                          [src]="getItemCover(item)"
+                          [alt]="getItemTitle(item)"
+                          class="size-20 rounded-md object-cover"
+                        />
+
+                        <!-- Product Info -->
+                        <div class="flex min-w-0 flex-1 flex-col gap-1">
+                          <h4 class="truncate text-base font-bold text-zinc-900 dark:text-white">
+                            {{ getItemTitle(item) }}
+                          </h4>
+
+                          <!-- Rating -->
+                          <div class="flex items-center gap-1 text-xs text-amber-500">
+                            <span>★</span>
+                            <span class="font-bold text-zinc-700 dark:text-zinc-300">
+                              {{ 'ORDERS.RATING' | translate }} {{ getItemRating(item) }}/5
+                            </span>
+                            <span class="text-zinc-400">
+                              ({{ getItemRatingsCount(item) }} {{ 'ORDERS.RATINGS_COUNT' | translate }})
+                            </span>
+                          </div>
+
+                          <!-- Quantity & Price -->
+                          <div class="mt-1 flex items-center gap-2">
+                            <span class="text-sm font-semibold text-red-600 dark:text-red-400">
+                              (x{{ item.quantity }})
+                            </span>
+                            <span class="text-base font-bold text-zinc-950 dark:text-white">
+                              {{ getItemPrice(item) | number: '1.0-2' }} EGP
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Gradient Fade Overlay & Show All Toggle -->
+                  @if (hasMoreItems(order) && !isExpanded(order.id)) {
+                    <div class="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end pb-3 pt-16 bg-gradient-to-t from-white via-white/85 to-transparent dark:from-zinc-950 dark:via-zinc-950/85 pointer-events-none rounded-b-xl">
+                      <button
+                        type="button"
+                        class="pointer-events-auto flex flex-col items-center gap-0.5 text-xs font-bold text-maroon-600 hover:text-maroon-700 dark:text-soft-pink-200 cursor-pointer transition"
+                        (click)="toggleExpandOrder(order.id)"
+                      >
+                        <span>{{ 'ORDERS.SHOW_ALL' | translate }}</span>
+                        <svg lucideChevronDown [size]="16" aria-hidden="true"></svg>
+                      </button>
+                    </div>
+                  }
+
+                  <!-- Clean Show Less Toggle when expanded -->
+                  @if (hasMoreItems(order) && isExpanded(order.id)) {
+                    <div class="mt-4 flex justify-center border-t border-zinc-100 pt-3 dark:border-zinc-800">
+                      <button
+                        type="button"
+                        class="inline-flex items-center gap-1.5 text-xs font-bold text-maroon-600 hover:underline dark:text-soft-pink-200 cursor-pointer"
+                        (click)="toggleExpandOrder(order.id)"
+                      >
+                        <span>{{ 'ORDERS.SHOW_LESS' | translate }}</span>
+                        <svg lucideChevronUp [size]="14" aria-hidden="true"></svg>
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-8">
+        <lib-custom-pagination
+          [page]="page()"
+          [limit]="limit()"
+          [totalRecords]="totalRecords()"
+          (pageChange)="onPageChange($event)"
+        ></lib-custom-pagination>
+      </div>
+    }
+  </div>
+</section>

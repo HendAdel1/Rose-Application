@@ -1,4 +1,35 @@
 {
+  "ORDERS": {
+    "TITLE": "My Orders",
+    "ORDER_NUMBER": "Order",
+    "CREATED_IN": "Created in:",
+    "TOTAL_PRICE": "Total Price:",
+    "STATUS": "Status:",
+    "PAYMENT_METHOD": "Payment Method:",
+    "DELIVERY_STATUS": "Delivery Status:",
+    "ITEMS_HEADER": "Order Items:",
+    "RATING": "Rating:",
+    "RATINGS_COUNT": "ratings",
+    "SHOW_ALL": "Show All",
+    "SHOW_LESS": "Show Less",
+    "LOADING": "Loading your orders...",
+    "RETRY": "Retry",
+    "EMPTY_TITLE": "No Orders Found",
+    "EMPTY_MESSAGE": "You haven't placed any orders yet. Start exploring our flowers and gifts collection!",
+    "START_SHOPPING": "Start Shopping",
+    "CASH": "Cash",
+    "CREDIT_CARD": "Credit Card",
+    "PAYMENT_STATUS": {
+      "PAID": "Paid"
+    },
+    "STATUS_VALUES": {
+      "DONE": "Done",
+      "DELIVERED": "Delivered",
+      "IN_PROGRESS": "In Progress",
+      "PENDING": "Pending",
+      "CANCELED": "Canceled"
+    }
+  },
   "AUTH": {
     "LOGIN_TOAST": {
       "SUCCESS_TITLE": "Welcome back",
