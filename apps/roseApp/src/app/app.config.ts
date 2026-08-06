@@ -2,6 +2,7 @@ import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
+import { provideNgxStripe } from 'ngx-stripe';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideAuthDataAccess } from '@org/auth-data-access';
 import { provideSharedI18n } from '@org/shared-i18n';
@@ -25,3 +26,5 @@ export const appConfig: ApplicationConfig = {
     provideSharedI18n(),
   ],
 };
+
+
