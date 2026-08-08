@@ -521,5 +521,13 @@
         "PASSWORD_MISMATCH": "Passwords do not match"
       }
     }
+  },
+    "COMMON": {
+    "CANCEL": "Cancel"
+  },
+  "PAYMENTINTENT": {
+    "STRIPE_MODAL_TITLE": "Pay with Credit / Debit Card",
+    "PROCESSING": "Processing...",
+    "PAY_BTN": "Pay {{amount}} EGP"
   }
 }
