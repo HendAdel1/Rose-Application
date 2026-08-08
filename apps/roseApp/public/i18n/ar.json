@@ -502,5 +502,13 @@
         "PASSWORD_MISMATCH": "كلمتا المرور غير متطابقتين"
       }
     }
+  },
+  "COMMON": {
+    "CANCEL": "إلغاء"
+  },
+  "PAYMENTINTENT": {
+    "STRIPE_MODAL_TITLE": "الدفع بواسطة البطاقة الائتمانية",
+    "PROCESSING": "جاري المعالجة...",
+    "PAY_BTN": "ادفع {{amount}} ج.م"
   }
 }
