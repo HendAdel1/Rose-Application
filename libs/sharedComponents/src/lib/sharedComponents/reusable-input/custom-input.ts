@@ -1,4 +1,11 @@
-import { Component, computed, forwardRef, input, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  forwardRef,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   LucideChevronDown,
@@ -39,7 +46,7 @@ export interface CustomInputOption {
       LucideSearch,
       LucideEye,
       LucideEyeOff,
-      LucideChevronDown
+      LucideChevronDown,
     ),
     {
       provide: NG_VALUE_ACCESSOR,
@@ -86,7 +93,7 @@ export class CustomInput implements ControlValueAccessor {
   readonly hasLeadingIcon = computed(() => this.type() === 'search');
 
   readonly hasTrailingIcon = computed(
-    () => this.isSelect() || this.type() === 'password'
+    () => this.isSelect() || this.type() === 'password',
   );
 
   readonly resolvedType = computed(() => {
@@ -118,7 +125,7 @@ export class CustomInput implements ControlValueAccessor {
 
   readonly phoneWrapperClasses = computed(() => {
     const base =
-      'box-border flex w-full items-center rounded-[10px] border font-inter ' +
+      'box-border flex w-full items-center rounded-[10px] border overflow-hidden font-inter ' +
       'bg-white border-zinc-300 hover:border-zinc-400 focus-within:border-maroon-600 ' +
       'dark:bg-zinc-700 dark:border-zinc-600 dark:hover:border-zinc-500 dark:focus-within:border-soft-pink-400 ' +
       'has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-60';
@@ -131,11 +138,11 @@ export class CustomInput implements ControlValueAccessor {
   });
 
   readonly phoneInputClasses =
-    'min-w-0 flex-1 bg-transparent px-3 py-3 text-zinc-800 placeholder:text-zinc-400 ' +
+    'min-w-0 flex-1 bg-transparent ps-1 pe-4 py-3 rounded-e-[10px] text-zinc-800 placeholder:text-zinc-400 ' +
     'focus:outline-none dark:text-zinc-50 disabled:cursor-not-allowed disabled:opacity-60';
 
   readonly countryButtonClasses =
-    'flex shrink-0 cursor-pointer items-center gap-1.5 rounded-s-[10px] py-3 ps-4 pe-3 text-sm font-medium ' +
+    'flex shrink-0 cursor-pointer items-center gap-1.5 rounded-s-[10px] py-3 ps-4 pe-1 text-sm font-medium ' +
     'text-zinc-700 transition-colors hover:bg-zinc-50 focus:outline-none dark:text-zinc-100 dark:hover:bg-zinc-600/60';
 
   private onChange: (value: string | number | null) => void = () => {

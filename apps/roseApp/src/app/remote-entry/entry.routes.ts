@@ -13,6 +13,7 @@ import { authGuard } from '../core/guards/auth.guard';
 import { Wishlist } from '../features/wishlist/wishlist';
 import { Orders } from '../features/orders/orders';
 import { Settings } from '../features/settings/settings';
+import { provideNgxStripe } from 'ngx-stripe';
 export const remoteRoutes: Route[] = [
   {
     path: '',
@@ -43,6 +44,9 @@ export const remoteRoutes: Route[] = [
       },
       {
         path: 'payment',
+        providers: [
+      provideNgxStripe('pk_test_51SWlA2LBXwUKsrZnlvrN6e6ZtNHIKhAzEuN48rQ4pcfXrddLrcDD4ayVhZ4d5DUYPmXx8lj39GDP6GQMTMWIQ6JU00NlPDzPtQ')
+    ],
         component: Payment,
         title: 'Payment',
         canActivate: [authGuard],

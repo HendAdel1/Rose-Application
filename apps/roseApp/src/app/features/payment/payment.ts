@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import {
@@ -11,6 +11,8 @@ import {
   LucideShoppingBag,
 } from '@lucide/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { StripeCardComponent, NgxStripeModule, StripeService } from 'ngx-stripe';
+import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { ToastrService } from 'ngx-toastr';
 
 import { CartService } from '../../core/services/cart.service';
@@ -29,6 +31,7 @@ import { PaymentService } from './services/payment.service';
     LucideListOrdered,
     LucideShoppingBag,
     TranslatePipe,
+    NgxStripeModule,
   ],
   templateUrl: './payment.html',
   styleUrl: './payment.css',
@@ -38,6 +41,7 @@ export class Payment implements OnInit {
   private readonly addressesService = inject(AddressesService);
   private readonly cartService = inject(CartService);
   private readonly paymentService = inject(PaymentService);
+  private readonly stripeService = inject(StripeService);
   private readonly router = inject(Router);
   private readonly toastr = inject(ToastrService);
   private readonly translate = inject(TranslateService);
@@ -49,9 +53,32 @@ export class Payment implements OnInit {
   readonly isLoading = this.paymentService.isLoading;
   readonly selectedMethod = signal<PaymentMethod>('CASH_ON_DELIVERY');
 
+  readonly showStripeModal = signal<boolean>(false);
   readonly isPaymentSuccess = signal<boolean>(false);
   readonly currentOrderId = signal<string | null>(null);
   readonly currentPaymentIntentId = signal<string | null>(null);
+  readonly isProcessingStripe = signal<boolean>(false);
+
+  @ViewChild(StripeCardComponent, { static: false }) stripeCard!: StripeCardComponent;
+
+  cardOptions: StripeCardElementOptions = {
+    style: {
+      base: {
+        iconColor: '#666EE8',
+        color: '#31325F',
+        fontWeight: '400',
+        fontFamily: 'Helvetica Neue, Helvetica, sans-serif',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#CFD7E0',
+        },
+      },
+    },
+  };
+
+  elementsOptions: StripeElementsOptions = {
+    locale: 'en',
+  };
 
   ngOnInit(): void {
     this.addressesService.loadAddresses();
@@ -118,7 +145,6 @@ export class Payment implements OnInit {
       .subscribe({
         next: (intent) => {
           const redirectUrl = intent.checkoutUrl ?? intent.url;
-
           if (redirectUrl) {
             window.location.href = redirectUrl;
             return;
