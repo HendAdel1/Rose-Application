@@ -16,6 +16,7 @@ export class PaymentService {
   private readonly http = inject(HttpClient);
   private readonly ordersUrl = `${environment.apiBaseUrl}/orders`;
   private readonly paymentIntentUrl = `${environment.apiBaseUrl}/payments/create-intent`;
+  private readonly confirmPaymentUrl = `${environment.apiBaseUrl}/payments/confirm`;
 
   readonly isLoading = signal(false);
 
@@ -39,6 +40,21 @@ export class PaymentService {
       .pipe(
         take(1),
         map((response) => response.payload ?? {}),
+        finalize(() => this.isLoading.set(false)),
+      );
+  }
+
+  confirmPayment(paymentIntentId: string, paymentMethodId: string): Observable<unknown> {
+    this.isLoading.set(true);
+
+    return this.http
+      .post<ApiResponse<unknown>>(this.confirmPaymentUrl, {
+        paymentIntentId,
+        paymentMethodId,
+      })
+      .pipe(
+        take(1),
+        map((response) => response.payload),
         finalize(() => this.isLoading.set(false)),
       );
   }

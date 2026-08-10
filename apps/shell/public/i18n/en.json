@@ -521,5 +521,16 @@
         "PASSWORD_MISMATCH": "Passwords do not match"
       }
     }
+  },
+    "COMMON": {
+    "CANCEL": "Cancel"
+  },
+"PAYMENTINTENT": {
+    "SUCCESS": {
+      "TITLE": "Payment Successful!",
+      "MESSAGE": "Thank you for your order. Your transaction has been completed successfully.",
+      "VIEW_ORDERS": "View My Orders",
+      "CONTINUE_SHOPPING": "Continue Shopping"
+    }
   }
 }

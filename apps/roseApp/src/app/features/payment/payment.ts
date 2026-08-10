@@ -6,9 +6,11 @@ import {
   LucideArrowLeft,
   LucideArrowRight,
   LucideTicket,
+  LucideCheckCircle2,
+  LucideListOrdered,
+  LucideShoppingBag,
 } from '@lucide/angular';
-import { TranslatePipe } from '@ngx-translate/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { CartService } from '../../core/services/cart.service';
@@ -23,6 +25,9 @@ import { PaymentService } from './services/payment.service';
     LucideArrowLeft,
     LucideArrowRight,
     LucideTicket,
+    LucideCheckCircle2,
+    LucideListOrdered,
+    LucideShoppingBag,
     TranslatePipe,
   ],
   templateUrl: './payment.html',
@@ -44,6 +49,10 @@ export class Payment implements OnInit {
   readonly isLoading = this.paymentService.isLoading;
   readonly selectedMethod = signal<PaymentMethod>('CASH_ON_DELIVERY');
 
+  readonly isPaymentSuccess = signal<boolean>(false);
+  readonly currentOrderId = signal<string | null>(null);
+  readonly currentPaymentIntentId = signal<string | null>(null);
+
   ngOnInit(): void {
     this.addressesService.loadAddresses();
     this.cartService.fetchCart();
@@ -57,6 +66,15 @@ export class Payment implements OnInit {
     void this.router.navigate(['/roseApp/addresses']);
   }
 
+  goToOrders(): void {
+    void this.router.navigate(['/roseApp/orders']);
+  }
+
+  continueShopping(): void {
+    void this.router.navigate(['/roseApp/products']);
+  }
+
+  // Step 1: Create Order & Trigger Direct Payment Process
   checkout(): void {
     const address = this.selectedAddress();
 
@@ -85,14 +103,15 @@ export class Payment implements OnInit {
     }
 
     if (this.selectedMethod() === 'CREDIT_CARD') {
-      this.createCardPayment(orderId);
+      this.createAndConfirmCardPayment(orderId);
       return;
     }
 
     this.completeCheckout(orderId);
   }
 
-  private createCardPayment(orderId: string): void {
+  // Step 1 (PaymentIntent) -> Step 2 (Direct Confirm with pm_card_visa)
+  private createAndConfirmCardPayment(orderId: string): void {
     this.paymentService
       .createPaymentIntent({ orderId })
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -105,18 +124,40 @@ export class Payment implements OnInit {
             return;
           }
 
-          this.completeCheckout(orderId);
+          const paymentIntentId = intent.paymentIntentId ?? intent.id;
+
+          if (paymentIntentId) {
+            this.currentOrderId.set(orderId);
+            this.currentPaymentIntentId.set(paymentIntentId);
+
+            // Step 2: Directly confirm using fixed test card token
+            this.confirmDirectPayment(orderId, paymentIntentId, 'pm_card_visa');
+          } else {
+            this.completeCheckout(orderId);
+          }
         },
         error: () => undefined,
+      });
+  }
+
+  private confirmDirectPayment(orderId: string, paymentIntentId: string, paymentMethodId: string): void {
+    this.paymentService
+      .confirmPayment(paymentIntentId, paymentMethodId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.completeCheckout(orderId);
+        },
+        error: (err) => {
+          this.toastr.error(err?.error?.message || 'Payment confirmation failed.');
+        },
       });
   }
 
   private completeCheckout(orderId: string): void {
     this.cartService.clearCart(() => {
       this.toastr.success(this.translate.instant('PAYMENT.FEEDBACK.ORDER_SUCCESS'));
-      void this.router.navigate(['/roseApp/order-confirmation'], {
-        queryParams: { orderId },
-      });
+      this.isPaymentSuccess.set(true);
     });
   }
 }

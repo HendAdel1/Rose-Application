@@ -502,5 +502,16 @@
         "PASSWORD_MISMATCH": "كلمتا المرور غير متطابقتين"
       }
     }
+  },
+  "COMMON": {
+    "CANCEL": "إلغاء"
+  },
+"PAYMENTINTENT": {
+    "SUCCESS": {
+      "TITLE": "تم الدفع بنجاح!",
+      "MESSAGE": "شكراً لك على طلبك. تم إكمال المعاملة بنجاح.",
+      "VIEW_ORDERS": "عرض طلباتي",
+      "CONTINUE_SHOPPING": "متابعة التسوق"
+    }
   }
 }
