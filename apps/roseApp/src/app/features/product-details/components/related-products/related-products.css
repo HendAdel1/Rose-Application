@@ -43,12 +43,13 @@
 
 .nav-button:hover {
   background: var(--color-maroon-800);
-  transform: translateY(-1px);
+  transform: translateY(-50%) translateY(-1px);
 }
 
 .nav-button--floating {
   position: absolute;
-  top: 39%;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 30;
 }
 

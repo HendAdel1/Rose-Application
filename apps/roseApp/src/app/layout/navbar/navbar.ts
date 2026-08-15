@@ -187,9 +187,13 @@ export class Navbar {
     this.profileMenuOpen.update((open) => !open);
   }
 
+  closeProfileMenu(): void {
+    this.profileMenuOpen.set(false);
+  }
+
   logout(): void {
     this.authSession.logout();
-    this.profileMenuOpen.set(false);
+    this.closeProfileMenu();
     void this.router.navigate(['/roseApp']);
   }
 }

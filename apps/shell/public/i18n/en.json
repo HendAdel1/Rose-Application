@@ -379,6 +379,7 @@
     "BACK": "Back",
     "TITLE": "Payment Method",
     "CHECKOUT": "Checkout",
+    "PROCESSING": "Processing...",
     "CASH": {
       "TITLE": "Cash on Delivery",
       "DESCRIPTION": "You'll pay in cash when your order is delivered."

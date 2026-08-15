@@ -1,10 +1,10 @@
 <nav
-  class="sidebar-nav bg-zinc-50 dark:bg-zinc-500"
+  class="sidebar-nav bg-zinc-50 dark:bg-zinc-800"
   aria-label="Settings navigation"
 >
   <ul class="nav-list" role="list">
     @for (item of navItems; track item.id) {
-    <li>
+    <li [class.mb-2]="item.id === 'profile'">
       <button
         type="button"
         class="nav-item"

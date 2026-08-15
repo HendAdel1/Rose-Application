@@ -125,7 +125,11 @@ export class Addresses implements OnInit {
   openEditModal(address: AddressItem): void {
     this.prepareEditModal(address);
     this.addressesService.getAddressById(address.id).subscribe({
-      next: (freshAddress) => this.populateEditForm(freshAddress),
+      next: (freshAddress) => {
+        if (freshAddress.id && (freshAddress.city || freshAddress.street)) {
+          this.populateEditForm(freshAddress);
+        }
+      },
       error: () => undefined,
     });
   }
@@ -216,7 +220,10 @@ export class Addresses implements OnInit {
         : this.addressesService.addAddress(payload);
 
     request.subscribe({
-      next: () => this.closeModal(),
+      next: () => {
+        this.addressesService.loadAddresses();
+        this.closeModal();
+      },
       error: () => undefined,
     });
   }

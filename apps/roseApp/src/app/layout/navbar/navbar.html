@@ -100,22 +100,23 @@
             type="button"
             role="menuitem"
             [routerLink]="'settings'"
+            (click)="closeProfileMenu()"
           >
             <svg lucideUser [size]="18" aria-hidden="true"></svg>
             <span>{{ 'NAV.ACCOUNT' | translate }}</span>
           </button>
-          <button class="profile-menu-item" type="button" role="menuitem" routerLink="/roseApp/addresses" (click)="profileMenuOpen.set(false)">
+          <button class="profile-menu-item" type="button" role="menuitem" routerLink="/roseApp/addresses" (click)="closeProfileMenu()">
             <svg lucideMapPin [size]="18" aria-hidden="true"></svg>
             <span>{{ 'NAV.ADDRESSES' | translate }}</span>
           </button>
-          <button class="profile-menu-item" type="button" role="menuitem" routerLink="/roseApp/orders" (click)="profileMenuOpen.set(false)">
+          <button class="profile-menu-item" type="button" role="menuitem" routerLink="/roseApp/orders" (click)="closeProfileMenu()">
             <svg lucideClipboardList [size]="18" aria-hidden="true"></svg>
             <span>{{ 'NAV.ORDERS' | translate }}</span>
           </button>
 
           <div class="profile-menu-divider"></div>
 
-          <button class="profile-menu-item" type="button" role="menuitem">
+          <button class="profile-menu-item" type="button" role="menuitem" (click)="closeProfileMenu()">
             <svg lucideSettings [size]="18" aria-hidden="true"></svg>
             <span>{{ 'NAV.DASHBOARD' | translate }}</span>
           </button>

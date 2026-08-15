@@ -41,19 +41,19 @@
     background-color 160ms ease,
     color 160ms ease;
   width: 100%;
-  @apply bg-transparent text-[#4b4b52] dark:text-zinc-300;
+  @apply bg-transparent text-[#4b4b52] dark:bg-zinc-700 dark:text-zinc-50;
 }
 
 .nav-item:hover {
-  @apply bg-[#e8e8eb]  dark:bg-zinc-700;
+  @apply bg-[#e8e8eb] dark:bg-zinc-600;
 }
 
 .nav-item.active {
-  @apply bg-[#2c2c2c] text-[#ffffff] dark:bg-white dark:text-zinc-900;
+  @apply bg-[#2c2c2c] text-[#ffffff] dark:bg-soft-pink-100 dark:text-zinc-800;
 }
 
 .nav-item.active svg {
-  @apply text-[#ffffff] dark:text-zinc-900;
+  @apply text-[#ffffff] dark:text-zinc-800;
 }
 
 .nav-item svg {
@@ -64,7 +64,7 @@
 
 .logout-item {
   margin-top: auto;
-  @apply bg-[#f0f0f4] text-[#dc2626] dark:bg-zinc-600 dark:text-red-400;
+  @apply bg-[#f0f0f4] text-[#dc2626] dark:bg-zinc-700 dark:text-red-400;
 }
 
 .logout-item svg {
