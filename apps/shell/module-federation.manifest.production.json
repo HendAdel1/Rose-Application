@@ -1,0 +1,4 @@
+{
+  "authApp": "https://REPLACE-WITH-YOUR-AUTHAPP-SITE.netlify.app/mf-manifest.json",
+  "roseApp": "https://REPLACE-WITH-YOUR-ROSEAPP-SITE.netlify.app/mf-manifest.json"
+}
