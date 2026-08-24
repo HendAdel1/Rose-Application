@@ -151,7 +151,16 @@
     "CATEGORIES": "Categories",
     "OCCASIONS": "Occasions",
     "CONTACT": "Contact",
-    "ABOUT": "About"
+    "ABOUT": "About",
+    "NOTIFICATIONS_PANEL": {
+      "TITLE": "Notifications",
+      "CLEAR_ALL": "Clear all notifications",
+      "MARK_ALL_READ": "Mark all as read",
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Mark as unread",
+      "DELETE": "Delete notification",
+      "EMPTY": "No notifications to display."
+    }
   },
   "FOOTER": {
     "ROSE_HOME": "Rose home",
@@ -429,7 +438,7 @@
     "EYEBROW": "Gallery",
     "TITLE": "Check Out our Wonderful Gallery"
   },
-"PRODUCT": {
+  "PRODUCT": {
     "FILTERS": "Filters",
     "CLEAR_ALL": "Clear all",
     "FILTER_PRODUCTS": "Filter Products",
@@ -458,7 +467,7 @@
     "Graduation": "Graduation",
     "FatherDay": "Father's Day"
   },
-    "CART": {
+  "CART": {
     "TITLE": "Shopping Cart",
     "PRODUCTS": "Products",
     "CLEAR_CART": "Clear Cart",
@@ -504,7 +513,7 @@
       }
     }
   },
-"PAYMENTINTENT": {
+  "PAYMENTINTENT": {
     "SUCCESS": {
       "TITLE": "Payment Successful!",
       "MESSAGE": "Thank you for your order. Your transaction has been completed successfully.",
@@ -512,5 +521,4 @@
       "CONTINUE_SHOPPING": "Continue Shopping"
     }
   }
-
 }

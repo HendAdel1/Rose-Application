@@ -151,7 +151,15 @@
     "CATEGORIES": "الفئات",
     "OCCASIONS": "المناسبات",
     "CONTACT": "تواصل معنا",
-    "ABOUT": "من نحن"
+    "ABOUT": "من نحن",
+    "NOTIFICATIONS_PANEL": {
+      "TITLE": "الإشعارات",
+      "CLEAR_ALL": "مسح جميع الإشعارات",
+      "MARK_ALL_READ": "تعيين الكل كمقروء",
+      "MARK_AS_READ": "تعيين كمقروء",
+      "MARK_AS_UNREAD": "تعيين كغير مقروء",
+      "DELETE": "حذف الإشعار",
+      "EMPTY": "لا توجد إشعارات لعرضها."
   },
   "FOOTER": {
     "ROSE_HOME": "الصفحة الرئيسية لـ Rose",
