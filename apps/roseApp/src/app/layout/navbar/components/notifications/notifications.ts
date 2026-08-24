@@ -69,10 +69,20 @@ export class Notifications implements OnInit {
   }
 
   markAllAsRead(): void {
+    const previousList = this.notifications();
+    const previousUnread = this.unreadCount();
+
     this.notifications.update((list) =>
       list.map((n) => ({ ...n, isRead: true })),
     );
     this.unreadCount.set(0);
+
+    this.notificationsService.markAllAsRead().subscribe({
+      error: () => {
+        this.notifications.set(previousList);
+        this.unreadCount.set(previousUnread);
+      },
+    });
   }
 
   clearAll(): void {
@@ -81,10 +91,20 @@ export class Notifications implements OnInit {
   }
 
   markAsRead(id: string): void {
+    const previousList = this.notifications();
+    const previousUnread = this.unreadCount();
+
     this.notifications.update((list) =>
       list.map((n) => (n.id === id ? { ...n, isRead: true } : n)),
     );
     this.unreadCount.update((count) => Math.max(0, count - 1));
+
+    this.notificationsService.updateNotification(id, { isRead: true }).subscribe({
+      error: () => {
+        this.notifications.set(previousList);
+        this.unreadCount.set(previousUnread);
+      },
+    });
   }
 
   markAsUnread(id: string): void {

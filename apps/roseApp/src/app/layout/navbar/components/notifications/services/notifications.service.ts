@@ -7,6 +7,7 @@ import {
   NotificationsApiResponse,
   NotificationsPaginationMetadata,
   UnreadCountApiResponse,
+  UpdateNotificationApiResponse,
 } from '../models/notification.model';
 
 export interface PaginatedNotificationsResult {
@@ -49,6 +50,27 @@ export class NotificationsService {
       .pipe(
         take(1),
         map((response) => response.payload?.unreadCount ?? 0),
+      );
+  }
+
+  markAllAsRead(): Observable<void> {
+    return this.http
+      .patch<void>(`${this.notificationsUrl}/mark-all-read`, {})
+      .pipe(take(1));
+  }
+
+  updateNotification(
+    id: string,
+    body: { isRead: boolean },
+  ): Observable<Notification> {
+    return this.http
+      .patch<UpdateNotificationApiResponse>(
+        `${this.notificationsUrl}/${id}`,
+        body,
+      )
+      .pipe(
+        take(1),
+        map((response) => response.payload.notification),
       );
   }
 }

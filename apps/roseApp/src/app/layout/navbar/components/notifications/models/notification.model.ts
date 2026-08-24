@@ -35,3 +35,11 @@ export interface UnreadCountApiResponse {
     unreadCount: number;
   };
 }
+
+export interface UpdateNotificationApiResponse {
+  status: boolean;
+  code: number;
+  payload: {
+    notification: Notification;
+  };
+}
