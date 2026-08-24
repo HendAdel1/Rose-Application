@@ -86,8 +86,18 @@ export class Notifications implements OnInit {
   }
 
   clearAll(): void {
+    const previousList = this.notifications();
+    const previousUnread = this.unreadCount();
+
     this.notifications.set([]);
     this.unreadCount.set(0);
+
+    this.notificationsService.clearAll().subscribe({
+      error: () => {
+        this.notifications.set(previousList);
+        this.unreadCount.set(previousUnread);
+      },
+    });
   }
 
   markAsRead(id: string): void {
@@ -115,11 +125,21 @@ export class Notifications implements OnInit {
   }
 
   deleteNotification(id: string): void {
-    const wasUnread = this.notifications().find((n) => n.id === id && !n.isRead);
+    const previousList = this.notifications();
+    const previousUnread = this.unreadCount();
+    const wasUnread = previousList.find((n) => n.id === id && !n.isRead);
+
     this.notifications.update((list) => list.filter((n) => n.id !== id));
     if (wasUnread) {
       this.unreadCount.update((count) => Math.max(0, count - 1));
     }
+
+    this.notificationsService.deleteNotification(id).subscribe({
+      error: () => {
+        this.notifications.set(previousList);
+        this.unreadCount.set(previousUnread);
+      },
+    });
   }
 
   openNotificationMenu(event: Event, notification: Notification): void {

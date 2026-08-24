@@ -73,4 +73,16 @@ export class NotificationsService {
         map((response) => response.payload.notification),
       );
   }
+
+  deleteNotification(id: string): Observable<void> {
+    return this.http
+      .delete<void>(`${this.notificationsUrl}/${id}`)
+      .pipe(take(1));
+  }
+
+  clearAll(): Observable<void> {
+    return this.http
+      .delete<void>(`${this.notificationsUrl}/clear-all`)
+      .pipe(take(1));
+  }
 }
