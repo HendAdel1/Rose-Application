@@ -1,0 +1,124 @@
+<p-popover
+  #notificationsPopover
+  styleClass="notifications-popover overflow-hidden "
+>
+  <div class="notifications-panel">
+    <!-- Header -->
+    <div class="notifications-header bg-maroon-700 dark:bg-soft-pink-200">
+      <h3 class="notifications-title text-white dark:text-zinc-800">
+        {{ 'NAV.NOTIFICATIONS_PANEL.TITLE' | translate }}@if
+        (notificationCount() > 0) { ({{ notificationCount() }}) }
+      </h3>
+    </div>
+
+    <!-- Toolbar -->
+    <div
+      class="notifications-toolbar bg-white dark:bg-zinc-700 dark:!border-b-[#44444d]"
+    >
+      <button
+        type="button"
+        class="toolbar-action text-zinc-800 dark:text-zinc-50 hover:dark:bg-[#44444d] hover:dark:text-[#ffb3c7] disabled:dark:!text-[#6b6b76]"
+        [disabled]="notificationCount() === 0"
+        (click)="clearAll()"
+      >
+        <svg lucideBrushCleaning [size]="15" aria-hidden="true"></svg>
+        {{ 'NAV.NOTIFICATIONS_PANEL.CLEAR_ALL' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toolbar-action text-zinc-800 dark:text-zinc-50 hover:dark:bg-[#44444d] hover:dark:text-[#ffb3c7] disabled:dark:!text-[#6b6b76]"
+        [disabled]="notificationCount() === 0"
+        (click)="markAllAsRead()"
+      >
+        <svg lucideCheckCheck [size]="15" aria-hidden="true"></svg>
+        {{ 'NAV.NOTIFICATIONS_PANEL.MARK_ALL_READ' | translate }}
+      </button>
+    </div>
+
+    <!-- List -->
+    <div class="notifications-list">
+      @if (loading()) {
+      <div
+        class="notifications-loading bg-white dark:bg-zinc-700 dark:text-[#a1a1aa]"
+      >
+        <svg
+          lucideLoader
+          [size]="32"
+          strokeWidth="2"
+          aria-hidden="true"
+          class="loading-spinner dark:text-[#71717a]"
+        ></svg>
+      </div>
+      } @else { @for (notification of notifications(); track notification.id) {
+      <div
+        class="notification-item bg-zinc-200 dark:!bg-zinc-600 dark:!border-b-[#44444d] hover:dark:!bg-zinc-600 [&.unread]:dark:!bg-zinc-900 [&.unread]:dark:!border-l-[#ffb3c7]"
+        [class.unread]="!notification.isRead"
+      >
+        <div class="notification-content">
+          <strong class="notification-title text-zinc-800 dark:text-zinc-50"
+            >{{ notification.title }}</strong
+          >
+          <p class="notification-message text-zinc-500 dark:text-zinc-400">
+            {{ notification.message }}
+          </p>
+        </div>
+        <button
+          type="button"
+          class="notification-menu-trigger dark:text-[#a1a1aa] hover:dark:bg-[#44444d] hover:dark:text-[#ffb3c7]"
+          aria-label="Notification settings"
+          (click)="openNotificationMenu($event, notification)"
+        >
+          <svg lucideEllipsisVertical [size]="16" aria-hidden="true"></svg>
+        </button>
+      </div>
+      } @empty {
+      <div
+        class="notifications-empty bg-white dark:bg-zinc-700 dark:text-[#a1a1aa]"
+      >
+        <svg
+          lucideBellOff
+          [size]="48"
+          strokeWidth="1.5"
+          aria-hidden="true"
+          class="empty-icon dark:text-[#71717a]"
+        ></svg>
+        <span class="empty-text dark:text-[#a1a1aa]"
+          >{{ 'NAV.NOTIFICATIONS_PANEL.EMPTY' | translate }}</span
+        >
+      </div>
+      } }
+    </div>
+  </div>
+</p-popover>
+
+<p-menu
+  #notificationMenu
+  [model]="menuItems()"
+  [popup]="true"
+  styleClass="notification-context-menu dark:!bg-zinc-700 dark:!border-[#44444d]"
+>
+  <ng-template pTemplate="item" let-item>
+    <a
+      [attr.tabindex]="-1"
+      class="p-menuitem-link"
+      [class.p-disabled]="item.disabled"
+      [class.dark:!text-[#f4f4f5]]="!item.disabled"
+      [class.hover:dark:!bg-[#44444d]]="!item.disabled"
+      (click)="item.disabled ? $event.preventDefault() : (item.command && item.command($event))"
+    >
+      <span class="p-menuitem-icon" [class.delete-icon]="item.icon === 'trash'">
+        @if (item.icon === 'check') {
+        <svg lucideCheck [size]="20" aria-hidden="true"></svg>
+        } @if (item.icon === 'trash') {
+        <svg lucideTrash2 [size]="20" aria-hidden="true"></svg>
+        }
+      </span>
+      <span
+        class="p-menuitem-text"
+        [class.dark:!text-[#f4f4f5]]="!item.disabled"
+        [class.delete-text]="item.icon === 'trash'"
+        >{{ item.label }}</span
+      >
+    </a>
+  </ng-template>
+</p-menu>
