@@ -101,6 +101,11 @@ export class Notifications implements OnInit {
   }
 
   markAsRead(id: string): void {
+    const target = this.notifications().find((n) => n.id === id);
+    if (!target || target.isRead) {
+      return;
+    }
+
     const previousList = this.notifications();
     const previousUnread = this.unreadCount();
 
