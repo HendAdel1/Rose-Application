@@ -1,0 +1,68 @@
+<nav
+  class="admin-bottom-nav fixed bottom-0 inset-x-0 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border-t border-zinc-200 dark:border-zinc-800 lg:hidden z-40 transition-colors select-none shadow-[0_-4px_16px_rgba(0,0,0,0.05)] pb-[env(safe-area-inset-bottom)]"
+  aria-label="Mobile Navigation"
+>
+  <div class="flex items-center justify-around h-16 px-2 relative max-w-lg mx-auto">
+    <!-- Left 2 items: Overview, Categories -->
+    @for (item of leftNavItems; track item.labelKey) {
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+        class="bottom-nav-item flex flex-col items-center justify-center gap-1 py-1.5 px-3 rounded-xl transition-all duration-150 text-zinc-600 dark:text-zinc-400"
+      >
+        @switch (item.icon) {
+          @case ('overview') {
+            <svg lucideLayoutGrid [size]="20" aria-hidden="true"></svg>
+          }
+          @case ('categories') {
+            <svg lucideClipboardList [size]="20" aria-hidden="true"></svg>
+          }
+        }
+        <span class="text-[11px] font-medium leading-none">{{ item.labelKey | translate }}</span>
+      </a>
+    }
+
+    <!-- Center Floating Action Button: Preview Website -->
+    <div class="relative -top-5 flex flex-col items-center">
+      <a
+        routerLink="/roseApp"
+        class="floating-flower-btn flex items-center justify-center w-12 h-12 rounded-full bg-[#8A1730] hover:bg-[#741328] active:scale-95 text-white shadow-lg ring-4 ring-white dark:ring-zinc-900 transition-all duration-200 cursor-pointer"
+        [attr.aria-label]="'DASHBOARD.PREVIEW_WEBSITE' | translate"
+      >
+        <!-- Symmetrical 4-petal flower icon -->
+        <svg
+          class="w-6 h-6 stroke-current"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 7.5a4.5 4.5 0 1 1 4.5 4.5M12 7.5A4.5 4.5 0 1 0 7.5 12M12 7.5V12m4.5 0a4.5 4.5 0 1 1-4.5 4.5M16.5 12H12m-4.5 0a4.5 4.5 0 1 0 4.5 4.5M7.5 12H12m0 4.5V12"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Right 2 items: Occasions, Products -->
+    @for (item of rightNavItems; track item.labelKey) {
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+        class="bottom-nav-item flex flex-col items-center justify-center gap-1 py-1.5 px-3 rounded-xl transition-all duration-150 text-zinc-600 dark:text-zinc-400"
+      >
+        @switch (item.icon) {
+          @case ('occasions') {
+            <svg lucideCalendarHeart [size]="20" aria-hidden="true"></svg>
+          }
+          @case ('products') {
+            <svg lucidePackage [size]="20" aria-hidden="true"></svg>
+          }
+        }
+        <span class="text-[11px] font-medium leading-none">{{ item.labelKey | translate }}</span>
+      </a>
+    }
+  </div>
+</nav>

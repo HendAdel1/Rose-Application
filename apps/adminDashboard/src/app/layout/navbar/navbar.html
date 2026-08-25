@@ -1,0 +1,129 @@
+<header
+  class="admin-navbar w-full border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 transition-colors duration-200 select-none z-20"
+  aria-label="Admin Header"
+>
+  <div class="flex items-center justify-between h-16 px-4 sm:px-6">
+    <!-- Left Section: Mobile Brand & Desktop Breadcrumb -->
+    <div class="flex items-center gap-3">
+      <!-- Mobile Logo -->
+      <a
+        routerLink="/adminDashboard"
+        class="flex items-center gap-2.5 lg:hidden"
+        aria-label="Rose Dashboard"
+      >
+        <img
+          [src]="logoPath"
+          alt="Rose"
+          class="h-9 w-auto object-contain"
+        />
+        <span class="font-bold text-base text-zinc-900 dark:text-zinc-100">
+          {{ 'DASHBOARD.TITLE' | translate }}
+        </span>
+      </a>
+
+      <!-- Desktop Breadcrumb Title -->
+      <div class="hidden lg:flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+        <span class="font-semibold text-zinc-800 dark:text-zinc-100 text-lg">
+          {{ 'DASHBOARD.TITLE' | translate }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Right Section: Actions & Profile -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Language Switcher Button -->
+      <button
+        type="button"
+        (click)="toggleLanguage()"
+        class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+        [attr.aria-label]="'NAV.SWITCH_LANGUAGE' | translate"
+      >
+        {{ languageLabel() }}
+      </button>
+
+      <!-- Theme Switcher Button -->
+      <button
+        type="button"
+        (click)="toggleTheme()"
+        class="p-2 rounded-lg text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+        aria-label="Toggle theme"
+      >
+        @if (isDark()) {
+          <svg lucideSun [size]="18" aria-hidden="true"></svg>
+        } @else {
+          <svg lucideMoon [size]="18" aria-hidden="true"></svg>
+        }
+      </button>
+
+      <span class="h-5 w-px bg-zinc-200 dark:bg-zinc-800 hidden sm:block"></span>
+
+      <!-- Mobile User Avatar / Dropdown Trigger -->
+      <div class="relative">
+        <button
+          type="button"
+          (click)="toggleProfileMenu($event)"
+          class="flex items-center gap-2 p-1 rounded-full hover:ring-2 hover:ring-zinc-300 dark:hover:ring-zinc-700 transition-all cursor-pointer"
+          [attr.aria-expanded]="profileMenuOpen()"
+          aria-haspopup="menu"
+          aria-label="User menu"
+        >
+          @if (userPhoto()) {
+            <img
+              [src]="userPhoto()"
+              [alt]="userDisplayName()"
+              class="w-8 h-8 rounded-full object-cover shadow-sm ring-1 ring-zinc-200 dark:ring-zinc-700"
+            />
+          } @else {
+            <div
+              class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+              [style.background-color]="avatarColors().bg"
+              [style.color]="avatarColors().text"
+            >
+              {{ avatarInitial() }}
+            </div>
+          }
+        </button>
+
+        <!-- Dropdown Menu -->
+        @if (profileMenuOpen()) {
+          <div
+            class="absolute end-0 top-[calc(100%+0.5rem)] w-48 bg-white dark:bg-zinc-800 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-700 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+            role="menu"
+          >
+            <!-- User Name Header -->
+            <div class="px-3.5 py-2 border-b border-zinc-100 dark:border-zinc-700/60">
+              <p class="text-xs font-bold text-[#8A1730] dark:text-[#FFAAB9] truncate">
+                {{ userDisplayName() }}
+              </p>
+              <p class="text-[10px] text-zinc-500 dark:text-zinc-400 truncate">
+                {{ userEmail() }}
+              </p>
+            </div>
+
+            <!-- Profile / Account -->
+            <a
+              routerLink="/roseApp/settings"
+              (click)="closeProfileMenu()"
+              class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700/70 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors cursor-pointer"
+              role="menuitem"
+            >
+              <svg lucideUser [size]="15" class="text-zinc-500 dark:text-zinc-400" aria-hidden="true"></svg>
+              <span>{{ 'DASHBOARD.PROFILE' | translate }}</span>
+            </a>
+
+            <!-- Logout -->
+            <button
+              type="button"
+              (click)="logout()"
+              class="flex items-center gap-2.5 w-full text-start px-3.5 py-2 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+              role="menuitem"
+            >
+              <svg lucideLogOut [size]="15" aria-hidden="true"></svg>
+              <span>{{ 'DASHBOARD.LOGOUT' | translate }}</span>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</header>

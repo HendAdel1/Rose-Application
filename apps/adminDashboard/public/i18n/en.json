@@ -1,0 +1,21 @@
+{
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "PREVIEW_WEBSITE": "Preview website",
+    "OVERVIEW": "Overview",
+    "CATEGORIES": "Categories",
+    "OCCASIONS": "Occasions",
+    "PRODUCTS": "Products",
+    "PROFILE": "Profile",
+    "ACCOUNT": "Account",
+    "LOGOUT": "Log out"
+  },
+  "NAV": {
+    "ACCOUNT": "Account",
+    "ADDRESSES": "Addresses",
+    "ORDERS": "Orders",
+    "DASHBOARD": "Dashboard",
+    "LOGOUT": "Log out",
+    "SWITCH_LANGUAGE": "Switch language"
+  }
+}

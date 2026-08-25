@@ -526,12 +526,23 @@
     "COMMON": {
     "CANCEL": "إلغاء"
   },
-"PAYMENTINTENT": {
+  "PAYMENTINTENT": {
     "SUCCESS": {
       "TITLE": "تم الدفع بنجاح!",
       "MESSAGE": "شكراً لك على طلبك. تم إكمال المعاملة بنجاح.",
       "VIEW_ORDERS": "عرض طلباتي",
       "CONTINUE_SHOPPING": "متابعة التسوق"
     }
+  },
+  "DASHBOARD": {
+    "TITLE": "لوحة التحكم",
+    "PREVIEW_WEBSITE": "معاينة الموقع",
+    "OVERVIEW": "نظرة عامة",
+    "CATEGORIES": "الفئات",
+    "OCCASIONS": "المناسبات",
+    "PRODUCTS": "المنتجات",
+    "PROFILE": "الملف الشخصي",
+    "ACCOUNT": "الحساب",
+    "LOGOUT": "تسجيل الخروج"
   }
 }

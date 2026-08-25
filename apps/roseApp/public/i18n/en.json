@@ -504,13 +504,23 @@
       }
     }
   },
-"PAYMENTINTENT": {
+  "PAYMENTINTENT": {
     "SUCCESS": {
       "TITLE": "Payment Successful!",
       "MESSAGE": "Thank you for your order. Your transaction has been completed successfully.",
       "VIEW_ORDERS": "View My Orders",
       "CONTINUE_SHOPPING": "Continue Shopping"
     }
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "PREVIEW_WEBSITE": "Preview website",
+    "OVERVIEW": "Overview",
+    "CATEGORIES": "Categories",
+    "OCCASIONS": "Occasions",
+    "PRODUCTS": "Products",
+    "PROFILE": "Profile",
+    "ACCOUNT": "Account",
+    "LOGOUT": "Log out"
   }
-
 }

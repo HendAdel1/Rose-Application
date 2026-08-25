@@ -1,0 +1,68 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div>
+    <h1 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+      {{ 'DASHBOARD.OVERVIEW' | translate }}
+    </h1>
+    <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+      Welcome to your store control center.
+    </p>
+  </div>
+
+  <!-- Key Metrics Summary Cards (Matching Screenshot 2) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    @for (stat of stats; track stat.titleKey) {
+      <div
+        class="p-5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow duration-200"
+      >
+        <div>
+          <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            {{ stat.titleKey }}
+          </p>
+          <p class="text-2xl font-extrabold text-zinc-900 dark:text-zinc-100 mt-1.5">
+            {{ stat.value }}
+          </p>
+        </div>
+
+        <div
+          class="w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner {{ stat.bgClass }}"
+        >
+          @switch (stat.icon) {
+            @case ('package') {
+              <svg lucidePackage [size]="24" aria-hidden="true"></svg>
+            }
+            @case ('receipt') {
+              <svg lucideReceipt [size]="24" aria-hidden="true"></svg>
+            }
+            @case ('trending') {
+              <svg lucideTrendingUp [size]="24" aria-hidden="true"></svg>
+            }
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- All Categories Card (Matching Screenshot 2) -->
+  <div class="p-6 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
+    <div class="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800">
+      <h2 class="text-base font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+        <svg lucideClipboardList [size]="18" class="text-[#8A1730] dark:text-rose-400" aria-hidden="true"></svg>
+        <span>All Categories</span>
+      </h2>
+    </div>
+
+    <div class="divide-y divide-zinc-100 dark:divide-zinc-800 mt-2">
+      @for (cat of categories; track cat.name) {
+        <div class="py-3 flex items-center justify-between">
+          <span class="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+            {{ cat.name }}
+          </span>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+            {{ cat.count }}
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+</div>
