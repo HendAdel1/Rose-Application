@@ -3,28 +3,28 @@
   aria-label="Mobile Navigation"
 >
   <div class="flex items-center justify-between h-16 px-3 relative max-w-md mx-auto">
-    <!-- 1. Overview -->
-    <a
-      [routerLink]="['/adminDashboard/overview']"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="nav-tab flex flex-col items-center justify-center gap-1 py-1.5 px-3 rounded-xl transition-all duration-150 text-zinc-500 dark:text-zinc-400"
-    >
-      <svg lucideLayoutGrid [size]="18" aria-hidden="true"></svg>
-      <span class="text-[11px] font-medium leading-none">{{ 'DASHBOARD.OVERVIEW' | translate }}</span>
-    </a>
+    <!-- Left 2 items: Overview, Categories -->
+    @for (item of leftNavItems; track item.labelKey) {
+      <a
+        [routerLink]="item.route"
+        [relativeTo]="layoutRoute"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+        class="nav-tab flex flex-col items-center justify-center gap-1 py-1.5 px-3 rounded-xl transition-all duration-150 text-zinc-500 dark:text-zinc-400"
+      >
+        @switch (item.icon) {
+          @case ('overview') {
+            <svg lucideLayoutGrid [size]="18" aria-hidden="true"></svg>
+          }
+          @case ('categories') {
+            <svg lucideClipboardList [size]="18" aria-hidden="true"></svg>
+          }
+        }
+        <span class="text-[11px] font-medium leading-none">{{ item.labelKey | translate }}</span>
+      </a>
+    }
 
-    <!-- 2. Categories -->
-    <a
-      [routerLink]="['/adminDashboard/categories']"
-      routerLinkActive="active"
-      class="nav-tab flex flex-col items-center justify-center gap-1 py-1.5 px-3 rounded-xl transition-all duration-150 text-zinc-500 dark:text-zinc-400"
-    >
-      <svg lucideClipboardList [size]="18" aria-hidden="true"></svg>
-      <span class="text-[11px] font-medium leading-none">{{ 'DASHBOARD.CATEGORIES' | translate }}</span>
-    </a>
-
-    <!-- 3. Center Floating Action: Preview Website -->
+    <!-- Center Floating Action: Preview Website -->
     <div class="relative -top-4 flex flex-col items-center shrink-0">
       <a
         routerLink="/roseApp"
@@ -45,24 +45,25 @@
       </a>
     </div>
 
-    <!-- 4. Occasions -->
-    <a
-      [routerLink]="['/adminDashboard/occasions']"
-      routerLinkActive="active"
-      class="nav-tab flex flex-col items-center justify-center gap-1 py-1.5 px-3 rounded-xl transition-all duration-150 text-zinc-500 dark:text-zinc-400"
-    >
-      <svg lucideCalendarHeart [size]="18" aria-hidden="true"></svg>
-      <span class="text-[11px] font-medium leading-none">{{ 'DASHBOARD.OCCASIONS' | translate }}</span>
-    </a>
-
-    <!-- 5. Products -->
-    <a
-      [routerLink]="['/adminDashboard/products']"
-      routerLinkActive="active"
-      class="nav-tab flex flex-col items-center justify-center gap-1 py-1.5 px-3 rounded-xl transition-all duration-150 text-zinc-500 dark:text-zinc-400"
-    >
-      <svg lucidePackage [size]="18" aria-hidden="true"></svg>
-      <span class="text-[11px] font-medium leading-none">{{ 'DASHBOARD.PRODUCTS' | translate }}</span>
-    </a>
+    <!-- Right 2 items: Occasions, Products -->
+    @for (item of rightNavItems; track item.labelKey) {
+      <a
+        [routerLink]="item.route"
+        [relativeTo]="layoutRoute"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+        class="nav-tab flex flex-col items-center justify-center gap-1 py-1.5 px-3 rounded-xl transition-all duration-150 text-zinc-500 dark:text-zinc-400"
+      >
+        @switch (item.icon) {
+          @case ('occasions') {
+            <svg lucideCalendarHeart [size]="18" aria-hidden="true"></svg>
+          }
+          @case ('products') {
+            <svg lucidePackage [size]="18" aria-hidden="true"></svg>
+          }
+        }
+        <span class="text-[11px] font-medium leading-none">{{ item.labelKey | translate }}</span>
+      </a>
+    }
   </div>
 </nav>

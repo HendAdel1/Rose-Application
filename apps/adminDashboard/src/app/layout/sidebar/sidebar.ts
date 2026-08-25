@@ -7,7 +7,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   LucideCalendarHeart,
@@ -23,7 +23,7 @@ import { getAvatarColor, getUserInitial } from '../../core/utils/avatar-color.ut
 
 interface DashboardNavItem {
   labelKey: string;
-  route: string;
+  route: string[];
   icon: 'overview' | 'categories' | 'occasions' | 'products';
   exact?: boolean;
 }
@@ -51,6 +51,7 @@ export class AdminSidebar {
   private readonly authSession = inject(AuthSessionService);
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef);
+  readonly layoutRoute = inject(ActivatedRoute);
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly profileMenuOpen = signal(false);
@@ -88,10 +89,10 @@ export class AdminSidebar {
   });
 
   readonly navItems: DashboardNavItem[] = [
-    { labelKey: 'DASHBOARD.OVERVIEW', route: '/adminDashboard/overview', icon: 'overview', exact: true },
-    { labelKey: 'DASHBOARD.CATEGORIES', route: '/adminDashboard/categories', icon: 'categories' },
-    { labelKey: 'DASHBOARD.OCCASIONS', route: '/adminDashboard/occasions', icon: 'occasions' },
-    { labelKey: 'DASHBOARD.PRODUCTS', route: '/adminDashboard/products', icon: 'products' },
+    { labelKey: 'DASHBOARD.OVERVIEW', route: ['overview'], icon: 'overview', exact: true },
+    { labelKey: 'DASHBOARD.CATEGORIES', route: ['categories'], icon: 'categories' },
+    { labelKey: 'DASHBOARD.OCCASIONS', route: ['occasions'], icon: 'occasions' },
+    { labelKey: 'DASHBOARD.PRODUCTS', route: ['products'], icon: 'products' },
   ];
 
   toggleProfileMenu(event?: Event): void {

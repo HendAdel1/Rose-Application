@@ -7,7 +7,9 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LucideLogOut, LucideUser } from '@lucide/angular';
 import { AuthSessionService } from '@org/auth-data-access';
@@ -35,6 +37,23 @@ export class AdminNavbar {
   readonly profileMenuOpen = signal(false);
 
   readonly currentUser = this.authSession.currentUser;
+
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map((e) => e.urlAfterRedirects || e.url),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  readonly currentSectionKey = computed(() => {
+    const url = this.currentUrl();
+    if (url.includes('/products')) return 'DASHBOARD.PRODUCTS';
+    if (url.includes('/categories')) return 'DASHBOARD.CATEGORIES';
+    if (url.includes('/occasions')) return 'DASHBOARD.OCCASIONS';
+    if (url.includes('/overview')) return 'DASHBOARD.OVERVIEW';
+    return null;
+  });
 
   readonly userDisplayName = computed(() => {
     const user = this.currentUser();

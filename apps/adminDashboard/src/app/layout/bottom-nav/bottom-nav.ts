@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   LucideCalendarHeart,
@@ -10,7 +10,7 @@ import {
 
 interface BottomNavItem {
   labelKey: string;
-  route: string;
+  route: string[];
   icon: 'overview' | 'categories' | 'occasions' | 'products';
   exact?: boolean;
 }
@@ -32,13 +32,15 @@ interface BottomNavItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminBottomNav {
+  readonly layoutRoute = inject(ActivatedRoute);
+
   readonly leftNavItems: BottomNavItem[] = [
-    { labelKey: 'DASHBOARD.OVERVIEW', route: '/adminDashboard/overview', icon: 'overview', exact: true },
-    { labelKey: 'DASHBOARD.CATEGORIES', route: '/adminDashboard/categories', icon: 'categories' },
+    { labelKey: 'DASHBOARD.OVERVIEW', route: ['overview'], icon: 'overview', exact: true },
+    { labelKey: 'DASHBOARD.CATEGORIES', route: ['categories'], icon: 'categories' },
   ];
 
   readonly rightNavItems: BottomNavItem[] = [
-    { labelKey: 'DASHBOARD.OCCASIONS', route: '/adminDashboard/occasions', icon: 'occasions' },
-    { labelKey: 'DASHBOARD.PRODUCTS', route: '/adminDashboard/products', icon: 'products' },
+    { labelKey: 'DASHBOARD.OCCASIONS', route: ['occasions'], icon: 'occasions' },
+    { labelKey: 'DASHBOARD.PRODUCTS', route: ['products'], icon: 'products' },
   ];
 }
