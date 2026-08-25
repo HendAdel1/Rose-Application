@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from '@org/shared-theme';
+import { SharedI18nService } from '@org/shared-i18n';
 import { AdminNavbar } from '../navbar/navbar';
 import { AdminSidebar } from '../sidebar/sidebar';
 import { AdminBottomNav } from '../bottom-nav/bottom-nav';
@@ -19,7 +20,10 @@ import { AdminBottomNav } from '../bottom-nav/bottom-nav';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminLayout {
+  private readonly i18n = inject(SharedI18nService);
+  private readonly themeService = inject(ThemeService);
+
   constructor() {
-    inject(ThemeService).init();
+    this.themeService.init();
   }
 }

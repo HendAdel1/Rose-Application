@@ -538,11 +538,19 @@
     "TITLE": "لوحة التحكم",
     "PREVIEW_WEBSITE": "معاينة الموقع",
     "OVERVIEW": "نظرة عامة",
+    "OVERVIEW_SUBTITLE": "مرحبًا بك في مركز إدارة متجرك.",
     "CATEGORIES": "الفئات",
+    "ALL_CATEGORIES": "جميع الفئات",
     "OCCASIONS": "المناسبات",
     "PRODUCTS": "المنتجات",
     "PROFILE": "الملف الشخصي",
     "ACCOUNT": "الحساب",
-    "LOGOUT": "تسجيل الخروج"
+    "LOGOUT": "تسجيل الخروج",
+    "TOTAL_PRODUCTS": "إجمالي المنتجات",
+    "TOTAL_ORDERS": "إجمالي الطلبات",
+    "TOTAL_REVENUE": "إجمالي الإيرادات",
+    "ADD_CATEGORY": "إضافة قسم",
+    "ADD_OCCASION": "إضافة مناسبة",
+    "ADD_PRODUCT": "إضافة منتج"
   }
 }

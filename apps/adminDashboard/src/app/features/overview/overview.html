@@ -5,7 +5,7 @@
       {{ 'DASHBOARD.OVERVIEW' | translate }}
     </h1>
     <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-      Welcome to your store control center.
+      {{ 'DASHBOARD.OVERVIEW_SUBTITLE' | translate }}
     </p>
   </div>
 
@@ -17,7 +17,7 @@
       >
         <div>
           <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            {{ stat.titleKey }}
+            {{ stat.titleKey | translate }}
           </p>
           <p class="text-2xl font-extrabold text-zinc-900 dark:text-zinc-100 mt-1.5">
             {{ stat.value }}
@@ -48,7 +48,7 @@
     <div class="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800">
       <h2 class="text-base font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
         <svg lucideClipboardList [size]="18" class="text-[#8A1730] dark:text-rose-400" aria-hidden="true"></svg>
-        <span>All Categories</span>
+        <span>{{ 'DASHBOARD.ALL_CATEGORIES' | translate }}</span>
       </h2>
     </div>
 

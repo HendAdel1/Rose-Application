@@ -9,15 +9,8 @@ import {
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import {
-  LucideLogOut,
-  LucideMoon,
-  LucideSun,
-  LucideUser,
-} from '@lucide/angular';
+import { LucideLogOut, LucideUser } from '@lucide/angular';
 import { AuthSessionService } from '@org/auth-data-access';
-import { SharedI18nService } from '@org/shared-i18n';
-import { ThemeService } from '@org/shared-theme';
 import { getAvatarColor, getUserInitial } from '../../core/utils/avatar-color.util';
 
 @Component({
@@ -27,8 +20,6 @@ import { getAvatarColor, getUserInitial } from '../../core/utils/avatar-color.ut
     RouterLink,
     TranslatePipe,
     LucideLogOut,
-    LucideMoon,
-    LucideSun,
     LucideUser,
   ],
   templateUrl: './navbar.html',
@@ -37,8 +28,6 @@ import { getAvatarColor, getUserInitial } from '../../core/utils/avatar-color.ut
 })
 export class AdminNavbar {
   private readonly authSession = inject(AuthSessionService);
-  private readonly i18n = inject(SharedI18nService);
-  private readonly themeService = inject(ThemeService);
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef);
 
@@ -46,11 +35,6 @@ export class AdminNavbar {
   readonly profileMenuOpen = signal(false);
 
   readonly currentUser = this.authSession.currentUser;
-  readonly isDark = computed(() => this.themeService.theme() === 'dark');
-
-  readonly languageLabel = computed(() =>
-    this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية',
-  );
 
   readonly userDisplayName = computed(() => {
     const user = this.currentUser();
@@ -59,11 +43,6 @@ export class AdminNavbar {
       return `${user.firstName} ${user.lastName}`;
     }
     return user.firstName ?? user.username ?? 'Admin';
-  });
-
-  readonly userEmail = computed(() => {
-    const user = this.currentUser();
-    return user?.email ?? 'admin@rose.com';
   });
 
   readonly userPhoto = computed(() => {
@@ -89,14 +68,6 @@ export class AdminNavbar {
 
   closeProfileMenu(): void {
     this.profileMenuOpen.set(false);
-  }
-
-  toggleTheme(): void {
-    this.themeService.toggle();
-  }
-
-  toggleLanguage(): void {
-    this.i18n.toggleLanguage();
   }
 
   @HostListener('document:click', ['$event'])
