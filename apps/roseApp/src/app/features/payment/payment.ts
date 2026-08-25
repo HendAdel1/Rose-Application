@@ -19,6 +19,7 @@ import { CartService } from '../../core/services/cart.service';
 import { AddressesService } from '../addresses/services/addresses.service';
 import { PaymentMethod } from './models/payment.model';
 import { PaymentService } from './services/payment.service';
+import { NotificationsService } from '../../layout/navbar/components/notifications/services/notifications.service';
 
 @Component({
   selector: 'app-payment',
@@ -46,6 +47,7 @@ export class Payment implements OnInit {
   private readonly toastr = inject(ToastrService);
   private readonly translate = inject(TranslateService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly notificationsService = inject(NotificationsService);
 
   readonly selectedAddress = this.addressesService.selectedAddress;
   readonly subtotal = this.cartService.cartSubtotal;
@@ -182,6 +184,7 @@ export class Payment implements OnInit {
 
   private completeCheckout(orderId: string): void {
     this.cartService.clearCart(() => {
+      this.notificationsService.refreshUnreadCount();
       this.toastr.success(this.translate.instant('PAYMENT.FEEDBACK.ORDER_SUCCESS'));
       this.isPaymentSuccess.set(true);
     });

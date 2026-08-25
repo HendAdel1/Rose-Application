@@ -53,14 +53,14 @@ export class Notifications implements OnInit {
 
   readonly notifications = signal<Notification[]>([]);
   readonly loading = signal(false);
-  readonly unreadCount = signal(0);
+  readonly unreadCount = this.notificationsService.unreadCount;
 
   readonly notificationCount = computed(() => this.notifications().length);
 
   readonly menuItems = signal<MenuItem[]>([]);
 
   ngOnInit(): void {
-    this.fetchUnreadCount();
+    this.notificationsService.refreshUnreadCount();
   }
 
   toggle(event: Event): void {
@@ -170,11 +170,7 @@ export class Notifications implements OnInit {
     this.notificationMenu().toggle(event);
   }
 
-  private fetchUnreadCount(): void {
-    this.notificationsService.getUnreadCount().subscribe({
-      next: (count) => this.unreadCount.set(count),
-    });
-  }
+
 
   private loadNotifications(): void {
     this.loading.set(true);

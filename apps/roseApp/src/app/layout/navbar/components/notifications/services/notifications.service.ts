@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Observable, map, take } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import {
@@ -19,6 +19,8 @@ export interface PaginatedNotificationsResult {
 export class NotificationsService {
   private readonly http = inject(HttpClient);
   private readonly notificationsUrl = `${environment.apiBaseUrl}/notifications`;
+
+  readonly unreadCount = signal(0);
 
   getNotifications(
     page = 1,
@@ -51,6 +53,12 @@ export class NotificationsService {
         take(1),
         map((response) => response.payload?.unreadCount ?? 0),
       );
+  }
+
+  refreshUnreadCount(): void {
+    this.getUnreadCount().subscribe({
+      next: (count) => this.unreadCount.set(count),
+    });
   }
 
   markAllAsRead(): Observable<void> {
