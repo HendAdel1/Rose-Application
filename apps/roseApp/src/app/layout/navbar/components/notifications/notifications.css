@@ -1,0 +1,377 @@
+/* ───── Panel container ───── */
+.notifications-panel {
+  display: flex;
+  flex-direction: column;
+  width: 21rem;
+  max-height: 43.125rem;
+  border-radius: 0.75rem;
+  font-family: 'Sarabun', sans-serif;
+  overflow: hidden;
+}
+
+/* ───── Header ───── */
+.notifications-header {
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.notifications-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+/* ───── Toolbar ───── */
+.notifications-toolbar {
+  border-bottom: 1px solid #eeeeef;
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+.toolbar-action {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  gap: 0.375rem;
+  padding: 0.25rem 0.35rem;
+  border-radius: 0.3rem;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.toolbar-action:hover:not(:disabled) {
+  background: #ede0e2;
+  color: #861a22;
+}
+
+.toolbar-action:disabled {
+  color: #a0a0a0;
+  cursor: default;
+}
+
+/* ───── List ───── */
+.notifications-list {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+.notifications-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* ───── Notification item ───── */
+.notification-item {
+  align-items: flex-start;
+  border-bottom: 1px solid #eeeeef;
+  cursor: default;
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.75rem 1rem;
+  position: relative;
+  transition: background 160ms ease;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.notification-item:hover {
+  background: var(--color-zinc-200);
+}
+
+/* Unread accent */
+.notification-item.unread {
+  background: #ffffff; /* unread is white */
+}
+
+.notification-item.unread:hover {
+  background: #faf5f6;
+}
+
+.notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-title {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 100%;
+  letter-spacing: 0%;
+  margin-bottom: 0.375rem;
+}
+
+.notification-message {
+  display: -webkit-box;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: 0%;
+  margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* ───── 3-dot trigger ───── */
+.notification-menu-trigger {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0.3rem;
+  color: #999;
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  justify-content: center;
+  margin-top: 0.1rem;
+  padding: 0.2rem;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.notification-menu-trigger:hover {
+  background: #ede0e2;
+  color: #861a22;
+}
+
+/* ───── Empty state ───── */
+.notifications-empty {
+  border-radius: 0 0 8px 8px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  justify-content: center;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.empty-icon {
+  color: #8c8c8c;
+}
+
+.empty-text {
+  color: #6b6b6b;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+/* ───── Loading state ───── */
+.notifications-loading {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+  color: #861a22;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ───── PrimeNG Popover overrides ───── */
+:host ::ng-deep .notifications-popover.p-popover {
+  border: 1px solid #e4e4e7;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.75rem 2rem rgba(39, 39, 42, 0.18);
+  padding: 0;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+:host ::ng-deep .notifications-popover .p-popover-content {
+  padding: 0;
+}
+
+/* ───── PrimeNG Context Menu overrides ───── */
+:host ::ng-deep .notification-context-menu {
+  border-radius: 10px;
+  box-shadow: 0 0.5rem 1.25rem rgba(39, 39, 42, 0.16);
+  width: 12.8125rem;
+  height: 5.55rem;
+  overflow: hidden;
+  padding: 0.75rem;
+  font-family: 'Sarabun', sans-serif;
+}
+
+:host ::ng-deep .notification-context-menu .p-menuitem-link {
+  align-items: center;
+  border-radius: 0.75rem;
+  color: #1f1f1f;
+  cursor: pointer;
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 500;
+  gap: 0.625rem;
+  padding: 0.4rem;
+  text-decoration: none;
+  transition: background 160ms ease;
+}
+
+:host ::ng-deep .notification-context-menu .p-menuitem-link:hover {
+  background: #faf5f6;
+}
+
+/* Default icon color (grey) */
+:host ::ng-deep .notification-context-menu .p-menuitem-icon {
+  color: #6b6b6b;
+  display: inline-flex;
+}
+
+/* Delete notification item */
+:host ::ng-deep .notification-context-menu .delete-text {
+  color: #1f1f1f;
+}
+
+:host ::ng-deep .notification-context-menu .delete-icon {
+  color: #dc2626;
+}
+
+/* Disabled item state */
+:host ::ng-deep .notification-context-menu .p-disabled .p-menuitem-text,
+:host ::ng-deep .notification-context-menu .p-disabled .p-menuitem-icon {
+  color: #a0a0a0;
+}
+:host ::ng-deep .notification-context-menu .p-disabled .p-menuitem-link {
+  cursor: default;
+}
+:host ::ng-deep .notification-context-menu .p-disabled .p-menuitem-link:hover {
+  background: transparent;
+}
+
+/* ───── Responsive ───── */
+@media (max-width: 560px) {
+  :host ::ng-deep .notifications-popover.p-popover {
+    position: fixed !important;
+    top: 4rem !important;
+    left: 0.75rem !important;
+    right: 0.75rem !important;
+    transform: none !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  :host ::ng-deep .notifications-popover .p-popover-content {
+    width: 100%;
+  }
+
+  .notifications-panel {
+    width: 100%;
+    max-height: calc(100dvh - 6rem);
+  }
+
+  .notifications-header {
+    padding: 0.7rem 0.85rem;
+  }
+
+  .notifications-title {
+    font-size: 1.1rem;
+  }
+
+  .notifications-toolbar {
+    padding: 0.4rem 0.75rem;
+  }
+
+  .toolbar-action {
+    font-size: 0.7rem;
+    gap: 0.25rem;
+    padding: 0.2rem 0.3rem;
+  }
+
+  .notification-item {
+    padding: 0.6rem 0.75rem;
+  }
+
+  .notification-title {
+    font-size: 0.9rem;
+  }
+
+  .notification-message {
+    font-size: 0.8rem;
+  }
+
+  .notifications-empty {
+    padding: 3rem 1.5rem;
+  }
+
+  .empty-text {
+    font-size: 0.8rem;
+  }
+
+  /* Context menu - prevent overflow on mobile */
+  :host ::ng-deep .notification-context-menu {
+    width: auto;
+    min-width: 10rem;
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+@media (max-width: 380px) {
+  :host ::ng-deep .notifications-popover.p-popover {
+    left: 0.5rem !important;
+    right: 0.5rem !important;
+  }
+
+  .notifications-header {
+    padding: 0.6rem 0.65rem;
+  }
+
+  .notifications-title {
+    font-size: 1rem;
+  }
+
+  .notifications-toolbar {
+    padding: 0.35rem 0.5rem;
+    gap: 0.25rem;
+  }
+
+  .toolbar-action {
+    font-size: 0.65rem;
+  }
+
+  .notification-item {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .notification-title {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .notification-message {
+    font-size: 0.75rem;
+  }
+
+  :host ::ng-deep .notification-context-menu {
+    min-width: 9rem;
+    padding: 0.5rem;
+  }
+}

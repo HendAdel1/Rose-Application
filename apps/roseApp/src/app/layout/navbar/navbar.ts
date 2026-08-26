@@ -5,6 +5,7 @@ import {
   input,
   output,
   signal,
+  viewChild,
   DestroyRef,
   effect,
 } from '@angular/core';
@@ -42,6 +43,7 @@ import { SharedI18nService } from '@org/shared-i18n';
 import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, EMPTY } from 'rxjs';
 import { WishlistService } from '../../features/wishlist/services/wishlist.service';
+import { Notifications } from './components/notifications/notifications';
 import { SearchDropdown } from './search-dropdown/search-dropdown';
 
 interface NavItem {
@@ -55,6 +57,7 @@ interface NavItem {
   imports: [
     CustomInput,
     FormsModule,
+    Notifications,
     SearchDropdown,
     LucideBell,
     LucideChevronDown,
@@ -88,6 +91,7 @@ export class Navbar {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   readonly layoutRoute = inject(ActivatedRoute);
+  readonly notificationsRef = viewChild<Notifications>('notifications');
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly isAuthenticated = input(false);
@@ -195,5 +199,9 @@ export class Navbar {
     this.authSession.logout();
     this.closeProfileMenu();
     void this.router.navigate(['/roseApp']);
+  }
+
+  toggleNotifications(event: Event): void {
+    this.notificationsRef()?.toggle(event);
   }
 }
