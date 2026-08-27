@@ -3,11 +3,10 @@ import {
   Component,
   ElementRef,
   HostListener,
-  computed,
   inject,
   signal,
 } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   LucideCalendarHeart,
@@ -18,15 +17,8 @@ import {
   LucidePackage,
   LucideUser,
 } from '@lucide/angular';
-import { AuthSessionService } from '@org/auth-data-access';
-import { getAvatarColor, getUserInitial } from '../../core/utils/avatar-color.util';
-
-interface DashboardNavItem {
-  labelKey: string;
-  route: string[];
-  icon: 'overview' | 'categories' | 'occasions' | 'products';
-  exact?: boolean;
-}
+import { DashboardNavItem } from '../../core/models/nav-item.model';
+import { AdminProfileService } from '../../core/services/admin-profile.service';
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -48,45 +40,18 @@ interface DashboardNavItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminSidebar {
-  private readonly authSession = inject(AuthSessionService);
-  private readonly router = inject(Router);
+  private readonly profileService = inject(AdminProfileService);
   private readonly elementRef = inject(ElementRef);
   readonly layoutRoute = inject(ActivatedRoute);
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly profileMenuOpen = signal(false);
 
-  readonly currentUser = this.authSession.currentUser;
-
-  readonly userDisplayName = computed(() => {
-    const user = this.currentUser();
-    if (!user) return 'Admin User';
-    if (user.firstName && user.lastName) {
-      return `${user.firstName} ${user.lastName}`;
-    }
-    return user.firstName ?? user.username ?? 'Admin User';
-  });
-
-  readonly userEmail = computed(() => {
-    const user = this.currentUser();
-    return user?.email ?? 'admin@rose.com';
-  });
-
-  readonly userPhoto = computed(() => {
-    const user = this.currentUser() as { photo?: string; avatar?: string } | null;
-    return user?.photo ?? user?.avatar ?? null;
-  });
-
-  readonly avatarInitial = computed(() => {
-    const user = this.currentUser();
-    return getUserInitial(user?.firstName || user?.username, user?.email);
-  });
-
-  readonly avatarColors = computed(() => {
-    const user = this.currentUser();
-    const identifier = user?.email || user?.username || user?.firstName || 'admin';
-    return getAvatarColor(identifier);
-  });
+  readonly userDisplayName = this.profileService.userDisplayName;
+  readonly userEmail = this.profileService.userEmail;
+  readonly userPhoto = this.profileService.userPhoto;
+  readonly avatarInitial = this.profileService.avatarInitial;
+  readonly avatarColors = this.profileService.avatarColors;
 
   readonly navItems: DashboardNavItem[] = [
     { labelKey: 'DASHBOARD.OVERVIEW', route: ['overview'], icon: 'overview', exact: true },
@@ -112,8 +77,7 @@ export class AdminSidebar {
   }
 
   logout(): void {
-    this.authSession.logout();
     this.closeProfileMenu();
-    void this.router.navigate(['/roseApp']);
+    this.profileService.logout();
   }
 }

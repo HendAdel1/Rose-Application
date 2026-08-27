@@ -7,13 +7,7 @@ import {
   LucideLayoutGrid,
   LucidePackage,
 } from '@lucide/angular';
-
-interface BottomNavItem {
-  labelKey: string;
-  route: string[];
-  icon: 'overview' | 'categories' | 'occasions' | 'products';
-  exact?: boolean;
-}
+import { BottomNavItem } from '../../core/models/nav-item.model';
 
 @Component({
   selector: 'app-admin-bottom-nav',

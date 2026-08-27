@@ -12,8 +12,7 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LucideLogOut, LucideUser } from '@lucide/angular';
-import { AuthSessionService } from '@org/auth-data-access';
-import { getAvatarColor, getUserInitial } from '../../core/utils/avatar-color.util';
+import { AdminProfileService } from '../../core/services/admin-profile.service';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -29,14 +28,17 @@ import { getAvatarColor, getUserInitial } from '../../core/utils/avatar-color.ut
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminNavbar {
-  private readonly authSession = inject(AuthSessionService);
+  private readonly profileService = inject(AdminProfileService);
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef);
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly profileMenuOpen = signal(false);
 
-  readonly currentUser = this.authSession.currentUser;
+  readonly userDisplayName = this.profileService.userDisplayName;
+  readonly userPhoto = this.profileService.userPhoto;
+  readonly avatarInitial = this.profileService.avatarInitial;
+  readonly avatarColors = this.profileService.avatarColors;
 
   private readonly currentUrl = toSignal(
     this.router.events.pipe(
@@ -53,31 +55,6 @@ export class AdminNavbar {
     if (url.includes('/occasions')) return 'DASHBOARD.OCCASIONS';
     if (url.includes('/overview')) return 'DASHBOARD.OVERVIEW';
     return null;
-  });
-
-  readonly userDisplayName = computed(() => {
-    const user = this.currentUser();
-    if (!user) return 'Admin';
-    if (user.firstName && user.lastName) {
-      return `${user.firstName} ${user.lastName}`;
-    }
-    return user.firstName ?? user.username ?? 'Admin';
-  });
-
-  readonly userPhoto = computed(() => {
-    const user = this.currentUser() as { photo?: string; avatar?: string } | null;
-    return user?.photo ?? user?.avatar ?? null;
-  });
-
-  readonly avatarInitial = computed(() => {
-    const user = this.currentUser();
-    return getUserInitial(user?.firstName || user?.username, user?.email);
-  });
-
-  readonly avatarColors = computed(() => {
-    const user = this.currentUser();
-    const identifier = user?.email || user?.username || user?.firstName || 'admin';
-    return getAvatarColor(identifier);
   });
 
   toggleProfileMenu(event?: Event): void {
@@ -97,8 +74,7 @@ export class AdminNavbar {
   }
 
   logout(): void {
-    this.authSession.logout();
     this.closeProfileMenu();
-    void this.router.navigate(['/roseApp']);
+    this.profileService.logout();
   }
 }
