@@ -47,8 +47,9 @@ Thumbs.db
 .claude
 .playwright-mcp
 
-vite.config.*.timestamp*
-vitest.config.*.timestamp*
-
 .nx/polygraph
 .nx/self-healing
+
+# Local developer guide files
+PROJECT_ARCH_AND_STATE_GUIDE.md
+*.local.md

@@ -520,5 +520,24 @@
       "VIEW_ORDERS": "View My Orders",
       "CONTINUE_SHOPPING": "Continue Shopping"
     }
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "PREVIEW_WEBSITE": "Preview website",
+    "OVERVIEW": "Overview",
+    "OVERVIEW_SUBTITLE": "Welcome to your store control center.",
+    "CATEGORIES": "Categories",
+    "ALL_CATEGORIES": "All Categories",
+    "OCCASIONS": "Occasions",
+    "PRODUCTS": "Products",
+    "PROFILE": "Profile",
+    "ACCOUNT": "Account",
+    "LOGOUT": "Log out",
+    "TOTAL_PRODUCTS": "Total products",
+    "TOTAL_ORDERS": "Total orders",
+    "TOTAL_REVENUE": "Total revenue",
+    "ADD_CATEGORY": "Add Category",
+    "ADD_OCCASION": "Add Occasion",
+    "ADD_PRODUCT": "Add Product"
   }
 }
