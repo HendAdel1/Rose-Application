@@ -1,3 +1,76 @@
 <section class="min-h-[200px]" aria-label="Dashboard Overview">
   <!-- Overview content will be implemented in the Overview task -->
+   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+   @if (summaryData(); as summary) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 max-w-2xl">
+
+    <!-- Total Products -->
+    <div class="bg-[#FDF3F1] p-5 rounded-2xl flex flex-col justify-between h-36">
+      <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#E07A5F] shadow-sm">
+        <svg class="lucidePackage text-xl"></svg>
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold text-gray-800">{{ summary.totalProducts }}</h3>
+        <p class="text-sm font-medium text-gray-500 mt-1">Total products</p>
+      </div>
+    </div>
+
+    <!-- Total Orders -->
+    <div class="bg-[#F0F5FF] p-5 rounded-2xl flex flex-col justify-between h-36">
+      <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#3B82F6] shadow-sm">
+        <svg class="lucideReceipt text-xl"></svg>
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold text-gray-800">{{ summary.totalOrders | number }}</h3>
+        <p class="text-sm font-medium text-gray-500 mt-1">Total orders</p>
+      </div>
+    </div>
+
+    <!-- Total Categories -->
+    <div class="bg-[#F5F3FF] p-5 rounded-2xl flex flex-col justify-between h-36">
+      <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#8B5CF6] shadow-sm">
+        <svg class="lucideClipboardList text-xl"></svg>
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold text-gray-800">{{ summary.totalCategories }}</h3>
+        <p class="text-sm font-medium text-gray-500 mt-1">Total categories</p>
+      </div>
+    </div>
+
+    <!-- Total Revenue -->
+    <div class="bg-[#F0FDF4] p-5 rounded-2xl flex flex-col justify-between h-36">
+      <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#10B981] shadow-sm">
+        <svg class="lucideDollarSign text-xl"></svg>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-1">
+          <h3 class="text-2xl font-bold text-gray-800">{{ summary.totalRevenue | number }}</h3>
+          <span class="text-xs font-semibold text-gray-500">{{ summary.currency }}</span>
+        </div>
+        <p class="text-sm font-medium text-gray-500 mt-1">Total revenue</p>
+      </div>
+    </div>
+
+  </div>
+}
+<div class="bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between max-h-[304px]">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">All Categories</h2>
+
+    <div class="space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+      @for (category of categoriesData(); track category.id) {
+        <div class="flex items-center justify-between text-sm">
+          <span class="font-medium text-gray-700">{{ category.title }}</span>
+          <span class="text-gray-400 font-normal">{{ category.productCount }} Products</span>
+        </div>
+      } @empty {
+        <p class="text-sm text-gray-400">No categories available</p>
+      }
+    </div>
+  </div>
+
+</div>
+<app-orders-status-chart [orderStatusData]="orderStatusData()" />
+<app-revenue-chart
+  [revenueData]="revenueData()"
+  (periodChange)="onRevenuePeriodChange($event)" />
 </section>
