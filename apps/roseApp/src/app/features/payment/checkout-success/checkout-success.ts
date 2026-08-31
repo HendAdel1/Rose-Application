@@ -12,6 +12,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { CartService } from '../../../core/services/cart.service';
+import { CheckoutSessionStatusDto } from '../models/payment.model';
 import { PaymentService } from '../services/payment.service';
 
 type CheckoutResult = 'loading' | 'success' | 'failed';
@@ -41,34 +42,7 @@ export class CheckoutSuccess implements OnInit {
   readonly result = signal<CheckoutResult>('loading');
 
   ngOnInit(): void {
-    const sessionId = this.route.snapshot.queryParamMap.get('session_id');
-
-    if (!sessionId) {
-      this.result.set('failed');
-      this.toastr.error(this.translate.instant('CHECKOUT.SUCCESS.MISSING_SESSION'));
-      return;
-    }
-
-    this.paymentService
-      .getCheckoutSessionStatus(sessionId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (status) => {
-          if (status.paymentStatus === 'paid' || status.paymentStatus === 'no_payment_required') {
-            this.cartService.clearCart(() => {
-              this.result.set('success');
-              this.toastr.success(this.translate.instant('PAYMENT.FEEDBACK.ORDER_SUCCESS'));
-            });
-            return;
-          }
-
-          this.result.set('failed');
-          this.toastr.error(this.translate.instant('CHECKOUT.SUCCESS.PAYMENT_FAILED'));
-        },
-        error: () => {
-          this.result.set('failed');
-        },
-      });
+    this.verifyCheckoutSession();
   }
 
   closeModal(): void {
@@ -81,5 +55,66 @@ export class CheckoutSuccess implements OnInit {
 
   continueShopping(): void {
     void this.router.navigate(['/roseApp/products']);
+  }
+
+  private verifyCheckoutSession(): void {
+    const sessionId = this.getSessionId();
+
+    if (!sessionId) {
+      this.handleMissingSession();
+      return;
+    }
+
+    this.loadCheckoutSessionStatus(sessionId);
+  }
+
+  private getSessionId(): string | null {
+    return this.route.snapshot.queryParamMap.get('session_id');
+  }
+
+  private handleMissingSession(): void {
+    this.result.set('failed');
+    this.toastr.error(this.translate.instant('CHECKOUT.SUCCESS.MISSING_SESSION'));
+  }
+
+  private loadCheckoutSessionStatus(sessionId: string): void {
+    this.paymentService
+      .getCheckoutSessionStatus(sessionId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (status) => this.handleSessionStatus(status),
+        error: () => this.handleSessionError(),
+      });
+  }
+
+  private handleSessionStatus(status: CheckoutSessionStatusDto): void {
+    if (this.isPaymentSuccessful(status)) {
+      this.handleSuccessfulPayment();
+      return;
+    }
+
+    this.handleFailedPayment();
+  }
+
+  private isPaymentSuccessful(status: CheckoutSessionStatusDto): boolean {
+    return (
+      status.paymentStatus === 'paid' || status.paymentStatus === 'no_payment_required'
+    );
+  }
+
+  private handleSuccessfulPayment(): void {
+    this.cartService.clearCart(() => {
+      this.result.set('success');
+      this.toastr.success(this.translate.instant('PAYMENT.FEEDBACK.ORDER_SUCCESS'));
+    });
+  }
+
+  private handleFailedPayment(): void {
+    this.result.set('failed');
+    this.toastr.error(this.translate.instant('CHECKOUT.SUCCESS.PAYMENT_FAILED'));
+  }
+
+  private handleSessionError(): void {
+    this.result.set('failed');
   }
 }
