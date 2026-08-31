@@ -25,5 +25,22 @@
     "DASHBOARD": "لوحة التحكم",
     "LOGOUT": "تسجيل الخروج",
     "SWITCH_LANGUAGE": "تغيير اللغة"
+  },
+
+  "DASHBOARDOVERVIEW": {
+    "TITLE": "لوحة التحكم الرئيسية",
+    "TOTAL_PRODUCTS": "إجمالي المنتجات",
+    "TOTAL_ORDERS": "إجمالي الطلبات",
+    "TOTAL_CATEGORIES": "إجمالي الفئات",
+    "TOTAL_REVENUE": "إجمالي الإيرادات",
+    "ALL_CATEGORIES": "جميع الفئات",
+    "PRODUCTS_UNIT": "منتج",
+    "NO_CATEGORIES": "لا توجد فئات متاحة",
+    "TOP_SELLING": "المنتجات الأكثر مبيعاً",
+    "SALES_UNIT": "مبيعات",
+    "NO_TOP_PRODUCTS": "لا توجد منتجات متاحة",
+    "LOW_STOCK": "المنتجات منخفضة المخزون",
+    "NO_LOW_STOCK": "لا توجد منتجات منخفضة المخزون"
   }
+
 }
