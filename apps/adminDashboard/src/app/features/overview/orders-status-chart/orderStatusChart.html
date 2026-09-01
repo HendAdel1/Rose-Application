@@ -11,7 +11,7 @@
       <div class="flex items-center justify-between text-xs text-gray-600 dark:text-zinc-400">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
-          <span>Completed</span>
+          <span>{{ 'DASHBOARDOVERVIEW.ORDER_STATUS.COMPLETED' | translate }}</span>
         </div>
         <span class="font-semibold text-gray-900 dark:text-zinc-200">{{ status.completed.count }} ({{ status.completed.percent }}%)</span>
       </div>
@@ -19,7 +19,7 @@
       <div class="flex items-center justify-between text-xs text-gray-600 dark:text-zinc-400">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
-          <span>In progress</span>
+          <span>{{ 'DASHBOARDOVERVIEW.ORDER_STATUS.IN_PROGRESS' | translate }}</span>
         </div>
         <span class="font-semibold text-gray-900 dark:text-zinc-200">{{ status.inProgress.count }} ({{ status.inProgress.percent }}%)</span>
       </div>
@@ -27,7 +27,7 @@
       <div class="flex items-center justify-between text-xs text-gray-600 dark:text-zinc-400">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
-          <span>Canceled</span>
+          <span>{{ 'DASHBOARDOVERVIEW.ORDER_STATUS.CANCELED' | translate }}</span>
         </div>
         <span class="font-semibold text-gray-900 dark:text-zinc-200">{{ status.canceled.count }} ({{ status.canceled.percent }}%)</span>
       </div>

@@ -562,7 +562,7 @@
     "ADD_OCCASION": "Add Occasion",
     "ADD_PRODUCT": "Add Product"
   },
-    "DASHBOARDOVERVIEW": {
+  "DASHBOARDOVERVIEW": {
     "TITLE": "Dashboard Overview",
     "TOTAL_PRODUCTS": "Total products",
     "TOTAL_ORDERS": "Total orders",
@@ -575,6 +575,11 @@
     "SALES_UNIT": "Sales",
     "NO_TOP_PRODUCTS": "No top products available",
     "LOW_STOCK": "Low Stock Products",
-    "NO_LOW_STOCK": "No low stock items"
+    "NO_LOW_STOCK": "No low stock items",
+    "ORDER_STATUS": {
+    "COMPLETED": "Completed",
+    "IN_PROGRESS": "In progress",
+    "CANCELED": "Canceled"
   }
+}
 }

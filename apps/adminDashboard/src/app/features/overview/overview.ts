@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
-import { Category, LowStockProduct, OrderStatus, Revenue, Summary, TopSellingProduct } from '../../../app/core/models/admin-statistics.model';
+import { Category, LowStockProduct, OrderStatus, Payload, Revenue, Summary, TopSellingProduct } from '../../../app/core/models/admin-statistics.model';
 import { Admin } from '../../core/services/admin/admin.service';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { LucideClipboardList, LucideDollarSign, LucidePackage, LucideReceipt } from '@lucide/angular';
@@ -31,7 +31,7 @@ export class Overview implements OnInit {
 
   getAllAdminStatistics(period: 'monthly' | 'week' = 'monthly'): void {
     this.adminService.getAllAdminStatistics(period).subscribe({
-      next: (res: any) => {
+      next: (res: Payload) => {
         if (res) {
           this.summaryData.set(res.summary);
           this.categoriesData.set(res.categories||[]);

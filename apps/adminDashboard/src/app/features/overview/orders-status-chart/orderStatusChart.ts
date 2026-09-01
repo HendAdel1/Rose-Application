@@ -2,10 +2,11 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, input, PLATFORM_ID } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { OrderStatus } from '../../../core/models/admin-statistics.model';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-status-chart',
-  imports: [ChartModule, CommonModule],
+  imports: [ChartModule, CommonModule,TranslatePipe],
   templateUrl: './orderStatusChart.html',
   styleUrl: './orderStatusChart.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

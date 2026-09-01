@@ -39,6 +39,11 @@
     "SALES_UNIT": "Sales",
     "NO_TOP_PRODUCTS": "No top products available",
     "LOW_STOCK": "Low Stock Products",
-    "NO_LOW_STOCK": "No low stock items"
+    "NO_LOW_STOCK": "No low stock items",
+    "ORDER_STATUS": {
+    "COMPLETED": "Completed",
+    "IN_PROGRESS": "In progress",
+    "CANCELED": "Canceled"
+  }
   }
 }

@@ -562,7 +562,7 @@
     "ADD_OCCASION": "إضافة مناسبة",
     "ADD_PRODUCT": "إضافة منتج"
   },
-   "DASHBOARDOVERVIEW": {
+  "DASHBOARDOVERVIEW": {
     "TITLE": "لوحة التحكم الرئيسية",
     "TOTAL_PRODUCTS": "إجمالي المنتجات",
     "TOTAL_ORDERS": "إجمالي الطلبات",
@@ -575,6 +575,11 @@
     "SALES_UNIT": "مبيعات",
     "NO_TOP_PRODUCTS": "لا توجد منتجات متاحة",
     "LOW_STOCK": "المنتجات منخفضة المخزون",
-    "NO_LOW_STOCK": "لا توجد منتجات منخفضة المخزون"
+    "NO_LOW_STOCK": "لا توجد منتجات منخفضة المخزون",
+    "ORDER_STATUS": {
+    "COMPLETED": "مكتمل",
+    "IN_PROGRESS": "قيد التنفيذ",
+    "CANCELED": "ملغي"
+  }
   }
 }
