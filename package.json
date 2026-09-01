@@ -24,6 +24,7 @@
     "@primeuix/themes": "^2.0.3",
     "@stripe/stripe-js": "^8.11.0",
     "@tailwindcss/postcss": "^4.3.0",
+    "chart.js": "^4.5.1",
     "express": "^4.21.2",
     "flag-icons": "^7.5.0",
     "ngx-spinner": "^21.1.0",

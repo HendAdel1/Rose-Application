@@ -1,0 +1,36 @@
+<div class="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-gray-100 dark:border-zinc-800 flex flex-col justify-between h-full">
+  <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Orders Status</h2>
+
+  @if (orderStatusData(); as status) {
+    <div class="relative flex items-center justify-center min-h-[220px]">
+      <p-chart type="doughnut" [data]="chartData" [options]="chartOptions" class="w-52 h-52" />
+    </div>
+
+    <!-- Custom Legend Details -->
+    <div class="mt-4 space-y-2">
+      <div class="flex items-center justify-between text-xs text-gray-600 dark:text-zinc-400">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+          <span>{{ 'DASHBOARDOVERVIEW.ORDER_STATUS.COMPLETED' | translate }}</span>
+        </div>
+        <span class="font-semibold text-gray-900 dark:text-zinc-200">{{ status.completed.count }} ({{ status.completed.percent }}%)</span>
+      </div>
+
+      <div class="flex items-center justify-between text-xs text-gray-600 dark:text-zinc-400">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
+          <span>{{ 'DASHBOARDOVERVIEW.ORDER_STATUS.IN_PROGRESS' | translate }}</span>
+        </div>
+        <span class="font-semibold text-gray-900 dark:text-zinc-200">{{ status.inProgress.count }} ({{ status.inProgress.percent }}%)</span>
+      </div>
+
+      <div class="flex items-center justify-between text-xs text-gray-600 dark:text-zinc-400">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
+          <span>{{ 'DASHBOARDOVERVIEW.ORDER_STATUS.CANCELED' | translate }}</span>
+        </div>
+        <span class="font-semibold text-gray-900 dark:text-zinc-200">{{ status.canceled.count }} ({{ status.canceled.percent }}%)</span>
+      </div>
+    </div>
+  }
+</div>

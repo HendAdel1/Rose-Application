@@ -1,0 +1,40 @@
+<div class="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-gray-100 dark:border-zinc-800 flex flex-col justify-between h-full">
+
+  <!-- Header & Period Switcher -->
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-bold text-gray-800 dark:text-white">Revenue</h2>
+
+    <div class="flex items-center gap-4 text-sm font-medium">
+      <button
+        type="button"
+        (click)="onPeriodChange('monthly')"
+        [class.text-rose-600]="selectedPeriod === 'monthly'"
+        [class.dark:text-rose-500]="selectedPeriod === 'monthly'"
+        [class.font-bold]="selectedPeriod === 'monthly'"
+        [class.text-gray-400]="selectedPeriod !== 'monthly'"
+        [class.dark:text-zinc-500]="selectedPeriod !== 'monthly'"
+        class="transition-colors cursor-pointer focus:outline-none">
+        Monthly
+      </button>
+
+      <button
+        type="button"
+        (click)="onPeriodChange('week')"
+        [class.text-rose-600]="selectedPeriod === 'week'"
+        [class.dark:text-rose-500]="selectedPeriod === 'week'"
+        [class.font-bold]="selectedPeriod === 'week'"
+        [class.text-gray-400]="selectedPeriod !== 'week'"
+        [class.dark:text-zinc-500]="selectedPeriod !== 'week'"
+        class="transition-colors cursor-pointer focus:outline-none">
+        Last Week
+      </button>
+    </div>
+  </div>
+
+  <!-- Chart Canvas -->
+  @if (chartData) {
+    <div class="relative h-[240px] w-full">
+      <p-chart type="line" [data]="chartData" [options]="chartOptions" class="h-full w-full" />
+    </div>
+  }
+</div>

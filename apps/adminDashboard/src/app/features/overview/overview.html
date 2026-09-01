@@ -1,3 +1,158 @@
-<section class="min-h-[200px]" aria-label="Dashboard Overview">
-  <!-- Overview content will be implemented in the Overview task -->
+<section class="min-h-[200px]" [attr.aria-label]="'DASHBOARD.TITLE' | translate">
+
+  <!-- Summary & Categories Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+    <!-- Summary Cards Container (7 of 12 columns) -->
+    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      @if (summaryData()) {
+        <!-- Total Products -->
+        <div class="bg-maroon-50 dark:bg-maroon-950/40 p-5 rounded-2xl flex flex-col justify-between h-[144px]">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center text-maroon-600 dark:text-maroon-400 shadow-xs">
+            <svg lucidePackage class="w-7 h-7"></svg>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-maroon-600 dark:text-maroon-400 leading-tight">{{ summaryData()?.totalProducts }}</h3>
+            <p class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mt-1">{{ 'DASHBOARDOVERVIEW.TOTAL_PRODUCTS' | translate }}</p>
+          </div>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="bg-[#0063D00D] dark:bg-[#0063D01F] p-5 rounded-2xl flex flex-col justify-between h-[144px]">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-xs">
+            <svg lucideClipboardList class="w-7 h-7"></svg>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400 leading-tight">{{ summaryData()?.totalOrders | number }}</h3>
+            <p class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mt-1">{{ 'DASHBOARDOVERVIEW.TOTAL_ORDERS' | translate }}</p>
+          </div>
+        </div>
+
+        <!-- Total Categories -->
+        <div class="bg-[#753CBF0D] dark:bg-[#753CBF1F] p-5 rounded-2xl flex flex-col justify-between h-[144px]">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#8B5CF6] dark:text-[#A78BFA] shadow-xs">
+            <svg lucideReceipt class="w-7 h-7"></svg>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-[#753CBF] dark:text-[#A78BFA] leading-tight">{{ summaryData()?.totalCategories }}</h3>
+            <p class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mt-1">{{ 'DASHBOARDOVERVIEW.TOTAL_CATEGORIES' | translate }}</p>
+          </div>
+        </div>
+
+        <!-- Total Revenue -->
+        <div class="bg-[#0089610D] dark:bg-[#0089611F] p-5 rounded-2xl flex flex-col justify-between h-[144px]">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#10B981] dark:text-[#34D399] shadow-xs">
+            <svg lucideDollarSign class="w-7 h-7"></svg>
+          </div>
+          <div>
+            <div class="flex items-baseline gap-1">
+              <h3 class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 leading-tight">{{ summaryData()?.totalRevenue | number }}</h3>
+              <span class="text-sm font-semibold text-emerald-600 dark:text-emerald-400"> {{ summaryData()?.currency }} </span>
+            </div>
+            <p class="text-lg font-inter text-zinc-800 dark:text-zinc-200 mt-1">{{ 'DASHBOARDOVERVIEW.TOTAL_REVENUE' | translate }}</p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- All Categories Container (5 of 12 columns) -->
+    <div class="lg:col-span-5 bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-gray-100 dark:border-zinc-800 h-[304px] flex flex-col shadow-xs">
+      <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-3">{{ 'DASHBOARDOVERVIEW.ALL_CATEGORIES' | translate }}</h2>
+
+      <div class="flex-1 overflow-y-auto hide-scrollbar space-y-1 ltr:pr-1 rtl:pl-1">
+        @for (category of categoriesData(); track category.id) {
+          <div class="flex items-center justify-between text-sm py-2.5 border-b border-gray-100/60 dark:border-zinc-800 last:border-b-0">
+            <span class="font-medium text-gray-800 dark:text-zinc-200">{{ category.title }}</span>
+            <span class="text-gray-400 dark:text-zinc-500 font-normal text-xs">
+              {{ category.productCount ?? 0 }} {{ 'DASHBOARDOVERVIEW.PRODUCTS_UNIT' | translate }}
+            </span>
+          </div>
+        } @empty {
+          <p class="text-sm text-gray-400 dark:text-zinc-500 text-center py-16">{{ 'DASHBOARDOVERVIEW.NO_CATEGORIES' | translate }}</p>
+        }
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mt-6">
+    <div class="lg:col-span-4 bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-gray-100 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+      <app-order-status-chart [orderStatusData]="orderStatusData()" />
+    </div>
+
+    <div class="lg:col-span-8 bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-gray-100 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+      <app-revenue-chart
+        [revenueData]="revenueData()"
+        (periodChange)="onRevenuePeriodChange($event)" />
+    </div>
+  </div>
+
+  <!-- Top Selling & Low Stock Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 items-start">
+
+    <!-- Top Selling Products -->
+    <div class="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-gray-100 dark:border-zinc-800 shadow-xs flex flex-col h-[400px]">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">{{ 'DASHBOARDOVERVIEW.TOP_SELLING' | translate }}</h2>
+
+      <div class="flex-1 overflow-y-auto hide-scrollbar space-y-2.5 ltr:pr-1 rtl:pl-1">
+        @for (product of topSellingProducts(); track product.productId; let i = $index) {
+          <div
+            class="flex items-center justify-between p-3.5 rounded-xl transition-colors"
+            [ngClass]="{
+              'gold-gradient dark:bg-maroon-950/60 text-gray-900 dark:text-zinc-100': i === 0,
+              'gray-gradient dark:bg-zinc-800/80 text-gray-900 dark:text-zinc-100': i === 1,
+              'bronze-gradient from-[#914400]/25 to-[#914400]/10 dark:bg-zinc-800/40 text-gray-800 dark:text-zinc-200': i === 2,
+              'bg-zinc-100 dark:bg-zinc-800/20 hover:bg-gray-100/60 dark:hover:bg-zinc-800/50 text-gray-700 dark:text-zinc-300': i > 2
+            }">
+
+            <div class="flex items-center gap-1.5 text-sm font-semibold truncate max-w-[70%]">
+              <span class="truncate">{{ product.title }}</span>
+              @if (product.unitPrice) {
+                <span class="text-xs text-gray-500 dark:text-zinc-400 font-normal shrink-0">
+                  ({{ product.unitPrice | number }} {{ summaryData()?.currency }})
+                </span>
+              }
+            </div>
+            <span class="text-sm font-bold shrink-0">
+              {{ product.totalSales || 0 }} {{ 'DASHBOARDOVERVIEW.SALES_UNIT' | translate }}
+            </span>
+          </div>
+        } @empty {
+          <p class="text-sm text-gray-400 dark:text-zinc-500 text-center py-16">{{ 'DASHBOARDOVERVIEW.NO_TOP_PRODUCTS' | translate }}</p>
+        }
+      </div>
+    </div>
+
+    <!-- Low Stock Products -->
+    <div class="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-gray-100 dark:border-zinc-800 shadow-xs flex flex-col h-[400px]">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">{{ 'DASHBOARDOVERVIEW.LOW_STOCK' | translate }}</h2>
+
+      <div class="flex-1 overflow-y-auto hide-scrollbar space-y-1 ltr:pr-1 rtl:pl-1">
+        @for (product of lowStockProducts(); track product.id) {
+          @let isLowStock = (product.stock ?? 0) < 5;
+
+          <div class="flex items-center justify-between py-3 border-b border-gray-100/60 dark:border-zinc-800 last:border-b-0 text-sm">
+            <span
+              class="font-medium truncate max-w-[75%]"
+>
+              {{ product.title }}
+            </span>
+
+            <span
+              class="font-medium shrink-0"
+              [class.text-red-500]="isLowStock"
+              [class.dark:text-red-400]="isLowStock"
+              [class.text-gray-700]="!isLowStock"
+              [class.dark:text-zinc-300]="!isLowStock">
+              {{ product.stock ?? 0 }} {{ 'DASHBOARDOVERVIEW.PRODUCTS_UNIT' | translate }}
+            </span>
+          </div>
+        } @empty {
+          <p class="text-sm text-gray-400 dark:text-zinc-500 text-center py-16">{{ 'DASHBOARDOVERVIEW.NO_LOW_STOCK' | translate }}</p>
+        }
+      </div>
+    </div>
+
+  </div>
 </section>
