@@ -408,7 +408,18 @@
     "FEEDBACK": {
       "SELECT_ADDRESS": "برجاء اختيار عنوان الشحن أولا.",
       "CREATE_ORDER_ERROR": "تعذر إنشاء الطلب.",
-      "ORDER_SUCCESS": "تم إنشاء الطلب بنجاح."
+      "ORDER_SUCCESS": "تم إنشاء الطلب بنجاح.",
+      "CHECKOUT_SESSION_ERROR": "تعذر بدء الدفع بالبطاقة. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "CHECKOUT": {
+    "SUCCESS": {
+      "VERIFYING": "جاري تأكيد الدفع...",
+      "MISSING_SESSION": "لم يتم العثور على جلسة الدفع.",
+      "PAYMENT_FAILED": "لم يكتمل الدفع.",
+      "FAILED_TITLE": "لم يكتمل الدفع",
+      "FAILED_MESSAGE": "تعذر تأكيد الدفع. يمكنك عرض طلباتك أو متابعة التسوق.",
+      "CLOSE": "إغلاق"
     }
   },
   "ORDER_CONFIRMATION": {

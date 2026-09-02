@@ -4,6 +4,7 @@ const config: ModuleFederationConfig = {
   name: 'roseApp',
   exposes: {
     './Routes': 'apps/roseApp/src/app/remote-entry/entry.routes.ts',
+    './CheckoutRoutes': 'apps/roseApp/src/app/remote-entry/checkout.routes.ts',
   },
 };
 
