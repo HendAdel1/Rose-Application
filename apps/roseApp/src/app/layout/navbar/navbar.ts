@@ -39,6 +39,7 @@ import {
 } from '@lucide/angular';
 import { AuthSessionService } from '@org/auth-data-access';
 import { CustomInput } from '@org/shared-components';
+import { ThemeToggle } from '@org/shared-theme';
 import { SharedI18nService } from '@org/shared-i18n';
 import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, EMPTY } from 'rxjs';
@@ -78,6 +79,7 @@ interface NavItem {
     LucideX,
     RouterLink,
     RouterLinkActive,
+    ThemeToggle,
     TranslatePipe,
   ],
   selector: 'app-navbar',

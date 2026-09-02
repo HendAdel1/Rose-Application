@@ -150,3 +150,33 @@ html:has(#theme-dark:checked) .theme-toggle__icon--sun {
     right: 1rem;
   }
 }
+
+app-theme-toggle.navbar-theme-toggle {
+  display: none;
+  flex-shrink: 0;
+}
+
+app-theme-toggle.navbar-theme-toggle .theme-toggle {
+  bottom: auto;
+  box-shadow: none;
+  height: 2rem;
+  position: static;
+  right: auto;
+  width: 2rem;
+  z-index: auto;
+}
+
+app-theme-toggle.navbar-theme-toggle .theme-toggle:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+@media (max-width: 767px) {
+  app-theme-toggle.navbar-theme-toggle {
+    display: inline-flex;
+  }
+
+  .shell-theme-toggle {
+    display: none;
+  }
+}
