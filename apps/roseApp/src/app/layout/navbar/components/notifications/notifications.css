@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   width: 21rem;
-  max-height: 43.125rem;
+  max-height: min(28rem, calc(100vh - 5rem));
   border-radius: 0.75rem;
   font-family: 'Sarabun', sans-serif;
   overflow: hidden;
@@ -13,6 +13,7 @@
 .notifications-header {
   padding: 0.85rem 1rem;
   border-radius: 0.75rem 0.75rem 0 0;
+  flex-shrink: 0;
 }
 
 .notifications-title {
@@ -31,6 +32,7 @@
   gap: 0.5rem;
   justify-content: space-between;
   padding: 0.5rem 1rem;
+  flex-shrink: 0;
 }
 
 .toolbar-action {
@@ -63,11 +65,15 @@
 /* ───── List ───── */
 .notifications-list {
   flex: 1;
+  min-height: 0;
+  max-height: 21.5rem;
   overflow-y: auto;
   overscroll-behavior: contain;
+  -ms-overflow-style: none;
   scrollbar-width: none;
   border-radius: 0 0 0.75rem 0.75rem;
 }
+
 .notifications-list::-webkit-scrollbar {
   display: none;
 }
@@ -286,6 +292,10 @@
   .notifications-panel {
     width: 100%;
     max-height: calc(100dvh - 6rem);
+  }
+
+  .notifications-list {
+    max-height: calc(100dvh - 12rem);
   }
 
   .notifications-header {
