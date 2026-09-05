@@ -174,14 +174,14 @@
 
       <button
         class="icon-button"
-        [class.has-badge]="notificationsRef()?.unreadCount() ?? 0 > 0"
+        [class.has-badge]="unreadNotificationsCount() > 0"
         type="button"
         [attr.aria-label]="'NAV.NOTIFICATIONS' | translate"
         (click)="toggleNotifications($event)"
       >
         <svg lucideBell [size]="21" aria-hidden="true"></svg>
-        @if ((notificationsRef()?.unreadCount() ?? 0) > 0) {
-          <span class="badge">{{ notificationsRef()?.unreadCount() }}</span>
+        @if (unreadNotificationsCount() > 0) {
+          <span class="badge">{{ notificationBadge() }}</span>
         }
       </button>
 
