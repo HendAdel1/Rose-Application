@@ -435,4 +435,23 @@ describe('Notifications', () => {
       expect(component.notificationCount()).toBe(2);
     });
   });
+
+  describe('displayUnreadCount', () => {
+    it('should display exact count when <= 99', () => {
+      mockNotificationsService.unreadCount.set(7);
+      expect(component.displayUnreadCount()).toBe('7');
+
+      mockNotificationsService.unreadCount.set(99);
+      expect(component.displayUnreadCount()).toBe('99');
+    });
+
+    it('should display +99 when count exceeds 99', () => {
+      mockNotificationsService.unreadCount.set(100);
+      expect(component.displayUnreadCount()).toBe('+99');
+
+      mockNotificationsService.unreadCount.set(150);
+      expect(component.displayUnreadCount()).toBe('+99');
+    });
+  });
 });
+
