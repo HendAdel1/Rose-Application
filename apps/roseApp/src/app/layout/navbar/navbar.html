@@ -63,7 +63,7 @@
         ></div>
 
         <div
-          class="fixed inset-x-3 top-[4.9rem] z-40 mx-auto max-w-[26rem] overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-600 dark:bg-zinc-800 sm:absolute sm:inset-x-0 sm:top-[calc(100%+0.55rem)] sm:mx-0 sm:max-w-none"
+          class="absolute inset-x-0 top-[calc(100%+0.55rem)] z-40 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-600 dark:bg-zinc-800"
         >
           <app-navbar-search-dropdown
             [searchTerm]="searchTerm()"
@@ -116,7 +116,7 @@
 
           <div class="profile-menu-divider"></div>
 
-          <button class="profile-menu-item" type="button" role="menuitem" (click)="closeProfileMenu()">
+          <button class="profile-menu-item" type="button" role="menuitem" routerLink="/adminDashboard" (click)="closeProfileMenu()">
             <svg lucideSettings [size]="18" aria-hidden="true"></svg>
             <span>{{ 'NAV.DASHBOARD' | translate }}</span>
           </button>
@@ -173,13 +173,19 @@
       }
 
       <button
-        class="icon-button has-badge"
+        class="icon-button"
+        [class.has-badge]="unreadNotificationsCount() > 0"
         type="button"
         [attr.aria-label]="'NAV.NOTIFICATIONS' | translate"
+        (click)="toggleNotifications($event)"
       >
         <svg lucideBell [size]="21" aria-hidden="true"></svg>
-        <span class="badge">8</span>
+        @if (unreadNotificationsCount() > 0) {
+          <span class="badge">{{ notificationBadge() }}</span>
+        }
       </button>
+
+      <app-notifications #notifications />
 
       <span class="divider"></span>
 
@@ -191,6 +197,8 @@
       >
         {{ languageLabel() }}
       </button>
+
+      <app-theme-toggle class="navbar-theme-toggle" />
 
       <button
         class="menu-toggle"

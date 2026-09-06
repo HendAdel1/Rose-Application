@@ -1,0 +1,24 @@
+:host {
+  display: block;
+}
+/* إخفاء الـ Scrollbar مع إبقاء خاصية التمرير */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+  width: 0 !important;
+}
+.gold-gradient {
+  background-image: linear-gradient(to right, rgba(223, 172, 22, 0.25), rgba(223, 172, 22, 0.10));
+}
+
+.gray-gradient {
+  background-image: linear-gradient(to right, rgba(117, 127, 149, 0.25), rgba(117, 127, 149, 0.10));
+}
+
+.bronze-gradient {
+  background-image: linear-gradient(to right, rgba(145, 68, 0, 0.25), rgba(145, 68, 0, 0.10));
+}

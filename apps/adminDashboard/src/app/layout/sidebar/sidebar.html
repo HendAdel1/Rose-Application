@@ -1,0 +1,161 @@
+<aside
+  class="admin-sidebar hidden lg:flex flex-col h-screen w-64 shrink-0 border-e border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 transition-colors duration-200 select-none z-30"
+  aria-label="Admin Sidebar"
+>
+  <!-- Top Logo Section -->
+  <div class="pt-6 pb-4 px-6 flex flex-col items-center">
+    <a
+      routerLink="/adminDashboard"
+      class="inline-block transition-transform duration-200 hover:scale-105"
+      aria-label="Rose Dashboard"
+    >
+      <img
+        [src]="logoPath"
+        alt="Rose"
+        class="h-16 w-auto object-contain drop-shadow-sm"
+      />
+    </a>
+  </div>
+
+  <!-- Primary Action: Preview Website -->
+  <div class="px-4 mb-6">
+    <a
+      routerLink="/roseApp"
+      class="preview-website-btn flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl bg-[#8A1730] hover:bg-[#741328] active:scale-[0.98] text-white font-medium text-sm shadow-sm hover:shadow transition-all duration-200 cursor-pointer"
+      [attr.aria-label]="'DASHBOARD.PREVIEW_WEBSITE' | translate"
+    >
+      <!-- Symmetrical 4-petal flower icon -->
+      <svg
+        class="w-5 h-5 shrink-0 stroke-current"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 7.5a4.5 4.5 0 1 1 4.5 4.5M12 7.5A4.5 4.5 0 1 0 7.5 12M12 7.5V12m4.5 0a4.5 4.5 0 1 1-4.5 4.5M16.5 12H12m-4.5 0a4.5 4.5 0 1 0 4.5 4.5M7.5 12H12m0 4.5V12"/>
+      </svg>
+      <span>{{ 'DASHBOARD.PREVIEW_WEBSITE' | translate }}</span>
+    </a>
+  </div>
+
+  <!-- Navigation Links -->
+  <nav class="flex-1 px-4 space-y-1.5 overflow-y-auto">
+    @for (item of navItems; track item.labelKey) {
+      <a
+        [routerLink]="item.route"
+        [relativeTo]="layoutRoute"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+        class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100/80 dark:hover:bg-zinc-800/60"
+      >
+        @switch (item.icon) {
+          @case ('overview') {
+            <svg lucideLayoutGrid [size]="19" class="shrink-0" aria-hidden="true"></svg>
+          }
+          @case ('categories') {
+            <svg lucideClipboardList [size]="19" class="shrink-0" aria-hidden="true"></svg>
+          }
+          @case ('occasions') {
+            <svg lucideCalendarHeart [size]="19" class="shrink-0" aria-hidden="true"></svg>
+          }
+          @case ('products') {
+            <svg lucidePackage [size]="19" class="shrink-0" aria-hidden="true"></svg>
+          }
+        }
+        <span>{{ item.labelKey | translate }}</span>
+      </a>
+    }
+  </nav>
+
+  <!-- Admin Profile Card Section at Bottom -->
+  <div class="relative p-4 border-t border-zinc-200/90 dark:border-zinc-800 mt-auto">
+    <!-- Profile Card Trigger -->
+    <div
+      role="button"
+      tabindex="0"
+      (click)="toggleProfileMenu($event)"
+      (keyup.enter)="toggleProfileMenu($event)"
+      class="profile-card flex items-center gap-3 p-2 rounded-xl cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800/80 transition-colors duration-150"
+      [attr.aria-expanded]="profileMenuOpen()"
+      aria-haspopup="menu"
+      [attr.aria-label]="userDisplayName()"
+    >
+      <!-- User Avatar Photo or Google-Style Letter Circle -->
+      <div class="relative shrink-0">
+        @if (userPhoto()) {
+          <img
+            [src]="userPhoto()"
+            [alt]="userDisplayName()"
+            class="w-10 h-10 rounded-full object-cover shadow-sm ring-1 ring-zinc-200 dark:ring-zinc-700"
+          />
+        } @else {
+          <div
+            class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-base shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+            [style.background-color]="avatarColors().bg"
+            [style.color]="avatarColors().text"
+          >
+            {{ avatarInitial() }}
+          </div>
+        }
+      </div>
+
+      <!-- User Info (Name & Email) -->
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 truncate leading-snug">
+          {{ userDisplayName() }}
+        </p>
+        <p class="text-[11px] text-zinc-500 dark:text-zinc-400 truncate leading-snug">
+          {{ userEmail() }}
+        </p>
+      </div>
+
+      <!-- 3-Dots Options Icon -->
+      <button
+        type="button"
+        class="p-1 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors"
+        aria-label="Profile options"
+      >
+        <svg lucideMoreVertical [size]="18" aria-hidden="true"></svg>
+      </button>
+    </div>
+
+    <!-- Dropdown Popover (Floats Above Profile Card) -->
+    @if (profileMenuOpen()) {
+      <div
+        class="profile-dropdown absolute bottom-[calc(100%+0.5rem)] inset-x-4 bg-white dark:bg-zinc-800 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-700 py-1.5 z-50 transition-all animate-in fade-in zoom-in-95 duration-150"
+        role="menu"
+      >
+        <!-- Header with Name -->
+        <div class="px-3.5 py-2 border-b border-zinc-100 dark:border-zinc-700/60">
+          <p class="text-xs font-bold text-[#8A1730] dark:text-[#FFAAB9] truncate">
+            {{ userDisplayName() }}
+          </p>
+        </div>
+
+        <!-- Menu Item 1: Account / Profile -->
+        <a
+          routerLink="/roseApp/settings"
+          (click)="closeProfileMenu()"
+          class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700/70 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors cursor-pointer"
+          role="menuitem"
+        >
+          <svg lucideUser [size]="16" class="text-zinc-500 dark:text-zinc-400" aria-hidden="true"></svg>
+          <span>{{ 'DASHBOARD.PROFILE' | translate }}</span>
+        </a>
+
+        <!-- Menu Item 2: Logout -->
+        <button
+          type="button"
+          (click)="logout()"
+          class="flex items-center gap-2.5 w-full text-start px-3.5 py-2 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+          role="menuitem"
+        >
+          <svg lucideLogOut [size]="16" aria-hidden="true"></svg>
+          <span>{{ 'DASHBOARD.LOGOUT' | translate }}</span>
+        </button>
+      </div>
+    }
+  </div>
+</aside>

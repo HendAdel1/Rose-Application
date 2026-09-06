@@ -151,7 +151,16 @@
     "CATEGORIES": "Categories",
     "OCCASIONS": "Occasions",
     "CONTACT": "Contact",
-    "ABOUT": "About"
+    "ABOUT": "About",
+    "NOTIFICATIONS_PANEL": {
+      "TITLE": "Notifications",
+      "CLEAR_ALL": "Clear all notifications",
+      "MARK_ALL_READ": "Mark all as read",
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Mark as unread",
+      "DELETE": "Delete notification",
+      "EMPTY": "No notifications to display."
+    }
   },
   "FOOTER": {
     "ROSE_HOME": "Rose home",
@@ -399,7 +408,18 @@
     "FEEDBACK": {
       "SELECT_ADDRESS": "Please select a shipping address first.",
       "CREATE_ORDER_ERROR": "Unable to create your order.",
-      "ORDER_SUCCESS": "Order placed successfully."
+      "ORDER_SUCCESS": "Order placed successfully.",
+      "CHECKOUT_SESSION_ERROR": "Unable to start card payment. Please try again."
+    }
+  },
+  "CHECKOUT": {
+    "SUCCESS": {
+      "VERIFYING": "Confirming your payment...",
+      "MISSING_SESSION": "Payment session not found.",
+      "PAYMENT_FAILED": "Payment was not completed.",
+      "FAILED_TITLE": "Payment not completed",
+      "FAILED_MESSAGE": "Your payment could not be confirmed. You can view your orders or continue shopping.",
+      "CLOSE": "Close"
     }
   },
   "ORDER_CONFIRMATION": {
@@ -523,15 +543,54 @@
       }
     }
   },
-    "COMMON": {
+  "COMMON": {
     "CANCEL": "Cancel"
   },
-"PAYMENTINTENT": {
+  "PAYMENTINTENT": {
     "SUCCESS": {
       "TITLE": "Payment Successful!",
       "MESSAGE": "Thank you for your order. Your transaction has been completed successfully.",
       "VIEW_ORDERS": "View My Orders",
       "CONTINUE_SHOPPING": "Continue Shopping"
     }
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "PREVIEW_WEBSITE": "Preview website",
+    "OVERVIEW": "Overview",
+    "OVERVIEW_SUBTITLE": "Welcome to your store control center.",
+    "CATEGORIES": "Categories",
+    "ALL_CATEGORIES": "All Categories",
+    "OCCASIONS": "Occasions",
+    "PRODUCTS": "Products",
+    "PROFILE": "Profile",
+    "ACCOUNT": "Account",
+    "LOGOUT": "Log out",
+    "TOTAL_PRODUCTS": "Total products",
+    "TOTAL_ORDERS": "Total orders",
+    "TOTAL_REVENUE": "Total revenue",
+    "ADD_CATEGORY": "Add Category",
+    "ADD_OCCASION": "Add Occasion",
+    "ADD_PRODUCT": "Add Product"
+  },
+  "DASHBOARDOVERVIEW": {
+    "TITLE": "Dashboard Overview",
+    "TOTAL_PRODUCTS": "Total products",
+    "TOTAL_ORDERS": "Total orders",
+    "TOTAL_CATEGORIES": "Total categories",
+    "TOTAL_REVENUE": "Total revenue",
+    "ALL_CATEGORIES": "All Categories",
+    "PRODUCTS_UNIT": "Products",
+    "NO_CATEGORIES": "No categories available",
+    "TOP_SELLING": "Top Selling Products",
+    "SALES_UNIT": "Sales",
+    "NO_TOP_PRODUCTS": "No top products available",
+    "LOW_STOCK": "Low Stock Products",
+    "NO_LOW_STOCK": "No low stock items",
+    "ORDER_STATUS": {
+    "COMPLETED": "Completed",
+    "IN_PROGRESS": "In progress",
+    "CANCELED": "Canceled"
   }
+}
 }

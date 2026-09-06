@@ -1,0 +1,51 @@
+{
+  "DASHBOARD": {
+    "TITLE": "لوحة التحكم",
+    "PREVIEW_WEBSITE": "معاينة الموقع",
+    "OVERVIEW": "نظرة عامة",
+    "OVERVIEW_SUBTITLE": "مرحبًا بك في مركز إدارة متجرك.",
+    "CATEGORIES": "الفئات",
+    "ALL_CATEGORIES": "جميع الفئات",
+    "OCCASIONS": "المناسبات",
+    "PRODUCTS": "المنتجات",
+    "PROFILE": "الملف الشخصي",
+    "ACCOUNT": "الحساب",
+    "LOGOUT": "تسجيل الخروج",
+    "TOTAL_PRODUCTS": "إجمالي المنتجات",
+    "TOTAL_ORDERS": "إجمالي الطلبات",
+    "TOTAL_REVENUE": "إجمالي الإيرادات",
+    "ADD_CATEGORY": "إضافة قسم",
+    "ADD_OCCASION": "إضافة مناسبة",
+    "ADD_PRODUCT": "إضافة منتج"
+  },
+  "NAV": {
+    "ACCOUNT": "الحساب",
+    "ADDRESSES": "العناوين",
+    "ORDERS": "الطلبات",
+    "DASHBOARD": "لوحة التحكم",
+    "LOGOUT": "تسجيل الخروج",
+    "SWITCH_LANGUAGE": "تغيير اللغة"
+  },
+
+  "DASHBOARDOVERVIEW": {
+    "TITLE": "لوحة التحكم الرئيسية",
+    "TOTAL_PRODUCTS": "إجمالي المنتجات",
+    "TOTAL_ORDERS": "إجمالي الطلبات",
+    "TOTAL_CATEGORIES": "إجمالي الفئات",
+    "TOTAL_REVENUE": "إجمالي الإيرادات",
+    "ALL_CATEGORIES": "جميع الفئات",
+    "PRODUCTS_UNIT": "منتج",
+    "NO_CATEGORIES": "لا توجد فئات متاحة",
+    "TOP_SELLING": "المنتجات الأكثر مبيعاً",
+    "SALES_UNIT": "مبيعات",
+    "NO_TOP_PRODUCTS": "لا توجد منتجات متاحة",
+    "LOW_STOCK": "المنتجات منخفضة المخزون",
+    "NO_LOW_STOCK": "لا توجد منتجات منخفضة المخزون",
+    "ORDER_STATUS": {
+    "COMPLETED": "مكتمل",
+    "IN_PROGRESS": "قيد التنفيذ",
+    "CANCELED": "ملغي"
+  }
+  }
+
+}

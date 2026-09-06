@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+.nav-tab.active {
+  background-color: #FDE8EC;
+  color: #741C21;
+}
+
+:host-context(.dark) .nav-tab.active,
+html.dark .nav-tab.active {
+  background-color: rgba(116, 28, 33, 0.35);
+  color: #FFAAB9;
+}
+
+.nav-tab.active svg {
+  color: #741C21;
+}
+
+:host-context(.dark) .nav-tab.active svg,
+html.dark .nav-tab.active svg {
+  color: #FFAAB9;
+}

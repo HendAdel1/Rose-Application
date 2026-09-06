@@ -5,6 +5,7 @@ import {
   input,
   output,
   signal,
+  viewChild,
   DestroyRef,
   effect,
 } from '@angular/core';
@@ -38,10 +39,12 @@ import {
 } from '@lucide/angular';
 import { AuthSessionService } from '@org/auth-data-access';
 import { CustomInput } from '@org/shared-components';
+import { ThemeToggle } from '@org/shared-theme';
 import { SharedI18nService } from '@org/shared-i18n';
 import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, EMPTY } from 'rxjs';
 import { WishlistService } from '../../features/wishlist/services/wishlist.service';
+import { Notifications } from './components/notifications/notifications';
 import { SearchDropdown } from './search-dropdown/search-dropdown';
 
 interface NavItem {
@@ -55,6 +58,7 @@ interface NavItem {
   imports: [
     CustomInput,
     FormsModule,
+    Notifications,
     SearchDropdown,
     LucideBell,
     LucideChevronDown,
@@ -75,6 +79,7 @@ interface NavItem {
     LucideX,
     RouterLink,
     RouterLinkActive,
+    ThemeToggle,
     TranslatePipe,
   ],
   selector: 'app-navbar',
@@ -88,6 +93,14 @@ export class Navbar {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   readonly layoutRoute = inject(ActivatedRoute);
+  readonly notificationsRef = viewChild<Notifications>('notifications');
+  readonly unreadNotificationsCount = computed(
+    () => this.notificationsRef()?.unreadCount() ?? 0,
+  );
+  readonly notificationBadge = computed(() => {
+    const count = this.unreadNotificationsCount();
+    return count > 99 ? '+99' : `${count}`;
+  });
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly isAuthenticated = input(false);
@@ -195,5 +208,9 @@ export class Navbar {
     this.authSession.logout();
     this.closeProfileMenu();
     void this.router.navigate(['/roseApp']);
+  }
+
+  toggleNotifications(event: Event): void {
+    this.notificationsRef()?.toggle(event);
   }
 }

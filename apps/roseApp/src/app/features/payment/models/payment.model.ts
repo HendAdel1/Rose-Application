@@ -12,6 +12,8 @@ export interface CreateOrderPayload {
   paymentMethod: PaymentMethod;
   couponCode?: string;
   notes?: string;
+  successUrl?: string;
+  cancelUrl?: string;
 }
 
 export interface OrderDto {
@@ -19,14 +21,37 @@ export interface OrderDto {
   orderId?: string;
 }
 
-export interface PaymentIntentPayload {
+export interface CreateOrderResult {
   orderId: string;
+  checkoutUrl?: string;
 }
 
-export interface PaymentIntentDto {
-  id?: string;
-  paymentIntentId?: string;
-  clientSecret?: string;
-  checkoutUrl?: string;
-  url?: string;
+export interface CreateOrderResponsePayload {
+  order?: OrderDto;
+  checkout?: CheckoutSessionDto | null;
+}
+
+export interface CheckoutSessionPayload {
+  orderId: string;
+  successUrl?: string;
+  cancelUrl?: string;
+}
+
+export interface CheckoutSessionDto {
+  checkoutUrl: string;
+  sessionId: string;
+  expiresAt: string;
+  reused: boolean;
+}
+
+export interface CheckoutSessionStatusDto {
+  sessionId?: string;
+  paymentStatus?: 'paid' | 'unpaid' | 'no_payment_required';
+  sessionStatus?: 'open' | 'complete' | 'expired';
+  amountTotal?: number | null;
+  currency?: string | null;
+  order?: {
+    orderId?: string;
+    paymentStatus?: string;
+  } | null;
 }

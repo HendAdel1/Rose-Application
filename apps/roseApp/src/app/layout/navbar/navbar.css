@@ -172,6 +172,7 @@
 
 .profile-menu-container {
   position: relative;
+  z-index: 50;
 }
 
 .profile-dropdown {
@@ -185,7 +186,7 @@
   position: absolute;
   top: calc(100% + 0.55rem);
   width: 12.25rem;
-  z-index: 20;
+  z-index: 60;
 }
 
 .profile-name {
@@ -253,6 +254,8 @@
   position: absolute;
   right: -0.38rem;
   top: -0.35rem;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .language-button {
@@ -342,6 +345,16 @@
   color: #ffb3c7;
 }
 
+:host-context(html.dark) .menu-toggle,
+:host-context(html:has(#theme-dark:checked)) .menu-toggle {
+  color: #ffb3c7;
+}
+
+:host-context(html.dark) .menu-toggle:hover,
+:host-context(html:has(#theme-dark:checked)) .menu-toggle:hover {
+  color: #ff9dbc;
+}
+
 :host-context(html.dark) .search-field ::ng-deep input,
 :host-context(html:has(#theme-dark:checked)) .search-field ::ng-deep input {
   background: #474751;
@@ -350,12 +363,18 @@
 }
 
 :host-context(html.dark) .search-field ::ng-deep input::placeholder,
-:host-context(html:has(#theme-dark:checked)) .search-field ::ng-deep input::placeholder {
+:host-context(html:has(#theme-dark:checked))
+  .search-field
+  ::ng-deep
+  input::placeholder {
   color: #b6b6bf;
 }
 
 :host-context(html.dark) .search-field ::ng-deep input:focus,
-:host-context(html:has(#theme-dark:checked)) .search-field ::ng-deep input:focus {
+:host-context(html:has(#theme-dark:checked))
+  .search-field
+  ::ng-deep
+  input:focus {
   border-color: #ff9dbc;
   box-shadow: 0 0 0 3px rgba(255, 157, 188, 0.16);
 }
@@ -447,20 +466,17 @@
   }
 }
 
-@media (max-width: 920px) {
-  .top-bar {
-    grid-template-columns: auto minmax(8rem, 1fr) auto;
-    position: relative;
+@media (min-width: 768px) and (max-width: 1024px) {
+  .top-bar:has(.delivery-info) {
+    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
   .search-field {
-    min-width: 0;
+    width: 100%;
   }
+}
 
-  .header-actions {
-    justify-content: flex-end;
-  }
-
+@media (max-width: 920px) {
   .delivery-info {
     display: none;
   }
@@ -509,10 +525,79 @@
   }
 }
 
+@media (min-width: 768px) and (max-width: 920px) {
+  .top-bar {
+    grid-template-columns: auto minmax(8rem, 1fr) auto;
+    position: relative;
+  }
+
+  .search-field {
+    min-width: 0;
+  }
+
+  .header-actions {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 767px) {
+  .top-bar {
+    align-items: center;
+    gap: 0.65rem 0.75rem;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    position: relative;
+  }
+
+  .logo-link {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .header-actions {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 50;
+  }
+
+  .search-field {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .search-field lib-custom-input {
+    z-index: 1;
+  }
+
+  .user-menu span {
+    max-width: 5.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .user-menu .hello {
+    font-size: 0.65rem;
+  }
+
+  .user-menu strong {
+    font-size: 0.72rem;
+  }
+
+  .login-link span,
+  .divider {
+    display: none;
+  }
+}
+
 @media (max-width: 560px) {
   .top-bar {
-    gap: 0.75rem;
-    grid-template-columns: auto minmax(5.75rem, 1fr) auto;
+    gap: 0.65rem 0.75rem;
     padding: 0.55rem 0.85rem;
   }
 
@@ -538,11 +623,6 @@
 
   .search-field .search-clear {
     inset-inline-end: 0.6rem;
-  }
-
-  .login-link span,
-  .divider {
-    display: none;
   }
 
   .nav-list a {

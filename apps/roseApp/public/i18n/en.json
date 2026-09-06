@@ -151,7 +151,16 @@
     "CATEGORIES": "Categories",
     "OCCASIONS": "Occasions",
     "CONTACT": "Contact",
-    "ABOUT": "About"
+    "ABOUT": "About",
+    "NOTIFICATIONS_PANEL": {
+      "TITLE": "Notifications",
+      "CLEAR_ALL": "Clear all notifications",
+      "MARK_ALL_READ": "Mark all as read",
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Mark as unread",
+      "DELETE": "Delete notification",
+      "EMPTY": "No notifications to display."
+    }
   },
   "FOOTER": {
     "ROSE_HOME": "Rose home",
@@ -399,7 +408,18 @@
     "FEEDBACK": {
       "SELECT_ADDRESS": "Please select a shipping address first.",
       "CREATE_ORDER_ERROR": "Unable to create your order.",
-      "ORDER_SUCCESS": "Order placed successfully."
+      "ORDER_SUCCESS": "Order placed successfully.",
+      "CHECKOUT_SESSION_ERROR": "Unable to start card payment. Please try again."
+    }
+  },
+  "CHECKOUT": {
+    "SUCCESS": {
+      "VERIFYING": "Confirming your payment...",
+      "MISSING_SESSION": "Payment session not found.",
+      "PAYMENT_FAILED": "Payment was not completed.",
+      "FAILED_TITLE": "Payment not completed",
+      "FAILED_MESSAGE": "Your payment could not be confirmed. You can view your orders or continue shopping.",
+      "CLOSE": "Close"
     }
   },
   "ORDER_CONFIRMATION": {
@@ -429,7 +449,7 @@
     "EYEBROW": "Gallery",
     "TITLE": "Check Out our Wonderful Gallery"
   },
-"PRODUCT": {
+  "PRODUCT": {
     "FILTERS": "Filters",
     "CLEAR_ALL": "Clear all",
     "FILTER_PRODUCTS": "Filter Products",
@@ -458,7 +478,7 @@
     "Graduation": "Graduation",
     "FatherDay": "Father's Day"
   },
-    "CART": {
+  "CART": {
     "TITLE": "Shopping Cart",
     "PRODUCTS": "Products",
     "CLEAR_CART": "Clear Cart",
@@ -504,13 +524,31 @@
       }
     }
   },
-"PAYMENTINTENT": {
+  "PAYMENTINTENT": {
     "SUCCESS": {
       "TITLE": "Payment Successful!",
       "MESSAGE": "Thank you for your order. Your transaction has been completed successfully.",
       "VIEW_ORDERS": "View My Orders",
       "CONTINUE_SHOPPING": "Continue Shopping"
     }
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "PREVIEW_WEBSITE": "Preview website",
+    "OVERVIEW": "Overview",
+    "OVERVIEW_SUBTITLE": "Welcome to your store control center.",
+    "CATEGORIES": "Categories",
+    "ALL_CATEGORIES": "All Categories",
+    "OCCASIONS": "Occasions",
+    "PRODUCTS": "Products",
+    "PROFILE": "Profile",
+    "ACCOUNT": "Account",
+    "LOGOUT": "Log out",
+    "TOTAL_PRODUCTS": "Total products",
+    "TOTAL_ORDERS": "Total orders",
+    "TOTAL_REVENUE": "Total revenue",
+    "ADD_CATEGORY": "Add Category",
+    "ADD_OCCASION": "Add Occasion",
+    "ADD_PRODUCT": "Add Product"
   }
-
 }

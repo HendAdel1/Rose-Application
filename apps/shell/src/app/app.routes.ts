@@ -24,6 +24,13 @@ export const appRoutes: Route[] = [
       ).then((m) => m!.remoteRoutes),
   },
   {
+    path: 'checkout',
+    loadChildren: () =>
+      loadRemote<typeof import('roseApp/CheckoutRoutes')>('roseApp/CheckoutRoutes').then(
+        (m) => m!.checkoutRoutes,
+      ),
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'roseApp',

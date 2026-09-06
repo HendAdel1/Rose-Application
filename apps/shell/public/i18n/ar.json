@@ -151,7 +151,16 @@
     "CATEGORIES": "الفئات",
     "OCCASIONS": "المناسبات",
     "CONTACT": "تواصل معنا",
-    "ABOUT": "من نحن"
+    "ABOUT": "من نحن",
+    "NOTIFICATIONS_PANEL": {
+      "TITLE": "الإشعارات",
+      "CLEAR_ALL": "مسح جميع الإشعارات",
+      "MARK_ALL_READ": "تعيين الكل كمقروء",
+      "MARK_AS_READ": "تعيين كمقروء",
+      "MARK_AS_UNREAD": "تعيين كغير مقروء",
+      "DELETE": "حذف الإشعار",
+      "EMPTY": "لا توجد إشعارات لعرضها."
+    }
   },
   "FOOTER": {
     "ROSE_HOME": "الصفحة الرئيسية لـ Rose",
@@ -399,7 +408,18 @@
     "FEEDBACK": {
       "SELECT_ADDRESS": "برجاء اختيار عنوان الشحن أولا.",
       "CREATE_ORDER_ERROR": "تعذر إنشاء الطلب.",
-      "ORDER_SUCCESS": "تم إنشاء الطلب بنجاح."
+      "ORDER_SUCCESS": "تم إنشاء الطلب بنجاح.",
+      "CHECKOUT_SESSION_ERROR": "تعذر بدء الدفع بالبطاقة. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "CHECKOUT": {
+    "SUCCESS": {
+      "VERIFYING": "جاري تأكيد الدفع...",
+      "MISSING_SESSION": "لم يتم العثور على جلسة الدفع.",
+      "PAYMENT_FAILED": "لم يكتمل الدفع.",
+      "FAILED_TITLE": "لم يكتمل الدفع",
+      "FAILED_MESSAGE": "تعذر تأكيد الدفع. يمكنك عرض طلباتك أو متابعة التسوق.",
+      "CLOSE": "إغلاق"
     }
   },
   "ORDER_CONFIRMATION": {
@@ -523,15 +543,54 @@
       }
     }
   },
-    "COMMON": {
+  "COMMON": {
     "CANCEL": "إلغاء"
   },
-"PAYMENTINTENT": {
+  "PAYMENTINTENT": {
     "SUCCESS": {
       "TITLE": "تم الدفع بنجاح!",
       "MESSAGE": "شكراً لك على طلبك. تم إكمال المعاملة بنجاح.",
       "VIEW_ORDERS": "عرض طلباتي",
       "CONTINUE_SHOPPING": "متابعة التسوق"
     }
+  },
+  "DASHBOARD": {
+    "TITLE": "لوحة التحكم",
+    "PREVIEW_WEBSITE": "معاينة الموقع",
+    "OVERVIEW": "نظرة عامة",
+    "OVERVIEW_SUBTITLE": "مرحبًا بك في مركز إدارة متجرك.",
+    "CATEGORIES": "الفئات",
+    "ALL_CATEGORIES": "جميع الفئات",
+    "OCCASIONS": "المناسبات",
+    "PRODUCTS": "المنتجات",
+    "PROFILE": "الملف الشخصي",
+    "ACCOUNT": "الحساب",
+    "LOGOUT": "تسجيل الخروج",
+    "TOTAL_PRODUCTS": "إجمالي المنتجات",
+    "TOTAL_ORDERS": "إجمالي الطلبات",
+    "TOTAL_REVENUE": "إجمالي الإيرادات",
+    "ADD_CATEGORY": "إضافة قسم",
+    "ADD_OCCASION": "إضافة مناسبة",
+    "ADD_PRODUCT": "إضافة منتج"
+  },
+  "DASHBOARDOVERVIEW": {
+    "TITLE": "لوحة التحكم الرئيسية",
+    "TOTAL_PRODUCTS": "إجمالي المنتجات",
+    "TOTAL_ORDERS": "إجمالي الطلبات",
+    "TOTAL_CATEGORIES": "إجمالي الفئات",
+    "TOTAL_REVENUE": "إجمالي الإيرادات",
+    "ALL_CATEGORIES": "جميع الفئات",
+    "PRODUCTS_UNIT": "منتج",
+    "NO_CATEGORIES": "لا توجد فئات متاحة",
+    "TOP_SELLING": "المنتجات الأكثر مبيعاً",
+    "SALES_UNIT": "مبيعات",
+    "NO_TOP_PRODUCTS": "لا توجد منتجات متاحة",
+    "LOW_STOCK": "المنتجات منخفضة المخزون",
+    "NO_LOW_STOCK": "لا توجد منتجات منخفضة المخزون",
+    "ORDER_STATUS": {
+    "COMPLETED": "مكتمل",
+    "IN_PROGRESS": "قيد التنفيذ",
+    "CANCELED": "ملغي"
+  }
   }
 }
