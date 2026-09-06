@@ -54,10 +54,6 @@ export class Notifications implements OnInit {
   readonly notifications = signal<Notification[]>([]);
   readonly loading = signal(false);
   readonly unreadCount = this.notificationsService.unreadCount;
-  readonly displayUnreadCount = computed(() => {
-    const count = this.unreadCount();
-    return count > 99 ? '+99' : `${count}`;
-  });
 
   readonly notificationCount = computed(() => this.notifications().length);
 

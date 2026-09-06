@@ -94,13 +94,6 @@ export class Navbar {
   private readonly router = inject(Router);
   readonly layoutRoute = inject(ActivatedRoute);
   readonly notificationsRef = viewChild<Notifications>('notifications');
-  readonly unreadNotificationsCount = computed(
-    () => this.notificationsRef()?.unreadCount() ?? 0,
-  );
-  readonly notificationBadge = computed(() => {
-    const count = this.unreadNotificationsCount();
-    return count > 99 ? '+99' : `${count}`;
-  });
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly isAuthenticated = input(false);
