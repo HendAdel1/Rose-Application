@@ -11,7 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { TranslatePipe } from '@ngx-translate/core';
-import { LucideLogOut, LucideUser } from '@lucide/angular';
+import { LucideLogOut, LucideMenu, LucideUser } from '@lucide/angular';
 import { AdminProfileService } from '../../core/services/admin-profile.service';
 
 @Component({
@@ -21,6 +21,7 @@ import { AdminProfileService } from '../../core/services/admin-profile.service';
     RouterLink,
     TranslatePipe,
     LucideLogOut,
+    LucideMenu,
     LucideUser,
   ],
   templateUrl: './navbar.html',
