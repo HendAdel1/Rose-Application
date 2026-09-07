@@ -15,6 +15,7 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { of, switchMap, map } from 'rxjs';
 import {
   LucideChevronRight,
   LucideImage,
@@ -56,6 +57,7 @@ export class EditOccasion implements OnInit {
   readonly occasionTitle = signal<string>('');
   readonly isLoading = signal(true);
   readonly isSubmitting = signal(false);
+  readonly selectedFile = signal<File | null>(null);
   readonly imagePreview = signal<string | null>(null);
   readonly showImageModal = signal(false);
 
@@ -130,11 +132,12 @@ export class EditOccasion implements OnInit {
         return;
       }
 
+      this.selectedFile.set(file);
       const reader = new FileReader();
       reader.onload = () => {
         const result = reader.result as string;
         this.imagePreview.set(result);
-        this.form.patchValue({ image: result });
+        this.form.patchValue({ image: file.name });
         this.form.markAsDirty();
       };
       reader.readAsDataURL(file);
@@ -147,18 +150,28 @@ export class EditOccasion implements OnInit {
       return;
     }
 
-    const { name, description, image } = this.form.value;
+    const { name, description } = this.form.value;
     if (!name) return;
 
     this.isSubmitting.set(true);
     const id = this.occasionId();
+    const file = this.selectedFile();
 
-    this.occasionsService
-      .updateOccasion(id, {
-        title: name.trim(),
-        description: description?.trim(),
-        image: image || undefined,
-      })
+    // If new file chosen, upload it first; otherwise update text fields
+    const uploadStream$ = file
+      ? this.occasionsService.uploadImage(file).pipe(map((res) => res.url))
+      : of(undefined);
+
+    uploadStream$
+      .pipe(
+        switchMap((uploadedUrl) => {
+          return this.occasionsService.updateOccasion(id, {
+            title: name.trim(),
+            description: description?.trim(),
+            image: uploadedUrl,
+          });
+        }),
+      )
       .subscribe({
         next: () => {
           this.isSubmitting.set(false);

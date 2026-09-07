@@ -67,7 +67,7 @@ describe('EditOccasion', () => {
     expect(occasionsServiceMock.updateOccasion).toHaveBeenCalledWith('123', {
       title: 'Wedding & Flowers',
       description: 'Wedding gifts',
-      image: 'https://example.com/wedding.png',
+      image: undefined,
     });
     expect(toastrMock.success).toHaveBeenCalled();
   });

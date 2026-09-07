@@ -110,6 +110,18 @@ describe('OccasionsService', () => {
     req.flush({ payload: { occasion: { _id: '123', ...updateDto } } });
   });
 
+  it('should upload an image file', () => {
+    const file = new File(['mock content'], 'test.png', { type: 'image/png' });
+
+    service.uploadImage(file).subscribe((res) => {
+      expect(res.url).toBe('https://example.com/uploads/test.png');
+    });
+
+    const req = httpMock.expectOne(`${environment.apiBaseUrl}/upload`);
+    expect(req.request.method).toBe('POST');
+    req.flush({ payload: { url: 'https://example.com/uploads/test.png' } });
+  });
+
   it('should delete an occasion', () => {
     service.deleteOccasion('123').subscribe();
 

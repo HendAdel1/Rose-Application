@@ -15,6 +15,7 @@ describe('AddOccasion', () => {
 
   const occasionsServiceMock = {
     createOccasion: vi.fn().mockReturnValue(of({ id: '1', title: 'Wedding' })),
+    uploadImage: vi.fn().mockReturnValue(of({ url: '/api/upload/temp/mock-uuid' })),
   };
 
   beforeEach(async () => {
@@ -41,22 +42,25 @@ describe('AddOccasion', () => {
     const component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.form.patchValue({ name: 'Graduation', image: 'data:image/png...' });
+    component.form.patchValue({ name: 'Graduation', image: 'test.png' });
     expect(component.form.valid).toBe(true);
   });
 
-  it('should call occasionsService.createOccasion on submit', () => {
+  it('should call occasionsService.uploadImage and createOccasion on submit', () => {
     const fixture = TestBed.createComponent(AddOccasion);
     const component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.form.patchValue({ name: 'Anniversary', image: 'data:image/png...' });
+    const mockFile = new File(['mock'], 'anniversary.png', { type: 'image/png' });
+    component.selectedFile.set(mockFile);
+    component.form.patchValue({ name: 'Anniversary', image: 'anniversary.png' });
     component.onSubmit();
 
+    expect(occasionsServiceMock.uploadImage).toHaveBeenCalledWith(mockFile);
     expect(occasionsServiceMock.createOccasion).toHaveBeenCalledWith({
       title: 'Anniversary',
       description: 'Anniversary',
-      image: 'data:image/png...',
+      image: '/api/upload/temp/mock-uuid',
     });
     expect(toastrMock.success).toHaveBeenCalled();
   });

@@ -88,6 +88,22 @@ export class OccasionsService {
     );
   }
 
+  uploadImage(file: File): Observable<{ url: string }> {
+    const formData = new FormData();
+    formData.append('image', file);
+    return this.http
+      .post<{ status?: boolean; code?: number; payload?: { url: string }; url?: string }>(
+        `${environment.apiBaseUrl}/upload`,
+        formData,
+      )
+      .pipe(
+        map((res) => {
+          const url = res.payload?.url || res.url || '';
+          return { url };
+        }),
+      );
+  }
+
   createOccasion(dto: CreateOccasionDto): Observable<Occasion> {
     return this.http.post<{ payload?: { occasion?: Occasion }; occasion?: Occasion }>(this.baseUrl, dto).pipe(
       map((res) => {

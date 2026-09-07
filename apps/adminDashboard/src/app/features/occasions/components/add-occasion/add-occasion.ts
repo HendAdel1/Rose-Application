@@ -14,6 +14,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { switchMap } from 'rxjs';
 import {
   LucideChevronRight,
   LucideLoader2,
@@ -48,6 +49,7 @@ export class AddOccasion {
   @ViewChild('fileInput') fileInputRef?: ElementRef<HTMLInputElement>;
 
   readonly isSubmitting = signal(false);
+  readonly selectedFile = signal<File | null>(null);
   readonly imagePreview = signal<string | null>(null);
   readonly imageName = signal<string | null>(null);
   readonly imageError = signal<string | null>(null);
@@ -110,12 +112,13 @@ export class AddOccasion {
       return;
     }
 
+    this.selectedFile.set(file);
     this.imageName.set(file.name);
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
       this.imagePreview.set(result);
-      this.form.patchValue({ image: result });
+      this.form.patchValue({ image: file.name });
       this.form.get('image')?.markAsDirty();
     };
     reader.readAsDataURL(file);
@@ -123,6 +126,7 @@ export class AddOccasion {
 
   removeImage(event?: Event): void {
     event?.stopPropagation();
+    this.selectedFile.set(null);
     this.imagePreview.set(null);
     this.imageName.set(null);
     this.form.patchValue({ image: '' });
@@ -137,16 +141,23 @@ export class AddOccasion {
       return;
     }
 
-    const { name, description, image } = this.form.value;
-    if (!name || !image) return;
+    const { name, description } = this.form.value;
+    const file = this.selectedFile();
+    if (!name || !file) return;
 
     this.isSubmitting.set(true);
+    // Upload image first, then create occasion with the resulting URL/path
     this.occasionsService
-      .createOccasion({
-        title: name.trim(),
-        description: description?.trim() || name.trim(),
-        image,
-      })
+      .uploadImage(file)
+      .pipe(
+        switchMap((uploadRes) => {
+          return this.occasionsService.createOccasion({
+            title: name.trim(),
+            description: description?.trim() || name.trim(),
+            image: uploadRes.url,
+          });
+        }),
+      )
       .subscribe({
         next: () => {
           this.isSubmitting.set(false);
