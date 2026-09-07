@@ -48,6 +48,35 @@ export class AdminNavbar {
     { initialValue: this.router.url },
   );
 
+  readonly currentBreadcrumbs = computed(() => {
+    const url = this.currentUrl();
+    if (url.includes('/occasions/add')) {
+      return [
+        { labelKey: 'DASHBOARD.OCCASIONS', route: '/adminDashboard/occasions' },
+        { labelKey: 'DASHBOARDOCCASIONS.ADD_OCCASION', route: null },
+      ];
+    }
+    if (url.includes('/occasions/edit')) {
+      return [
+        { labelKey: 'DASHBOARD.OCCASIONS', route: '/adminDashboard/occasions' },
+        { labelKey: 'DASHBOARDOCCASIONS.UPDATE_OCCASION_PREFIX', route: null },
+      ];
+    }
+    if (url.includes('/occasions')) {
+      return [{ labelKey: 'DASHBOARD.OCCASIONS', route: null }];
+    }
+    if (url.includes('/categories')) {
+      return [{ labelKey: 'DASHBOARD.CATEGORIES', route: null }];
+    }
+    if (url.includes('/products')) {
+      return [{ labelKey: 'DASHBOARD.PRODUCTS', route: null }];
+    }
+    if (url.includes('/overview')) {
+      return [{ labelKey: 'DASHBOARD.OVERVIEW', route: null }];
+    }
+    return [];
+  });
+
   readonly currentSectionKey = computed(() => {
     const url = this.currentUrl();
     if (url.includes('/products')) return 'DASHBOARD.PRODUCTS';

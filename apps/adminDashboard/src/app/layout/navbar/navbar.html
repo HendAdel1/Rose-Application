@@ -18,17 +18,29 @@
       </div>
 
       <!-- Desktop View: Breadcrumb with Dynamic Section Name (Matching Screenshot 2) -->
-      <div class="hidden lg:flex items-center gap-2 text-sm">
-        <span class="font-normal text-zinc-400 dark:text-zinc-400">
+      <nav class="hidden lg:flex items-center gap-2 text-sm" aria-label="Header Breadcrumb">
+        <a
+          routerLink="/adminDashboard/overview"
+          class="font-normal text-zinc-400 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors"
+        >
           {{ 'DASHBOARD.TITLE' | translate }}
-        </span>
-        @if (currentSectionKey()) {
+        </a>
+        @for (item of currentBreadcrumbs(); track $index; let isLast = $last) {
           <span class="text-zinc-300 dark:text-zinc-600">/</span>
-          <span class="font-medium text-zinc-700 dark:text-zinc-200">
-            {{ currentSectionKey()! | translate }}
-          </span>
+          @if (item.route && !isLast) {
+            <a
+              [routerLink]="item.route"
+              class="font-normal text-zinc-400 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors"
+            >
+              {{ item.labelKey | translate }}
+            </a>
+          } @else {
+            <span class="font-medium text-zinc-700 dark:text-zinc-200">
+              {{ item.labelKey | translate }}
+            </span>
+          }
         }
-      </div>
+      </nav>
     </div>
 
     <!-- Right Section (Mobile Only Avatar & Profile Dropdown) -->
