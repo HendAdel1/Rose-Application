@@ -16,7 +16,6 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { switchMap } from 'rxjs';
 import {
-  LucideChevronRight,
   LucideLoader2,
   LucideTrash2,
   LucideUpload,
@@ -28,9 +27,7 @@ import { OccasionsService } from '../../services/occasions.service';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    RouterLink,
     TranslatePipe,
-    LucideChevronRight,
     LucideLoader2,
     LucideTrash2,
     LucideUpload,
@@ -167,7 +164,7 @@ export class AddOccasion {
           this.toastr.success(successMsg);
           void this.router.navigate(['/adminDashboard/occasions']);
         },
-        error: (err) => {
+        error: (err: { error?: { message?: string } }) => {
           this.isSubmitting.set(false);
           const errorMsg =
             err.error?.message ||

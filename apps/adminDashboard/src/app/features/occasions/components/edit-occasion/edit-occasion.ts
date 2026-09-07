@@ -15,9 +15,8 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { of, switchMap, map } from 'rxjs';
+import { of, switchMap, map, Observable } from 'rxjs';
 import {
-  LucideChevronRight,
   LucideImage,
   LucideLoader2,
   LucideUpload,
@@ -31,9 +30,7 @@ import { Occasion } from '../../models/occasion.model';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    RouterLink,
     TranslatePipe,
-    LucideChevronRight,
     LucideImage,
     LucideLoader2,
     LucideUpload,
@@ -158,13 +155,13 @@ export class EditOccasion implements OnInit {
     const file = this.selectedFile();
 
     // If new file chosen, upload it first; otherwise update text fields
-    const uploadStream$ = file
+    const uploadStream$: Observable<string | undefined> = file
       ? this.occasionsService.uploadImage(file).pipe(map((res) => res.url))
       : of(undefined);
 
     uploadStream$
       .pipe(
-        switchMap((uploadedUrl) => {
+        switchMap((uploadedUrl: string | undefined) => {
           return this.occasionsService.updateOccasion(id, {
             title: name.trim(),
             description: description?.trim(),
@@ -181,7 +178,7 @@ export class EditOccasion implements OnInit {
           this.toastr.success(successMsg);
           void this.router.navigate(['/adminDashboard/occasions']);
         },
-        error: (err) => {
+        error: (err: { error?: { message?: string } }) => {
           this.isSubmitting.set(false);
           const errorMsg =
             err.error?.message ||
