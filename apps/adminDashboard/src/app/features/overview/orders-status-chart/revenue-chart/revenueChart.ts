@@ -43,8 +43,9 @@ private readonly platformId = inject(PLATFORM_ID);
   }
 
   private initChart(revenue: Revenue): void {
-    const labels = revenue.points.map(p => p.label);
-    const values = revenue.points.map(p => p.revenue);
+    const points = revenue?.points || [];
+    const labels = points.map(p => p.label);
+    const values = points.map(p => p.revenue);
 
     this.chartData = {
       labels: labels,

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTranslateService } from '@ngx-translate/core';
 import { Overview } from './overview';
 import { Admin } from '../../core/services/admin/admin.service';
 import { of, throwError } from 'rxjs';
@@ -52,6 +53,7 @@ describe('Overview Component', () => {
         MockRevenueChart
       ],
       providers: [
+        provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
         { provide: Admin, useValue: adminServiceMock }
       ]
     }).compileComponents();

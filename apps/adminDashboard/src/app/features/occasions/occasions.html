@@ -1,3 +1,285 @@
-<section class="min-h-[200px]" aria-label="Dashboard Occasions">
-  <!-- Occasions content will be implemented in the Occasions task -->
-</section>
+<div class="space-y-6 max-w-7xl mx-auto pb-16">
+  <!-- Top Breadcrumb Navigation -->
+  <nav class="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400" aria-label="Breadcrumb">
+    <a
+      routerLink="/adminDashboard/overview"
+      class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+    >
+      {{ 'DASHBOARD.TITLE' | translate }}
+    </a>
+    <svg lucideChevronRight [size]="14" class="text-zinc-400 rtl:rotate-180" aria-hidden="true"></svg>
+    <span class="font-medium text-[#8A1730] dark:text-rose-400">
+      {{ 'DASHBOARD.OCCASIONS' | translate }}
+    </span>
+  </nav>
+
+  <!-- Page Header & Add Button -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+      {{ 'DASHBOARDOCCASIONS.TITLE' | translate }}
+    </h1>
+
+    <!-- Desktop Add Button (Matching Screenshot 5) -->
+    <a
+      routerLink="add"
+      class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#8A1730] hover:bg-[#741328] active:scale-95 text-white text-xs font-semibold shadow-xs transition-all duration-150 cursor-pointer"
+    >
+      <svg lucidePlus [size]="16" aria-hidden="true"></svg>
+      <span>{{ 'DASHBOARDOCCASIONS.ADD_NEW_OCCASION' | translate }}</span>
+    </a>
+
+    <!-- Mobile Add Button (Square Maroon Button - Matching Screenshot 1) -->
+    <a
+      routerLink="add"
+      class="sm:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-[#8A1730] hover:bg-[#741328] active:scale-90 text-white shadow-xs transition-all duration-150 cursor-pointer"
+      [attr.aria-label]="'DASHBOARDOCCASIONS.ADD_NEW_OCCASION' | translate"
+    >
+      <svg lucidePlus [size]="20" aria-hidden="true"></svg>
+    </a>
+  </div>
+
+  <!-- Search Bar (Matching Screenshot 1 & 5) -->
+  <div class="relative w-full">
+    <div class="absolute inset-y-0 start-0 flex items-center ps-4 pointer-events-none text-zinc-400">
+      <svg lucideSearch [size]="18" aria-hidden="true"></svg>
+    </div>
+    <input
+      type="text"
+      [formControl]="searchControl"
+      [placeholder]="'DASHBOARDOCCASIONS.SEARCH_PLACEHOLDER' | translate"
+      class="w-full ps-11 pe-10 py-3 rounded-2xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#8A1730]/20 focus:border-[#8A1730] shadow-2xs transition-all"
+    />
+    @if (searchControl.value) {
+      <button
+        type="button"
+        (click)="clearSearch()"
+        class="absolute inset-y-0 end-0 flex items-center pe-4 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors"
+        aria-label="Clear search"
+      >
+        <svg lucideX [size]="16" aria-hidden="true"></svg>
+      </button>
+    }
+  </div>
+
+  <!-- Table Container Card -->
+  <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs">
+    <!-- Table Headers -->
+    <div class="grid grid-cols-12 px-6 py-3.5 bg-zinc-50/70 dark:bg-zinc-800/50 border-b border-zinc-100 dark:border-zinc-800 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+      <div class="col-span-6 sm:col-span-5">
+        {{ 'DASHBOARDOCCASIONS.COL_NAME' | translate }}
+      </div>
+      <div class="col-span-4 sm:col-span-4">
+        {{ 'DASHBOARDOCCASIONS.COL_PRODUCTS' | translate }}
+      </div>
+      <div class="col-span-2 sm:col-span-3 text-end">
+        <span class="hidden sm:inline">{{ 'DASHBOARDOCCASIONS.COL_ACTIONS' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Table Body / Rows -->
+    @if (isLoading()) {
+      <!-- Skeleton Loading Rows -->
+      <div class="divide-y divide-zinc-100 dark:divide-zinc-800 animate-pulse">
+        @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+          <div class="grid grid-cols-12 px-6 py-4 items-center">
+            <div class="col-span-6 sm:col-span-5">
+              <div class="h-4 w-28 bg-zinc-200 dark:bg-zinc-800 rounded-md"></div>
+            </div>
+            <div class="col-span-4 sm:col-span-4">
+              <div class="h-4 w-20 bg-zinc-200 dark:bg-zinc-800 rounded-md"></div>
+            </div>
+            <div class="col-span-2 sm:col-span-3 flex justify-end gap-2">
+              <div class="h-7 w-16 bg-zinc-200 dark:bg-zinc-800 rounded-lg hidden sm:block"></div>
+              <div class="h-7 w-16 bg-zinc-200 dark:bg-zinc-800 rounded-lg hidden sm:block"></div>
+              <div class="h-7 w-7 bg-zinc-200 dark:bg-zinc-800 rounded-lg sm:hidden"></div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else if (occasions().length === 0) {
+      <!-- Empty State -->
+      <div class="py-16 text-center px-4">
+        <div class="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-400 flex items-center justify-center mx-auto mb-3">
+          <svg lucideSearch [size]="20" aria-hidden="true"></svg>
+        </div>
+        <h3 class="text-sm font-bold text-zinc-800 dark:text-zinc-200">
+          {{ 'DASHBOARDOCCASIONS.NO_OCCASIONS_FOUND' | translate }}
+        </h3>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+          {{ 'DASHBOARDOCCASIONS.TRY_DIFFERENT_SEARCH' | translate }}
+        </p>
+      </div>
+    } @else {
+      <!-- Occasions Rows -->
+      <div class="divide-y divide-zinc-100 dark:divide-zinc-800/70">
+        @for (occasion of occasions(); track occasion.id) {
+          <div
+            class="grid grid-cols-12 px-6 py-3.5 items-center hover:bg-rose-50/40 dark:hover:bg-rose-950/20 transition-colors duration-150 group"
+          >
+            <!-- Name Column -->
+            <div class="col-span-6 sm:col-span-5 font-bold text-sm text-zinc-900 dark:text-zinc-100 truncate pe-2">
+              {{ occasion.title }}
+            </div>
+
+            <!-- Products Count Column -->
+            <div class="col-span-4 sm:col-span-4 text-xs font-normal text-zinc-600 dark:text-zinc-300">
+              {{ occasion.productsCount ?? 0 }} {{ 'DASHBOARDOCCASIONS.PRODUCTS_UNIT' | translate }}
+            </div>
+
+            <!-- Actions Column -->
+            <div class="col-span-2 sm:col-span-3 flex items-center justify-end gap-2 relative">
+              <!-- Desktop Actions (Matching Screenshot 5) -->
+              <div class="hidden sm:flex items-center gap-2">
+                <button
+                  type="button"
+                  (click)="navigateToEdit(occasion)"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-xs font-semibold transition-colors cursor-pointer"
+                >
+                  <svg lucideEdit [size]="14" aria-hidden="true"></svg>
+                  <span>{{ 'DASHBOARDOCCASIONS.EDIT' | translate }}</span>
+                </button>
+
+                <button
+                  type="button"
+                  (click)="openDeleteDialog(occasion, $event)"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900/50 text-xs font-semibold transition-colors cursor-pointer"
+                >
+                  <svg lucideTrash2 [size]="14" aria-hidden="true"></svg>
+                  <span>{{ 'DASHBOARDOCCASIONS.DELETE' | translate }}</span>
+                </button>
+              </div>
+
+              <!-- Mobile 3-Dots Action Button (Matching Screenshot 1) -->
+              <div class="sm:hidden relative">
+                <button
+                  type="button"
+                  (click)="toggleMobileMenu(occasion.id || '', $event)"
+                  class="w-8 h-8 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                  [attr.aria-expanded]="activeMobileMenuId() === occasion.id"
+                  aria-label="Actions menu"
+                >
+                  <svg lucideMoreVertical [size]="16" aria-hidden="true"></svg>
+                </button>
+
+                <!-- Mobile Action Dropdown / Bottom Sheet (Matching Screenshot 1) -->
+                @if (activeMobileMenuId() === occasion.id) {
+                  <div
+                    class="absolute end-0 top-[calc(100%+0.4rem)] w-36 bg-white dark:bg-zinc-800 rounded-2xl shadow-2xl border border-zinc-100 dark:border-zinc-700/80 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                    role="menu"
+                  >
+                    <!-- Edit Option (Blue) -->
+                    <button
+                      type="button"
+                      (click)="navigateToEdit(occasion)"
+                      class="flex items-center gap-2.5 w-full text-start px-3 py-2 rounded-xl text-xs font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition-colors cursor-pointer"
+                      role="menuitem"
+                    >
+                      <svg lucideEdit [size]="15" aria-hidden="true"></svg>
+                      <span>{{ 'DASHBOARDOCCASIONS.EDIT' | translate }}</span>
+                    </button>
+
+                    <!-- Delete Option (Red) -->
+                    <button
+                      type="button"
+                      (click)="openDeleteDialog(occasion, $event)"
+                      class="flex items-center gap-2.5 w-full text-start px-3 py-2 rounded-xl text-xs font-semibold text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                      role="menuitem"
+                    >
+                      <svg lucideTrash2 [size]="15" aria-hidden="true"></svg>
+                      <span>{{ 'DASHBOARDOCCASIONS.DELETE' | translate }}</span>
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Custom Numbered Pagination Bar (Matching Screenshot 1 & 5) -->
+  @if (!isLoading() && metadata().totalPages > 1) {
+    <div class="flex items-center justify-center gap-1.5 pt-4 select-none">
+      <!-- First Page « -->
+      <button
+        type="button"
+        (click)="firstPage()"
+        [disabled]="currentPage() === 1"
+        class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        aria-label="First page"
+      >
+        <svg lucideChevronsLeft [size]="14" class="rtl:rotate-180" aria-hidden="true"></svg>
+      </button>
+
+      <!-- Previous Page < -->
+      <button
+        type="button"
+        (click)="prevPage()"
+        [disabled]="currentPage() === 1"
+        class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        aria-label="Previous page"
+      >
+        <svg lucideChevronLeft [size]="14" class="rtl:rotate-180" aria-hidden="true"></svg>
+      </button>
+
+      <!-- Page Numbers & Ellipsis -->
+      @for (page of paginationPages(); track $index) {
+        @if (page === '...') {
+          <span class="w-8 h-8 flex items-center justify-center text-xs text-zinc-400">...</span>
+        } @else {
+          <button
+            type="button"
+            (click)="goToPage(page)"
+            class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold transition-all cursor-pointer"
+            [class.bg-[#8A1730]]="page === currentPage()"
+            [class.text-white]="page === currentPage()"
+            [class.shadow-xs]="page === currentPage()"
+            [class.border]="page !== currentPage()"
+            [class.border-zinc-200]="page !== currentPage()"
+            [class.dark:border-zinc-700]="page !== currentPage()"
+            [class.bg-white]="page !== currentPage()"
+            [class.dark:bg-zinc-900]="page !== currentPage()"
+            [class.text-zinc-700]="page !== currentPage()"
+            [class.dark:text-zinc-300]="page !== currentPage()"
+            [class.hover:bg-zinc-50]="page !== currentPage()"
+            [class.dark:hover:bg-zinc-800]="page !== currentPage()"
+          >
+            {{ page }}
+          </button>
+        }
+      }
+
+      <!-- Next Page > -->
+      <button
+        type="button"
+        (click)="nextPage()"
+        [disabled]="currentPage() === metadata().totalPages"
+        class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        aria-label="Next page"
+      >
+        <svg lucideChevronRight [size]="14" class="rtl:rotate-180" aria-hidden="true"></svg>
+      </button>
+
+      <!-- Last Page » -->
+      <button
+        type="button"
+        (click)="lastPage()"
+        [disabled]="currentPage() === metadata().totalPages"
+        class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        aria-label="Last page"
+      >
+        <svg lucideChevronsRight [size]="14" class="rtl:rotate-180" aria-hidden="true"></svg>
+      </button>
+    </div>
+  }
+</div>
+
+<!-- Delete Occasion Confirmation Dialog -->
+<app-delete-occasion-dialog
+  [isOpen]="deleteDialogOpen()"
+  [occasionTitle]="occasionToDelete()?.title || ''"
+  [isDeleting]="isDeleting()"
+  (confirmed)="confirmDelete()"
+  (cancelled)="cancelDelete()"
+/>
