@@ -588,9 +588,47 @@
     "LOW_STOCK": "Low Stock Products",
     "NO_LOW_STOCK": "No low stock items",
     "ORDER_STATUS": {
-    "COMPLETED": "Completed",
-    "IN_PROGRESS": "In progress",
-    "CANCELED": "Canceled"
+      "COMPLETED": "Completed",
+      "IN_PROGRESS": "In progress",
+      "CANCELED": "Canceled"
+    }
+  },
+  "TABLE": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RECORDS": "No records found",
+    "NO_SEARCH_RESULTS": "No items match your search",
+    "ACTIONS": {
+      "OPTIONS": "Options",
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
+    "COLUMNS": {
+      "NAME": "Name",
+      "PRODUCT": "Product",
+      "PRODUCTS": "Products",
+      "PRICE": "Price",
+      "STOCK": "Stock",
+      "SALES": "Sales",
+      "RATINGS": "Ratings",
+      "ACTIONS": "Actions",
+      "CATEGORY": "Category",
+      "STATUS": "Status",
+      "DATE": "Date",
+      "DESCRIPTION": "Description"
+    }
+  },
+  "PRODUCTS": {
+    "TITLE": "All Products",
+    "ADD_PRODUCT": "Add a new product",
+    "COLUMNS": {
+      "NAME": "Name",
+      "PRODUCT": "Product",
+      "PRODUCTS": "Products",
+      "PRICE": "Price",
+      "STOCK": "Stock",
+      "SALES": "Sales",
+      "RATINGS": "Ratings",
+      "ACTIONS": "Actions"
+    }
   }
-}
 }

@@ -271,6 +271,8 @@
     "TITLE": "Real Words from Happy Customers"
   },
   "PRODUCTS": {
+    "TITLE": "All Products",
+    "ADD_PRODUCT": "Add a new product",
     "LOADING": "Loading products...",
     "EMPTY": "No products found.",
     "PAGINATION": "Products pagination",
@@ -550,5 +552,10 @@
     "ADD_CATEGORY": "Add Category",
     "ADD_OCCASION": "Add Occasion",
     "ADD_PRODUCT": "Add Product"
+  },
+  "TABLE": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RECORDS": "No records found",
+    "NO_SEARCH_RESULTS": "No items match your search"
   }
 }

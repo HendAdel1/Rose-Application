@@ -42,10 +42,47 @@
     "LOW_STOCK": "المنتجات منخفضة المخزون",
     "NO_LOW_STOCK": "لا توجد منتجات منخفضة المخزون",
     "ORDER_STATUS": {
-    "COMPLETED": "مكتمل",
-    "IN_PROGRESS": "قيد التنفيذ",
-    "CANCELED": "ملغي"
+      "COMPLETED": "مكتمل",
+      "IN_PROGRESS": "قيد التنفيذ",
+      "CANCELED": "ملغي"
+    }
+  },
+  "TABLE": {
+    "SEARCH_PLACEHOLDER": "بحث...",
+    "NO_RECORDS": "لا توجد سجلات",
+    "NO_SEARCH_RESULTS": "لا توجد نتائج تطابق بحثك",
+    "ACTIONS": {
+      "OPTIONS": "خيارات",
+      "EDIT": "تعديل",
+      "DELETE": "حذف"
+    },
+    "COLUMNS": {
+      "NAME": "الاسم",
+      "PRODUCT": "المنتج",
+      "PRODUCTS": "المنتجات",
+      "PRICE": "السعر",
+      "STOCK": "المخزون",
+      "SALES": "المبيعات",
+      "RATINGS": "التقييمات",
+      "ACTIONS": "الإجراءات",
+      "CATEGORY": "الفئة",
+      "STATUS": "الحالة",
+      "DATE": "التاريخ",
+      "DESCRIPTION": "الوصف"
+    }
+  },
+  "PRODUCTS": {
+    "TITLE": "جميع المنتجات",
+    "ADD_PRODUCT": "إضافة منتج جديد",
+    "COLUMNS": {
+      "NAME": "الاسم",
+      "PRODUCT": "المنتج",
+      "PRODUCTS": "المنتجات",
+      "PRICE": "السعر",
+      "STOCK": "المخزون",
+      "SALES": "المبيعات",
+      "RATINGS": "التقييمات",
+      "ACTIONS": "الإجراءات"
+    }
   }
-  }
-
 }
