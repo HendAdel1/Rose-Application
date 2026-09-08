@@ -1,3 +1,13 @@
-<section class="min-h-[200px]" aria-label="Dashboard Products">
-  <!-- Products content will be implemented in the Products task -->
+<section
+  class="products-section min-h-[200px]"
+  [attr.aria-label]="'PRODUCTS.TITLE' | translate"
+>
+  <app-reusable-table>
+    <!-- Products Header: Title & Action Button -->
+    <app-table-header
+      title="PRODUCTS.TITLE"
+      actionLabel="PRODUCTS.ADD_PRODUCT"
+      (actionClick)="onAddProduct()"
+    />
+  </app-reusable-table>
 </section>
