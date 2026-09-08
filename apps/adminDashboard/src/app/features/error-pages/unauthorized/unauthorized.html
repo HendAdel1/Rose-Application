@@ -1,0 +1,52 @@
+<section class="flex flex-col items-center justify-center min-h-[calc(100vh-14rem)] px-4 py-10 text-center select-none" aria-labelledby="unauthorized-title">
+  <div class="w-full max-w-md flex flex-col items-center">
+    <!-- Minimalist Outline Illustration -->
+    <div class="relative mb-6 flex items-center justify-center">
+      <svg viewBox="0 0 200 200" class="w-40 h-40 md:w-48 md:h-48 text-zinc-300 dark:text-zinc-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Floating Sparkles & Dots -->
+        <path d="M45 40v6M42 43h6" stroke-width="1.5" />
+        <circle cx="35" cy="85" r="2.5" stroke-width="1.5" />
+        <path d="M160 35v8M156 39h8" stroke-width="1.5" />
+        <circle cx="170" cy="75" r="2.5" stroke-width="1.5" />
+        <path d="M40 145v6M37 148h6" stroke-width="1.5" />
+        <circle cx="50" cy="170" r="2" stroke-width="1.5" />
+        <circle cx="155" cy="150" r="2.5" stroke-width="1.5" />
+        <path d="M165 130v6M162 133h6" stroke-width="1.5" />
+
+        <!-- Shield Outline -->
+        <path d="M100 45 C125 45, 145 52, 145 75 C145 115, 100 145, 100 145 C100 145, 55 115, 55 75 C55 52, 75 45, 100 45 Z" stroke-width="2.5" />
+
+        <!-- Inner Sparkle Shine -->
+        <path d="M72 65 C78 57, 88 54, 98 54" stroke-width="1.5" />
+
+        <!-- Sad Face Expression -->
+        <circle cx="85" cy="85" r="2.5" fill="currentColor" />
+        <circle cx="115" cy="85" r="2.5" fill="currentColor" />
+        <path d="M88 108 C94 102, 106 102, 112 108" stroke-width="2" />
+
+        <!-- Sub-badge with Lock -->
+        <circle cx="132" cy="130" r="17" class="fill-white dark:fill-zinc-900" stroke-width="2" />
+        <rect x="125" y="127" width="14" height="10" rx="2" stroke-width="2" />
+        <path d="M128 127v-3a4 4 0 0 1 8 0v3" stroke-width="2" />
+      </svg>
+    </div>
+
+    <!-- Title -->
+    <h1 id="unauthorized-title" class="text-xl md:text-2xl font-medium text-zinc-700 dark:text-zinc-200 mb-2">
+      {{ 'ERROR_PAGES.UNAUTHORIZED.TITLE' | translate }}
+    </h1>
+
+    <!-- Description / Reason -->
+    <p class="text-sm text-zinc-400 dark:text-zinc-500 max-w-sm mx-auto mb-6 leading-relaxed">
+      {{ 'ERROR_PAGES.UNAUTHORIZED.DESCRIPTION' | translate }}
+    </p>
+
+    <!-- Primary Action Button -->
+    <a
+      [routerLink]="dashboardUrl"
+      class="inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-[#8A1730] hover:bg-[#741328] active:scale-[0.98] text-white text-sm font-medium shadow-sm hover:shadow transition-all duration-200 cursor-pointer"
+    >
+      <span>{{ 'ERROR_PAGES.BACK_TO_DASHBOARD' | translate }}</span>
+    </a>
+  </div>
+</section>

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Overview } from './overview';
 import { Admin } from '../../core/services/admin/admin.service';
 import { of, throwError } from 'rxjs';
+import { provideTranslateService } from '@ngx-translate/core';
 import { Component, Input, Output, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
@@ -34,10 +35,11 @@ describe('Overview Component', () => {
     summary: { totalProducts: 120, totalOrders: 45, totalCategories: 8, totalRevenue: 15000, currency: 'EGP' },
     categories: [{ id: '1', title: 'Flowers', productCount: 50 }],
     orderStatus: { completed: { count: 30, percent: 60 }, inProgress: { count: 10, percent: 20 }, canceled: { count: 5, percent: 10 } },
-    revenue: { monthly: [], week: [] },
+    revenue: { period: 'monthly', points: [{ label: 'Jan', revenue: 1000 }] },
     topSellingProducts: [{ productId: 'p1', title: 'Red Roses', unitPrice: 100, totalSales: 50 }],
     lowStockProducts: [{ id: 'l1', title: 'Black Wrap', stock: 2 }]
   };
+
 
   beforeEach(async () => {
     const adminServiceMock = {
@@ -52,9 +54,11 @@ describe('Overview Component', () => {
         MockRevenueChart
       ],
       providers: [
+        provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
         { provide: Admin, useValue: adminServiceMock }
       ]
     }).compileComponents();
+
 
     adminServiceSpy = TestBed.inject(Admin) as unknown as typeof adminServiceMock;
   });
