@@ -1,0 +1,44 @@
+:host {
+  display: block;
+}
+
+.category-form-page {
+  display: grid;
+  gap: 1.25rem;
+  width: 75%;
+  max-width: 100%;
+}
+
+.category-form-page__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: #18181b;
+}
+
+.category-form-page__card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+}
+
+.category-form-page__loading {
+  padding: 2rem;
+  color: #71717a;
+}
+
+@media (max-width: 768px) {
+  .category-form-page {
+    width: 100%;
+  }
+}
+
+:host-context(html.dark) .category-form-page__title {
+  color: #fafafa;
+}
+
+:host-context(html.dark) .category-form-page__card {
+  background: #3f3f46;
+}

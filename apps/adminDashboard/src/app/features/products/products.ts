@@ -1,9 +1,18 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
-import { ReusableTable, TableHeader, DataTableService } from '../../shared/reusable-table';
-import { ProductTableConfigService } from './services/product-table-config.service';
-import { ProductService } from './services/product.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { ConfirmDialog } from '@org/sharedComponents';
+
+import { DataTableService, ReusableTable, TableHeader } from '../../shared/reusable-table';
 import { Product } from './models/product.model';
+import { ProductService } from './services/product.service';
+import { ProductTableConfigService } from './services/product-table-config.service';
 
 /**
  * Products Feature Component.
@@ -30,7 +39,7 @@ import { Product } from './models/product.model';
  */
 @Component({
   selector: 'app-admin-products',
-  imports: [ReusableTable, TableHeader, TranslatePipe],
+  imports: [ReusableTable, TableHeader, TranslatePipe, ConfirmDialog],
   providers: [DataTableService],
   templateUrl: './products.html',
   styleUrl: './products.css',
@@ -40,6 +49,16 @@ export class Products implements OnInit {
   private readonly dataTableService = inject(DataTableService<Product>);
   private readonly productService = inject(ProductService);
   private readonly tableConfigService = inject(ProductTableConfigService);
+  private readonly translate = inject(TranslateService);
+
+  readonly isDeleteOpen = signal(false);
+  private readonly pendingDelete = signal<Product | null>(null);
+
+  readonly deleteMessage = computed(() =>
+    this.translate.instant('CONFIRM_DIALOG.DELETE_MESSAGE', {
+      entity: this.translate.instant('CONFIRM_DIALOG.ENTITIES.PRODUCT'),
+    }),
+  );
 
   ngOnInit(): void {
     this.configureTableColumns();
@@ -47,24 +66,28 @@ export class Products implements OnInit {
     this.loadData();
   }
 
-  /**
-   * Action handler triggered when clicking "Add a new product" button.
-   */
   onAddProduct(): void {
-    // Hook for Add Product dialog or navigation
     console.info('Add a new product triggered');
   }
 
-  /**
-   * Configure table columns using reusable config preset
-   */
+  closeDeleteDialog(): void {
+    this.isDeleteOpen.set(false);
+    this.pendingDelete.set(null);
+  }
+
+  confirmDelete(): void {
+    const row = this.pendingDelete();
+    if (!row) {
+      return;
+    }
+    this.productService.deleteProduct(row.id);
+    this.closeDeleteDialog();
+  }
+
   private configureTableColumns(): void {
     this.dataTableService.setColumns(this.tableConfigService.getDefaultColumns());
   }
 
-  /**
-   * Configure row actions
-   */
   private configureTableActions(): void {
     this.dataTableService.setActions([
       {
@@ -81,17 +104,17 @@ export class Products implements OnInit {
 
     this.dataTableService.setActionHandler((event) => {
       if (event.action === 'Delete') {
-        this.productService.deleteProduct(event.row.id);
-      } else if (event.action === 'Edit') {
+        this.pendingDelete.set(event.row);
+        this.isDeleteOpen.set(true);
+        return;
+      }
+
+      if (event.action === 'Edit') {
         console.info('Editing product:', event.row);
       }
     });
   }
 
-  /**
-   * Bind product data and loading reactively using Angular Signals
-   * and configures server-side pagination before triggering the initial fetch.
-   */
   private loadData(): void {
     this.dataTableService.bindDataSignal(this.productService.products);
     this.dataTableService.bindLoadingSignal(this.productService.loading);

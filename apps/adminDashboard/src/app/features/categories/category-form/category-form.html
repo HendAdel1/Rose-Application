@@ -1,0 +1,18 @@
+<section class="category-form-page font-sarabun" [attr.aria-label]="pageTitle()">
+  <h1 class="category-form-page__title">{{ pageTitle() }}</h1>
+
+  @if (pageLoading()) {
+    <div class="category-form-page__loading" role="status">
+      {{ 'ADMIN_CATEGORIES.LOADING' | translate }}
+    </div>
+  } @else if (formReady()) {
+    <div class="category-form-page__card">
+      <lib-dynamic-form
+        [config]="formConfig()"
+        [initialValue]="initialValue()"
+        [loading]="loading()"
+        (formSubmit)="onSubmit($event)"
+      />
+    </div>
+  }
+</section>
