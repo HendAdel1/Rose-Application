@@ -9,4 +9,5 @@ import { Component, input } from '@angular/core';
 })
 export class UiLabel {
   forId = input<string>('');
+  required = input<boolean>(false);
 }
