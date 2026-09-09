@@ -61,6 +61,7 @@ export class CustomInput implements ControlValueAccessor {
   type = input<CustomInputType>('text');
   id = input<string>('');
   label = input<string>('');
+  required = input<boolean>(false);
   placeholder = input<string>('');
   helperText = input<string>('');
   errorMessage = input<string>('');

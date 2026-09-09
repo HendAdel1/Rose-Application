@@ -1,0 +1,54 @@
+@if (open()) {
+  <div
+    class="confirm-dialog__backdrop"
+    role="presentation"
+    (click)="onBackdropClick()"
+  >
+    <section
+      class="confirm-dialog__panel font-sarabun"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="dialogAriaLabel()"
+      [attr.aria-busy]="loading()"
+      (click)="onPanelClick($event)"
+    >
+      <button
+        type="button"
+        class="confirm-dialog__close"
+        [disabled]="loading()"
+        [attr.aria-label]="closeAriaLabel()"
+        (click)="onCancel()"
+      >
+        <svg lucideX [size]="20" aria-hidden="true"></svg>
+      </button>
+
+      <div class="confirm-dialog__icon-wrap" aria-hidden="true">
+        <span class="confirm-dialog__icon-inner">
+          <svg lucideTrash2 [size]="28" aria-hidden="true"></svg>
+        </span>
+      </div>
+
+      <h2 class="confirm-dialog__title">{{ resolvedMessage() }}</h2>
+
+      <div class="confirm-dialog__actions">
+        <button
+          type="button"
+          class="confirm-dialog__btn confirm-dialog__btn--cancel"
+          [disabled]="loading()"
+          (click)="onCancel()"
+        >
+          {{ cancelLabel() }}
+        </button>
+
+        <button
+          type="button"
+          [class]="confirmButtonClass()"
+          [disabled]="loading()"
+          (click)="onConfirm()"
+        >
+          {{ confirmLabel() }}
+        </button>
+      </div>
+    </section>
+  </div>
+}

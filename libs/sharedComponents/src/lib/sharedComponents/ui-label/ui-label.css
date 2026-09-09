@@ -2,6 +2,16 @@
   font-family: 'Inter', sans-serif;
 }
 
+.ui-label__required {
+  margin-inline-start: 0.15rem;
+  color: #dc2626;
+  font-weight: 600;
+}
+
 :host-context(html[lang='ar']) label {
   font-family: 'Zain', sans-serif;
+}
+
+:host-context(html.dark) .ui-label__required {
+  color: #f87171;
 }
