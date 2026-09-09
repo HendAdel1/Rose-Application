@@ -1,3 +1,24 @@
-<section class="min-h-[200px]" aria-label="Dashboard Categories">
-  <!-- Categories content will be implemented in the Categories task -->
+<section
+  class="categories-section min-h-50"
+  [attr.aria-label]="'DASHBOARD.CATEGORIES' | translate"
+>
+  <app-reusable-table>
+    <app-table-header
+      title="DASHBOARD.ALL_CATEGORIES"
+      actionLabel="ADMIN_CATEGORIES.ADD_NEW"
+      (actionClick)="onAddCategory()"
+    />
+  </app-reusable-table>
+
+  <lib-confirm-dialog
+    [open]="isDeleteOpen()"
+    [message]="deleteMessage()"
+    [confirmLabel]="'CONFIRM_DIALOG.CONFIRM' | translate"
+    [cancelLabel]="'CONFIRM_DIALOG.CANCEL' | translate"
+    [closeAriaLabel]="'CONFIRM_DIALOG.CLOSE' | translate"
+    [dialogAriaLabel]="'CONFIRM_DIALOG.ARIA_LABEL' | translate"
+    [loading]="deleting()"
+    (confirmed)="confirmDelete()"
+    (cancelled)="closeDeleteDialog()"
+  />
 </section>

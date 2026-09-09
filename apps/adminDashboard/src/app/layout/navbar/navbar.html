@@ -4,31 +4,44 @@
 >
   <div class="flex items-center justify-between h-14 sm:h-16 px-4 sm:px-6">
     <!-- Left Section: Mobile Brand / Desktop Breadcrumb -->
-    <div class="flex items-center gap-3">
-      <!-- Mobile View Brand: Logo + Dynamic Section Name (Matching Screenshot 2) -->
+    <div class="flex items-center gap-3 min-w-0">
+      <!-- Mobile View Brand -->
       <div class="flex items-center gap-2.5 lg:hidden">
         <img
           [src]="logoPath"
           alt="Rose"
           class="h-8 w-auto object-contain"
         />
-        <span class="text-sm font-semibold text-zinc-700 dark:text-zinc-200">
-          {{ (currentSectionKey() || 'DASHBOARD.TITLE') | translate }}
+        <span class="text-sm font-semibold text-zinc-700 dark:text-zinc-200 truncate">
+          {{ currentSectionKey() | translate }}
         </span>
       </div>
 
-      <!-- Desktop View: Breadcrumb with Dynamic Section Name (Matching Screenshot 2) -->
-      <div class="hidden lg:flex items-center gap-2 text-sm">
-        <span class="font-normal text-zinc-400 dark:text-zinc-400">
-          {{ 'DASHBOARD.TITLE' | translate }}
-        </span>
-        @if (currentSectionKey()) {
-          <span class="text-zinc-300 dark:text-zinc-600">/</span>
-          <span class="font-medium text-zinc-700 dark:text-zinc-200">
-            {{ currentSectionKey()! | translate }}
-          </span>
+      <!-- Desktop breadcrumb -->
+      <nav
+        class="admin-navbar__breadcrumbs hidden lg:flex items-center gap-2 min-w-0"
+        aria-label="Breadcrumb"
+      >
+        @for (crumb of breadcrumbs(); track crumb.labelKey; let last = $last) {
+          @if (!last) {
+            @if (crumb.link) {
+              <a
+                class="admin-navbar__crumb admin-navbar__crumb--link"
+                [routerLink]="crumb.link"
+              >
+                {{ crumb.labelKey | translate }}
+              </a>
+            } @else {
+              <span class="admin-navbar__crumb">{{ crumb.labelKey | translate }}</span>
+            }
+            <span class="admin-navbar__sep" aria-hidden="true">›</span>
+          } @else {
+            <span class="admin-navbar__crumb admin-navbar__crumb--current">
+              {{ crumb.labelKey | translate }}
+            </span>
+          }
         }
-      </div>
+      </nav>
     </div>
 
     <!-- Right Section (Mobile Only Avatar & Profile Dropdown) -->
@@ -59,16 +72,13 @@
           }
         </button>
 
-        <!-- Mobile Profile Dropdown (Matching Screenshot 2) -->
         @if (profileMenuOpen()) {
           <div
             class="absolute end-0 top-[calc(100%+0.6rem)] w-44 bg-white dark:bg-zinc-800 rounded-2xl shadow-2xl border border-zinc-100 dark:border-zinc-700/80 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
             role="menu"
           >
-            <!-- Top Handle Indicator -->
             <div class="w-8 h-1 bg-zinc-200 dark:bg-zinc-600 rounded-full mx-auto mb-2"></div>
 
-            <!-- Profile Item -->
             <a
               routerLink="/roseApp/settings"
               (click)="closeProfileMenu()"
@@ -79,7 +89,6 @@
               <span>{{ 'DASHBOARD.PROFILE' | translate }}</span>
             </a>
 
-            <!-- Logout Item -->
             <button
               type="button"
               (click)="logout()"
