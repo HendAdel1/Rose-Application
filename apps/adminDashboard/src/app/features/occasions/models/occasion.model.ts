@@ -1,6 +1,7 @@
 export interface OccasionDto {
   _id?: string;
   id?: string;
+  name?: string;
   title?: string;
   slug?: string;
   description?: string;
@@ -32,12 +33,14 @@ export interface OccasionsListPayload {
 
 export interface CreateOccasionPayload {
   title: string;
+  name?: string;
   image: string;
   description?: string;
 }
 
 export interface UpdateOccasionPayload {
   title?: string;
+  name?: string;
   image?: string;
   description?: string;
 }

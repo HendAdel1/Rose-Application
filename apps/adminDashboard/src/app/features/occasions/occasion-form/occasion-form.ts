@@ -111,7 +111,7 @@ export class OccasionForm implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (occasion) => {
-          this.initialValue.set({ title: occasion.title ?? '' });
+          this.initialValue.set({ title: occasion.title ?? occasion.name ?? '' });
           this.existingImageUrl.set(this.occasionsService.resolveImageUrl(occasion.image));
           this.pageLoading.set(false);
           this.formReady.set(true);
@@ -147,7 +147,12 @@ export class OccasionForm implements OnInit {
       upload$
         .pipe(
           switchMap((imageUrl) =>
-            this.occasionsService.createOccasion({ title, image: imageUrl }),
+            this.occasionsService.createOccasion({
+              title,
+              name: title,
+              description: title,
+              image: imageUrl,
+            }),
           ),
           takeUntilDestroyed(this.destroyRef),
         )
@@ -176,10 +181,19 @@ export class OccasionForm implements OnInit {
     const request$ = upload$
       ? upload$.pipe(
           switchMap((imageUrl) =>
-            this.occasionsService.updateOccasion(id, { title, image: imageUrl }),
+            this.occasionsService.updateOccasion(id, {
+              title,
+              name: title,
+              description: title,
+              image: imageUrl,
+            }),
           ),
         )
-      : this.occasionsService.updateOccasion(id, { title });
+      : this.occasionsService.updateOccasion(id, {
+          title,
+          name: title,
+          description: title,
+        });
 
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
