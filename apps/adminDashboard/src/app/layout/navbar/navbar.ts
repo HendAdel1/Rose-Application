@@ -14,6 +14,12 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { LucideLogOut, LucideMenu, LucideUser } from '@lucide/angular';
 import { AdminProfileService } from '../../core/services/admin-profile.service';
 
+export interface AdminBreadcrumbItem {
+  labelKey: string;
+  link?: string | string[];
+  current?: boolean;
+}
+
 @Component({
   selector: 'app-admin-navbar',
   standalone: true,
@@ -49,42 +55,75 @@ export class AdminNavbar {
     { initialValue: this.router.url },
   );
 
-  readonly currentBreadcrumbs = computed(() => {
-    const url = this.currentUrl();
-    if (url.includes('/occasions/add')) {
-      return [
-        { labelKey: 'DASHBOARD.OCCASIONS', route: '/adminDashboard/occasions' },
-        { labelKey: 'DASHBOARDOCCASIONS.ADD_OCCASION', route: null },
-      ];
-    }
-    if (url.includes('/occasions/edit')) {
-      return [
-        { labelKey: 'DASHBOARD.OCCASIONS', route: '/adminDashboard/occasions' },
-        { labelKey: 'DASHBOARDOCCASIONS.UPDATE_OCCASION_PREFIX', route: null },
-      ];
-    }
-    if (url.includes('/occasions')) {
-      return [{ labelKey: 'DASHBOARD.OCCASIONS', route: null }];
-    }
-    if (url.includes('/categories')) {
-      return [{ labelKey: 'DASHBOARD.CATEGORIES', route: null }];
-    }
-    if (url.includes('/products')) {
-      return [{ labelKey: 'DASHBOARD.PRODUCTS', route: null }];
-    }
-    if (url.includes('/overview')) {
-      return [{ labelKey: 'DASHBOARD.OVERVIEW', route: null }];
-    }
-    return [];
+  readonly currentSectionKey = computed(() => {
+    const crumbs = this.breadcrumbs();
+    return crumbs[crumbs.length - 1]?.labelKey ?? 'DASHBOARD.TITLE';
   });
 
-  readonly currentSectionKey = computed(() => {
+  readonly breadcrumbs = computed<AdminBreadcrumbItem[]>(() => {
     const url = this.currentUrl();
-    if (url.includes('/products')) return 'DASHBOARD.PRODUCTS';
-    if (url.includes('/categories')) return 'DASHBOARD.CATEGORIES';
-    if (url.includes('/occasions')) return 'DASHBOARD.OCCASIONS';
-    if (url.includes('/overview')) return 'DASHBOARD.OVERVIEW';
-    return null;
+
+    if (url.includes('/occasions/add')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.OCCASIONS', link: '/adminDashboard/occasions' },
+        { labelKey: 'DASHBOARDOCCASIONS.ADD_OCCASION', current: true },
+      ];
+    }
+
+    if (/\/occasions\/(edit\/[^/]+|[^/]+\/edit)/.test(url)) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.OCCASIONS', link: '/adminDashboard/occasions' },
+        { labelKey: 'DASHBOARDOCCASIONS.UPDATE_OCCASION_PREFIX', current: true },
+      ];
+    }
+
+    if (url.includes('/categories/add')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.CATEGORIES', link: '/adminDashboard/categories' },
+        { labelKey: 'ADMIN_CATEGORIES.ADD_BREADCRUMB', current: true },
+      ];
+    }
+
+    if (/\/categories\/[^/]+\/edit/.test(url)) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.CATEGORIES', link: '/adminDashboard/categories' },
+        { labelKey: 'ADMIN_CATEGORIES.UPDATE_BREADCRUMB', current: true },
+      ];
+    }
+
+    if (url.includes('/categories')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.CATEGORIES', current: true },
+      ];
+    }
+
+    if (url.includes('/occasions')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.OCCASIONS', current: true },
+      ];
+    }
+
+    if (url.includes('/products')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.PRODUCTS', current: true },
+      ];
+    }
+
+    if (url.includes('/overview')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.OVERVIEW', current: true },
+      ];
+    }
+
+    return [{ labelKey: 'DASHBOARD.TITLE', current: true }];
   });
 
   toggleProfileMenu(event?: Event): void {

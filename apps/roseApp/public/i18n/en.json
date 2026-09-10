@@ -271,6 +271,8 @@
     "TITLE": "Real Words from Happy Customers"
   },
   "PRODUCTS": {
+    "TITLE": "All Products",
+    "ADD_PRODUCT": "Add a new product",
     "LOADING": "Loading products...",
     "EMPTY": "No products found.",
     "PAGINATION": "Products pagination",
@@ -551,6 +553,7 @@
     "ADD_OCCASION": "Add Occasion",
     "ADD_PRODUCT": "Add Product"
   },
+<<<<<<< HEAD
   "DASHBOARDOCCASIONS": {
     "TITLE": "All Occasions",
     "ADD_OCCASION": "Add Occasion",
@@ -597,5 +600,11 @@
     "DELETE_SUCCESS": "Occasion deleted successfully!",
     "DELETE_ERROR": "Failed to delete occasion.",
     "FETCH_ERROR": "Failed to load occasions."
+  },
+  "TABLE": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RECORDS": "No records found",
+    "NO_SEARCH_RESULTS": "No items match your search"
   }
 }
+

@@ -1,0 +1,32 @@
+<header class="table-header products-header flex items-center justify-between gap-3">
+  <h1
+    class="table-header-title products-title text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl"
+    [class]="titleClass()"
+  >
+    {{ title() | translate }}
+  </h1>
+
+  <div class="table-header-actions flex items-center gap-2 sm:gap-3">
+    <!-- Slot for custom actions projected into header -->
+    <ng-content select="[header-actions]" />
+
+    @if (hasActionButton()) {
+      <button
+        type="button"
+        class="table-header-action-btn add-product-btn inline-flex items-center justify-center gap-2 w-10 h-10 p-0 sm:w-auto sm:h-auto sm:px-5 sm:py-2.5 text-sm font-semibold cursor-pointer select-none focus:outline-hidden focus-visible:ring-2 focus-visible:ring-maroon-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-900 shrink-0"
+        [class]="actionButtonClass()"
+        [disabled]="actionDisabled()"
+        (click)="onActionClick($event)"
+        [attr.aria-label]="resolvedAriaLabel() | translate"
+      >
+        @if (showIcon()) {
+          <svg lucidePlus [size]="20" class="shrink-0" aria-hidden="true"></svg>
+        }
+        <span class="hidden sm:inline">{{ actionLabel() | translate }}</span>
+      </button>
+    }
+
+    <!-- General content projection slot -->
+    <ng-content />
+  </div>
+</header>

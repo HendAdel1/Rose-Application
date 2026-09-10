@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { AdminLayout } from '../layout/admin-layout/admin-layout';
 import { Overview } from '../features/overview/overview';
 import { Categories } from '../features/categories/categories';
+import { CategoryForm } from '../features/categories/category-form/category-form';
 import { Occasions } from '../features/occasions/occasions';
 import { AddOccasion } from '../features/occasions/components/add-occasion/add-occasion';
 import { EditOccasion } from '../features/occasions/components/edit-occasion/edit-occasion';
@@ -22,6 +23,16 @@ export const remoteRoutes: Route[] = [
     children: [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: Overview, title: 'Overview - Rose Dashboard' },
+      {
+        path: 'categories/add',
+        component: CategoryForm,
+        title: 'Add Category - Rose Dashboard',
+      },
+      {
+        path: 'categories/:id/edit',
+        component: CategoryForm,
+        title: 'Update Category - Rose Dashboard',
+      },
       { path: 'categories', component: Categories, title: 'Categories - Rose Dashboard' },
       { path: 'occasions', component: Occasions, title: 'Occasions - Rose Dashboard' },
       { path: 'occasions/add', component: AddOccasion, title: 'Add Occasion - Rose Dashboard' },

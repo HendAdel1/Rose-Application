@@ -4,39 +4,40 @@
 >
   <div class="flex items-center justify-between h-14 sm:h-16 px-4 sm:px-6">
     <!-- Left Section: Mobile Brand / Desktop Breadcrumb -->
-    <div class="flex items-center gap-3">
-      <!-- Mobile View Brand: Logo + Dynamic Section Name (Matching Screenshot 2) -->
+    <div class="flex items-center gap-3 min-w-0">
+      <!-- Mobile View Brand -->
       <div class="flex items-center gap-2.5 lg:hidden">
         <img
           [src]="logoPath"
           alt="Rose"
           class="h-8 w-auto object-contain"
         />
-        <span class="text-sm font-semibold text-zinc-700 dark:text-zinc-200">
-          {{ (currentSectionKey() || 'DASHBOARD.TITLE') | translate }}
+        <span class="text-sm font-semibold text-zinc-700 dark:text-zinc-200 truncate">
+          {{ currentSectionKey() | translate }}
         </span>
       </div>
 
-      <!-- Desktop View: Breadcrumb with Dynamic Section Name (Matching Screenshot 2) -->
-      <nav class="hidden lg:flex items-center gap-2 text-sm" aria-label="Header Breadcrumb">
-        <a
-          routerLink="/adminDashboard/overview"
-          class="font-normal text-zinc-400 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors"
-        >
-          {{ 'DASHBOARD.TITLE' | translate }}
-        </a>
-        @for (item of currentBreadcrumbs(); track $index; let isLast = $last) {
-          <span class="text-zinc-300 dark:text-zinc-600">/</span>
-          @if (item.route && !isLast) {
-            <a
-              [routerLink]="item.route"
-              class="font-normal text-zinc-400 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors"
-            >
-              {{ item.labelKey | translate }}
-            </a>
+      <!-- Desktop View: Breadcrumb -->
+      <nav
+        class="admin-navbar__breadcrumbs hidden lg:flex items-center gap-2 min-w-0 text-sm"
+        aria-label="Breadcrumb"
+      >
+        @for (crumb of breadcrumbs(); track crumb.labelKey; let last = $last) {
+          @if (!last) {
+            @if (crumb.link) {
+              <a
+                class="font-normal text-zinc-400 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors"
+                [routerLink]="crumb.link"
+              >
+                {{ crumb.labelKey | translate }}
+              </a>
+            } @else {
+              <span class="text-zinc-400">{{ crumb.labelKey | translate }}</span>
+            }
+            <span class="text-zinc-300 dark:text-zinc-600" aria-hidden="true">/</span>
           } @else {
             <span class="font-medium text-zinc-700 dark:text-zinc-200">
-              {{ item.labelKey | translate }}
+              {{ crumb.labelKey | translate }}
             </span>
           }
         }
@@ -72,7 +73,7 @@
           }
         </button>
 
-        <!-- Burger Menu Button (Matching Screenshot) -->
+        <!-- Burger Menu Button -->
         <button
           type="button"
           (click)="toggleProfileMenu($event)"
@@ -83,16 +84,15 @@
           <svg lucideMenu [size]="20" aria-hidden="true"></svg>
         </button>
 
-        <!-- Mobile Profile Dropdown (Matching Screenshot) -->
+        <!-- Mobile Profile Dropdown -->
         @if (profileMenuOpen()) {
           <div
             class="absolute end-0 top-[calc(100%+0.6rem)] w-48 bg-white dark:bg-zinc-800 rounded-2xl shadow-2xl border border-zinc-100 dark:border-zinc-700/80 p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
             role="menu"
           >
-            <!-- Top Handle Indicator (Matching Screenshot) -->
+            <!-- Top Handle Indicator -->
             <div class="w-8 h-1 bg-zinc-200 dark:bg-zinc-600 rounded-full mx-auto mb-3"></div>
 
-            <!-- Profile Item -->
             <a
               routerLink="/roseApp/settings"
               (click)="closeProfileMenu()"
@@ -103,7 +103,6 @@
               <span>{{ 'DASHBOARD.PROFILE' | translate }}</span>
             </a>
 
-            <!-- Logout Item -->
             <button
               type="button"
               (click)="logout()"

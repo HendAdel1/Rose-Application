@@ -1,1 +1,27 @@
-<p>table-search works!</p>
+<div class="table-search-container">
+  <p-iconfield class="table-search-iconfield">
+    <p-inputicon class="table-search-icon">
+      <svg lucideSearch [size]="18" class="search-svg" aria-hidden="true"></svg>
+    </p-inputicon>
+    <input
+      pInputText
+      type="text"
+      class="table-search-input"
+      [placeholder]="(placeholder() | translate) === placeholder() ? fallbackPlaceholder() : (placeholder() | translate)"
+      [value]="currentSearchTerm()"
+      (input)="onSearchInput($event)"
+      (keydown.escape)="clearSearch()"
+      aria-label="Search table"
+    />
+    @if (currentSearchTerm()) {
+      <button
+        type="button"
+        class="table-search-clear-btn"
+        (click)="clearSearch()"
+        aria-label="Clear search"
+      >
+        <svg lucideX [size]="14" aria-hidden="true"></svg>
+      </button>
+    }
+  </p-iconfield>
+</div>

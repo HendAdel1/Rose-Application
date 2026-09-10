@@ -160,6 +160,7 @@
       "MARK_AS_UNREAD": "تعيين كغير مقروء",
       "DELETE": "حذف الإشعار",
       "EMPTY": "لا توجد إشعارات لعرضها."
+    }
   },
   "FOOTER": {
     "ROSE_HOME": "الصفحة الرئيسية لـ Rose",
@@ -270,6 +271,8 @@
     "TITLE": "كلمات حقيقية من عملاء سعداء"
   },
   "PRODUCTS": {
+    "TITLE": "جميع المنتجات",
+    "ADD_PRODUCT": "إضافة منتج جديد",
     "LOADING": "جاري تحميل المنتجات...",
     "EMPTY": "لا توجد منتجات.",
     "PAGINATION": "ترقيم صفحات المنتجات",
@@ -553,6 +556,7 @@
     "ADD_OCCASION": "إضافة مناسبة",
     "ADD_PRODUCT": "إضافة منتج"
   },
+<<<<<<< HEAD
   "DASHBOARDOCCASIONS": {
     "TITLE": "جميع المناسبات",
     "ADD_OCCASION": "إضافة مناسبة",
@@ -599,5 +603,11 @@
     "DELETE_SUCCESS": "تم حذف المناسبة بنجاح!",
     "DELETE_ERROR": "فشل حذف المناسبة.",
     "FETCH_ERROR": "فشل تحميل قائمة المناسبات."
+  },
+  "TABLE": {
+    "SEARCH_PLACEHOLDER": "بحث...",
+    "NO_RECORDS": "لا توجد سجلات",
+    "NO_SEARCH_RESULTS": "لا توجد نتائج تطابق بحثك"
   }
 }
+

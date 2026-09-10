@@ -19,6 +19,10 @@
   font-family: 'Inter', sans-serif;
 }
 
+.font-mulish {
+  font-family: 'Mulish', sans-serif;
+}
+
 :lang(ar) {
   font-family: 'Zain', sans-serif;
 }

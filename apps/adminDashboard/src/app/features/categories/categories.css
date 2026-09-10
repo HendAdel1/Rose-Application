@@ -1,3 +1,7 @@
 :host {
   display: block;
 }
+
+.categories-section {
+  width: 100%;
+}

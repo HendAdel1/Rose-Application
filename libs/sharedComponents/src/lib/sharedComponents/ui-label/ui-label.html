@@ -2,6 +2,8 @@
   [attr.for]="forId()"
   class="font-inter block text-sm text-zinc-800 font-medium mb-1 dark:text-zinc-50"
 >
-<ng-content></ng-content>
-
+  <ng-content></ng-content>
+  @if (required()) {
+    <span class="ui-label__required" aria-hidden="true">*</span>
+  }
 </label>

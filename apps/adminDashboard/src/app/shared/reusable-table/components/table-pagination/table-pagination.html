@@ -1,1 +1,74 @@
-<p>table-pagination works!</p>
+@if (showPaginator()) {
+  <nav class="table-pagination-container" aria-label="Table pagination">
+    <div class="p-paginator p-component table-paginator" role="navigation">
+      @if (showFirstLastIcon()) {
+        <button
+          type="button"
+          class="p-paginator-first p-paginator-element"
+          [class.p-disabled]="isFirstDisabled()"
+          [disabled]="isFirstDisabled()"
+          (click)="goToFirst()"
+          pRipple
+          aria-label="First Page"
+        >
+          <span class="paginator-chevron" aria-hidden="true">«</span>
+        </button>
+      }
+
+      <button
+        type="button"
+        class="p-paginator-prev p-paginator-element"
+        [class.p-disabled]="isFirstDisabled()"
+        [disabled]="isFirstDisabled()"
+        (click)="goToPrev()"
+        pRipple
+        aria-label="Previous Page"
+      >
+        <span class="paginator-chevron" aria-hidden="true">‹</span>
+      </button>
+
+      <span class="p-paginator-pages">
+        @for (item of paginationItems(); track item.type + '_' + item.value + '_' + item.display) {
+          <button
+            type="button"
+            class="p-paginator-page p-paginator-element"
+            [class.p-paginator-page-selected]="item.isActive"
+            [class.paginator-ellipsis-btn]="item.isEllipsis"
+            [attr.aria-current]="item.isActive ? 'page' : undefined"
+            [attr.aria-label]="item.ariaLabel"
+            (click)="handleItemClick(item)"
+            pRipple
+          >
+            {{ item.display }}
+          </button>
+        }
+      </span>
+
+      <button
+        type="button"
+        class="p-paginator-next p-paginator-element"
+        [class.p-disabled]="isLastDisabled()"
+        [disabled]="isLastDisabled()"
+        (click)="goToNext()"
+        pRipple
+        aria-label="Next Page"
+      >
+        <span class="paginator-chevron" aria-hidden="true">›</span>
+      </button>
+
+      @if (showFirstLastIcon()) {
+        <button
+          type="button"
+          class="p-paginator-last p-paginator-element"
+          [class.p-disabled]="isLastDisabled()"
+          [disabled]="isLastDisabled()"
+          (click)="goToLast()"
+          pRipple
+          aria-label="Last Page"
+        >
+          <span class="paginator-chevron" aria-hidden="true">»</span>
+        </button>
+      }
+    </div>
+  </nav>
+}

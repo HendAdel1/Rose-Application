@@ -4,12 +4,10 @@ export * from './lib/sharedComponents/errormesage/ui-error-message';
 export * from './lib/sharedComponents/spinner/ui-spinner';
 export * from './lib/sharedComponents/reusable-input/custom-input';
 export * from './lib/sharedComponents/custom-pagination/custom-pagination';
-
-
-
-
+export * from './lib/sharedComponents/dynamic-form/dynamic-form';
+export * from './lib/sharedComponents/dynamic-form/models/dynamic-form.model';
+export * from './lib/sharedComponents/confirm-dialog/confirm-dialog';
+export * from './lib/sharedComponents/confirm-dialog/models/confirm-dialog.model';
 export * from './lib/sharedComponents/ui-toast/ui-toast';
 export * from './lib/sharedComponents/ngx-ui-toast/ngx-ui-toast';
 export * from './lib/config/provide-app-toastr';
-
-
