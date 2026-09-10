@@ -573,7 +573,6 @@
     "ADD_OCCASION": "Add Occasion",
     "ADD_PRODUCT": "Add Product"
   },
-<<<<<<< HEAD
   "DASHBOARDOCCASIONS": {
     "TITLE": "All Occasions",
     "ADD_OCCASION": "Add Occasion",
@@ -648,6 +647,33 @@
     "DELETE_ERROR": "Unable to delete category.",
     "LOAD_ERROR": "Unable to load category."
   },
+  "ADMIN_OCCASIONS": {
+    "ADD_NEW": "Add a new occasion",
+    "ADD_TITLE": "Add a New Occasion",
+    "UPDATE_TITLE": "Update Occasion: {{name}}",
+    "ADD_BREADCRUMB": "Add Occasion",
+    "UPDATE_BREADCRUMB": "Update Occasion",
+    "NAME_LABEL": "Name",
+    "NAME_PLACEHOLDER": "Enter occasion name",
+    "NAME_REQUIRED": "Occasion name is required",
+    "IMAGE_LABEL": "Occasion Image",
+    "IMAGE_LABEL_OPTIONAL": "Occasion Image",
+    "IMAGE_PLACEHOLDER": "Choose an image",
+    "IMAGE_REQUIRED": "Occasion image is required",
+    "VIEW_IMAGE": "View occasion image",
+    "REPLACE_IMAGE": "Upload file",
+    "ADD_SUBMIT": "Add Occasion",
+    "UPDATE_SUBMIT": "Update Occasion",
+    "CANCEL": "Cancel",
+    "LOADING": "Loading occasion...",
+    "CREATE_SUCCESS": "Occasion created successfully.",
+    "CREATE_ERROR": "Unable to create occasion.",
+    "UPDATE_SUCCESS": "Occasion updated successfully.",
+    "UPDATE_ERROR": "Unable to update occasion.",
+    "DELETE_SUCCESS": "Occasion deleted successfully.",
+    "DELETE_ERROR": "Unable to delete occasion.",
+    "LOAD_ERROR": "Unable to load occasion."
+  },
 
   "DASHBOARDOVERVIEW": {
     "TITLE": "Dashboard Overview",
@@ -718,6 +744,23 @@
       "SALES": "Sales",
       "RATINGS": "Ratings",
       "ACTIONS": "Actions"
+    }
+  },
+  "ERROR_PAGES": {
+    "BACK_TO_DASHBOARD": "Back to Dashboard",
+    "CONTACT_SUPPORT": "Contact Support",
+    "TRY_AGAIN": "Try Again",
+    "UNAUTHORIZED": {
+      "TITLE": "Access restricted",
+      "DESCRIPTION": "You do not have permission to access this page. Please contact your administrator if you think this is a mistake."
+    },
+    "NOT_FOUND": {
+      "TITLE": "This page does not exist",
+      "DESCRIPTION": "The page you are looking for might have been removed or is temporarily unavailable."
+    },
+    "SERVER_ERROR": {
+      "TITLE": "Oops, something went wrong!",
+      "DESCRIPTION": "Our servers encountered a temporary issue. Please try refreshing or check back in a moment."
     }
   }
 }

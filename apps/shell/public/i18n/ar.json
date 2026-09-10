@@ -573,7 +573,6 @@
     "ADD_OCCASION": "إضافة مناسبة",
     "ADD_PRODUCT": "إضافة منتج"
   },
-<<<<<<< HEAD
   "DASHBOARDOCCASIONS": {
     "TITLE": "جميع المناسبات",
     "ADD_OCCASION": "إضافة مناسبة",
@@ -648,6 +647,33 @@
     "DELETE_ERROR": "تعذر حذف الفئة.",
     "LOAD_ERROR": "تعذر تحميل الفئة."
   },
+  "ADMIN_OCCASIONS": {
+    "ADD_NEW": "إضافة مناسبة جديدة",
+    "ADD_TITLE": "إضافة مناسبة جديدة",
+    "UPDATE_TITLE": "تحديث المناسبة: {{name}}",
+    "ADD_BREADCRUMB": "إضافة مناسبة",
+    "UPDATE_BREADCRUMB": "تحديث المناسبة",
+    "NAME_LABEL": "الاسم",
+    "NAME_PLACEHOLDER": "أدخل اسم المناسبة",
+    "NAME_REQUIRED": "اسم المناسبة مطلوب",
+    "IMAGE_LABEL": "صورة المناسبة",
+    "IMAGE_LABEL_OPTIONAL": "صورة المناسبة",
+    "IMAGE_PLACEHOLDER": "اختر صورة",
+    "IMAGE_REQUIRED": "صورة المناسبة مطلوبة",
+    "VIEW_IMAGE": "عرض صورة المناسبة",
+    "REPLACE_IMAGE": "رفع ملف",
+    "ADD_SUBMIT": "إضافة المناسبة",
+    "UPDATE_SUBMIT": "تحديث المناسبة",
+    "CANCEL": "إلغاء",
+    "LOADING": "جاري تحميل المناسبة...",
+    "CREATE_SUCCESS": "تم إنشاء المناسبة بنجاح.",
+    "CREATE_ERROR": "تعذر إنشاء المناسبة.",
+    "UPDATE_SUCCESS": "تم تحديث المناسبة بنجاح.",
+    "UPDATE_ERROR": "تعذر تحديث المناسبة.",
+    "DELETE_SUCCESS": "تم حذف المناسبة بنجاح.",
+    "DELETE_ERROR": "تعذر حذف المناسبة.",
+    "LOAD_ERROR": "تعذر تحميل المناسبة."
+  },
 
   "DASHBOARDOVERVIEW": {
     "TITLE": "لوحة التحكم الرئيسية",
@@ -718,6 +744,23 @@
       "SALES": "المبيعات",
       "RATINGS": "التقييمات",
       "ACTIONS": "الإجراءات"
+    }
+  },
+  "ERROR_PAGES": {
+    "BACK_TO_DASHBOARD": "العودة للوحة التحكم",
+    "CONTACT_SUPPORT": "تواصل مع الدعم",
+    "TRY_AGAIN": "إعادة المحاولة",
+    "UNAUTHORIZED": {
+      "TITLE": "تم تقييد الوصول",
+      "DESCRIPTION": "ليس لديك الصلاحية للوصول إلى هذه الصفحة. يرجى التواصل مع المسؤول إذا كنت تعتقد أن هذا خطأ."
+    },
+    "NOT_FOUND": {
+      "TITLE": "هذه الصفحة غير موجودة",
+      "DESCRIPTION": "الصفحة التي تبحث عنها ربما تم حذفها أو أنها غير متاحة حالياً."
+    },
+    "SERVER_ERROR": {
+      "TITLE": "عفواً، حدث خطأ ما!",
+      "DESCRIPTION": "واجهت خوادمنا مشكلة مؤقتة. يرجى إعادة التحديث أو المحاولة بعد قليل."
     }
   }
 }
