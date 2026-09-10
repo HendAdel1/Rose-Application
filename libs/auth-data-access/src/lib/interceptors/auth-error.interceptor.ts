@@ -17,10 +17,10 @@ export const authErrorInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ) => {
   const config = inject(AUTH_DATA_ACCESS_CONFIG);
-  const toastr = inject(ToastrService);
-  const apiBaseUrl = getApiScopeBaseUrl(config.apiBaseUrl);
+  const isAuthRequest =
+    request.url.includes('/auth') || request.url.startsWith(config.apiBaseUrl);
 
-  if (!request.url.startsWith(apiBaseUrl)) {
+  if (!isAuthRequest) {
     return next(request);
   }
 

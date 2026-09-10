@@ -149,8 +149,6 @@ export class OccasionForm implements OnInit {
           switchMap((imageUrl) =>
             this.occasionsService.createOccasion({
               title,
-              name: title,
-              description: title,
               image: imageUrl,
             }),
           ),
@@ -164,9 +162,12 @@ export class OccasionForm implements OnInit {
           },
           error: (err) => {
             this.loading.set(false);
-            this.toastr.error(
-              err?.error?.message ?? this.translate.instant('ADMIN_OCCASIONS.CREATE_ERROR'),
-            );
+            const errorMsg =
+              err?.error?.message ??
+              err?.error?.error ??
+              err?.message ??
+              this.translate.instant('ADMIN_OCCASIONS.CREATE_ERROR');
+            this.toastr.error(errorMsg);
           },
         });
       return;
@@ -183,16 +184,12 @@ export class OccasionForm implements OnInit {
           switchMap((imageUrl) =>
             this.occasionsService.updateOccasion(id, {
               title,
-              name: title,
-              description: title,
               image: imageUrl,
             }),
           ),
         )
       : this.occasionsService.updateOccasion(id, {
           title,
-          name: title,
-          description: title,
         });
 
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -203,9 +200,12 @@ export class OccasionForm implements OnInit {
       },
       error: (err) => {
         this.loading.set(false);
-        this.toastr.error(
-          err?.error?.message ?? this.translate.instant('ADMIN_OCCASIONS.UPDATE_ERROR'),
-        );
+        const errorMsg =
+          err?.error?.message ??
+          err?.error?.error ??
+          err?.message ??
+          this.translate.instant('ADMIN_OCCASIONS.UPDATE_ERROR');
+        this.toastr.error(errorMsg);
       },
     });
   }

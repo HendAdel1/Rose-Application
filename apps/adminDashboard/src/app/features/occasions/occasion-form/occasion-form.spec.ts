@@ -109,8 +109,6 @@ describe('OccasionForm Component', () => {
     expect(occasionsServiceMock.uploadImage).toHaveBeenCalledWith(dummyFile);
     expect(occasionsServiceMock.createOccasion).toHaveBeenCalledWith({
       title: 'Graduation',
-      name: 'Graduation',
-      description: 'Graduation',
       image: '/api/upload/temp/123',
     });
     expect(toastrMock.success).toHaveBeenCalledWith('Occasion created successfully.');
