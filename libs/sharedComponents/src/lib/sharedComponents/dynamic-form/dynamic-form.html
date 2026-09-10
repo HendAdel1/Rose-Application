@@ -1,0 +1,178 @@
+<form class="dynamic-form font-inter" [formGroup]="form()" (ngSubmit)="onSubmit()" novalidate>
+  <div class="dynamic-form__fields">
+    @for (field of fields(); track field.key) {
+      <div class="dynamic-form__field">
+        @if (field.type === 'text' || field.type === 'number' || field.type === 'password') {
+          <lib-custom-input
+            [id]="field.key"
+            [type]="field.type === 'number' ? 'number' : field.type === 'password' ? 'password' : 'text'"
+            [label]="field.label"
+            [required]="isRequired(field)"
+            [placeholder]="field.placeholder ?? ''"
+            [helperText]="field.helperText ?? ''"
+            [errorMessage]="isInvalid(field.key) ? errorMessage(field) : ''"
+            [isInvalid]="isInvalid(field.key)"
+            [formControl]="control(field.key)"
+          />
+        } @else if (field.type === 'select') {
+          <lib-custom-input
+            [id]="field.key"
+            type="text"
+            [label]="field.label"
+            [required]="isRequired(field)"
+            [placeholder]="field.placeholder ?? ''"
+            [helperText]="field.helperText ?? ''"
+            [errorMessage]="isInvalid(field.key) ? errorMessage(field) : ''"
+            [isInvalid]="isInvalid(field.key)"
+            [options]="field.options ?? []"
+            [formControl]="control(field.key)"
+          />
+        } @else if (field.type === 'textarea') {
+          <lib-ui-label [forId]="field.key" [required]="isRequired(field)">{{ field.label }}</lib-ui-label>
+          <textarea
+            [id]="field.key"
+            class="dynamic-form__textarea"
+            [class.dynamic-form__textarea--invalid]="isInvalid(field.key)"
+            [formControl]="control(field.key)"
+            [placeholder]="field.placeholder ?? ''"
+            rows="4"
+            [attr.aria-invalid]="isInvalid(field.key)"
+          ></textarea>
+          @if (field.helperText && !isInvalid(field.key)) {
+            <p class="dynamic-form__hint">{{ field.helperText }}</p>
+          }
+          @if (isInvalid(field.key)) {
+            <span class="dynamic-form__error">{{ errorMessage(field) }}</span>
+          }
+        } @else if (field.type === 'file') {
+          <lib-ui-label [forId]="field.key" [required]="isRequired(field)">{{ field.label }}</lib-ui-label>
+
+          @if (fileNames()[field.key]; as selectedName) {
+            <div
+              class="dynamic-form__file dynamic-form__file--filled"
+              [class.dynamic-form__file--invalid]="isInvalid(field.key)"
+            >
+              <div class="dynamic-form__file-preview">
+                @if (filePreviews()[field.key]; as preview) {
+                  <img
+                    class="dynamic-form__file-thumb"
+                    [src]="preview"
+                    [alt]="selectedName"
+                  />
+                } @else {
+                  <span class="dynamic-form__file-fallback" aria-hidden="true">
+                    <svg lucideImage [size]="22"></svg>
+                  </span>
+                }
+                <div class="dynamic-form__file-meta">
+                  <span class="dynamic-form__file-name">{{ selectedName }}</span>
+                  <label class="dynamic-form__file-replace" [attr.for]="field.key">
+                    {{ field.replaceLabel ?? 'Replace file' }}
+                  </label>
+                </div>
+                <button
+                  type="button"
+                  class="dynamic-form__file-clear"
+                  [attr.aria-label]="'Remove ' + field.label"
+                  (click)="clearFile(field)"
+                >
+                  <svg lucideX [size]="16" aria-hidden="true"></svg>
+                </button>
+              </div>
+              <input
+                class="dynamic-form__file-input dynamic-form__file-input--hidden"
+                [id]="field.key"
+                type="file"
+                [attr.accept]="field.validators?.accept ?? 'image/*'"
+                (change)="onFileSelected(field, $event)"
+              />
+            </div>
+          } @else if (field.existingFileUrl) {
+            <div
+              class="dynamic-form__file dynamic-form__file--filled"
+              [class.dynamic-form__file--invalid]="isInvalid(field.key)"
+            >
+              <div class="dynamic-form__file-preview">
+                <img
+                  class="dynamic-form__file-thumb"
+                  [src]="field.existingFileUrl"
+                  [alt]="field.label"
+                />
+                <div class="dynamic-form__file-meta">
+                  <a
+                    class="dynamic-form__file-link"
+                    [href]="field.existingFileUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {{ field.existingFileLabel ?? 'View file' }}
+                  </a>
+                  <label class="dynamic-form__file-replace" [attr.for]="field.key">
+                    {{ field.replaceLabel ?? 'Upload file' }}
+                  </label>
+                </div>
+              </div>
+              <input
+                class="dynamic-form__file-input dynamic-form__file-input--hidden"
+                [id]="field.key"
+                type="file"
+                [attr.accept]="field.validators?.accept ?? 'image/*'"
+                (change)="onFileSelected(field, $event)"
+              />
+            </div>
+          } @else {
+            <div
+              class="dynamic-form__file"
+              [class.dynamic-form__file--invalid]="isInvalid(field.key)"
+            >
+              <input
+                class="dynamic-form__file-input"
+                [id]="field.key"
+                type="file"
+                [attr.accept]="field.validators?.accept ?? 'image/*'"
+                [attr.aria-invalid]="isInvalid(field.key)"
+                (change)="onFileSelected(field, $event)"
+              />
+              <label class="dynamic-form__file-trigger" [attr.for]="field.key">
+                <span>{{ field.placeholder ?? 'Choose a file' }}</span>
+                <span class="dynamic-form__file-upload">
+                  <svg lucideUpload [size]="16" aria-hidden="true"></svg>
+                  Upload file
+                </span>
+              </label>
+            </div>
+          }
+
+          @if (field.helperText && !isInvalid(field.key)) {
+            <p class="dynamic-form__hint">{{ field.helperText }}</p>
+          }
+          @if (isInvalid(field.key)) {
+            <span class="dynamic-form__error">{{ errorMessage(field) }}</span>
+          }
+        }
+      </div>
+    }
+  </div>
+
+  <div class="dynamic-form__actions">
+    <lib-ui-button
+      type="submit"
+      variant="primary"
+      [loading]="loading()"
+      [disabled]="loading() || submitDisabled()"
+    >
+      {{ config().submitLabel }}
+    </lib-ui-button>
+
+    @if (config().showCancel) {
+      <button
+        type="button"
+        class="dynamic-form__cancel"
+        [disabled]="loading()"
+        (click)="onCancel()"
+      >
+        {{ config().cancelLabel ?? 'Cancel' }}
+      </button>
+    }
+  </div>
+</form>

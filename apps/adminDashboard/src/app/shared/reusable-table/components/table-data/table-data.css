@@ -1,0 +1,481 @@
+/* Table Data - Figma-matching styles & Instant Dark Mode Switching */
+
+:host {
+  display: block;
+  width: 100%;
+
+  /* Dynamic CSS Tokens - Update instantly on theme switch */
+  --table-header-bg: #fafafa;
+  --table-header-color: #18181b;
+  --table-header-hover-bg: #f4f4f5;
+  --table-border-color: #f4f4f5;
+  --table-text-color: #18181b;
+  --table-row-hover: var(--color-soft-pink-50, #fff1f5);
+  --table-active-sort: var(--color-maroon-600, #8e1b24);
+  --table-mask-bg: rgba(255, 255, 255, 0.65);
+  --table-spinner-color: var(--color-maroon-600, #8e1b24);
+  --table-cell-bg: #ffffff;
+}
+
+:host-context(.dark),
+:host-context(html.dark),
+:host-context(html:has(#theme-dark:checked)) {
+  --table-header-bg: #27272a;
+  --table-header-color: #fafafa;
+  --table-header-hover-bg: #3f3f46;
+  --table-border-color: #27272a;
+  --table-text-color: #f4f4f5;
+  --table-row-hover: #27272a;
+  --table-active-sort: var(--color-soft-pink-300, #ffa3b9);
+  --table-mask-bg: rgba(24, 24, 27, 0.7);
+  --table-spinner-color: var(--color-soft-pink-300, #ffa3b9);
+  --table-cell-bg: #18181b;
+}
+
+/* Override PrimeNG table defaults - borderless inside card container */
+:host ::ng-deep .p-datatable {
+  border-radius: 0;
+  overflow: hidden;
+  border: none;
+  background-color: transparent;
+  position: relative !important;
+}
+
+:host ::ng-deep .p-datatable-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Eliminate transitions during theme switch so table switches instantly with the page */
+:host ::ng-deep .p-datatable-thead > tr > th,
+:host ::ng-deep .p-datatable-tbody > tr,
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  transition: none !important;
+}
+
+/* Header - Matches Figma specification:
+   font-size: 13px, weight: 500, line-height: 19px, letter-spacing: 0px,
+   color: Zinc/zinc-900, background-color: Zinc/zinc-50 */
+:host ::ng-deep .p-datatable-thead > tr > th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-color);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: start;
+  padding: 13px 20px;
+  border: none;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th:first-child {
+  border-start-start-radius: 8px;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th:last-child {
+  border-start-end-radius: 8px;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th.sortable-th {
+  cursor: pointer;
+  user-select: none;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th.sortable-th:hover {
+  background-color: var(--table-header-hover-bg) !important;
+  transition: background-color 0.15s ease !important;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th.p-highlight {
+  color: var(--table-header-color);
+}
+
+.header-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.active-text {
+  color: var(--table-active-sort);
+  font-weight: 600;
+}
+
+/* Sort icon wrapper: subtle, reveals on hover or when sorted */
+.sort-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #a1a1aa;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.sortable-th:hover .sort-icon-wrapper,
+.sortable-th:focus-visible .sort-icon-wrapper,
+.sort-icon-wrapper:has(.active) {
+  opacity: 1;
+}
+
+.sort-icon.active {
+  color: var(--table-active-sort);
+}
+
+/* Responsive scrollable table min-width:
+ * On mobile (< 768px), min-width: 32rem ensures Name, Price, and Stock (at least 3 columns)
+ * fit on the screen alongside the frozen Actions column, while extra columns (Sales, Rating) scroll.
+ * On desktop (>= 768px), min-width expands to 50rem for comfortable spacing.
+ */
+:host ::ng-deep .p-datatable-table {
+  width: 100% !important;
+  min-width: 32rem;
+}
+
+@media (min-width: 768px) {
+  :host ::ng-deep .p-datatable-table {
+    min-width: 50rem;
+  }
+}
+
+/* Responsive Cell Padding */
+@media (max-width: 767px) {
+  :host ::ng-deep .p-datatable-thead > tr > th {
+    padding: 10px 8px !important;
+    font-size: 12px !important;
+  }
+
+  :host ::ng-deep .p-datatable-tbody > tr > td {
+    padding: 12px 8px !important;
+    font-size: 13px !important;
+  }
+
+  :host ::ng-deep .p-datatable-thead > tr > th:first-child,
+  :host ::ng-deep .p-datatable-tbody > tr > td:first-child {
+    padding-inline-start: 14px !important;
+  }
+
+  :host ::ng-deep .p-datatable-thead > tr > th.actions-th,
+  :host ::ng-deep .p-datatable-tbody > tr > td.actions-td {
+    width: 56px !important;
+    min-width: 56px !important;
+    max-width: 56px !important;
+    padding: 8px 6px !important;
+    text-align: center !important;
+  }
+}
+
+@media (min-width: 768px) {
+  :host ::ng-deep .p-datatable-thead > tr > th.actions-th,
+  :host ::ng-deep .p-datatable-tbody > tr > td.actions-td {
+    min-width: 140px;
+  }
+}
+
+/* Multi-line clamp for Name column to match Figma (up to 2 lines with ellipsis) */
+:host ::ng-deep .p-datatable-tbody > tr > td:first-child span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td:not(:first-child):not(.actions-td) {
+  white-space: nowrap;
+}
+
+/* Body rows - Transparent to inherit the card background instantly */
+:host ::ng-deep .p-datatable-tbody > tr {
+  background-color: transparent !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr:hover {
+  background-color: var(--table-row-hover) !important;
+  transition: background-color 0.15s ease !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--table-text-color);
+  border: none;
+  border-bottom: 1px solid var(--table-border-color);
+  vertical-align: middle;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr:last-child > td {
+  border-bottom: none;
+}
+
+/* Actions column - Frozen on the right (PrimeNG Freeze Column + Sticky Fallback) */
+:host ::ng-deep .p-datatable-thead > tr > th.actions-th,
+:host ::ng-deep .p-datatable-tbody > tr > td.actions-td {
+  position: sticky !important;
+  right: 0 !important;
+  inset-inline-end: 0 !important;
+  text-align: end;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th.actions-th {
+  z-index: 12 !important;
+  background-color: var(--table-header-bg) !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td.actions-td {
+  z-index: 10 !important;
+  background-color: var(--table-cell-bg) !important;
+}
+
+/* Maintain background on row hover for frozen cell */
+:host ::ng-deep .p-datatable-tbody > tr:hover > td.actions-td {
+  background-color: var(--table-row-hover) !important;
+}
+
+/* Subtle separator shadow for frozen column while scrolling horizontally */
+:host ::ng-deep .p-datatable-thead > tr > th.actions-th,
+:host ::ng-deep .p-datatable-tbody > tr > td.actions-td {
+  box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.06);
+}
+
+:host-context(.dark) ::ng-deep .p-datatable-thead > tr > th.actions-th,
+:host-context(html.dark) ::ng-deep .p-datatable-thead > tr > th.actions-th,
+:host-context(html:has(#theme-dark:checked)) ::ng-deep .p-datatable-thead > tr > th.actions-th,
+:host-context(.dark) ::ng-deep .p-datatable-tbody > tr > td.actions-td,
+:host-context(html.dark) ::ng-deep .p-datatable-tbody > tr > td.actions-td,
+:host-context(html:has(#theme-dark:checked)) ::ng-deep .p-datatable-tbody > tr > td.actions-td {
+  box-shadow: -4px 0 10px -2px rgba(0, 0, 0, 0.45);
+}
+
+.actions-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.625rem;
+  width: 100%;
+}
+
+/* Mobile 3-Dots Action Button - Matches Figma Image 1 */
+.mobile-actions-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #e4e4e7;
+  background-color: #ffffff;
+  color: #71717a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.mobile-actions-trigger:hover,
+.mobile-actions-trigger[aria-expanded='true'] {
+  background-color: #f4f4f5;
+  border-color: #d4d4d8;
+  color: #18181b;
+}
+
+:host-context(.dark) .mobile-actions-trigger,
+:host-context(html.dark) .mobile-actions-trigger,
+:host-context(html:has(#theme-dark:checked)) .mobile-actions-trigger {
+  background-color: #27272a;
+  border-color: #3f3f46;
+  color: #a1a1aa;
+}
+
+:host-context(.dark) .mobile-actions-trigger:hover,
+:host-context(html.dark) .mobile-actions-trigger:hover,
+:host-context(html:has(#theme-dark:checked)) .mobile-actions-trigger:hover,
+:host-context(.dark) .mobile-actions-trigger[aria-expanded='true'],
+:host-context(html.dark) .mobile-actions-trigger[aria-expanded='true'],
+:host-context(html:has(#theme-dark:checked)) .mobile-actions-trigger[aria-expanded='true'] {
+  background-color: #3f3f46;
+  border-color: #52525b;
+  color: #fafafa;
+}
+
+/* Mobile Actions Popover Menu - Matches Figma Image 2 (Rendered at body level) */
+::ng-deep .p-popover.table-actions-popover {
+  border-radius: 12px !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid #f4f4f5 !important;
+  background-color: #ffffff !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  z-index: 1200 !important;
+}
+
+::ng-deep .p-popover.table-actions-popover::before,
+::ng-deep .p-popover.table-actions-popover::after {
+  display: none !important;
+}
+
+::ng-deep .p-popover.table-actions-popover .p-popover-content {
+  padding: 0.25rem 0 !important;
+}
+
+::ng-deep html.dark .p-popover.table-actions-popover,
+::ng-deep html:has(#theme-dark:checked) .p-popover.table-actions-popover {
+  background-color: #27272a !important;
+  border-color: #3f3f46 !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+}
+
+::ng-deep .table-actions-popover .mobile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: start;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Base action button */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+}
+
+.action-btn:hover {
+  filter: brightness(0.95);
+  transition: filter 0.15s ease;
+}
+
+.action-btn:active {
+  filter: brightness(0.9);
+}
+
+.action-btn i {
+  font-size: 12px;
+}
+
+/* Edit button variant */
+.edit-btn {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+/* Delete button variant */
+.delete-btn {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+/* Dark mode action button variants */
+:host-context(.dark) .edit-btn,
+:host-context(html.dark) .edit-btn,
+:host-context(html:has(#theme-dark:checked)) .edit-btn {
+  background-color: rgba(37, 99, 235, 0.18);
+  color: #60a5fa;
+}
+
+:host-context(.dark) .delete-btn,
+:host-context(html.dark) .delete-btn,
+:host-context(html:has(#theme-dark:checked)) .delete-btn {
+  background-color: rgba(220, 38, 38, 0.18);
+  color: #f87171;
+}
+
+/* Empty state styling */
+.empty-state-td {
+  padding: 56px 20px !important;
+  text-align: center;
+  background-color: transparent !important;
+  border-bottom: 1px solid var(--table-border-color);
+}
+
+.empty-state-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.empty-state-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--color-soft-pink-50, #fff1f5);
+  color: var(--color-rose-500, #e11d48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.empty-state-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--table-text-color);
+}
+
+.empty-state-sub {
+  margin: 0;
+  font-size: 13px;
+  color: #a1a1aa;
+  line-height: 1.4;
+}
+
+/* Loading Overlay & Temporary Frosted Blur */
+:host ::ng-deep .p-datatable-mask {
+  position: absolute !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  z-index: 20 !important;
+  background-color: var(--table-mask-bg) !important;
+}
+
+.spinner-icon {
+  color: var(--table-spinner-color);
+  animation: table-spin 0.85s linear infinite;
+}
+
+/* Fallback for PrimeNG default spinner */
+:host ::ng-deep .p-datatable-loading-icon,
+:host ::ng-deep .p-datatable-mask svg[data-p-icon='spinner'] {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  color: var(--table-spinner-color) !important;
+}
+
+@keyframes table-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

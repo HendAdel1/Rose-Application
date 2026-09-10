@@ -1,0 +1,162 @@
+/* Table Search - Figma-matching styles */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.table-search-container {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+/* IconField wrapper - override PrimeNG default layout */
+:host ::ng-deep .table-search-iconfield.p-iconfield,
+:host ::ng-deep .table-search-iconfield {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+/* Search icon - override PrimeNG's p-inputicon positioning */
+:host ::ng-deep .table-search-icon.p-inputicon,
+:host ::ng-deep .table-search-icon {
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  pointer-events: none;
+  z-index: 2;
+  margin: 0 !important;
+  padding: 0 !important;
+  transition: color 0.15s ease;
+}
+
+:host:focus-within ::ng-deep .table-search-icon.p-inputicon,
+:host:focus-within ::ng-deep .table-search-icon {
+  color: #71717a;
+}
+
+.search-svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+/* PrimeNG InputText styling - guaranteed padding to prevent icon overlap */
+:host ::ng-deep .table-search-input.p-inputtext,
+.table-search-input {
+  width: 100%;
+  height: 42px;
+  padding-left: 44px !important;
+  padding-right: 38px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  background-color: #ffffff !important;
+  border: 1px solid #d4d4d8 !important;
+  border-radius: 8px !important;
+  font-size: 14px;
+  font-weight: 400;
+  color: #18181b;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+:host ::ng-deep .table-search-input.p-inputtext::placeholder,
+.table-search-input::placeholder {
+  color: #a1a1aa !important;
+  opacity: 1 !important;
+  font-weight: 400;
+}
+
+:host ::ng-deep .table-search-input.p-inputtext:hover,
+.table-search-input:hover {
+  border-color: #a1a1aa !important;
+}
+
+:host-context(html.dark) ::ng-deep .table-search-input.p-inputtext,
+:host-context(html.dark) .table-search-input,
+:host-context(html:has(#theme-dark:checked)) ::ng-deep .table-search-input.p-inputtext,
+:host-context(html:has(#theme-dark:checked)) .table-search-input {
+  background-color: #18181b !important;
+  border-color: #27272a !important;
+  color: #f4f4f5 !important;
+}
+
+:host-context(html.dark) ::ng-deep .table-search-input.p-inputtext:hover,
+:host-context(html.dark) .table-search-input:hover,
+:host-context(html:has(#theme-dark:checked)) ::ng-deep .table-search-input.p-inputtext:hover,
+:host-context(html:has(#theme-dark:checked)) .table-search-input:hover {
+  border-color: #3f3f46 !important;
+}
+
+/* Clean, elegant active/focus state - brand maroon matching custom-input without neon red glow */
+:host ::ng-deep .table-search-input.p-inputtext:focus,
+.table-search-input:focus {
+  border-color: var(--color-maroon-600, #a6252a) !important;
+  box-shadow: 0 0 0 1px var(--color-maroon-600, #a6252a) !important;
+  outline: none !important;
+  background-color: #ffffff !important;
+}
+
+:host-context(html.dark) ::ng-deep .table-search-input.p-inputtext:focus,
+:host-context(html.dark) .table-search-input:focus,
+:host-context(html:has(#theme-dark:checked)) ::ng-deep .table-search-input.p-inputtext:focus,
+:host-context(html:has(#theme-dark:checked)) .table-search-input:focus {
+  background-color: #18181b !important;
+  border-color: var(--color-maroon-600, #a6252a) !important;
+}
+
+/* Clear button */
+.table-search-clear-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.table-search-clear-btn:hover {
+  color: #4b5563;
+  background-color: #f3f4f6;
+}
+
+.table-search-clear-btn:focus-visible {
+  outline: 2px solid var(--color-maroon-600, #a6252a);
+  outline-offset: 1px;
+}
+
+/* RTL Support */
+:host-context([dir="rtl"]) ::ng-deep .table-search-icon.p-inputicon,
+:host-context([dir="rtl"]) ::ng-deep .table-search-icon {
+  left: auto !important;
+  right: 14px !important;
+}
+
+:host-context([dir="rtl"]) ::ng-deep .table-search-input.p-inputtext,
+:host-context([dir="rtl"]) .table-search-input {
+  padding-left: 14px !important;
+  padding-right: 44px !important;
+}
+
+:host-context([dir="rtl"]) .table-search-clear-btn {
+  right: auto !important;
+  left: 12px !important;
+}

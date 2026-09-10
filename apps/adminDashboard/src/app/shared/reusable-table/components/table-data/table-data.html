@@ -1,1 +1,179 @@
-<p>table-data works!</p>
+<p-table
+  [value]="pagedDisplayData()"
+  [dataKey]="effectiveTrackByKey()"
+  [loading]="effectiveLoading()"
+  [scrollable]="true"
+  [tableStyle]="effectiveTableStyle()">
+  <ng-template #loadingicon>
+    <div class="table-loading-spinner-wrapper" aria-label="Loading table data">
+      <svg lucideLoader2 [size]="40" class="spinner-icon"></svg>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      @for (col of effectiveColumns(); track (col.field || col.key || $index)) {
+        @if (col.sort) {
+          <th
+            class="sortable-th"
+            tabindex="0"
+            role="columnheader"
+            [style.width]="col.width"
+            [attr.aria-sort]="currentSortField() === (col.field || col.key) ? (currentSortOrder() === 1 ? 'ascending' : 'descending') : 'none'"
+            (click)="onSortClick(col.field || col.key)"
+            (keydown.enter)="onSortClick(col.field || col.key)"
+            (keydown.space)="onSortClick(col.field || col.key); $event.preventDefault()">
+            <div class="header-cell sortable">
+              <span [class.active-text]="currentSortField() === (col.field || col.key)">
+                {{ (col.header || col.label || '') | translate }}
+              </span>
+              <span class="sort-icon-wrapper" aria-hidden="true">
+                @if (currentSortField() === (col.field || col.key)) {
+                  @if (currentSortOrder() === 1) {
+                    <svg lucideArrowUp [size]="14" class="sort-icon active"></svg>
+                  } @else if (currentSortOrder() === -1) {
+                    <svg lucideArrowDown [size]="14" class="sort-icon active"></svg>
+                  } @else {
+                    <svg lucideArrowUpDown [size]="14" class="sort-icon"></svg>
+                  }
+                } @else {
+                  <svg lucideArrowUpDown [size]="14" class="sort-icon"></svg>
+                }
+              </span>
+            </div>
+          </th>
+        } @else {
+          <th
+            pFrozenColumn
+            [frozen]="col.type === 'actions'"
+            alignFrozen="right"
+            [class.actions-th]="col.type === 'actions'"
+            [style.width]="col.width">
+            <div class="header-cell">
+              @if (col.type !== 'actions') {
+                <span>{{ (col.header || col.label || '') | translate }}</span>
+              }
+            </div>
+          </th>
+        }
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-row let-rowIndex="rowIndex">
+    <tr [ngStyle]="resolveRowStyle(row)">
+      @for (col of effectiveColumns(); track (col.field || col.key || $index)) {
+        <td
+          pFrozenColumn
+          [frozen]="col.type === 'actions'"
+          alignFrozen="right"
+          [style.width]="col.width"
+          [class.actions-td]="col.type === 'actions'">
+          @switch (col.type) {
+            @case ('text') {
+              <span [ngStyle]="resolveCellStyle(row, col)">
+                {{ resolveCellValue(row, col) }}
+              </span>
+            }
+            @case ('formatted') {
+              <span [ngStyle]="resolveCellStyle(row, col)">
+                {{ resolveCellValue(row, col) }}
+              </span>
+            }
+            @case ('composite') {
+              <span [ngStyle]="resolveCellStyle(row, col)" [innerHTML]="resolveCellValue(row, col)"></span>
+            }
+            @case ('actions') {
+              <div class="actions-cell">
+                <!-- Desktop Action Buttons: Inline Edit and Delete (Figma) -->
+                <div class="desktop-actions hidden md:inline-flex items-center gap-2.5">
+                  @for (action of effectiveActions(); track action.label) {
+                    <button
+                      [class]="'action-btn ' + (action.styleClass ?? '')"
+                      (click)="onActionClick(action, row, rowIndex)">
+                      @if (action.icon === 'lucidePencil') {
+                        <svg lucidePencil [size]="14"></svg>
+                      }
+                      @if (action.icon === 'lucideTrash2') {
+                        <svg lucideTrash2 [size]="14"></svg>
+                      }
+                      {{ (action.label || '') | translate }}
+                    </button>
+                  }
+                </div>
+
+                <!-- Mobile Action: 3-Dots Button (Figma Image 1) -->
+                <div class="mobile-actions inline-flex md:hidden">
+                  <button
+                    type="button"
+                    class="mobile-actions-trigger"
+                    (click)="openMobileMenu(row, rowIndex, $event, actionsPopover)"
+                    [attr.aria-expanded]="activeRowContext()?.rowIndex === rowIndex"
+                    [attr.aria-label]="'TABLE.ACTIONS.OPTIONS' | translate">
+                    <svg lucideMoreVertical [size]="16" aria-hidden="true"></svg>
+                  </button>
+                </div>
+              </div>
+            }
+            @default {
+              <span [ngStyle]="resolveCellStyle(row, col)">
+                {{ resolveCellValue(row, col) }}
+              </span>
+            }
+          }
+        </td>
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template #emptymessage>
+    <tr>
+      <td [attr.colspan]="effectiveColumns().length || 1" class="empty-state-td">
+        <div class="empty-state-wrapper">
+          <div class="empty-state-icon">
+            <svg lucidePackage [size]="28"></svg>
+          </div>
+          <h4 class="empty-state-title">{{ effectiveEmptyMessage() | translate }}</h4>
+          <p class="empty-state-sub">{{ effectiveEmptySubMessage() | translate }}</p>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- Mobile Actions Popover (Attached to body to prevent stacking context & table clipping) -->
+<p-popover
+  #actionsPopover
+  appendTo="body"
+  styleClass="table-actions-popover"
+  (onHide)="activeRowContext.set(null)">
+  <ng-template #content>
+    @if (activeRowContext(); as ctx) {
+      <div class="mobile-actions-popup min-w-[140px]" role="menu">
+        @for (action of effectiveActions(); track action.label) {
+          <button
+            type="button"
+            class="mobile-menu-item flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer text-start"
+            [class.text-blue-600]="action.label === 'Edit'"
+            [class.dark:text-blue-400]="action.label === 'Edit'"
+            [class.hover:bg-blue-50]="action.label === 'Edit'"
+            [class.dark:hover:bg-blue-950/40]="action.label === 'Edit'"
+            [class.text-red-600]="action.label === 'Delete'"
+            [class.dark:text-red-400]="action.label === 'Delete'"
+            [class.hover:bg-red-50]="action.label === 'Delete'"
+            [class.dark:hover:bg-red-950/40]="action.label === 'Delete'"
+            (click)="onMobileActionClick(action, ctx.row, ctx.rowIndex, actionsPopover)"
+            role="menuitem">
+            @if (action.icon === 'lucidePencil') {
+              <svg lucidePencil [size]="16" class="shrink-0 text-blue-600 dark:text-blue-400"></svg>
+            }
+            @if (action.icon === 'lucideTrash2') {
+              <svg lucideTrash2 [size]="16" class="shrink-0 text-red-600 dark:text-red-400"></svg>
+            }
+            <span>{{ (action.label || '') | translate }}</span>
+          </button>
+        }
+      </div>
+    }
+  </ng-template>
+</p-popover>

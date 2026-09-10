@@ -1,3 +1,23 @@
-<section class="min-h-[200px]" aria-label="Dashboard Products">
-  <!-- Products content will be implemented in the Products task -->
+<section
+  class="products-section min-h-[200px]"
+  [attr.aria-label]="'PRODUCTS.TITLE' | translate"
+>
+  <app-reusable-table>
+    <app-table-header
+      title="PRODUCTS.TITLE"
+      actionLabel="PRODUCTS.ADD_PRODUCT"
+      (actionClick)="onAddProduct()"
+    />
+  </app-reusable-table>
+
+  <lib-confirm-dialog
+    [open]="isDeleteOpen()"
+    [message]="deleteMessage()"
+    [confirmLabel]="'CONFIRM_DIALOG.CONFIRM' | translate"
+    [cancelLabel]="'CONFIRM_DIALOG.CANCEL' | translate"
+    [closeAriaLabel]="'CONFIRM_DIALOG.CLOSE' | translate"
+    [dialogAriaLabel]="'CONFIRM_DIALOG.ARIA_LABEL' | translate"
+    (confirmed)="confirmDelete()"
+    (cancelled)="closeDeleteDialog()"
+  />
 </section>

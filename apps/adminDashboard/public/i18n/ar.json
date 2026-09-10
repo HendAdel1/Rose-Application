@@ -18,6 +18,33 @@
     "ADD_OCCASION": "إضافة مناسبة",
     "ADD_PRODUCT": "إضافة منتج"
   },
+  "ADMIN_CATEGORIES": {
+    "ADD_NEW": "إضافة فئة جديدة",
+    "ADD_TITLE": "إضافة فئة جديدة",
+    "UPDATE_TITLE": "تحديث الفئة: {{name}}",
+    "ADD_BREADCRUMB": "إضافة فئة",
+    "UPDATE_BREADCRUMB": "تحديث الفئة",
+    "NAME_LABEL": "الاسم",
+    "NAME_PLACEHOLDER": "أدخل اسم الفئة",
+    "NAME_REQUIRED": "اسم الفئة مطلوب",
+    "IMAGE_LABEL": "صورة الفئة",
+    "IMAGE_LABEL_OPTIONAL": "صورة الفئة",
+    "IMAGE_PLACEHOLDER": "اختر صورة",
+    "IMAGE_REQUIRED": "صورة الفئة مطلوبة",
+    "VIEW_IMAGE": "عرض صورة الفئة",
+    "REPLACE_IMAGE": "رفع ملف",
+    "ADD_SUBMIT": "إضافة الفئة",
+    "UPDATE_SUBMIT": "تحديث الفئة",
+    "CANCEL": "إلغاء",
+    "LOADING": "جاري تحميل الفئة...",
+    "CREATE_SUCCESS": "تم إنشاء الفئة بنجاح.",
+    "CREATE_ERROR": "تعذر إنشاء الفئة.",
+    "UPDATE_SUCCESS": "تم تحديث الفئة بنجاح.",
+    "UPDATE_ERROR": "تعذر تحديث الفئة.",
+    "DELETE_SUCCESS": "تم حذف الفئة بنجاح.",
+    "DELETE_ERROR": "تعذر حذف الفئة.",
+    "LOAD_ERROR": "تعذر تحميل الفئة."
+  },
   "NAV": {
     "ACCOUNT": "الحساب",
     "ADDRESSES": "العناوين",
@@ -26,7 +53,6 @@
     "LOGOUT": "تسجيل الخروج",
     "SWITCH_LANGUAGE": "تغيير اللغة"
   },
-
   "DASHBOARDOVERVIEW": {
     "TITLE": "لوحة التحكم الرئيسية",
     "TOTAL_PRODUCTS": "إجمالي المنتجات",
@@ -47,6 +73,57 @@
       "CANCELED": "ملغي"
     }
   },
+  "TABLE": {
+    "SEARCH_PLACEHOLDER": "بحث...",
+    "NO_RECORDS": "لا توجد سجلات",
+    "NO_SEARCH_RESULTS": "لا توجد نتائج تطابق بحثك",
+    "ACTIONS": {
+      "OPTIONS": "خيارات",
+      "EDIT": "تعديل",
+      "DELETE": "حذف"
+    },
+    "COLUMNS": {
+      "NAME": "الاسم",
+      "PRODUCT": "المنتج",
+      "PRODUCTS": "المنتجات",
+      "PRICE": "السعر",
+      "STOCK": "المخزون",
+      "SALES": "المبيعات",
+      "RATINGS": "التقييمات",
+      "ACTIONS": "الإجراءات",
+      "CATEGORY": "الفئة",
+      "STATUS": "الحالة",
+      "DATE": "التاريخ",
+      "DESCRIPTION": "الوصف"
+    }
+  },
+  "CONFIRM_DIALOG": {
+    "DELETE_MESSAGE": "هل أنت متأكد أنك تريد حذف هذا {{entity}}؟",
+    "CANCEL": "إلغاء",
+    "CONFIRM": "تأكيد",
+    "CLOSE": "إغلاق",
+    "ARIA_LABEL": "تأكيد الحذف",
+    "ENTITIES": {
+      "PRODUCT": "منتج",
+      "CATEGORY": "فئة",
+      "OCCASION": "مناسبة",
+      "ITEM": "عنصر"
+    }
+  },
+  "PRODUCTS": {
+    "TITLE": "جميع المنتجات",
+    "ADD_PRODUCT": "إضافة منتج جديد",
+    "COLUMNS": {
+      "NAME": "الاسم",
+      "PRODUCT": "المنتج",
+      "PRODUCTS": "المنتجات",
+      "PRICE": "السعر",
+      "STOCK": "المخزون",
+      "SALES": "المبيعات",
+      "RATINGS": "التقييمات",
+      "ACTIONS": "الإجراءات"
+    }
+  },
   "ERROR_PAGES": {
     "BACK_TO_DASHBOARD": "العودة للوحة التحكم",
     "CONTACT_SUPPORT": "تواصل مع الدعم",
@@ -65,5 +142,3 @@
     }
   }
 }
-
-

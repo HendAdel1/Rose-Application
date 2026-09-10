@@ -18,4 +18,13 @@ describe('UiLabel', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('renders a red required asterisk when required is true', () => {
+    fixture.componentRef.setInput('required', true);
+    fixture.detectChanges();
+
+    const asterisk = fixture.nativeElement.querySelector('.ui-label__required') as HTMLElement;
+    expect(asterisk).toBeTruthy();
+    expect(asterisk.textContent).toBe('*');
+  });
 });
