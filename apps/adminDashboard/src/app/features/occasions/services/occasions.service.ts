@@ -90,13 +90,13 @@ export class OccasionsService {
   createOccasion(payload: CreateOccasionPayload): Observable<OccasionDto> {
     return this.http
       .post<ApiResponse<OccasionDto | { occasion?: OccasionDto }>>(this.baseUrl, payload)
-      .pipe(map((response) => this.unwrapOccasion(response.payload)));
+      .pipe(map((response) => this.unwrapOccasion(response)));
   }
 
   updateOccasion(id: string, payload: UpdateOccasionPayload): Observable<OccasionDto> {
     return this.http
       .patch<ApiResponse<OccasionDto | { occasion?: OccasionDto }>>(`${this.baseUrl}/${id}`, payload)
-      .pipe(map((response) => this.unwrapOccasion(response.payload)));
+      .pipe(map((response) => this.unwrapOccasion(response)));
   }
 
   deleteOccasion(id: string): Observable<void> {
@@ -113,9 +113,9 @@ export class OccasionsService {
     const formData = new FormData();
     formData.append('image', file);
 
-    return this.http.post<ApiResponse<UploadPayload>>(this.uploadUrl, formData).pipe(
+    return this.http.post<ApiResponse<UploadPayload> & { url?: string }>(this.uploadUrl, formData).pipe(
       map((response) => {
-        const url = response.payload?.url;
+        const url = response?.payload?.url ?? response?.url ?? (response as { data?: { url?: string } })?.data?.url;
         if (!url) {
           throw new Error('Upload failed');
         }
@@ -166,13 +166,21 @@ export class OccasionsService {
     );
   }
 
-  private unwrapOccasion(payload?: OccasionDto | { occasion?: OccasionDto }): OccasionDto {
-    if (!payload) {
+  private unwrapOccasion(response?: unknown): OccasionDto {
+    if (!response) {
       throw new Error('Empty occasion response');
     }
-    if ('occasion' in payload && payload.occasion) {
-      return payload.occasion;
+    const res = response as { payload?: OccasionDto | { occasion?: OccasionDto; data?: OccasionDto }; occasion?: OccasionDto; data?: OccasionDto };
+    const target = res.payload ?? res;
+    if (target && typeof target === 'object') {
+      if ('occasion' in target && target.occasion) {
+        return target.occasion;
+      }
+      if ('data' in target && target.data) {
+        return target.data;
+      }
+      return target as OccasionDto;
     }
-    return payload as OccasionDto;
+    return res as OccasionDto;
   }
 }

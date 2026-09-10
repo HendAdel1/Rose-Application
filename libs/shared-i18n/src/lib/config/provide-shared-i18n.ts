@@ -23,7 +23,6 @@ export function provideSharedI18n(
   const fallbackLang = config.fallbackLang ?? 'en';
 
   return makeEnvironmentProviders([
-    provideHttpClient(),
     provideTranslateService({
       fallbackLang,
       lang: config.lang ?? fallbackLang,
