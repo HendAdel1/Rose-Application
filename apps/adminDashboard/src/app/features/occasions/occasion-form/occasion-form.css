@@ -1,0 +1,32 @@
+.occasion-form-page {
+  max-width: 480px;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 2rem 0;
+}
+
+.occasion-form-page__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #27272a;
+  margin: 0 0 1.25rem 0;
+}
+
+:host-context(html.dark) .occasion-form-page__title,
+:host-context(html:has(#theme-dark:checked)) .occasion-form-page__title {
+  color: #f4f4f5;
+}
+
+.occasion-form-page__card {
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.occasion-form-page__loading {
+  padding: 2rem 0;
+  color: #71717a;
+  font-size: 0.875rem;
+}

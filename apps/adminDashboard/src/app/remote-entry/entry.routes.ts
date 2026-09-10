@@ -6,8 +6,7 @@ import { Overview } from '../features/overview/overview';
 import { Categories } from '../features/categories/categories';
 import { CategoryForm } from '../features/categories/category-form/category-form';
 import { Occasions } from '../features/occasions/occasions';
-import { AddOccasion } from '../features/occasions/components/add-occasion/add-occasion';
-import { EditOccasion } from '../features/occasions/components/edit-occasion/edit-occasion';
+import { OccasionForm } from '../features/occasions/occasion-form/occasion-form';
 import { Products } from '../features/products/products';
 
 export const remoteRoutes: Route[] = [
@@ -34,9 +33,22 @@ export const remoteRoutes: Route[] = [
         title: 'Update Category - Rose Dashboard',
       },
       { path: 'categories', component: Categories, title: 'Categories - Rose Dashboard' },
+      {
+        path: 'occasions/add',
+        component: OccasionForm,
+        title: 'Add Occasion - Rose Dashboard',
+      },
+      {
+        path: 'occasions/:id/edit',
+        component: OccasionForm,
+        title: 'Update Occasion - Rose Dashboard',
+      },
+      {
+        path: 'occasions/edit/:id',
+        component: OccasionForm,
+        title: 'Update Occasion - Rose Dashboard',
+      },
       { path: 'occasions', component: Occasions, title: 'Occasions - Rose Dashboard' },
-      { path: 'occasions/add', component: AddOccasion, title: 'Add Occasion - Rose Dashboard' },
-      { path: 'occasions/edit/:id', component: EditOccasion, title: 'Edit Occasion - Rose Dashboard' },
       { path: 'products', component: Products, title: 'Products - Rose Dashboard' },
     ],
   },

@@ -1,25 +1,19 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { TestBed } from '@angular/core/testing';
+
 import { OccasionsService } from './occasions.service';
-import { environment } from '../../../environments/environment';
 
 describe('OccasionsService', () => {
   let service: OccasionsService;
   let httpMock: HttpTestingController;
-  const baseUrl = `${environment.apiBaseUrl}/occasions`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        OccasionsService,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [OccasionsService, provideHttpClient(), provideHttpClientTesting()],
     });
 
     service = TestBed.inject(OccasionsService);
@@ -30,103 +24,126 @@ describe('OccasionsService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+  it('loads occasions into signals for the table', () => {
+    service.loadOccasions(1, 10);
 
-  it('should fetch paginated occasions', () => {
-    const mockResponse = {
+    const req = httpMock.expectOne(
+      (request) =>
+        request.url.includes('/occasions') &&
+        request.params.get('page') === '1' &&
+        request.params.get('limit') === '10',
+    );
+    expect(req.request.method).toBe('GET');
+
+    req.flush({
       status: true,
+      code: 200,
       payload: {
-        occasions: [
-          { _id: '1', title: 'Wedding', productsCount: 65 },
-          { _id: '2', title: 'Graduation', productsCount: 32 },
-        ],
-        metadata: {
-          currentPage: 1,
-          totalPages: 2,
-          limit: 10,
-          totalItems: 20,
-        },
+        data: [{ id: '1', title: 'Birthdays', _count: { products: 5 } }],
+        metadata: { total: 1, page: 1, limit: 10, totalPages: 1 },
       },
-    };
-
-    service.getOccasions({ page: 1, limit: 10, search: 'Wed' }).subscribe((result) => {
-      expect(result.occasions.length).toBe(2);
-      expect(result.occasions[0].title).toBe('Wedding');
-      expect(result.occasions[0].id).toBe('1');
-      expect(result.metadata.totalItems).toBe(20);
     });
 
-    const req = httpMock.expectOne(`${baseUrl}?page=1&limit=10&search=Wed`);
-    expect(req.request.method).toBe('GET');
-    req.flush(mockResponse);
+    expect(service.occasions()).toEqual([
+      expect.objectContaining({ id: '1', name: 'Birthdays', products: 5 }),
+    ]);
+    expect(service.total()).toBe(1);
+    expect(service.loading()).toBe(false);
   });
 
-  it('should fetch occasion by id', () => {
-    const mockOccasion = {
-      _id: '123',
-      title: 'Birthday',
-      description: 'Birthday gifts',
-      image: 'https://example.com/bday.png',
-    };
+  it('lists occasions with pagination metadata', () => {
+    let result:
+      | { items: { id?: string }[]; total: number; page: number; limit: number }
+      | undefined;
 
-    service.getOccasionById('123').subscribe((res) => {
-      expect(res.id).toBe('123');
-      expect(res.title).toBe('Birthday');
+    service.getOccasions(1, 10, 'birth').subscribe((response) => {
+      result = response;
     });
 
-    const req = httpMock.expectOne(`${baseUrl}/123`);
+    const req = httpMock.expectOne(
+      (request) =>
+        request.url.includes('/occasions') &&
+        request.params.get('page') === '1' &&
+        request.params.get('search') === 'birth',
+    );
     expect(req.request.method).toBe('GET');
-    req.flush({ payload: { occasion: mockOccasion } });
+
+    req.flush({
+      status: true,
+      code: 200,
+      payload: {
+        data: [{ id: '1', title: 'Birthdays' }],
+        metadata: { total: 1, page: 1, limit: 10, totalPages: 1 },
+      },
+    });
+
+    expect(result).toEqual({
+      items: [{ id: '1', title: 'Birthdays' }],
+      total: 1,
+      page: 1,
+      limit: 10,
+    });
   });
 
-  it('should create an occasion', () => {
-    const newDto = {
+  it('creates an occasion', () => {
+    let createdId = '';
+
+    service
+      .createOccasion({
+        title: 'Anniversary',
+        description: 'Wedding anniversary',
+        image: '/api/upload/temp/550e8400-e29b-41d4-a716-446655440000',
+      })
+      .subscribe((occasion) => {
+        createdId = occasion.id || occasion._id || '';
+      });
+
+    const req = httpMock.expectOne((request) => request.url.endsWith('/occasions'));
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({
       title: 'Anniversary',
-      description: 'Anniversary gifts',
-      image: 'data:image/png;base64,...',
-    };
-
-    service.createOccasion(newDto).subscribe((res) => {
-      expect(res.title).toBe('Anniversary');
+      description: 'Wedding anniversary',
+      image: '/api/upload/temp/550e8400-e29b-41d4-a716-446655440000',
     });
 
-    const req = httpMock.expectOne(baseUrl);
+    req.flush({
+      status: true,
+      code: 201,
+      payload: { occasion: { id: 'occ-1', title: 'Anniversary' } },
+    });
+
+    expect(createdId).toBe('occ-1');
+  });
+
+  it('updates and deletes an occasion', () => {
+    service.updateOccasion('occ-1', { title: 'Updated' }).subscribe();
+    const patch = httpMock.expectOne((request) => request.url.endsWith('/occasions/occ-1'));
+    expect(patch.request.method).toBe('PATCH');
+    patch.flush({ status: true, code: 200, payload: { id: 'occ-1', title: 'Updated' } });
+
+    service.deleteOccasion('occ-1').subscribe();
+    const del = httpMock.expectOne((request) => request.url.endsWith('/occasions/occ-1'));
+    expect(del.request.method).toBe('DELETE');
+    del.flush({ status: true, code: 200 });
+  });
+
+  it('uploads an image and resolves relative urls', () => {
+    let uploaded = '';
+
+    service.uploadImage(new File(['x'], 'a.png', { type: 'image/png' })).subscribe((url) => {
+      uploaded = url;
+    });
+
+    const req = httpMock.expectOne((request) => request.url.endsWith('/upload'));
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(newDto);
-    req.flush({ payload: { occasion: { _id: '456', ...newDto } } });
-  });
-
-  it('should update an occasion', () => {
-    const updateDto = { title: 'Updated Wedding' };
-
-    service.updateOccasion('123', updateDto).subscribe((res) => {
-      expect(res.title).toBe('Updated Wedding');
+    req.flush({
+      status: true,
+      code: 201,
+      payload: { url: '/api/upload/temp/550e8400-e29b-41d4-a716-446655440000' },
     });
 
-    const req = httpMock.expectOne(`${baseUrl}/123`);
-    expect(req.request.method).toBe('PATCH');
-    req.flush({ payload: { occasion: { _id: '123', ...updateDto } } });
-  });
-
-  it('should upload an image file', () => {
-    const file = new File(['mock content'], 'test.png', { type: 'image/png' });
-
-    service.uploadImage(file).subscribe((res) => {
-      expect(res.url).toBe('https://example.com/uploads/test.png');
-    });
-
-    const req = httpMock.expectOne(`${environment.apiBaseUrl}/upload`);
-    expect(req.request.method).toBe('POST');
-    req.flush({ payload: { url: 'https://example.com/uploads/test.png' } });
-  });
-
-  it('should delete an occasion', () => {
-    service.deleteOccasion('123').subscribe();
-
-    const req = httpMock.expectOne(`${baseUrl}/123`);
-    expect(req.request.method).toBe('DELETE');
-    req.flush(null);
+    expect(uploaded).toBe('/api/upload/temp/550e8400-e29b-41d4-a716-446655440000');
+    expect(service.resolveImageUrl('/api/upload/temp/x')).toContain('/api/upload/temp/x');
+    expect(service.resolveImageUrl('https://cdn/a.png')).toBe('https://cdn/a.png');
   });
 });

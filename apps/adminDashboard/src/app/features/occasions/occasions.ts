@@ -1,241 +1,143 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  HostListener,
+  DestroyRef,
   OnInit,
   computed,
   inject,
   signal,
 } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { ConfirmDialog } from '@org/sharedComponents';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import {
-  LucideChevronLeft,
-  LucideChevronRight,
-  LucideChevronsLeft,
-  LucideChevronsRight,
-  LucideEdit,
-  LucideMoreVertical,
-  LucidePlus,
-  LucideSearch,
-  LucideTrash2,
-  LucideX,
-} from '@lucide/angular';
+
+import { DataTableService, ReusableTable, TableHeader } from '../../shared/reusable-table';
+import { OccasionRow } from './models/occasion-row.model';
 import { OccasionsService } from './services/occasions.service';
-import { Occasion, OccasionsMetadata } from './models/occasion.model';
-import { DeleteOccasionDialog } from './components/delete-occasion-dialog/delete-occasion-dialog';
+import { OccasionTableConfigService } from './services/occasion-table-config.service';
 
 @Component({
   selector: 'app-admin-occasions',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterLink,
-    TranslatePipe,
-    LucideChevronLeft,
-    LucideChevronRight,
-    LucideChevronsLeft,
-    LucideChevronsRight,
-    LucideEdit,
-    LucideMoreVertical,
-    LucidePlus,
-    LucideSearch,
-    LucideTrash2,
-    LucideX,
-    DeleteOccasionDialog,
-  ],
+  imports: [ReusableTable, TableHeader, TranslatePipe, ConfirmDialog],
+  providers: [DataTableService],
   templateUrl: './occasions.html',
   styleUrl: './occasions.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Occasions implements OnInit {
+  private readonly dataTableService = inject(DataTableService<OccasionRow>);
   private readonly occasionsService = inject(OccasionsService);
+  private readonly tableConfigService = inject(OccasionTableConfigService);
+  private readonly router = inject(Router);
   private readonly toastr = inject(ToastrService);
   private readonly translate = inject(TranslateService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly elementRef = inject(ElementRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  readonly searchControl = new FormControl('');
+  readonly isDeleteOpen = signal(false);
+  readonly deleting = signal(false);
+  private readonly pendingDelete = signal<OccasionRow | null>(null);
 
-  readonly occasions = signal<Occasion[]>([]);
-  readonly metadata = signal<OccasionsMetadata>({
-    currentPage: 1,
-    totalPages: 1,
-    limit: 10,
-    totalItems: 0,
-  });
-
-  readonly isLoading = signal(true);
-  readonly currentPage = signal(1);
-  readonly searchQuery = signal('');
-  readonly pageSize = signal(10);
-
-  // Mobile Action Menu State
-  readonly activeMobileMenuId = signal<string | null>(null);
-
-  // Delete Dialog State
-  readonly deleteDialogOpen = signal(false);
-  readonly occasionToDelete = signal<Occasion | null>(null);
-  readonly isDeleting = signal(false);
-
-  readonly paginationPages = computed(() => {
-    const total = this.metadata().totalPages;
-    const current = this.currentPage();
-    const pages: (number | string)[] = [];
-
-    if (total <= 7) {
-      for (let i = 1; i <= total; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (current <= 3) {
-        pages.push(1, 2, 3, 4, '...', total);
-      } else if (current >= total - 2) {
-        pages.push(1, '...', total - 3, total - 2, total - 1, total);
-      } else {
-        pages.push(1, '...', current - 1, current, current + 1, '...', total);
-      }
-    }
-    return pages;
-  });
+  readonly deleteMessage = computed(() =>
+    this.translate.instant('CONFIRM_DIALOG.DELETE_MESSAGE', {
+      entity: this.translate.instant('CONFIRM_DIALOG.ENTITIES.OCCASION'),
+    }),
+  );
 
   ngOnInit(): void {
-    this.searchControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe((query) => {
-        this.searchQuery.set(query ?? '');
-        this.currentPage.set(1);
-        this.loadOccasions();
-      });
-
-    this.loadOccasions();
+    this.configureTableColumns();
+    this.configureTableActions();
+    this.loadData();
   }
 
-  loadOccasions(): void {
-    this.isLoading.set(true);
-    this.occasionsService
-      .getOccasions({
-        page: this.currentPage(),
-        limit: this.pageSize(),
-        search: this.searchQuery(),
-      })
-      .subscribe({
-        next: ({ occasions, metadata }) => {
-          this.occasions.set(occasions);
-          this.metadata.set(metadata);
-          this.isLoading.set(false);
-        },
-        error: () => {
-          this.isLoading.set(false);
-          const errorMsg =
-            this.translate.instant('DASHBOARDOCCASIONS.FETCH_ERROR') ||
-            'Failed to load occasions list.';
-          this.toastr.error(errorMsg);
-        },
-      });
+  onAddOccasion(): void {
+    void this.router.navigate(['/adminDashboard/occasions/add']);
   }
 
-  clearSearch(): void {
-    this.searchControl.setValue('');
-  }
-
-  goToPage(page: number | string): void {
-    if (typeof page !== 'number' || page === this.currentPage()) return;
-    if (page < 1 || page > this.metadata().totalPages) return;
-    this.currentPage.set(page);
-    this.loadOccasions();
-  }
-
-  nextPage(): void {
-    if (this.currentPage() < this.metadata().totalPages) {
-      this.goToPage(this.currentPage() + 1);
+  closeDeleteDialog(): void {
+    if (this.deleting()) {
+      return;
     }
-  }
-
-  prevPage(): void {
-    if (this.currentPage() > 1) {
-      this.goToPage(this.currentPage() - 1);
-    }
-  }
-
-  firstPage(): void {
-    this.goToPage(1);
-  }
-
-  lastPage(): void {
-    this.goToPage(this.metadata().totalPages);
-  }
-
-  toggleMobileMenu(id: string, event?: Event): void {
-    event?.stopPropagation();
-    if (this.activeMobileMenuId() === id) {
-      this.activeMobileMenuId.set(null);
-    } else {
-      this.activeMobileMenuId.set(id);
-    }
-  }
-
-  closeMobileMenu(): void {
-    this.activeMobileMenuId.set(null);
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.closeMobileMenu();
-    }
-  }
-
-  navigateToEdit(occasion: Occasion): void {
-    this.closeMobileMenu();
-    if (occasion.id) {
-      void this.router.navigate(['edit', occasion.id], {
-        relativeTo: this.route,
-      });
-    }
-  }
-
-  openDeleteDialog(occasion: Occasion, event?: Event): void {
-    event?.stopPropagation();
-    this.closeMobileMenu();
-    this.occasionToDelete.set(occasion);
-    this.deleteDialogOpen.set(true);
-  }
-
-  cancelDelete(): void {
-    this.deleteDialogOpen.set(false);
-    this.occasionToDelete.set(null);
+    this.isDeleteOpen.set(false);
+    this.pendingDelete.set(null);
   }
 
   confirmDelete(): void {
-    const occasion = this.occasionToDelete();
-    if (!occasion?.id) return;
+    const row = this.pendingDelete();
+    if (!row || this.deleting()) {
+      return;
+    }
 
-    this.isDeleting.set(true);
-    this.occasionsService.deleteOccasion(occasion.id).subscribe({
-      next: () => {
-        this.isDeleting.set(false);
-        this.deleteDialogOpen.set(false);
-        this.occasionToDelete.set(null);
-        const successMsg =
-          this.translate.instant('DASHBOARDOCCASIONS.DELETE_SUCCESS') ||
-          'Occasion deleted successfully!';
-        this.toastr.success(successMsg);
-        this.loadOccasions();
+    this.deleting.set(true);
+    this.occasionsService
+      .deleteOccasion(row.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.deleting.set(false);
+          this.isDeleteOpen.set(false);
+          this.pendingDelete.set(null);
+          this.toastr.success(this.translate.instant('ADMIN_OCCASIONS.DELETE_SUCCESS'));
+        },
+        error: (err) => {
+          this.deleting.set(false);
+          this.toastr.error(
+            err?.error?.message ?? this.translate.instant('ADMIN_OCCASIONS.DELETE_ERROR'),
+          );
+        },
+      });
+  }
+
+  private configureTableColumns(): void {
+    this.dataTableService.setColumns(this.tableConfigService.getDefaultColumns());
+  }
+
+  private configureTableActions(): void {
+    this.dataTableService.setActions([
+      {
+        label: 'Edit',
+        icon: 'lucidePencil',
+        styleClass: 'edit-btn',
+        visible: (row) => !row.immutable,
       },
-      error: (err) => {
-        this.isDeleting.set(false);
-        const errorMsg =
-          err.error?.message ||
-          this.translate.instant('DASHBOARDOCCASIONS.DELETE_ERROR') ||
-          'Failed to delete occasion. Please try again.';
-        this.toastr.error(errorMsg);
+      {
+        label: 'Delete',
+        icon: 'lucideTrash2',
+        styleClass: 'delete-btn',
+        visible: (row) => !row.immutable,
+      },
+    ]);
+
+    this.dataTableService.setActionHandler((event) => {
+      if (event.action === 'Delete') {
+        this.openDeleteDialog(event.row);
+        return;
+      }
+
+      if (event.action === 'Edit') {
+        void this.router.navigate(['/adminDashboard/occasions', event.row.id, 'edit']);
+      }
+    });
+  }
+
+  private loadData(): void {
+    this.dataTableService.bindDataSignal(this.occasionsService.occasions);
+    this.dataTableService.bindLoadingSignal(this.occasionsService.loading);
+    this.dataTableService.setEmptyMessage('TABLE.NO_RECORDS', 'ADMIN_OCCASIONS.ADD_NEW');
+    this.dataTableService.enableServerSidePagination({
+      pageSize: 20,
+      totalRecordsSignal: computed(() => this.occasionsService.total()),
+      onPageChange: (page, limit) => {
+        this.occasionsService.loadOccasions(page, limit);
       },
     });
+    this.occasionsService.loadOccasions();
+  }
+
+  private openDeleteDialog(row: OccasionRow): void {
+    this.pendingDelete.set(row);
+    this.isDeleteOpen.set(true);
   }
 }

@@ -1,54 +1,59 @@
-export interface Occasion {
+export interface OccasionDto {
   _id?: string;
   id?: string;
-  title: string;
+  title?: string;
   slug?: string;
   description?: string;
   image?: string;
   productsCount?: number;
   productCount?: number;
+  _count?: {
+    products?: number;
+  };
   immutable?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }
 
-export interface OccasionsMetadata {
-  currentPage: number;
-  totalPages: number;
-  limit: number;
-  totalItems: number;
-}
-
-export interface OccasionsApiResponse {
-  status?: boolean;
-  code?: number;
-  message?: string;
-  metadata?: OccasionsMetadata;
-  occasions?: Occasion[];
-  payload?: {
-    occasions?: Occasion[];
-    data?: Occasion[];
-    metadata?: OccasionsMetadata;
-    total?: number;
-    currentPage?: number;
-    totalPages?: number;
-  };
-}
-
-export interface OccasionsQueryParams {
+export interface OccasionMetadata {
+  currentPage?: number;
+  totalPages?: number;
   page?: number;
   limit?: number;
-  search?: string;
+  total?: number;
+  totalItems?: number;
 }
 
-export interface CreateOccasionDto {
+export interface OccasionsListPayload {
+  occasions?: OccasionDto[];
+  data?: OccasionDto[];
+  metadata?: OccasionMetadata;
+}
+
+export interface CreateOccasionPayload {
   title: string;
-  description?: string;
   image: string;
+  description?: string;
 }
 
-export interface UpdateOccasionDto {
+export interface UpdateOccasionPayload {
   title?: string;
-  description?: string;
   image?: string;
+  description?: string;
 }
+
+export interface ApiResponse<T> {
+  status?: boolean | string;
+  message?: string;
+  payload?: T;
+  data?: T;
+}
+
+export interface UploadPayload {
+  url?: string;
+}
+
+export type Occasion = OccasionDto;
+export type OccasionsMetadata = OccasionMetadata;
+export type CreateOccasionDto = CreateOccasionPayload;
+export type UpdateOccasionDto = UpdateOccasionPayload;
