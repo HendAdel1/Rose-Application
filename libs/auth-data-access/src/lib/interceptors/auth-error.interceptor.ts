@@ -17,6 +17,7 @@ export const authErrorInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ) => {
   const config = inject(AUTH_DATA_ACCESS_CONFIG);
+  const toastr = inject(ToastrService);
   const isAuthRequest =
     request.url.includes('/auth') || request.url.startsWith(config.apiBaseUrl);
 
