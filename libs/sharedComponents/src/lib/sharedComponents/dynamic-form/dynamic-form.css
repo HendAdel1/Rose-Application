@@ -12,17 +12,20 @@
 .dynamic-form__fields {
   display: grid;
   gap: 1.25rem;
+  align-items: start;
 }
 
 .dynamic-form__field {
   display: grid;
   gap: 0.4rem;
+  min-width: 0;
 }
 
 .dynamic-form__textarea {
   box-sizing: border-box;
   width: 100%;
   min-height: 7rem;
+  max-height: 12rem;
   resize: vertical;
   border: 1px solid #d4d4d8;
   border-radius: 10px;
@@ -276,4 +279,10 @@
 
 :host-context(html.dark) .dynamic-form__cancel:hover {
   background: #52525b;
+}
+
+@media (max-width: 768px) {
+  .dynamic-form__field {
+    grid-column: 1 / -1 !important;
+  }
 }
