@@ -3,24 +3,24 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable, finalize, map, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { CategoryMapper } from '../mappers/category.mapper';
+import { OccasionMapper } from '../mappers/occasion.mapper';
 import {
   ApiResponse,
-  CategoriesListPayload,
-  CategoryDto,
-  CreateCategoryPayload,
-  UpdateCategoryPayload,
+  CreateOccasionPayload,
+  OccasionDto,
+  OccasionsListPayload,
+  UpdateOccasionPayload,
   UploadPayload,
-} from '../models/category.model';
-import { CategoryRow } from '../models/category-row.model';
+} from '../models/occasion.model';
+import { OccasionRow } from '../models/occasion-row.model';
 
 @Injectable({ providedIn: 'root' })
-export class CategoriesService {
+export class OccasionsService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiBaseUrl}/categories`;
+  private readonly baseUrl = `${environment.apiBaseUrl}/occasions`;
   private readonly uploadUrl = `${environment.apiBaseUrl}/upload`;
 
-  private readonly _categories = signal<CategoryRow[]>([]);
+  private readonly _occasions = signal<OccasionRow[]>([]);
   private readonly _loading = signal(false);
   private readonly _error = signal<string | null>(null);
   private readonly _total = signal(0);
@@ -28,7 +28,7 @@ export class CategoriesService {
   private readonly _limit = signal(20);
   private readonly _search = signal('');
 
-  readonly categories = this._categories.asReadonly();
+  readonly occasions = this._occasions.asReadonly();
   readonly loading = this._loading.asReadonly();
   readonly error = this._error.asReadonly();
   readonly total = this._total.asReadonly();
@@ -36,73 +36,73 @@ export class CategoriesService {
   readonly limit = this._limit.asReadonly();
   readonly search = this._search.asReadonly();
 
-  loadCategories(page = 1, limit = 20, search = this._search()): void {
+  loadOccasions(page = 1, limit = 20, search = this._search()): void {
     this._loading.set(true);
     this._error.set(null);
     this._page.set(page);
     this._limit.set(limit);
     this._search.set(search);
 
-    this.fetchCategories(page, limit, search)
+    this.fetchOccasions(page, limit, search)
       .pipe(finalize(() => this._loading.set(false)))
       .subscribe({
         next: (response) => {
-          this._categories.set(CategoryMapper.toUiModelList(response.items));
+          this._occasions.set(OccasionMapper.toUiModelList(response.items));
           this._total.set(response.total);
           this._page.set(response.page);
           this._limit.set(response.limit);
         },
         error: (err: unknown) => {
-          const message = err instanceof Error ? err.message : 'Failed to fetch categories';
+          const message = err instanceof Error ? err.message : 'Failed to fetch occasions';
           this._error.set(message);
-          this._categories.set([]);
+          this._occasions.set([]);
           this._total.set(0);
         },
       });
   }
 
-  getCategories(page = 1, limit = 20, search = ''): Observable<{
-    items: CategoryDto[];
+  getOccasions(page = 1, limit = 20, search = ''): Observable<{
+    items: OccasionDto[];
     total: number;
     page: number;
     limit: number;
   }> {
-    return this.fetchCategories(page, limit, search);
+    return this.fetchOccasions(page, limit, search);
   }
 
-  getCategoryById(id: string): Observable<CategoryDto> {
+  getOccasionById(id: string): Observable<OccasionDto> {
     return this.http
-      .get<ApiResponse<CategoryDto | { category?: CategoryDto }>>(`${this.baseUrl}/${id}`)
+      .get<ApiResponse<OccasionDto | { occasion?: OccasionDto }>>(`${this.baseUrl}/${id}`)
       .pipe(
         map((response) => {
           const payload = response.payload;
           if (!payload) {
-            throw new Error('Category not found');
+            throw new Error('Occasion not found');
           }
-          if ('category' in payload && payload.category) {
-            return payload.category;
+          if ('occasion' in payload && payload.occasion) {
+            return payload.occasion;
           }
-          return payload as CategoryDto;
+          return payload as OccasionDto;
         }),
       );
   }
 
-  createCategory(payload: CreateCategoryPayload): Observable<CategoryDto> {
+  createOccasion(payload: CreateOccasionPayload): Observable<OccasionDto> {
     return this.http
-      .post<ApiResponse<CategoryDto | { category?: CategoryDto }>>(this.baseUrl, payload)
-      .pipe(map((response) => this.unwrapCategory(response)));
+      .post<ApiResponse<OccasionDto | { occasion?: OccasionDto }>>(this.baseUrl, payload)
+      .pipe(map((response) => this.unwrapOccasion(response)));
   }
 
-  updateCategory(id: string, payload: UpdateCategoryPayload): Observable<CategoryDto> {
+  updateOccasion(id: string, payload: UpdateOccasionPayload): Observable<OccasionDto> {
     return this.http
-      .patch<ApiResponse<CategoryDto | { category?: CategoryDto }>>(`${this.baseUrl}/${id}`, payload)
-      .pipe(map((response) => this.unwrapCategory(response)));
+      .patch<ApiResponse<OccasionDto | { occasion?: OccasionDto }>>(`${this.baseUrl}/${id}`, payload)
+      .pipe(map((response) => this.unwrapOccasion(response)));
   }
 
-  deleteCategory(id: string): Observable<void> {
+  deleteOccasion(id: string): Observable<void> {
     return this.http.delete<ApiResponse<unknown>>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
-        this._categories.update((list) => list.filter((item) => item.id !== id));
+        this._occasions.update((list) => list.filter((item) => item.id !== id));
         this._total.update((total) => Math.max(0, total - 1));
       }),
       map(() => undefined),
@@ -136,12 +136,12 @@ export class CategoriesService {
     return path.startsWith('/') ? `${origin}${path}` : `${environment.apiBaseUrl}/${path}`;
   }
 
-  private fetchCategories(
+  private fetchOccasions(
     page: number,
     limit: number,
     search: string,
   ): Observable<{
-    items: CategoryDto[];
+    items: OccasionDto[];
     total: number;
     page: number;
     limit: number;
@@ -151,10 +151,10 @@ export class CategoriesService {
       params = params.set('search', search.trim());
     }
 
-    return this.http.get<ApiResponse<CategoriesListPayload>>(this.baseUrl, { params }).pipe(
+    return this.http.get<ApiResponse<OccasionsListPayload>>(this.baseUrl, { params }).pipe(
       map((response) => {
         const payload = response.payload ?? {};
-        const items = payload.data ?? [];
+        const items = payload.data ?? payload.occasions ?? [];
         const meta = payload.metadata;
         return {
           items,
@@ -166,21 +166,21 @@ export class CategoriesService {
     );
   }
 
-  private unwrapCategory(response?: unknown): CategoryDto {
+  private unwrapOccasion(response?: unknown): OccasionDto {
     if (!response) {
-      throw new Error('Empty category response');
+      throw new Error('Empty occasion response');
     }
-    const res = response as { payload?: CategoryDto | { category?: CategoryDto; data?: CategoryDto }; category?: CategoryDto; data?: CategoryDto };
+    const res = response as { payload?: OccasionDto | { occasion?: OccasionDto; data?: OccasionDto }; occasion?: OccasionDto; data?: OccasionDto };
     const target = res.payload ?? res;
     if (target && typeof target === 'object') {
-      if ('category' in target && target.category) {
-        return target.category;
+      if ('occasion' in target && target.occasion) {
+        return target.occasion;
       }
       if ('data' in target && target.data) {
         return target.data;
       }
-      return target as CategoryDto;
+      return target as OccasionDto;
     }
-    return res as CategoryDto;
+    return res as OccasionDto;
   }
 }

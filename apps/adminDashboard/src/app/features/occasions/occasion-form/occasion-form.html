@@ -1,0 +1,18 @@
+<section class="occasion-form-page font-sarabun" [attr.aria-label]="pageTitle()">
+  <h1 class="occasion-form-page__title">{{ pageTitle() }}</h1>
+
+  @if (pageLoading()) {
+    <div class="occasion-form-page__loading" role="status">
+      {{ 'ADMIN_OCCASIONS.LOADING' | translate }}
+    </div>
+  } @else if (formReady()) {
+    <div class="occasion-form-page__card">
+      <lib-dynamic-form
+        [config]="formConfig()"
+        [initialValue]="initialValue()"
+        [loading]="loading()"
+        (formSubmit)="onSubmit($event)"
+      />
+    </div>
+  }
+</section>

@@ -11,7 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { TranslatePipe } from '@ngx-translate/core';
-import { LucideLogOut, LucideUser } from '@lucide/angular';
+import { LucideLogOut, LucideMenu, LucideUser } from '@lucide/angular';
 import { AdminProfileService } from '../../core/services/admin-profile.service';
 
 export interface AdminBreadcrumbItem {
@@ -23,7 +23,13 @@ export interface AdminBreadcrumbItem {
 @Component({
   selector: 'app-admin-navbar',
   standalone: true,
-  imports: [RouterLink, TranslatePipe, LucideLogOut, LucideUser],
+  imports: [
+    RouterLink,
+    TranslatePipe,
+    LucideLogOut,
+    LucideMenu,
+    LucideUser,
+  ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,6 +63,22 @@ export class AdminNavbar {
   readonly breadcrumbs = computed<AdminBreadcrumbItem[]>(() => {
     const url = this.currentUrl();
 
+    if (url.includes('/occasions/add')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.OCCASIONS', link: '/adminDashboard/occasions' },
+        { labelKey: 'DASHBOARDOCCASIONS.ADD_OCCASION', current: true },
+      ];
+    }
+
+    if (/\/occasions\/(edit\/[^/]+|[^/]+\/edit)/.test(url)) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.OCCASIONS', link: '/adminDashboard/occasions' },
+        { labelKey: 'DASHBOARDOCCASIONS.UPDATE_OCCASION_PREFIX', current: true },
+      ];
+    }
+
     if (url.includes('/categories/add')) {
       return [
         { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
@@ -80,17 +102,17 @@ export class AdminNavbar {
       ];
     }
 
-    if (url.includes('/products')) {
-      return [
-        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
-        { labelKey: 'DASHBOARD.PRODUCTS', current: true },
-      ];
-    }
-
     if (url.includes('/occasions')) {
       return [
         { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
         { labelKey: 'DASHBOARD.OCCASIONS', current: true },
+      ];
+    }
+
+    if (url.includes('/products')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.PRODUCTS', current: true },
       ];
     }
 
