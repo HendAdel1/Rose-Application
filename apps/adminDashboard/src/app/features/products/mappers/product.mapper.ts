@@ -24,6 +24,7 @@ export class ProductMapper {
       categoryTitle: item.category?.title ?? '',
       discountType: item.discountType,
       discountValue: item.discountValue,
+      deletedAt: item.deletedAt,
       raw: item,
     };
   }

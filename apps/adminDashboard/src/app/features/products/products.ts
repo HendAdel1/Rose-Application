@@ -1,13 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   OnInit,
   computed,
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ConfirmDialog } from '@org/sharedComponents';
+import { ToastrService } from 'ngx-toastr';
 
 import { DataTableService, ReusableTable, TableHeader } from '../../shared/reusable-table';
 import { Product } from './models/product.model';
@@ -50,8 +54,12 @@ export class Products implements OnInit {
   private readonly productService = inject(ProductService);
   private readonly tableConfigService = inject(ProductTableConfigService);
   private readonly translate = inject(TranslateService);
+  private readonly router = inject(Router);
+  private readonly toastr = inject(ToastrService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly isDeleteOpen = signal(false);
+  readonly deleting = signal(false);
   private readonly pendingDelete = signal<Product | null>(null);
 
   readonly deleteMessage = computed(() =>
@@ -67,21 +75,41 @@ export class Products implements OnInit {
   }
 
   onAddProduct(): void {
-    console.info('Add a new product triggered');
+    void this.router.navigate(['/adminDashboard/products/add']);
   }
 
+
   closeDeleteDialog(): void {
+    if (this.deleting()) {
+      return;
+    }
     this.isDeleteOpen.set(false);
     this.pendingDelete.set(null);
   }
 
   confirmDelete(): void {
     const row = this.pendingDelete();
-    if (!row) {
+    if (!row || this.deleting()) {
       return;
     }
-    this.productService.deleteProduct(row.id);
-    this.closeDeleteDialog();
+
+    this.deleting.set(true);
+    this.productService
+      .deleteProduct(row.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.deleting.set(false);
+          this.closeDeleteDialog();
+          this.toastr.success(this.translate.instant('ADMIN_PRODUCTS.DELETE_SUCCESS'));
+        },
+        error: (err) => {
+          this.deleting.set(false);
+          this.toastr.error(
+            err?.error?.message ?? this.translate.instant('ADMIN_PRODUCTS.DELETE_ERROR'),
+          );
+        },
+      });
   }
 
   private configureTableColumns(): void {
@@ -91,26 +119,28 @@ export class Products implements OnInit {
   private configureTableActions(): void {
     this.dataTableService.setActions([
       {
-        label: 'Edit',
+        label: 'TABLE.ACTIONS.EDIT',
+        action: 'Edit',
         icon: 'lucidePencil',
         styleClass: 'edit-btn',
       },
       {
-        label: 'Delete',
+        label: 'TABLE.ACTIONS.DELETE',
+        action: 'Delete',
         icon: 'lucideTrash2',
         styleClass: 'delete-btn',
       },
     ]);
 
     this.dataTableService.setActionHandler((event) => {
-      if (event.action === 'Delete') {
+      if (event.action === 'Delete' || event.action === 'TABLE.ACTIONS.DELETE') {
         this.pendingDelete.set(event.row);
         this.isDeleteOpen.set(true);
         return;
       }
 
-      if (event.action === 'Edit') {
-        console.info('Editing product:', event.row);
+      if (event.action === 'Edit' || event.action === 'TABLE.ACTIONS.EDIT') {
+        void this.router.navigate(['/adminDashboard/products', event.row.id, 'edit']);
       }
     });
   }
