@@ -7,15 +7,17 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { TranslatePipe } from '@ngx-translate/core';
-import { LucideLogOut, LucideUser } from '@lucide/angular';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LucideLogOut, LucideMenu, LucideUser } from '@lucide/angular';
 import { AdminProfileService } from '../../core/services/admin-profile.service';
+import { AdminLayoutService } from '../services/admin-layout.service';
 
 export interface AdminBreadcrumbItem {
   labelKey: string;
+  customLabel?: string;
   link?: string | string[];
   current?: boolean;
 }
@@ -23,14 +25,16 @@ export interface AdminBreadcrumbItem {
 @Component({
   selector: 'app-admin-navbar',
   standalone: true,
-  imports: [RouterLink, TranslatePipe, LucideLogOut, LucideUser],
+  imports: [RouterLink, TranslatePipe, LucideLogOut, LucideUser, LucideMenu],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminNavbar {
   private readonly profileService = inject(AdminProfileService);
+  private readonly layoutService = inject(AdminLayoutService);
   private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
   private readonly elementRef = inject(ElementRef);
 
   readonly logoPath = '/logos/rose-logo.png';
@@ -40,6 +44,9 @@ export class AdminNavbar {
   readonly userPhoto = this.profileService.userPhoto;
   readonly avatarInitial = this.profileService.avatarInitial;
   readonly avatarColors = this.profileService.avatarColors;
+
+  readonly sidebarOpen = this.layoutService.sidebarOpen;
+  readonly customTitle = this.layoutService.customTitle;
 
   private readonly currentUrl = toSignal(
     this.router.events.pipe(
@@ -80,6 +87,23 @@ export class AdminNavbar {
       ];
     }
 
+    if (url.includes('/products/add')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.PRODUCTS', link: '/adminDashboard/products' },
+        { labelKey: 'ADMIN_PRODUCTS.ADD_BREADCRUMB', current: true },
+      ];
+    }
+
+
+    if (/\/products\/[^/]+\/edit/.test(url)) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.PRODUCTS', link: '/adminDashboard/products' },
+        { labelKey: 'ADMIN_PRODUCTS.UPDATE_BREADCRUMB', current: true },
+      ];
+    }
+
     if (url.includes('/products')) {
       return [
         { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
@@ -103,6 +127,49 @@ export class AdminNavbar {
 
     return [{ labelKey: 'DASHBOARD.TITLE', current: true }];
   });
+
+  /** Parent breadcrumb items for mobile row 1 */
+  readonly parentCrumbs = computed(() => {
+    const list = this.breadcrumbs();
+    return list.length > 1 ? list.slice(0, -1) : [];
+  });
+
+  /** Current page / product title for mobile row 2 */
+  readonly currentTitle = computed(() => {
+    return this.customTitle() || this.translate.instant(this.currentSectionKey());
+  });
+
+  /** Breadcrumb items for desktop horizontal nav */
+  readonly desktopBreadcrumbs = computed(() => {
+    const list = this.breadcrumbs();
+    const custom = this.customTitle();
+    if (!custom || list.length === 0) {
+      return list;
+    }
+    return list.map((crumb, idx) => {
+      if (idx === list.length - 1) {
+        return { ...crumb, customLabel: custom };
+      }
+      return crumb;
+    });
+  });
+
+  constructor() {
+    this.router.events
+      .pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        this.layoutService.closeSidebar();
+        this.closeProfileMenu();
+      });
+  }
+
+  toggleSidebar(event?: Event): void {
+    event?.stopPropagation();
+    this.layoutService.toggleSidebar();
+  }
 
   toggleProfileMenu(event?: Event): void {
     event?.stopPropagation();

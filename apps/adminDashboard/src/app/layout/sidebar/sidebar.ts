@@ -16,9 +16,11 @@ import {
   LucideMoreVertical,
   LucidePackage,
   LucideUser,
+  LucideX,
 } from '@lucide/angular';
 import { DashboardNavItem } from '../../core/models/nav-item.model';
 import { AdminProfileService } from '../../core/services/admin-profile.service';
+import { AdminLayoutService } from '../services/admin-layout.service';
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -34,6 +36,7 @@ import { AdminProfileService } from '../../core/services/admin-profile.service';
     LucideMoreVertical,
     LucidePackage,
     LucideUser,
+    LucideX,
   ],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
@@ -41,11 +44,14 @@ import { AdminProfileService } from '../../core/services/admin-profile.service';
 })
 export class AdminSidebar {
   private readonly profileService = inject(AdminProfileService);
+  private readonly layoutService = inject(AdminLayoutService);
   private readonly elementRef = inject(ElementRef);
   readonly layoutRoute = inject(ActivatedRoute);
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly profileMenuOpen = signal(false);
+
+  readonly sidebarOpen = this.layoutService.sidebarOpen;
 
   readonly userDisplayName = this.profileService.userDisplayName;
   readonly userEmail = this.profileService.userEmail;
@@ -59,6 +65,10 @@ export class AdminSidebar {
     { labelKey: 'DASHBOARD.OCCASIONS', route: ['occasions'], icon: 'occasions' },
     { labelKey: 'DASHBOARD.PRODUCTS', route: ['products'], icon: 'products' },
   ];
+
+  closeSidebar(): void {
+    this.layoutService.closeSidebar();
+  }
 
   toggleProfileMenu(event?: Event): void {
     event?.stopPropagation();
@@ -76,8 +86,16 @@ export class AdminSidebar {
     }
   }
 
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.sidebarOpen()) {
+      this.closeSidebar();
+    }
+  }
+
   logout(): void {
     this.closeProfileMenu();
+    this.closeSidebar();
     this.profileService.logout();
   }
 }

@@ -2,27 +2,58 @@
   class="admin-navbar w-full bg-white dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800/80 transition-colors duration-200 select-none z-20"
   aria-label="Dashboard Header"
 >
-  <div class="flex items-center justify-between h-14 sm:h-16 px-4 sm:px-6">
-    <!-- Left Section: Mobile Brand / Desktop Breadcrumb -->
-    <div class="flex items-center gap-3 min-w-0">
-      <!-- Mobile View Brand -->
-      <div class="flex items-center gap-2.5 lg:hidden">
-        <img
-          [src]="logoPath"
-          alt="Rose"
-          class="h-8 w-auto object-contain"
-        />
-        <span class="text-sm font-semibold text-zinc-700 dark:text-zinc-200 truncate">
-          {{ currentSectionKey() | translate }}
-        </span>
+  <div class="flex items-center justify-between h-16 sm:h-18 px-3.5 sm:px-6">
+    <!-- Left Section: Mobile View (Logo + Stacked Breadcrumb) & Desktop View (Horizontal Breadcrumb) -->
+    <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1 me-2 sm:me-4">
+      <!-- Mobile View (lg:hidden): Matches Figma Image 1 -->
+      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1 lg:hidden">
+        <a
+          routerLink="/adminDashboard"
+          class="shrink-0 flex items-center hover:opacity-90 transition-opacity"
+          aria-label="Rose Dashboard"
+        >
+          <img
+            [src]="logoPath"
+            alt="Rose"
+            class="h-9 sm:h-10 w-auto object-contain"
+          />
+        </a>
+
+        <!-- Stacked Breadcrumb (Row 1: Parents with '›', Row 2: Current Title with Truncation) -->
+        <div class="flex flex-col justify-center min-w-0 flex-1">
+          @if (parentCrumbs().length > 0) {
+            <div class="flex items-center gap-1 sm:gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate leading-tight">
+              @for (parent of parentCrumbs(); track parent.labelKey; let last = $last) {
+                @if (parent.link) {
+                  <a
+                    [routerLink]="parent.link"
+                    class="hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors shrink-0"
+                  >
+                    {{ parent.labelKey | translate }}
+                  </a>
+                } @else {
+                  <span class="shrink-0">{{ parent.labelKey | translate }}</span>
+                }
+                <span class="text-zinc-400 dark:text-zinc-500 font-normal select-none shrink-0" aria-hidden="true">›</span>
+              }
+            </div>
+          }
+
+          <div
+            class="text-xs sm:text-sm font-semibold text-[#8A1730] dark:text-[#FFAAB9] truncate leading-tight mt-0.5"
+            [title]="currentTitle()"
+          >
+            {{ currentTitle() }}
+          </div>
+        </div>
       </div>
 
-      <!-- Desktop breadcrumb -->
+      <!-- Desktop Breadcrumb (hidden lg:flex) -->
       <nav
         class="admin-navbar__breadcrumbs hidden lg:flex items-center gap-2 min-w-0"
         aria-label="Breadcrumb"
       >
-        @for (crumb of breadcrumbs(); track crumb.labelKey; let last = $last) {
+        @for (crumb of desktopBreadcrumbs(); track crumb.labelKey; let last = $last) {
           @if (!last) {
             @if (crumb.link) {
               <a
@@ -36,17 +67,21 @@
             }
             <span class="admin-navbar__sep" aria-hidden="true">›</span>
           } @else {
-            <span class="admin-navbar__crumb admin-navbar__crumb--current">
-              {{ crumb.labelKey | translate }}
+            <span
+              class="admin-navbar__crumb admin-navbar__crumb--current truncate max-w-md"
+              [title]="crumb.customLabel || (crumb.labelKey | translate)"
+            >
+              {{ crumb.customLabel || (crumb.labelKey | translate) }}
             </span>
           }
         }
       </nav>
     </div>
 
-    <!-- Right Section (Mobile Only Avatar & Profile Dropdown) -->
-    <div class="lg:hidden flex items-center">
-      <div class="relative">
+    <!-- Right Section: Avatar & Hamburger Menu Button -->
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <!-- User Avatar & Profile Dropdown (Mobile + Tablet) -->
+      <div class="relative lg:hidden">
         <button
           type="button"
           (click)="toggleProfileMenu($event)"
@@ -59,11 +94,11 @@
             <img
               [src]="userPhoto()"
               [alt]="userDisplayName()"
-              class="w-8 h-8 rounded-full object-cover ring-1 ring-zinc-200 dark:ring-zinc-700 shadow-sm"
+              class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover ring-1 ring-zinc-200 dark:ring-zinc-700 shadow-xs"
             />
           } @else {
             <div
-              class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+              class="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-bold text-xs shadow-xs ring-1 ring-black/5 dark:ring-white/10"
               [style.background-color]="avatarColors().bg"
               [style.color]="avatarColors().text"
             >
@@ -74,15 +109,19 @@
 
         @if (profileMenuOpen()) {
           <div
-            class="absolute end-0 top-[calc(100%+0.6rem)] w-44 bg-white dark:bg-zinc-800 rounded-2xl shadow-2xl border border-zinc-100 dark:border-zinc-700/80 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+            class="absolute end-0 top-[calc(100%+0.6rem)] w-48 bg-white dark:bg-zinc-800 rounded-2xl shadow-2xl border border-zinc-100 dark:border-zinc-700/80 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
             role="menu"
           >
-            <div class="w-8 h-1 bg-zinc-200 dark:bg-zinc-600 rounded-full mx-auto mb-2"></div>
+            <div class="px-3 py-2 border-b border-zinc-100 dark:border-zinc-700/60 mb-1">
+              <p class="text-xs font-bold text-[#8A1730] dark:text-[#FFAAB9] truncate">
+                {{ userDisplayName() }}
+              </p>
+            </div>
 
             <a
               routerLink="/roseApp/settings"
               (click)="closeProfileMenu()"
-              class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-700/60 transition-colors cursor-pointer"
+              class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-700/60 transition-colors cursor-pointer"
               role="menuitem"
             >
               <svg lucideUser [size]="16" class="text-zinc-500 dark:text-zinc-400" aria-hidden="true"></svg>
@@ -92,7 +131,7 @@
             <button
               type="button"
               (click)="logout()"
-              class="flex items-center gap-2.5 w-full text-start px-3 py-2.5 rounded-xl text-xs font-medium text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer"
+              class="flex items-center gap-2.5 w-full text-start px-3 py-2 rounded-xl text-xs font-medium text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer"
               role="menuitem"
             >
               <svg lucideLogOut [size]="16" aria-hidden="true"></svg>
@@ -101,6 +140,17 @@
           </div>
         }
       </div>
+
+      <!-- Hamburger Menu Button (lg:hidden) - Matches Figma Image 1 -->
+      <button
+        type="button"
+        (click)="toggleSidebar($event)"
+        class="lg:hidden p-1.5 sm:p-2 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 active:scale-95 rounded-lg transition-all cursor-pointer flex items-center justify-center"
+        aria-label="Toggle navigation menu"
+        [attr.aria-expanded]="sidebarOpen()"
+      >
+        <svg lucideMenu [size]="24" aria-hidden="true"></svg>
+      </button>
     </div>
   </div>
 </header>
