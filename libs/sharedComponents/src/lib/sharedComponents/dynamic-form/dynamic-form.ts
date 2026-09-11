@@ -25,6 +25,8 @@ import { CustomInput } from '../reusable-input/custom-input';
 import { UiButton } from '../ui-button/ui-button';
 import { UiLabel } from '../ui-label/ui-label';
 import {
+  DYNAMIC_FIELD_WIDTH_SPAN,
+  DynamicFieldColSpan,
   DynamicFieldConfig,
   DynamicFormConfig,
   DynamicFormSubmitEvent,
@@ -66,6 +68,7 @@ export class DynamicForm implements OnChanges, OnDestroy {
   readonly submitted = signal(false);
 
   readonly fields = computed(() => this.config().fields);
+  readonly gridColumns = computed(() => this.config().columns ?? 12);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config'] || changes['initialValue']) {
@@ -92,6 +95,21 @@ export class DynamicForm implements OnChanges, OnDestroy {
 
   isRequired(field: DynamicFieldConfig): boolean {
     return !!field.validators?.required;
+  }
+
+  resolveColSpan(field: DynamicFieldConfig): DynamicFieldColSpan {
+    if (field.colSpan != null) {
+      return field.colSpan;
+    }
+    if (field.width) {
+      return DYNAMIC_FIELD_WIDTH_SPAN[field.width];
+    }
+    return 12;
+  }
+
+  fieldGridColumn(field: DynamicFieldConfig): string {
+    const span = Math.min(this.resolveColSpan(field), this.gridColumns());
+    return field.breakBefore ? `1 / span ${span}` : `span ${span}`;
   }
 
   errorMessage(field: DynamicFieldConfig): string {
@@ -141,43 +159,52 @@ export class DynamicForm implements OnChanges, OnDestroy {
 
   onFileSelected(field: DynamicFieldConfig, event: Event): void {
     const inputEl = event.target as HTMLInputElement;
-    const file = inputEl.files?.[0] ?? null;
+    const list = inputEl.files ? Array.from(inputEl.files) : [];
     inputEl.value = '';
 
     const ctrl = this.control(field.key);
-    ctrl.setValue(file);
+    const value = field.multiple ? list : (list[0] ?? null);
+    ctrl.setValue(value);
     ctrl.markAsDirty();
     ctrl.markAsTouched();
     ctrl.updateValueAndValidity();
 
     this.revokePreview(field.key);
 
-    if (file && file.type.startsWith('image/')) {
-      const url = URL.createObjectURL(file);
-      this.filePreviews.update((map) => ({ ...map, [field.key]: url }));
-      this.fileNames.update((map) => ({ ...map, [field.key]: file.name }));
+    if (!list.length) {
+      this.filePreviews.update((map) => {
+        const next = { ...map };
+        delete next[field.key];
+        return next;
+      });
+      this.fileNames.update((map) => {
+        const next = { ...map };
+        delete next[field.key];
+        return next;
+      });
       return;
     }
 
-    this.filePreviews.update((map) => {
-      const next = { ...map };
-      delete next[field.key];
-      return next;
-    });
-    this.fileNames.update((map) => {
-      const next = { ...map };
-      if (file) {
-        next[field.key] = file.name;
-      } else {
+    const firstImage = list.find((file) => file.type.startsWith('image/'));
+    if (firstImage) {
+      const url = URL.createObjectURL(firstImage);
+      this.filePreviews.update((map) => ({ ...map, [field.key]: url }));
+    } else {
+      this.filePreviews.update((map) => {
+        const next = { ...map };
         delete next[field.key];
-      }
-      return next;
-    });
+        return next;
+      });
+    }
+
+    const label =
+      list.length === 1 ? list[0].name : `${list.length} files selected`;
+    this.fileNames.update((map) => ({ ...map, [field.key]: label }));
   }
 
   clearFile(field: DynamicFieldConfig): void {
     this.revokePreview(field.key);
-    this.control(field.key).setValue(null);
+    this.control(field.key).setValue(field.multiple ? [] : null);
     this.control(field.key).markAsDirty();
     this.filePreviews.update((map) => {
       const next = { ...map };
@@ -221,13 +248,13 @@ export class DynamicForm implements OnChanges, OnDestroy {
       let value: unknown = initial[field.key] ?? null;
 
       if (field.type === 'file') {
-        value = null;
+        value = field.multiple ? [] : null;
       } else if (value === null || value === undefined) {
         value = field.type === 'number' ? null : '';
       }
 
       group[field.key] = this.fb.control(
-        { value, disabled: !!field.disabled },
+        { value, disabled: !!field.disabled || !!field.readonly },
         { validators: this.buildValidators(field) },
       );
     }
@@ -254,7 +281,6 @@ export class DynamicForm implements OnChanges, OnDestroy {
     const v = field.validators;
     const list = [];
 
-    // File required is handled by fileValidator so existingFileUrl can satisfy it.
     if (v?.required && field.type !== 'file') {
       list.push(Validators.required);
     }
@@ -286,11 +312,13 @@ export class DynamicForm implements OnChanges, OnDestroy {
 
   private fileValidator(field: DynamicFieldConfig) {
     return (control: AbstractControl) => {
-      const file = control.value as File | null;
+      const raw = control.value as File | File[] | null;
+      const files = Array.isArray(raw) ? raw : raw ? [raw] : [];
       const v = field.validators;
-      const hasExisting = !!field.existingFileUrl;
+      const hasExisting =
+        !!field.existingFileUrl || !!(field.existingFileUrls && field.existingFileUrls.length);
 
-      if (!file) {
+      if (!files.length) {
         if (v?.required && !hasExisting) {
           return { required: true };
         }
@@ -299,22 +327,27 @@ export class DynamicForm implements OnChanges, OnDestroy {
 
       if (v?.accept) {
         const allowed = v.accept.split(',').map((part) => part.trim().toLowerCase());
-        const typeOk = allowed.some((rule) => {
-          if (rule.startsWith('.')) {
-            return file.name.toLowerCase().endsWith(rule);
-          }
-          if (rule.endsWith('/*')) {
-            return file.type.startsWith(rule.replace('/*', '/'));
-          }
-          return file.type === rule;
-        });
+        const typeOk = files.every((file) =>
+          allowed.some((rule) => {
+            if (rule.startsWith('.')) {
+              return file.name.toLowerCase().endsWith(rule);
+            }
+            if (rule.endsWith('/*')) {
+              return file.type.startsWith(rule.replace('/*', '/'));
+            }
+            return file.type === rule;
+          }),
+        );
         if (!typeOk) {
           return { fileType: true };
         }
       }
 
-      if (v?.maxSizeMb != null && file.size > v.maxSizeMb * 1024 * 1024) {
-        return { fileSize: true };
+      if (v?.maxSizeMb != null) {
+        const limit = v.maxSizeMb * 1024 * 1024;
+        if (files.some((file) => file.size > limit)) {
+          return { fileSize: true };
+        }
       }
 
       return null;

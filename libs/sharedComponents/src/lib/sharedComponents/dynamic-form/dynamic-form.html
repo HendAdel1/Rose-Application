@@ -1,7 +1,13 @@
 <form class="dynamic-form font-inter" [formGroup]="form()" (ngSubmit)="onSubmit()" novalidate>
-  <div class="dynamic-form__fields">
+  <div
+    class="dynamic-form__fields"
+    [style.grid-template-columns]="'repeat(' + gridColumns() + ', minmax(0, 1fr))'"
+  >
     @for (field of fields(); track field.key) {
-      <div class="dynamic-form__field">
+      <div
+        class="dynamic-form__field"
+        [style.grid-column]="fieldGridColumn(field)"
+      >
         @if (field.type === 'text' || field.type === 'number' || field.type === 'password') {
           <lib-custom-input
             [id]="field.key"
@@ -12,6 +18,7 @@
             [helperText]="field.helperText ?? ''"
             [errorMessage]="isInvalid(field.key) ? errorMessage(field) : ''"
             [isInvalid]="isInvalid(field.key)"
+            [readonly]="!!field.readonly"
             [formControl]="control(field.key)"
           />
         } @else if (field.type === 'select') {
@@ -24,6 +31,7 @@
             [helperText]="field.helperText ?? ''"
             [errorMessage]="isInvalid(field.key) ? errorMessage(field) : ''"
             [isInvalid]="isInvalid(field.key)"
+            [readonly]="!!field.readonly"
             [options]="field.options ?? []"
             [formControl]="control(field.key)"
           />
@@ -35,8 +43,10 @@
             [class.dynamic-form__textarea--invalid]="isInvalid(field.key)"
             [formControl]="control(field.key)"
             [placeholder]="field.placeholder ?? ''"
-            rows="4"
+            [rows]="field.rows ?? 4"
+            [style.max-height]="field.maxHeight ?? '12rem'"
             [attr.aria-invalid]="isInvalid(field.key)"
+            [attr.readonly]="field.readonly ? true : null"
           ></textarea>
           @if (field.helperText && !isInvalid(field.key)) {
             <p class="dynamic-form__hint">{{ field.helperText }}</p>
@@ -84,10 +94,11 @@
                 [id]="field.key"
                 type="file"
                 [attr.accept]="field.validators?.accept ?? 'image/*'"
+                [attr.multiple]="field.multiple ? true : null"
                 (change)="onFileSelected(field, $event)"
               />
             </div>
-          } @else if (field.existingFileUrl) {
+          } @else if (field.existingFileUrl || (field.existingFileUrls?.length ?? 0) > 0) {
             <div
               class="dynamic-form__file dynamic-form__file--filled"
               [class.dynamic-form__file--invalid]="isInvalid(field.key)"
@@ -95,17 +106,22 @@
               <div class="dynamic-form__file-preview">
                 <img
                   class="dynamic-form__file-thumb"
-                  [src]="field.existingFileUrl"
+                  [src]="field.existingFileUrl || field.existingFileUrls![0]"
                   [alt]="field.label"
                 />
                 <div class="dynamic-form__file-meta">
                   <a
                     class="dynamic-form__file-link"
-                    [href]="field.existingFileUrl"
+                    [href]="field.existingFileUrl || field.existingFileUrls![0]"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {{ field.existingFileLabel ?? 'View file' }}
+                    {{
+                      field.existingFileLabel ??
+                        (field.existingFileUrls && field.existingFileUrls.length > 1
+                          ? field.existingFileUrls.length + ' files'
+                          : 'View file')
+                    }}
                   </a>
                   <label class="dynamic-form__file-replace" [attr.for]="field.key">
                     {{ field.replaceLabel ?? 'Upload file' }}
@@ -117,6 +133,7 @@
                 [id]="field.key"
                 type="file"
                 [attr.accept]="field.validators?.accept ?? 'image/*'"
+                [attr.multiple]="field.multiple ? true : null"
                 (change)="onFileSelected(field, $event)"
               />
             </div>
@@ -130,11 +147,12 @@
                 [id]="field.key"
                 type="file"
                 [attr.accept]="field.validators?.accept ?? 'image/*'"
+                [attr.multiple]="field.multiple ? true : null"
                 [attr.aria-invalid]="isInvalid(field.key)"
                 (change)="onFileSelected(field, $event)"
               />
               <label class="dynamic-form__file-trigger" [attr.for]="field.key">
-                <span>{{ field.placeholder ?? 'Choose a file' }}</span>
+                <span>{{ field.placeholder ?? '' }}</span>
                 <span class="dynamic-form__file-upload">
                   <svg lucideUpload [size]="16" aria-hidden="true"></svg>
                   Upload file
