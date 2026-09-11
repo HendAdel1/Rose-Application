@@ -26,11 +26,11 @@ export class ProductTableService extends DataTableService<Product> {
     this.bindDataSignal(this.productService.products);
     this.bindLoadingSignal(this.productService.loading);
     this.setActions([
-      { label: 'Edit', icon: 'lucidePencil', styleClass: 'edit-btn' },
-      { label: 'Delete', icon: 'lucideTrash2', styleClass: 'delete-btn' },
+      { label: 'TABLE.ACTIONS.EDIT', action: 'Edit', icon: 'lucidePencil', styleClass: 'edit-btn' },
+      { label: 'TABLE.ACTIONS.DELETE', action: 'Delete', icon: 'lucideTrash2', styleClass: 'delete-btn' },
     ]);
     this.setActionHandler((event) => {
-      if (event.action === 'Delete') {
+      if (event.action === 'Delete' || event.action === 'TABLE.ACTIONS.DELETE') {
         this.productService.deleteProduct(event.row.id);
       }
     });
