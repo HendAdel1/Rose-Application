@@ -59,6 +59,8 @@ describe('TableData Component', () => {
         NO_RECORDS: 'No records found',
         ACTIONS: {
           OPTIONS: 'Options',
+          EDIT: 'Edit',
+          DELETE: 'Delete',
         },
       },
       Edit: 'Edit',

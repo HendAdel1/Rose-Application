@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { provideToastr } from 'ngx-toastr';
 import { Products } from './products';
 
 describe('Products Component', () => {
@@ -17,6 +18,7 @@ describe('Products Component', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
+        provideToastr(),
       ],
     }).compileComponents();
 
