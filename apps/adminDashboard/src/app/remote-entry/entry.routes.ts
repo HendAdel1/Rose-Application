@@ -7,6 +7,7 @@ import { Categories } from '../features/categories/categories';
 import { CategoryForm } from '../features/categories/category-form/category-form';
 import { Occasions } from '../features/occasions/occasions';
 import { Products } from '../features/products/products';
+import { ProductsForm } from '../features/products/products-form/products-form';
 
 export const remoteRoutes: Route[] = [
   {
@@ -33,6 +34,16 @@ export const remoteRoutes: Route[] = [
       },
       { path: 'categories', component: Categories, title: 'Categories - Rose Dashboard' },
       { path: 'occasions', component: Occasions, title: 'Occasions - Rose Dashboard' },
+      {
+        path: 'products/add',
+        component: ProductsForm,
+        title: 'Add Product - Rose Dashboard',
+      },
+      {
+        path: 'products/:id/edit',
+        component: ProductsForm,
+        title: 'Update Product - Rose Dashboard',
+      },
       { path: 'products', component: Products, title: 'Products - Rose Dashboard' },
     ],
   },
