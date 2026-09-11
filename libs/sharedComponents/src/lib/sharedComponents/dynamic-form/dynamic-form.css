@@ -4,285 +4,268 @@
 }
 
 .dynamic-form {
-  display: grid;
-  gap: 1.5rem;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 70%;
 }
 
 .dynamic-form__fields {
   display: grid;
-  gap: 1.25rem;
+  gap: 1.25rem 1.25rem;
   align-items: start;
+  width: 100%;
 }
 
 .dynamic-form__field {
-  display: grid;
-  gap: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
   min-width: 0;
 }
 
+/* ─── Textarea ─── */
 .dynamic-form__textarea {
   box-sizing: border-box;
   width: 100%;
-  min-height: 7rem;
-  max-height: 12rem;
-  resize: vertical;
-  border: 1px solid #d4d4d8;
-  border-radius: 10px;
   padding: 0.75rem 1rem;
-  background: #ffffff;
-  color: #27272a;
-  font: inherit;
+  border-radius: 0.5rem;
+  border: 1px solid #e4e4e7;
+  background-color: #ffffff;
+  color: #18181b;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  resize: vertical;
+  height: 8.5rem;
+  min-height: 7rem;
+  max-height: 10rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.dynamic-form__textarea:focus {
+.dynamic-form__textarea::placeholder {
+  color: #a1a1aa;
+}
+
+.dynamic-form__textarea:hover:not(:disabled):not([readonly]) {
+  border-color: #a1a1aa;
+}
+
+.dynamic-form__textarea:focus:not([readonly]) {
   outline: none;
   border-color: #a6252a;
+  box-shadow: 0 0 0 2px rgba(166, 37, 42, 0.1);
 }
 
 .dynamic-form__textarea--invalid {
-  border-color: #dc2626;
+  border-color: #dc2626 !important;
 }
 
-.dynamic-form__hint {
-  margin: 0;
-  font-size: 0.8rem;
-  color: #71717a;
-}
-
-.dynamic-form__error {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #dc2626;
-}
-
+/* ─── File Upload Box (Figma Spec) ─── */
 .dynamic-form__file {
   position: relative;
-  border: 1px solid #d4d4d8;
-  border-radius: 10px;
-  background: #ffffff;
-  min-height: 3.25rem;
-  overflow: hidden;
-}
-
-.dynamic-form__file--filled {
-  min-height: 4.5rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e4e4e7;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  transition: border-color 0.2s ease;
 }
 
 .dynamic-form__file--invalid {
-  border-color: #dc2626;
+  border-color: #dc2626 !important;
 }
 
 .dynamic-form__file-input {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  cursor: pointer;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  cursor: pointer;
   z-index: 2;
 }
 
-.dynamic-form__file-input--hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-  opacity: 0;
-}
-
 .dynamic-form__file-trigger {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  min-height: 3.25rem;
-  padding: 0.75rem 1rem;
-  color: #71717a;
+  color: #a1a1aa;
+  font-size: 0.875rem;
   cursor: pointer;
 }
 
 .dynamic-form__file-upload {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: normal;
-  color: var(--color-maroon-500, #cd2e33);
-  white-space: nowrap;
-  cursor: pointer;
+  gap: 0.5rem;
+  color: #cd2e33;
+  font-weight: 500;
+  font-size: 0.875rem;
 }
 
+.dynamic-form__file-upload svg {
+  color: #cd2e33;
+}
+
+/* Filled file view */
 .dynamic-form__file-preview {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  padding: 0.65rem 0.85rem;
-  position: relative;
-  z-index: 3;
-  min-height: 4.5rem;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.75rem;
+}
+
+.dynamic-form__file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  flex: 1;
 }
 
 .dynamic-form__file-thumb {
-  width: 3.5rem;
-  height: 3.5rem;
-  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
   object-fit: cover;
-  border-radius: 0.5rem;
+  border-radius: 0.375rem;
   border: 1px solid #e4e4e7;
-  background: #f4f4f5;
-  display: block;
-}
-
-.dynamic-form__file-fallback {
-  width: 3.5rem;
-  height: 3.5rem;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 0.5rem;
-  border: 1px solid #e4e4e7;
-  background: #f4f4f5;
-  color: #a1a1aa;
-}
-
-.dynamic-form__file-meta {
-  display: grid;
-  gap: 0.2rem;
-  flex: 1;
-  min-width: 0;
 }
 
 .dynamic-form__file-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #27272a;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #3f3f46;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.dynamic-form__file-replace {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: normal;
-  color: var(--color-maroon-500, #cd2e33);
-  cursor: pointer;
-  width: fit-content;
 }
 
 .dynamic-form__file-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: #2563eb;
-  font-weight: 500;
-  text-decoration: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.dynamic-form__file-link:hover {
+  font-size: 0.875rem;
+  color: #cd2e33;
   text-decoration: underline;
 }
 
 .dynamic-form__file-clear {
-  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
   background: transparent;
+  border: none;
   color: #71717a;
   cursor: pointer;
-  display: inline-flex;
-  padding: 0.25rem;
-  flex-shrink: 0;
+  border-radius: 0.25rem;
+  z-index: 3;
+  transition: color 0.15s ease;
 }
 
 .dynamic-form__file-clear:hover {
-  color: #a6252a;
+  color: #dc2626;
 }
 
+/* Error message */
+.dynamic-form__error {
+  font-size: 0.8125rem;
+  color: #dc2626;
+  font-weight: 400;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.dynamic-form__hint {
+  font-size: 0.8125rem;
+  color: #71717a;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* ─── Actions & Submit Button ─── */
 .dynamic-form__actions {
-  display: grid;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-}
-
-.dynamic-form__cancel {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  border: 1px solid #d4d4d8;
+  margin-top: 6rem;
+}
+
+.dynamic-form__submit-btn {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
   border-radius: 0.5rem;
-  background: transparent;
-  color: #3f3f46;
-  font: inherit;
+  border: none;
+  background-color: #a6252a;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.9375rem;
   font-weight: 600;
-  padding: 0.65rem 1rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
 }
 
-.dynamic-form__cancel:hover {
-  background: #f4f4f5;
+.dynamic-form__submit-btn:hover:not(:disabled) {
+  background-color: #8c1f23;
 }
 
-:host-context(html.dark) .dynamic-form__textarea,
-:host-context(html.dark) .dynamic-form__file {
-  background: #3f3f46;
-  border-color: #52525b;
+.dynamic-form__submit-btn:disabled,
+.dynamic-form__submit-btn--disabled {
+  background-color: #9ea3b0 !important;
+  color: #ffffff !important;
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+/* Dark mode support */
+:host-context(html.dark) .dynamic-form__textarea {
+  background-color: #3f3f46;
   color: #fafafa;
+  border-color: #52525b;
 }
 
-:host-context(html.dark) .dynamic-form__textarea:focus {
-  border-color: #ffa3b9;
+:host-context(html.dark) .dynamic-form__file {
+  background-color: #3f3f46;
+  border-color: #52525b;
 }
 
-:host-context(html.dark) .dynamic-form__hint,
 :host-context(html.dark) .dynamic-form__file-trigger {
   color: #a1a1aa;
 }
 
-:host-context(html.dark) .dynamic-form__error {
-  color: #f87171;
-}
-
-:host-context(html.dark) .dynamic-form__file-upload,
-:host-context(html.dark) .dynamic-form__file-replace {
-  color: var(--color-soft-pink-300, #ffaab9);
-}
-
-:host-context(html.dark) .dynamic-form__file-thumb,
-:host-context(html.dark) .dynamic-form__file-fallback {
-  border-color: #52525b;
-  background: #52525b;
+:host-context(html.dark) .dynamic-form__file-upload {
+  color: #ff9da1;
 }
 
 :host-context(html.dark) .dynamic-form__file-name {
-  color: #f4f4f5;
+  color: #fafafa;
 }
 
-:host-context(html.dark) .dynamic-form__file-link {
-  color: #93c5fd;
-}
-
-:host-context(html.dark) .dynamic-form__cancel {
-  border-color: #52525b;
-  color: #f4f4f5;
-}
-
-:host-context(html.dark) .dynamic-form__cancel:hover {
-  background: #52525b;
+:host-context(html.dark) .dynamic-form__submit-btn:disabled,
+:host-context(html.dark) .dynamic-form__submit-btn--disabled {
+  background-color: #64748b !important;
+  color: #cbd5e1 !important;
 }
 
 @media (max-width: 768px) {
   .dynamic-form__field {
     grid-column: 1 / -1 !important;
+  }
+  .dynamic-form {
+    width: 100%;
   }
 }
