@@ -123,5 +123,22 @@
       "RATINGS": "Ratings",
       "ACTIONS": "Actions"
     }
+  },
+  "ERROR_PAGES": {
+    "BACK_TO_DASHBOARD": "Back to Dashboard",
+    "CONTACT_SUPPORT": "Contact Support",
+    "TRY_AGAIN": "Try Again",
+    "UNAUTHORIZED": {
+      "TITLE": "Access restricted",
+      "DESCRIPTION": "You do not have permission to access this page. Please contact your administrator if you think this is a mistake."
+    },
+    "NOT_FOUND": {
+      "TITLE": "This page does not exist",
+      "DESCRIPTION": "The page you are looking for might have been removed or is temporarily unavailable."
+    },
+    "SERVER_ERROR": {
+      "TITLE": "Oops, something went wrong!",
+      "DESCRIPTION": "Our servers encountered a temporary issue. Please try refreshing or check back in a moment."
+    }
   }
 }
