@@ -19,6 +19,7 @@ import {
   LucideMoreVertical,
   LucidePackage,
   LucidePencil,
+  LucideRotateCcw,
   LucideTrash2,
 } from '@lucide/angular';
 import { Column } from '../../models/table-column.model';
@@ -47,6 +48,7 @@ export interface ActiveRowContext<T> {
     TranslatePipe,
     LucidePackage,
     LucidePencil,
+    LucideRotateCcw,
     LucideTrash2,
     LucideArrowUpDown,
     LucideArrowUp,
@@ -91,9 +93,9 @@ export class TableData<T extends Record<string, unknown> = Record<string, unknow
   /** Optional custom table style input */
   tableStyle = input<Record<string, string>>();
 
-  /** Computes effective table style, allowing CSS media queries when not explicitly overridden */
-  readonly effectiveTableStyle = computed<Record<string, string> | undefined>(() => {
-    return this.tableStyle();
+  /** Computes effective table style — always enforces fixed layout so columns respect declared widths */
+  readonly effectiveTableStyle = computed<Record<string, string>>(() => {
+    return { 'table-layout': 'fixed', ...(this.tableStyle() ?? {}) };
   });
 
   /** Emitted when any action button is clicked */
@@ -339,6 +341,57 @@ export class TableData<T extends Record<string, unknown> = Record<string, unknow
     this.activeRowContext.set(null);
   }
 
+  /**
+   * Resolves the translation key for an action button label.
+   * Shorthand labels ('Edit', 'Delete', 'Restore') are mapped to standard keys
+   * if full keys are not supplied.
+   */
+  resolveActionLabel(action: TableAction<T>): string {
+    if (!action?.label) {
+      return '';
+    }
+    if (action.label === 'Edit') {
+      return 'TABLE.ACTIONS.EDIT';
+    }
+    if (action.label === 'Delete') {
+      return 'TABLE.ACTIONS.DELETE';
+    }
+    if (action.label === 'Restore') {
+      return 'TABLE.ACTIONS.RESTORE';
+    }
+    return action.label;
+  }
+
+  isEditAction(action: TableAction<T>): boolean {
+    return (
+      action.label === 'Edit' ||
+      action.label === 'TABLE.ACTIONS.EDIT' ||
+      action.action === 'Edit' ||
+      action.icon === 'lucidePencil' ||
+      action.styleClass?.includes('edit-btn') === true
+    );
+  }
+
+  isDeleteAction(action: TableAction<T>): boolean {
+    return (
+      action.label === 'Delete' ||
+      action.label === 'TABLE.ACTIONS.DELETE' ||
+      action.action === 'Delete' ||
+      action.icon === 'lucideTrash2' ||
+      action.styleClass?.includes('delete-btn') === true
+    );
+  }
+
+  isRestoreAction(action: TableAction<T>): boolean {
+    return (
+      action.label === 'Restore' ||
+      action.label === 'TABLE.ACTIONS.RESTORE' ||
+      action.action === 'Restore' ||
+      action.icon === 'lucideRotateCcw' ||
+      action.styleClass?.includes('restore-btn') === true
+    );
+  }
+
   onMobileActionClick(action: TableAction<T>, row: T, rowIndex: number, popover: Popover): void {
     popover.hide();
     this.activeRowContext.set(null);
@@ -346,7 +399,16 @@ export class TableData<T extends Record<string, unknown> = Record<string, unknow
   }
 
   onActionClick(action: TableAction<T>, row: T, rowIndex: number): void {
-    const event: TableActionEvent<T> = { action: action.label, row, rowIndex };
+    const actionKey =
+      action.action ??
+      (action.label === 'TABLE.ACTIONS.EDIT'
+        ? 'Edit'
+        : action.label === 'TABLE.ACTIONS.DELETE'
+        ? 'Delete'
+        : action.label === 'TABLE.ACTIONS.RESTORE'
+        ? 'Restore'
+        : action.label);
+    const event: TableActionEvent<T> = { action: actionKey, row, rowIndex };
     this.actionClicked.emit(event);
     this.dataTableService?.handleAction(event);
   }

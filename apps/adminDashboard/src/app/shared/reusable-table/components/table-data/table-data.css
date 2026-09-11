@@ -44,6 +44,7 @@
 :host ::ng-deep .p-datatable-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 /* Eliminate transitions during theme switch so table switches instantly with the page */
@@ -386,6 +387,12 @@
   color: #dc2626;
 }
 
+/* Restore button variant */
+.restore-btn {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
 /* Dark mode action button variants */
 :host-context(.dark) .edit-btn,
 :host-context(html.dark) .edit-btn,
@@ -399,6 +406,13 @@
 :host-context(html:has(#theme-dark:checked)) .delete-btn {
   background-color: rgba(220, 38, 38, 0.18);
   color: #f87171;
+}
+
+:host-context(.dark) .restore-btn,
+:host-context(html.dark) .restore-btn,
+:host-context(html:has(#theme-dark:checked)) .restore-btn {
+  background-color: rgba(22, 163, 74, 0.18);
+  color: #4ade80;
 }
 
 /* Empty state styling */
