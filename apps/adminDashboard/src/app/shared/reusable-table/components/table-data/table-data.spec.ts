@@ -206,4 +206,53 @@ describe('TableData Component', () => {
     expect(component.effectiveData().length).toBe(2);
     expect(component.effectiveActions().length).toBe(2);
   });
+
+  it('should trim text longer than 20 characters and configure tooltip', async () => {
+    const longNameItem: TestItem = {
+      id: '99',
+      name: 'Super Long Product Name That Exceeds Limit',
+      price: 100,
+      description: 'Test description',
+    };
+
+    fixture.componentRef.setInput('columns', mockColumns);
+    fixture.componentRef.setInput('data', [longNameItem]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const nameCol = mockColumns[0];
+    const fullText = longNameItem.name;
+    expect(fullText.length).toBeGreaterThan(20);
+
+    // formatCellText should trim to 20 chars + '...'
+    const trimmedText = component.formatCellText(longNameItem, nameCol);
+    expect(trimmedText).toBe(`${fullText.slice(0, 20)}...`);
+    expect(trimmedText.length).toBe(23);
+
+    // isTrimmed should be true
+    expect(component.isTrimmed(longNameItem, nameCol)).toBe(true);
+
+    // getTooltip should return full untrimmed text
+    expect(component.getTooltip(longNameItem, nameCol)).toBe(fullText);
+
+    // DOM should render trimmed text
+    const compiled = fixture.nativeElement as HTMLElement;
+    const firstCell = compiled.querySelector('tbody tr td span');
+    expect(firstCell?.textContent?.trim()).toBe(`${fullText.slice(0, 20)}...`);
+  });
+
+  it('should NOT trim text with 20 or fewer characters and disable tooltip', () => {
+    const shortItem: TestItem = {
+      id: '1',
+      name: 'Exactly 20 chars____',
+      price: 10,
+      description: 'Short',
+    };
+    expect(shortItem.name.length).toBe(20);
+
+    const nameCol = mockColumns[0];
+    expect(component.formatCellText(shortItem, nameCol)).toBe('Exactly 20 chars____');
+    expect(component.isTrimmed(shortItem, nameCol)).toBe(false);
+    expect(component.getTooltip(shortItem, nameCol)).toBeUndefined();
+  });
 });

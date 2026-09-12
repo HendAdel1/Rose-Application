@@ -10,6 +10,7 @@ import {
 import { NgStyle } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { Popover } from 'primeng/popover';
+import { Tooltip } from 'primeng/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   LucideArrowDown,
@@ -44,6 +45,7 @@ export interface ActiveRowContext<T> {
   imports: [
     TableModule,
     Popover,
+    Tooltip,
     NgStyle,
     TranslatePipe,
     LucidePackage,
@@ -302,6 +304,24 @@ export class TableData<T extends Record<string, unknown> = Record<string, unknow
       default:
         return this.formatValue(row[key]);
     }
+  }
+
+  formatCellText(row: T, col: Column<T>): string {
+    const val = this.resolveCellValue(row, col);
+    if (val && val.length > 20) {
+      return `${val.slice(0, 20)}...`;
+    }
+    return val;
+  }
+
+  isTrimmed(row: T, col: Column<T>): boolean {
+    const val = this.resolveCellValue(row, col);
+    return Boolean(val && val.length > 20);
+  }
+
+  getTooltip(row: T, col: Column<T>): string | undefined {
+    const val = this.resolveCellValue(row, col);
+    return val && val.length > 20 ? val : undefined;
   }
 
   resolveCellStyle(row: T, col: Column<T>): Record<string, string> {

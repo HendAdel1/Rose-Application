@@ -71,13 +71,21 @@
           [class.actions-td]="col.type === 'actions'">
           @switch (col.type) {
             @case ('text') {
-              <span [ngStyle]="resolveCellStyle(row, col)">
-                {{ resolveCellValue(row, col) }}
+              <span
+                [ngStyle]="resolveCellStyle(row, col)"
+                [pTooltip]="getTooltip(row, col)"
+                [tooltipDisabled]="!isTrimmed(row, col)"
+                tooltipPosition="top">
+                {{ formatCellText(row, col) }}
               </span>
             }
             @case ('formatted') {
-              <span [ngStyle]="resolveCellStyle(row, col)">
-                {{ resolveCellValue(row, col) }}
+              <span
+                [ngStyle]="resolveCellStyle(row, col)"
+                [pTooltip]="getTooltip(row, col)"
+                [tooltipDisabled]="!isTrimmed(row, col)"
+                tooltipPosition="top">
+                {{ formatCellText(row, col) }}
               </span>
             }
             @case ('composite') {
@@ -119,8 +127,12 @@
               </div>
             }
             @default {
-              <span [ngStyle]="resolveCellStyle(row, col)">
-                {{ resolveCellValue(row, col) }}
+              <span
+                [ngStyle]="resolveCellStyle(row, col)"
+                [pTooltip]="getTooltip(row, col)"
+                [tooltipDisabled]="!isTrimmed(row, col)"
+                tooltipPosition="top">
+                {{ formatCellText(row, col) }}
               </span>
             }
           }
