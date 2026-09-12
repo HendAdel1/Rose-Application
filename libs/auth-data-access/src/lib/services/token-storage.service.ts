@@ -80,7 +80,22 @@ export class TokenStorageService {
       .split('; ')
       .find((item) => item.startsWith(prefix));
 
-    return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : null;
+    if (cookie) {
+      return decodeURIComponent(cookie.slice(prefix.length));
+    }
+
+    try {
+      if (typeof localStorage !== 'undefined') {
+        return (
+          localStorage.getItem(key) ??
+          (key === this.keys.token ? localStorage.getItem('token') ?? localStorage.getItem('userToken') : null)
+        );
+      }
+    } catch {
+      // ignore
+    }
+
+    return null;
   }
 
   private setItem(key: string, value: string): void {
@@ -88,10 +103,33 @@ export class TokenStorageService {
     this.document.cookie =
       `${encodeURIComponent(key)}=${encodeURIComponent(value)}; ` +
       `Max-Age=${maxAge}; Path=/; SameSite=Lax`;
+
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(key, value);
+        if (key === this.keys.token) {
+          localStorage.setItem('token', value);
+        }
+      }
+    } catch {
+      // ignore
+    }
   }
 
   private removeItem(key: string): void {
     this.document.cookie =
       `${encodeURIComponent(key)}=; Max-Age=0; Path=/; SameSite=Lax`;
+
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem(key);
+        if (key === this.keys.token) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('userToken');
+        }
+      }
+    } catch {
+      // ignore
+    }
   }
 }

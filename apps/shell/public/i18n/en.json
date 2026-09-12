@@ -271,19 +271,17 @@
     "TITLE": "Real Words from Happy Customers"
   },
   "PRODUCTS": {
-    "LOADING": "Loading products...",
-    "EMPTY": "No products found.",
-    "PAGINATION": "Products pagination",
-    "FILTERS_ARIA": "Product filters",
-    "RATING": "Rating {{rating}}",
-    "BADGES": {
-      "NEW": "New",
-      "OUT_OF_STOCK": "Out of stock"
-    },
-    "ACTIONS": {
-      "ADD_TO_WISHLIST": "Add to wishlist",
-      "VIEW_PRODUCT": "View product",
-      "QUICK_ADD_TO_CART": "Quick add to cart"
+    "TITLE": "All Products",
+    "ADD_PRODUCT": "Add a new product",
+    "COLUMNS": {
+      "NAME": "Name",
+      "PRODUCT": "Product",
+      "PRODUCTS": "Products",
+      "PRICE": "Price",
+      "STOCK": "Stock",
+      "SALES": "Sales",
+      "RATINGS": "Ratings",
+      "ACTIONS": "Actions"
     }
   },
   "PRODUCT_DETAILS": {
@@ -573,6 +571,53 @@
     "ADD_OCCASION": "Add Occasion",
     "ADD_PRODUCT": "Add Product"
   },
+  "DASHBOARDOCCASIONS": {
+    "TITLE": "All Occasions",
+    "ADD_OCCASION": "Add Occasion",
+    "ADD_NEW_OCCASION": "Add a new occasion",
+    "ADD_NEW_OCCASION_TITLE": "Add a New Occasion",
+    "UPDATE_OCCASION_PREFIX": "Update Occasion",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "COL_NAME": "Name",
+    "COL_PRODUCTS": "Products",
+    "COL_ACTIONS": "Actions",
+    "PRODUCTS_UNIT": "products",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "NAME_LABEL": "Name",
+    "NAME_PLACEHOLDER": "Enter occasion name",
+    "NAME_REQUIRED": "Occasion name is required (min 2 characters)",
+    "IMAGE_LABEL": "Occasion image",
+    "IMAGE_PLACEHOLDER": "No image selected",
+    "UPLOAD_FILE": "Upload file",
+    "REMOVE_IMAGE": "Remove image",
+    "IMAGE_REQUIRED": "Occasion image is required",
+    "INVALID_IMAGE_TYPE": "Please select a valid image file",
+    "IMAGE_TOO_LARGE": "Image size must be less than 5MB",
+    "VIEW_OCCASION_IMAGE": "View occasion image",
+    "CHANGE_IMAGE": "Change image",
+    "IMAGE_PREVIEW_TITLE": "Occasion Image Preview",
+    "NO_IMAGE_AVAILABLE": "No image available",
+    "CLOSE": "Close",
+    "SUBMIT_ADD": "Add Occasion",
+    "SUBMIT_UPDATE": "Update Occasion",
+    "SAVING": "Saving...",
+    "LOADING_DETAILS": "Loading occasion details...",
+    "NO_OCCASIONS_FOUND": "No occasions found",
+    "TRY_DIFFERENT_SEARCH": "Try adjusting your search query.",
+    "DELETE_TITLE": "Delete Occasion",
+    "DELETE_CONFIRMATION": "Are you sure you want to delete this occasion",
+    "CANCEL": "Cancel",
+    "CONFIRM_DELETE": "Delete",
+    "DELETING": "Deleting...",
+    "CREATE_SUCCESS": "Occasion created successfully!",
+    "CREATE_ERROR": "Failed to create occasion.",
+    "UPDATE_SUCCESS": "Occasion updated successfully!",
+    "UPDATE_ERROR": "Failed to update occasion.",
+    "DELETE_SUCCESS": "Occasion deleted successfully!",
+    "DELETE_ERROR": "Failed to delete occasion.",
+    "FETCH_ERROR": "Failed to load occasions."
+  },
   "ADMIN_CATEGORIES": {
     "ADD_NEW": "Add a new category",
     "ADD_TITLE": "Add a New Category",
@@ -600,6 +645,34 @@
     "DELETE_ERROR": "Unable to delete category.",
     "LOAD_ERROR": "Unable to load category."
   },
+  "ADMIN_OCCASIONS": {
+    "ADD_NEW": "Add a new occasion",
+    "ADD_TITLE": "Add a New Occasion",
+    "UPDATE_TITLE": "Update Occasion: {{name}}",
+    "ADD_BREADCRUMB": "Add Occasion",
+    "UPDATE_BREADCRUMB": "Update Occasion",
+    "NAME_LABEL": "Name",
+    "NAME_PLACEHOLDER": "Enter occasion name",
+    "NAME_REQUIRED": "Occasion name is required",
+    "IMAGE_LABEL": "Occasion Image",
+    "IMAGE_LABEL_OPTIONAL": "Occasion Image",
+    "IMAGE_PLACEHOLDER": "Choose an image",
+    "IMAGE_REQUIRED": "Occasion image is required",
+    "VIEW_IMAGE": "View occasion image",
+    "REPLACE_IMAGE": "Upload file",
+    "ADD_SUBMIT": "Add Occasion",
+    "UPDATE_SUBMIT": "Update Occasion",
+    "CANCEL": "Cancel",
+    "LOADING": "Loading occasion...",
+    "CREATE_SUCCESS": "Occasion created successfully.",
+    "CREATE_ERROR": "Unable to create occasion.",
+    "UPDATE_SUCCESS": "Occasion updated successfully.",
+    "UPDATE_ERROR": "Unable to update occasion.",
+    "DELETE_SUCCESS": "Occasion deleted successfully.",
+    "DELETE_ERROR": "Unable to delete occasion.",
+    "LOAD_ERROR": "Unable to load occasion."
+  },
+
   "DASHBOARDOVERVIEW": {
     "TITLE": "Dashboard Overview",
     "TOTAL_PRODUCTS": "Total products",
@@ -657,18 +730,38 @@
       "ITEM": "item"
     }
   },
-  "PRODUCTS": {
-    "TITLE": "All Products",
-    "ADD_PRODUCT": "Add a new product",
-    "COLUMNS": {
-      "NAME": "Name",
-      "PRODUCT": "Product",
-      "PRODUCTS": "Products",
-      "PRICE": "Price",
-      "STOCK": "Stock",
-      "SALES": "Sales",
-      "RATINGS": "Ratings",
-      "ACTIONS": "Actions"
+  "ERROR_PAGES": {
+    "BACK_TO_DASHBOARD": "Back to Dashboard",
+    "CONTACT_SUPPORT": "Contact Support",
+    "TRY_AGAIN": "Try Again",
+    "UNAUTHORIZED": {
+      "TITLE": "Access restricted",
+      "DESCRIPTION": "You do not have permission to access this page. Please contact your administrator if you think this is a mistake."
+    },
+    "NOT_FOUND": {
+      "TITLE": "This page does not exist",
+      "DESCRIPTION": "The page you are looking for might have been removed or is temporarily unavailable."
+    },
+    "SERVER_ERROR": {
+      "TITLE": "Oops, something went wrong!",
+      "DESCRIPTION": "Our servers encountered a temporary issue. Please try refreshing or check back in a moment."
+    }
+  },
+  "ERROR_PAGES": {
+    "BACK_TO_DASHBOARD": "Back to Dashboard",
+    "CONTACT_SUPPORT": "Contact Support",
+    "TRY_AGAIN": "Try Again",
+    "UNAUTHORIZED": {
+      "TITLE": "Access restricted",
+      "DESCRIPTION": "You do not have permission to access this page. Please contact your administrator if you think this is a mistake."
+    },
+    "NOT_FOUND": {
+      "TITLE": "This page does not exist",
+      "DESCRIPTION": "The page you are looking for might have been removed or is temporarily unavailable."
+    },
+    "SERVER_ERROR": {
+      "TITLE": "Oops, something went wrong!",
+      "DESCRIPTION": "Our servers encountered a temporary issue. Please try refreshing or check back in a moment."
     }
   },
   "ADMIN_PRODUCTS": {

@@ -90,13 +90,13 @@ export class CategoriesService {
   createCategory(payload: CreateCategoryPayload): Observable<CategoryDto> {
     return this.http
       .post<ApiResponse<CategoryDto | { category?: CategoryDto }>>(this.baseUrl, payload)
-      .pipe(map((response) => this.unwrapCategory(response.payload)));
+      .pipe(map((response) => this.unwrapCategory(response)));
   }
 
   updateCategory(id: string, payload: UpdateCategoryPayload): Observable<CategoryDto> {
     return this.http
       .patch<ApiResponse<CategoryDto | { category?: CategoryDto }>>(`${this.baseUrl}/${id}`, payload)
-      .pipe(map((response) => this.unwrapCategory(response.payload)));
+      .pipe(map((response) => this.unwrapCategory(response)));
   }
 
   deleteCategory(id: string): Observable<void> {
@@ -113,9 +113,9 @@ export class CategoriesService {
     const formData = new FormData();
     formData.append('image', file);
 
-    return this.http.post<ApiResponse<UploadPayload>>(this.uploadUrl, formData).pipe(
+    return this.http.post<ApiResponse<UploadPayload> & { url?: string }>(this.uploadUrl, formData).pipe(
       map((response) => {
-        const url = response.payload?.url;
+        const url = response?.payload?.url ?? response?.url ?? (response as { data?: { url?: string } })?.data?.url;
         if (!url) {
           throw new Error('Upload failed');
         }
@@ -166,13 +166,21 @@ export class CategoriesService {
     );
   }
 
-  private unwrapCategory(payload?: CategoryDto | { category?: CategoryDto }): CategoryDto {
-    if (!payload) {
+  private unwrapCategory(response?: unknown): CategoryDto {
+    if (!response) {
       throw new Error('Empty category response');
     }
-    if ('category' in payload && payload.category) {
-      return payload.category;
+    const res = response as { payload?: CategoryDto | { category?: CategoryDto; data?: CategoryDto }; category?: CategoryDto; data?: CategoryDto };
+    const target = res.payload ?? res;
+    if (target && typeof target === 'object') {
+      if ('category' in target && target.category) {
+        return target.category;
+      }
+      if ('data' in target && target.data) {
+        return target.data;
+      }
+      return target as CategoryDto;
     }
-    return payload as CategoryDto;
+    return res as CategoryDto;
   }
 }

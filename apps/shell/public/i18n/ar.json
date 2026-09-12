@@ -271,19 +271,17 @@
     "TITLE": "كلمات حقيقية من عملاء سعداء"
   },
   "PRODUCTS": {
-    "LOADING": "جاري تحميل المنتجات...",
-    "EMPTY": "لا توجد منتجات.",
-    "PAGINATION": "ترقيم صفحات المنتجات",
-    "FILTERS_ARIA": "فلاتر المنتجات",
-    "RATING": "التقييم {{rating}}",
-    "BADGES": {
-      "NEW": "جديد",
-      "OUT_OF_STOCK": "غير متوفر"
-    },
-    "ACTIONS": {
-      "ADD_TO_WISHLIST": "أضف إلى المفضلة",
-      "VIEW_PRODUCT": "عرض المنتج",
-      "QUICK_ADD_TO_CART": "إضافة سريعة إلى السلة"
+    "TITLE": "جميع المنتجات",
+    "ADD_PRODUCT": "إضافة منتج جديد",
+    "COLUMNS": {
+      "NAME": "الاسم",
+      "PRODUCT": "المنتج",
+      "PRODUCTS": "المنتجات",
+      "PRICE": "السعر",
+      "STOCK": "المخزون",
+      "SALES": "المبيعات",
+      "RATINGS": "التقييمات",
+      "ACTIONS": "الإجراءات"
     }
   },
   "PRODUCT_DETAILS": {
@@ -573,6 +571,53 @@
     "ADD_OCCASION": "إضافة مناسبة",
     "ADD_PRODUCT": "إضافة منتج"
   },
+  "DASHBOARDOCCASIONS": {
+    "TITLE": "جميع المناسبات",
+    "ADD_OCCASION": "إضافة مناسبة",
+    "ADD_NEW_OCCASION": "إضافة مناسبة جديدة",
+    "ADD_NEW_OCCASION_TITLE": "إضافة مناسبة جديدة",
+    "UPDATE_OCCASION_PREFIX": "تعديل مناسبة",
+    "SEARCH_PLACEHOLDER": "بحث...",
+    "COL_NAME": "الاسم",
+    "COL_PRODUCTS": "المنتجات",
+    "COL_ACTIONS": "الإجراءات",
+    "PRODUCTS_UNIT": "منتجات",
+    "EDIT": "تعديل",
+    "DELETE": "حذف",
+    "NAME_LABEL": "الاسم",
+    "NAME_PLACEHOLDER": "أدخل اسم المناسبة",
+    "NAME_REQUIRED": "اسم المناسبة مطلوب (حرفين على الأقل)",
+    "IMAGE_LABEL": "صورة المناسبة",
+    "IMAGE_PLACEHOLDER": "لم يتم اختيار صورة",
+    "UPLOAD_FILE": "رفع ملف",
+    "REMOVE_IMAGE": "إزالة الصورة",
+    "IMAGE_REQUIRED": "صورة المناسبة مطلوبة",
+    "INVALID_IMAGE_TYPE": "يرجى اختيار ملف صورة صالح",
+    "IMAGE_TOO_LARGE": "حجم الصورة يجب ألا يتجاوز 5 ميجابايت",
+    "VIEW_OCCASION_IMAGE": "عرض صورة المناسبة",
+    "CHANGE_IMAGE": "تغيير الصورة",
+    "IMAGE_PREVIEW_TITLE": "معاينة صورة المناسبة",
+    "NO_IMAGE_AVAILABLE": "لا توجد صورة متاحة",
+    "CLOSE": "إغلاق",
+    "SUBMIT_ADD": "إضافة المناسبة",
+    "SUBMIT_UPDATE": "تحديث المناسبة",
+    "SAVING": "جاري الحفظ...",
+    "LOADING_DETAILS": "جاري تحميل تفاصيل المناسبة...",
+    "NO_OCCASIONS_FOUND": "لم يتم العثور على أي مناسبات",
+    "TRY_DIFFERENT_SEARCH": "جرب البحث بكلمات أخرى.",
+    "DELETE_TITLE": "حذف المناسبة",
+    "DELETE_CONFIRMATION": "هل أنت متأكد من رغبتك في حذف المناسبة",
+    "CANCEL": "إلغاء",
+    "CONFIRM_DELETE": "حذف",
+    "DELETING": "جاري الحذف...",
+    "CREATE_SUCCESS": "تمت إضافة المناسبة بنجاح!",
+    "CREATE_ERROR": "فشل إنشاء المناسبة.",
+    "UPDATE_SUCCESS": "تم تحديث المناسبة بنجاح!",
+    "UPDATE_ERROR": "فشل تحديث المناسبة.",
+    "DELETE_SUCCESS": "تم حذف المناسبة بنجاح!",
+    "DELETE_ERROR": "فشل حذف المناسبة.",
+    "FETCH_ERROR": "فشل تحميل قائمة المناسبات."
+  },
   "ADMIN_CATEGORIES": {
     "ADD_NEW": "إضافة فئة جديدة",
     "ADD_TITLE": "إضافة فئة جديدة",
@@ -600,6 +645,34 @@
     "DELETE_ERROR": "تعذر حذف الفئة.",
     "LOAD_ERROR": "تعذر تحميل الفئة."
   },
+  "ADMIN_OCCASIONS": {
+    "ADD_NEW": "إضافة مناسبة جديدة",
+    "ADD_TITLE": "إضافة مناسبة جديدة",
+    "UPDATE_TITLE": "تحديث المناسبة: {{name}}",
+    "ADD_BREADCRUMB": "إضافة مناسبة",
+    "UPDATE_BREADCRUMB": "تحديث المناسبة",
+    "NAME_LABEL": "الاسم",
+    "NAME_PLACEHOLDER": "أدخل اسم المناسبة",
+    "NAME_REQUIRED": "اسم المناسبة مطلوب",
+    "IMAGE_LABEL": "صورة المناسبة",
+    "IMAGE_LABEL_OPTIONAL": "صورة المناسبة",
+    "IMAGE_PLACEHOLDER": "اختر صورة",
+    "IMAGE_REQUIRED": "صورة المناسبة مطلوبة",
+    "VIEW_IMAGE": "عرض صورة المناسبة",
+    "REPLACE_IMAGE": "رفع ملف",
+    "ADD_SUBMIT": "إضافة المناسبة",
+    "UPDATE_SUBMIT": "تحديث المناسبة",
+    "CANCEL": "إلغاء",
+    "LOADING": "جاري تحميل المناسبة...",
+    "CREATE_SUCCESS": "تم إنشاء المناسبة بنجاح.",
+    "CREATE_ERROR": "تعذر إنشاء المناسبة.",
+    "UPDATE_SUCCESS": "تم تحديث المناسبة بنجاح.",
+    "UPDATE_ERROR": "تعذر تحديث المناسبة.",
+    "DELETE_SUCCESS": "تم حذف المناسبة بنجاح.",
+    "DELETE_ERROR": "تعذر حذف المناسبة.",
+    "LOAD_ERROR": "تعذر تحميل المناسبة."
+  },
+
   "DASHBOARDOVERVIEW": {
     "TITLE": "لوحة التحكم الرئيسية",
     "TOTAL_PRODUCTS": "إجمالي المنتجات",
@@ -657,18 +730,38 @@
       "ITEM": "عنصر"
     }
   },
-  "PRODUCTS": {
-    "TITLE": "جميع المنتجات",
-    "ADD_PRODUCT": "إضافة منتج جديد",
-    "COLUMNS": {
-      "NAME": "الاسم",
-      "PRODUCT": "المنتج",
-      "PRODUCTS": "المنتجات",
-      "PRICE": "السعر",
-      "STOCK": "المخزون",
-      "SALES": "المبيعات",
-      "RATINGS": "التقييمات",
-      "ACTIONS": "الإجراءات"
+  "ERROR_PAGES": {
+    "BACK_TO_DASHBOARD": "العودة للوحة التحكم",
+    "CONTACT_SUPPORT": "تواصل مع الدعم",
+    "TRY_AGAIN": "إعادة المحاولة",
+    "UNAUTHORIZED": {
+      "TITLE": "الوصول غير مصرح به",
+      "DESCRIPTION": "ليس لديك الإذن الكافي للوصول إلى هذه الصفحة. يرجى التواصل مع مسؤول النظام إذا كنت تعتقد أن هناك خطأ."
+    },
+    "NOT_FOUND": {
+      "TITLE": "هذه الصفحة غير موجودة",
+      "DESCRIPTION": "الصفحة التي تبحث عنها قد تكون تم نقلها أو غير متوفرة حالياً."
+    },
+    "SERVER_ERROR": {
+      "TITLE": "عفواً، حدث خطأ ما!",
+      "DESCRIPTION": "حدث خطأ غير متوقع في الخادم. يرجى إعادة المحاولة أو العودة لاحقاً."
+    }
+  },
+  "ERROR_PAGES": {
+    "BACK_TO_DASHBOARD": "العودة للوحة التحكم",
+    "CONTACT_SUPPORT": "تواصل مع الدعم",
+    "TRY_AGAIN": "إعادة المحاولة",
+    "UNAUTHORIZED": {
+      "TITLE": "تم تقييد الوصول",
+      "DESCRIPTION": "ليس لديك الصلاحية للوصول إلى هذه الصفحة. يرجى التواصل مع المسؤول إذا كنت تعتقد أن هذا خطأ."
+    },
+    "NOT_FOUND": {
+      "TITLE": "هذه الصفحة غير موجودة",
+      "DESCRIPTION": "الصفحة التي تبحث عنها ربما تم حذفها أو أنها غير متاحة حالياً."
+    },
+    "SERVER_ERROR": {
+      "TITLE": "عفواً، حدث خطأ ما!",
+      "DESCRIPTION": "واجهت خوادمنا مشكلة مؤقتة. يرجى إعادة التحديث أو المحاولة بعد قليل."
     }
   },
   "ADMIN_PRODUCTS": {

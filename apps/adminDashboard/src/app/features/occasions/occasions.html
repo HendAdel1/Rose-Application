@@ -1,3 +1,24 @@
-<section class="min-h-[200px]" aria-label="Dashboard Occasions">
-  <!-- Occasions content will be implemented in the Occasions task -->
+<section
+  class="occasions-section min-h-50"
+  [attr.aria-label]="'DASHBOARD.OCCASIONS' | translate"
+>
+  <app-reusable-table>
+    <app-table-header
+      title="DASHBOARD.ALL_OCCASIONS"
+      actionLabel="ADMIN_OCCASIONS.ADD_NEW"
+      (actionClick)="onAddOccasion()"
+    />
+  </app-reusable-table>
+
+  <lib-confirm-dialog
+    [open]="isDeleteOpen()"
+    [message]="deleteMessage()"
+    [confirmLabel]="'CONFIRM_DIALOG.CONFIRM' | translate"
+    [cancelLabel]="'CONFIRM_DIALOG.CANCEL' | translate"
+    [closeAriaLabel]="'CONFIRM_DIALOG.CLOSE' | translate"
+    [dialogAriaLabel]="'CONFIRM_DIALOG.ARIA_LABEL' | translate"
+    [loading]="deleting()"
+    (confirmed)="confirmDelete()"
+    (cancelled)="closeDeleteDialog()"
+  />
 </section>

@@ -1,17 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Overview } from './overview';
-import { Admin } from '../../core/services/admin/admin.service';
-import { of, throwError } from 'rxjs';
 import {
   Component,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter,
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
+import { of, throwError } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Admin } from '../../core/services/admin/admin.service';
+import { Overview } from './overview';
 
 @Pipe({ name: 'translate', standalone: true })
 class MockTranslatePipe implements PipeTransform {
@@ -55,7 +55,7 @@ describe('Overview Component', () => {
       inProgress: { count: 10, percent: 20 },
       canceled: { count: 5, percent: 10 },
     },
-    revenue: { period: 'monthly', points: [] },
+    revenue: { period: 'monthly', points: [{ label: 'Jan', revenue: 1000 }] },
     topSellingProducts: [
       { productId: 'p1', title: 'Red Roses', unitPrice: 100, totalSales: 50 },
     ],
@@ -75,7 +75,7 @@ describe('Overview Component', () => {
         MockRevenueChart,
       ],
       providers: [
-        provideTranslateService(),
+        provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
         { provide: Admin, useValue: adminServiceMock },
       ],
     }).compileComponents();

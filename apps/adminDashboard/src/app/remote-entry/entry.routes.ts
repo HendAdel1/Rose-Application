@@ -6,6 +6,7 @@ import { Overview } from '../features/overview/overview';
 import { Categories } from '../features/categories/categories';
 import { CategoryForm } from '../features/categories/category-form/category-form';
 import { Occasions } from '../features/occasions/occasions';
+import { OccasionForm } from '../features/occasions/occasion-form/occasion-form';
 import { Products } from '../features/products/products';
 import { ProductsForm } from '../features/products/products-form/products-form';
 
@@ -33,6 +34,21 @@ export const remoteRoutes: Route[] = [
         title: 'Update Category - Rose Dashboard',
       },
       { path: 'categories', component: Categories, title: 'Categories - Rose Dashboard' },
+      {
+        path: 'occasions/add',
+        component: OccasionForm,
+        title: 'Add Occasion - Rose Dashboard',
+      },
+      {
+        path: 'occasions/:id/edit',
+        component: OccasionForm,
+        title: 'Update Occasion - Rose Dashboard',
+      },
+      {
+        path: 'occasions/edit/:id',
+        component: OccasionForm,
+        title: 'Update Occasion - Rose Dashboard',
+      },
       { path: 'occasions', component: Occasions, title: 'Occasions - Rose Dashboard' },
       {
         path: 'products/add',
@@ -45,6 +61,42 @@ export const remoteRoutes: Route[] = [
         title: 'Update Product - Rose Dashboard',
       },
       { path: 'products', component: Products, title: 'Products - Rose Dashboard' },
+      {
+        path: 'unauthorized',
+        loadComponent: () =>
+          import('../features/error-pages/unauthorized/unauthorized').then(
+            (m) => m.Unauthorized
+          ),
+        title: 'Unauthorized - Rose Dashboard',
+      },
+      { path: '401', redirectTo: 'unauthorized', pathMatch: 'full' },
+      { path: '403', redirectTo: 'unauthorized', pathMatch: 'full' },
+      {
+        path: 'server-error',
+        loadComponent: () =>
+          import('../features/error-pages/server-error/server-error').then(
+            (m) => m.ServerError
+          ),
+        title: 'Server Error - Rose Dashboard',
+      },
+      { path: '500', redirectTo: 'server-error', pathMatch: 'full' },
+      {
+        path: '404',
+        loadComponent: () =>
+          import('../features/error-pages/not-found/not-found').then(
+            (m) => m.NotFound
+          ),
+        title: 'Page Not Found - Rose Dashboard',
+      },
+      {
+        path: '**',
+        loadComponent: () =>
+          import('../features/error-pages/not-found/not-found').then(
+            (m) => m.NotFound
+          ),
+        title: 'Page Not Found - Rose Dashboard',
+      },
     ],
   },
 ];
+
