@@ -22,7 +22,6 @@ import { LucideImage, LucideUpload, LucideX } from '@lucide/angular';
 import { Subscription } from 'rxjs';
 
 import { CustomInput } from '../reusable-input/custom-input';
-import { UiButton } from '../ui-button/ui-button';
 import { UiLabel } from '../ui-label/ui-label';
 import {
   DYNAMIC_FIELD_WIDTH_SPAN,
@@ -38,7 +37,6 @@ import {
   imports: [
     ReactiveFormsModule,
     CustomInput,
-    UiButton,
     UiLabel,
     LucideImage,
     LucideUpload,
@@ -66,9 +64,15 @@ export class DynamicForm implements OnChanges, OnDestroy {
   readonly filePreviews = signal<Record<string, string>>({});
   readonly fileNames = signal<Record<string, string>>({});
   readonly submitted = signal(false);
+  readonly formStatus = signal<'VALID' | 'INVALID' | 'PENDING' | 'DISABLED'>('INVALID');
 
   readonly fields = computed(() => this.config().fields);
   readonly gridColumns = computed(() => this.config().columns ?? 12);
+  readonly isFormInvalid = computed(() => {
+    const isInvalid = this.formStatus() === 'INVALID';
+    const f = this.form();
+    return isInvalid && (f.touched || f.dirty || this.submitted());
+  });
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config'] || changes['initialValue']) {
@@ -200,12 +204,16 @@ export class DynamicForm implements OnChanges, OnDestroy {
     const label =
       list.length === 1 ? list[0].name : `${list.length} files selected`;
     this.fileNames.update((map) => ({ ...map, [field.key]: label }));
+    this.formStatus.set(this.form().status as 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED');
   }
 
   clearFile(field: DynamicFieldConfig): void {
     this.revokePreview(field.key);
-    this.control(field.key).setValue(field.multiple ? [] : null);
-    this.control(field.key).markAsDirty();
+    const ctrl = this.control(field.key);
+    ctrl.setValue(field.multiple ? [] : null);
+    ctrl.markAsDirty();
+    ctrl.markAsTouched();
+    ctrl.updateValueAndValidity();
     this.filePreviews.update((map) => {
       const next = { ...map };
       delete next[field.key];
@@ -216,11 +224,13 @@ export class DynamicForm implements OnChanges, OnDestroy {
       delete next[field.key];
       return next;
     });
+    this.formStatus.set(this.form().status as 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED');
   }
 
   onSubmit(): void {
     this.submitted.set(true);
     this.form().markAllAsTouched();
+    this.formStatus.set(this.form().status as 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED');
 
     this.formSubmit.emit({
       value: this.form().getRawValue() as DynamicFormValue,
@@ -264,16 +274,20 @@ export class DynamicForm implements OnChanges, OnDestroy {
 
     this.formSubs.add(
       form.statusChanges.subscribe((status) => {
-        this.statusChange.emit(status as 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED');
+        const s = status as 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED';
+        this.formStatus.set(s);
+        this.statusChange.emit(s);
       }),
     );
 
     this.formSubs.add(
       form.valueChanges.subscribe((value) => {
+        this.formStatus.set(form.status as 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED');
         this.valueChange.emit(value as DynamicFormValue);
       }),
     );
 
+    this.formStatus.set(form.status as 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED');
     this.statusChange.emit(form.status as 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED');
   }
 

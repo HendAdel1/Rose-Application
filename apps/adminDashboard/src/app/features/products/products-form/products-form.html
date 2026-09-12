@@ -1,0 +1,137 @@
+<section
+  class="product-form-page font-sarabun"
+  [attr.aria-label]="pageTitle()"
+>
+
+
+  @if (pageLoading()) {
+    <div class="product-form-page__loading" role="status">
+      <svg
+        lucideLoader2
+        [size]="28"
+        class="product-form-page__spinner animate-spin"
+        aria-hidden="true"
+      ></svg>
+      <span>{{ 'ADMIN_CATEGORIES.LOADING' | translate }}</span>
+    </div>
+  } @else if (formReady()) {
+    <div class="product-form-page__card">
+      <lib-dynamic-form
+        [config]="formConfig()"
+        [initialValue]="initialValue()"
+        [loading]="loading()"
+        (formSubmit)="onSubmit($event)"
+        (valueChange)="onValueChange($event)"
+      >
+        <div slot="before-actions" class="product-form__view-buttons">
+          @if (mode() === 'edit') {
+            <button
+              type="button"
+              class="product-form__view-btn"
+              (click)="openCoverModal()"
+            >
+              <svg lucideImage [size]="18" class="product-form__view-btn-icon" aria-hidden="true"></svg>
+              <span>{{ 'ADMIN_PRODUCTS.VIEW_COVER' | translate }}</span>
+            </button>
+            <button
+              type="button"
+              class="product-form__view-btn"
+              (click)="openGalleryModal()"
+            >
+              <svg lucideImage [size]="18" class="product-form__view-btn-icon" aria-hidden="true"></svg>
+              <span>{{ 'ADMIN_PRODUCTS.VIEW_GALLERY' | translate }}</span>
+            </button>
+          }
+        </div>
+      </lib-dynamic-form>
+    </div>
+  }
+
+  <!-- Image Preview Dialog -->
+  <p-dialog
+    [(visible)]="dialogVisible"
+    [modal]="true"
+    [dismissableMask]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [showHeader]="false"
+    [style]="{ width: '36rem', maxWidth: '95vw' }"
+    [contentStyle]="{ padding: '0', overflow: 'hidden' }"
+    styleClass="product-form__image-dialog"
+    maskStyleClass="product-form__image-dialog-mask"
+    (onHide)="closeModal()"
+  >
+    @if (modalImages().length > 0) {
+      <div class="image-viewer">
+        <!-- Close button -->
+        <button
+          type="button"
+          class="image-viewer__close-btn"
+          [attr.aria-label]="'ADMIN_PRODUCTS.CLOSE' | translate"
+          (click)="closeModal()"
+        >
+          <svg lucideX [size]="18" aria-hidden="true"></svg>
+        </button>
+
+        <!-- Image stage -->
+        <div class="image-viewer__stage">
+          @if (currentImage(); as imgSrc) {
+            <img
+              [src]="imgSrc"
+              [alt]="modalTitle() + ' — ' + (currentImageIndex() + 1)"
+              class="image-viewer__img"
+            />
+          }
+        </div>
+
+        <!-- Footer: dots + arrows -->
+        @if (modalImages().length > 1) {
+          <div class="image-viewer__footer">
+            <!-- Dot indicators -->
+            <div class="image-viewer__dots" role="tablist">
+              @for (url of modalImages(); track $index) {
+                <button
+                  type="button"
+                  class="image-viewer__dot"
+                  [class.image-viewer__dot--active]="$index === currentImageIndex()"
+                  [attr.aria-label]="'Image ' + ($index + 1)"
+                  [attr.aria-selected]="$index === currentImageIndex()"
+                  role="tab"
+                  (click)="setImageIndex($index)"
+                ></button>
+              }
+            </div>
+
+            <!-- Arrow navigation -->
+            <div class="image-viewer__arrows">
+              <button
+                type="button"
+                class="image-viewer__arrow-btn"
+                [attr.aria-label]="'ADMIN_PRODUCTS.PREV_IMAGE' | translate"
+                (click)="prevImage()"
+              >
+                <svg lucideChevronLeft [size]="18" aria-hidden="true"></svg>
+              </button>
+              <button
+                type="button"
+                class="image-viewer__arrow-btn"
+                [attr.aria-label]="'ADMIN_PRODUCTS.NEXT_IMAGE' | translate"
+                (click)="nextImage()"
+              >
+                <svg lucideChevronRight [size]="18" aria-hidden="true"></svg>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="image-viewer__empty">
+        @if (activeModal() === 'cover') {
+          <p>{{ 'ADMIN_PRODUCTS.NO_COVER' | translate }}</p>
+        } @else {
+          <p>{{ 'ADMIN_PRODUCTS.NO_GALLERY' | translate }}</p>
+        }
+      </div>
+    }
+  </p-dialog>
+</section>

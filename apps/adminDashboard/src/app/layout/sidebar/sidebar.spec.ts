@@ -5,6 +5,7 @@ import { provideTranslateService } from '@ngx-translate/core';
 import { AuthSessionService } from '@org/auth-data-access';
 import { describe, expect, it, beforeEach, vi } from 'vitest';
 import { AdminSidebar } from './sidebar';
+import { AdminLayoutService } from '../services/admin-layout.service';
 
 describe('AdminSidebar', () => {
   const logoutMock = vi.fn();
@@ -13,6 +14,8 @@ describe('AdminSidebar', () => {
     lastName: 'Adrian',
     email: 'jonathan@example.com',
   });
+
+  let layoutService: AdminLayoutService;
 
   beforeEach(async () => {
     mockUser.set({
@@ -26,6 +29,7 @@ describe('AdminSidebar', () => {
       providers: [
         provideRouter([]),
         provideTranslateService({ fallbackLang: 'en', lang: 'en' }),
+        AdminLayoutService,
         {
           provide: AuthSessionService,
           useValue: {
@@ -36,6 +40,8 @@ describe('AdminSidebar', () => {
         },
       ],
     }).compileComponents();
+
+    layoutService = TestBed.inject(AdminLayoutService);
   });
 
   it('should create the sidebar component', () => {
@@ -81,6 +87,21 @@ describe('AdminSidebar', () => {
     expect(fixture.componentInstance.profileMenuOpen()).toBe(true);
     fixture.componentInstance.closeProfileMenu();
     expect(fixture.componentInstance.profileMenuOpen()).toBe(false);
+  });
+
+  it('should close sidebar when closeSidebar is called or Escape pressed', () => {
+    const fixture = TestBed.createComponent(AdminSidebar);
+    fixture.detectChanges();
+
+    layoutService.openSidebar();
+    expect(layoutService.sidebarOpen()).toBe(true);
+
+    fixture.componentInstance.closeSidebar();
+    expect(layoutService.sidebarOpen()).toBe(false);
+
+    layoutService.openSidebar();
+    fixture.componentInstance.onEscape();
+    expect(layoutService.sidebarOpen()).toBe(false);
   });
 
   it('should call authSession.logout when logout is invoked', () => {

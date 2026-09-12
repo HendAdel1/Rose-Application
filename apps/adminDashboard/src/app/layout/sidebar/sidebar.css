@@ -2,6 +2,13 @@
   display: block;
 }
 
+/* On desktop (lg+), the sidebar is a static layout column and must never be shifted off-screen by mobile drawer transforms */
+@media (min-width: 1024px) {
+  .admin-sidebar {
+    transform: none !important;
+  }
+}
+
 .sidebar-nav-item.active {
   background-color: #FDE8EC;
   color: #741C21;

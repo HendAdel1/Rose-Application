@@ -14,10 +14,35 @@ import {
 } from '../models/occasion.model';
 import { OccasionRow } from '../models/occasion-row.model';
 
+export interface OccasionItem {
+  id: string;
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+export interface OccasionsResponse {
+  status: boolean;
+  code: number;
+  payload?: {
+    data?: OccasionItem[];
+  };
+}
+
+export interface OccasionPagedResult {
+  items: (OccasionDto & OccasionItem)[];
+  total: number;
+  page: number;
+  limit: number;
+  map<U>(fn: (item: OccasionItem, index: number, array: (OccasionDto & OccasionItem)[]) => U): U[];
+  [Symbol.iterator](): IterableIterator<OccasionDto & OccasionItem>;
+}
+
 @Injectable({ providedIn: 'root' })
 export class OccasionsService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiBaseUrl}/occasions`;
+  private readonly apiUrl = this.baseUrl;
   private readonly uploadUrl = `${environment.apiBaseUrl}/upload`;
 
   private readonly _occasions = signal<OccasionRow[]>([]);
@@ -61,12 +86,11 @@ export class OccasionsService {
       });
   }
 
-  getOccasions(page = 1, limit = 20, search = ''): Observable<{
-    items: OccasionDto[];
-    total: number;
-    page: number;
-    limit: number;
-  }> {
+  getOccasions(
+    page = 1,
+    limit = 20,
+    search = '',
+  ): Observable<OccasionPagedResult> {
     return this.fetchOccasions(page, limit, search);
   }
 
@@ -140,12 +164,7 @@ export class OccasionsService {
     page: number,
     limit: number,
     search: string,
-  ): Observable<{
-    items: OccasionDto[];
-    total: number;
-    page: number;
-    limit: number;
-  }> {
+  ): Observable<OccasionPagedResult> {
     let params = new HttpParams().set('page', page).set('limit', limit);
     if (search.trim()) {
       params = params.set('search', search.trim());
@@ -154,14 +173,44 @@ export class OccasionsService {
     return this.http.get<ApiResponse<OccasionsListPayload>>(this.baseUrl, { params }).pipe(
       map((response) => {
         const payload = response.payload ?? {};
-        const items = payload.data ?? payload.occasions ?? [];
+        const rawItems = payload.data ?? payload.occasions ?? [];
+        const items = rawItems.map((item) => {
+          if (!item.id && item._id) {
+            item.id = item._id;
+          }
+          if (!item.title && item.name) {
+            item.title = item.name;
+          }
+          return item as OccasionDto & OccasionItem;
+        });
         const meta = payload.metadata;
-        return {
+        const total = meta?.total ?? meta?.totalItems ?? items.length;
+        const pageNum = meta?.page ?? meta?.currentPage ?? page;
+        const limitNum = meta?.limit ?? limit;
+
+        const result = {
           items,
-          total: meta?.total ?? meta?.totalItems ?? items.length,
-          page: meta?.page ?? meta?.currentPage ?? page,
-          limit: meta?.limit ?? limit,
+          total,
+          page: pageNum,
+          limit: limitNum,
         };
+
+        Object.defineProperty(result, 'map', {
+          value: <U>(fn: (item: OccasionItem, index: number, array: (OccasionDto & OccasionItem)[]) => U): U[] =>
+            items.map((it, idx, arr) => fn(it, idx, arr)),
+          enumerable: false,
+          writable: true,
+          configurable: true,
+        });
+
+        Object.defineProperty(result, Symbol.iterator, {
+          value: () => items[Symbol.iterator](),
+          enumerable: false,
+          writable: true,
+          configurable: true,
+        });
+
+        return result as OccasionPagedResult;
       }),
     );
   }

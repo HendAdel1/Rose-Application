@@ -97,13 +97,15 @@ export class Occasions implements OnInit {
   private configureTableActions(): void {
     this.dataTableService.setActions([
       {
-        label: 'Edit',
+        label: 'TABLE.ACTIONS.EDIT',
+        action: 'Edit',
         icon: 'lucidePencil',
         styleClass: 'edit-btn',
         visible: (row) => !row.immutable,
       },
       {
-        label: 'Delete',
+        label: 'TABLE.ACTIONS.DELETE',
+        action: 'Delete',
         icon: 'lucideTrash2',
         styleClass: 'delete-btn',
         visible: (row) => !row.immutable,
@@ -111,12 +113,12 @@ export class Occasions implements OnInit {
     ]);
 
     this.dataTableService.setActionHandler((event) => {
-      if (event.action === 'Delete') {
+      if (event.action === 'Delete' || event.action === 'TABLE.ACTIONS.DELETE') {
         this.openDeleteDialog(event.row);
         return;
       }
 
-      if (event.action === 'Edit') {
+      if (event.action === 'Edit' || event.action === 'TABLE.ACTIONS.EDIT') {
         void this.router.navigate(['/adminDashboard/occasions', event.row.id, 'edit']);
       }
     });

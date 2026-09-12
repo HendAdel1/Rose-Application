@@ -14,7 +14,10 @@
  * ```
  */
 export interface TableAction<T = Record<string, unknown>> {
-  /** Button label displayed inside the action button */
+  /** Optional action identifier (e.g. 'Edit', 'Delete'). Defaults to mapped action or label. */
+  action?: string;
+
+  /** Button label displayed inside the action button or translation key */
   label: string;
 
   /** Name of the icon to render (e.g. 'lucidePencil', 'lucideTrash2') */

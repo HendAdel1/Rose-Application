@@ -16,5 +16,23 @@ export interface Product extends Record<string, unknown> {
   categoryTitle: string;
   discountType: string | null;
   discountValue: string | null;
+  deletedAt?: string | null;
   raw: ProductApiItem;
 }
+
+export interface CreateProductPayload {
+  title: string;
+  description: string;
+  price: number;
+  stock: number;
+  discountType?: 'PERCENT' | 'FIXED' | null;
+  discountValue?: number | null;
+  cover: string;
+  gallery?: string[];
+  categoryId: string;
+  subCategoryId?: string | null;
+}
+
+export type UpdateProductPayload = Partial<CreateProductPayload>;
+
+

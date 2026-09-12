@@ -45,7 +45,7 @@ describe('Occasions Component', () => {
 
     const translate = TestBed.inject(TranslateService);
     translate.setTranslation('en', {
-      DASHBOARD: { OCCASIONS: 'Occasions' },
+      DASHBOARD: { OCCASIONS: 'Occasions', ALL_OCCASIONS: 'All Occasions' },
       ADMIN_OCCASIONS: {
         ADD_NEW: 'Add Occasion',
         DELETE_SUCCESS: 'Occasion deleted successfully.',

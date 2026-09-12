@@ -76,3 +76,22 @@ export interface ProductApiResponse {
   code: number;
   payload: ProductApiPayload;
 }
+
+export interface CreateProductResponse {
+  status: boolean;
+  code: number;
+  message?: string;
+  payload: {
+    product: ProductApiItem;
+  };
+}
+
+export interface RestoreProductResponse {
+  status: boolean;
+  code: number;
+  message?: string;
+  payload: {
+    product: ProductApiItem;
+  };
+}
+
