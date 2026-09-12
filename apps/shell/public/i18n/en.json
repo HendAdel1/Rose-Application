@@ -812,5 +812,15 @@
     "NO_COVER": "No cover image available for this product.",
     "NO_GALLERY": "No gallery images available for this product.",
     "CLOSE": "Close"
+  },
+  "ACCOUNT_SETTINGS": {
+    "TITLE": "Account Settings",
+    "CHANGE_PASSWORD": "Change Password",
+    "DELETE_ACCOUNT": "Delete My Account",
+    "DELETE_CONFIRM_MSG": "Are you sure you want to delete your account? This action cannot be undone.",
+    "DELETE_CONFIRM_BTN": "Delete Account"
+  },
+  "COMMON-DIALOG": {
+    "CANCEL": "Cancel"
   }
 }
