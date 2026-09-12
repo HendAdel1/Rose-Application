@@ -812,5 +812,15 @@
     "NO_COVER": "لا تتوفر صورة غلاف لهذا المنتج.",
     "NO_GALLERY": "لا تتوفر صور معرض لهذا المنتج.",
     "CLOSE": "إغلاق"
+  },
+    "ACCOUNT_SETTINGS": {
+    "TITLE": "إعدادات الحساب",
+    "CHANGE_PASSWORD": "تغيير كلمة المرور",
+    "DELETE_ACCOUNT": "حذف حسابي",
+    "DELETE_CONFIRM_MSG": "هل أنت تأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.",
+    "DELETE_CONFIRM_BTN": "حذف الحساب"
+  },
+  "COMMON-DIALOG": {
+    "CANCEL": "إلغاء"
   }
 }

@@ -9,6 +9,7 @@ import { Occasions } from '../features/occasions/occasions';
 import { OccasionForm } from '../features/occasions/occasion-form/occasion-form';
 import { Products } from '../features/products/products';
 import { ProductsForm } from '../features/products/products-form/products-form';
+import { AccountSettings } from '../features/account-settings/account-settings';
 
 export const remoteRoutes: Route[] = [
   {
@@ -23,6 +24,7 @@ export const remoteRoutes: Route[] = [
     children: [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: Overview, title: 'Overview - Rose Dashboard' },
+      { path: 'account-settings', component: AccountSettings, title: 'Account Settings - Rose Dashboard' },
       {
         path: 'categories/add',
         component: CategoryForm,
