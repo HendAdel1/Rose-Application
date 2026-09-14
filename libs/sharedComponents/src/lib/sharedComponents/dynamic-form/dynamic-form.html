@@ -4,6 +4,10 @@
   (ngSubmit)="onSubmit()"
   novalidate
 >
+  @if (config().title) {
+    <h1 class="dynamic-form__title">{{ config().title }}</h1>
+  }
+
   <div
     class="dynamic-form__fields"
     [style.grid-template-columns]="'repeat(' + gridColumns() + ', minmax(0, 1fr))'"

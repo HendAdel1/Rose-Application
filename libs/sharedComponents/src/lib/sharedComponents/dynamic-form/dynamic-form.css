@@ -10,6 +10,15 @@
   width: 70%;
 }
 
+.dynamic-form__title {
+  margin: 0;
+  font-family: 'Sarabun', 'Mulish', sans-serif;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #18181b;
+}
+
 .dynamic-form__fields {
   display: grid;
   gap: 1.25rem 1.25rem;
@@ -232,6 +241,10 @@
 }
 
 /* Dark mode support */
+:host-context(html.dark) .dynamic-form__title {
+  color: #fafafa;
+}
+
 :host-context(html.dark) .dynamic-form__textarea {
   background-color: #3f3f46;
   color: #fafafa;

@@ -9,13 +9,6 @@
   max-width: 100%;
 }
 
-.category-form-page__title {
-  margin: 0;
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
-  font-weight: 700;
-  color: #18181b;
-}
-
 .category-form-page__card {
   width: 100%;
   background: #ffffff;
@@ -33,10 +26,6 @@
   .category-form-page {
     width: 100%;
   }
-}
-
-:host-context(html.dark) .category-form-page__title {
-  color: #fafafa;
 }
 
 :host-context(html.dark) .category-form-page__card {

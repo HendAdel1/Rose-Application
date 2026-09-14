@@ -1,9 +1,10 @@
 import { ValidatorFn } from '@angular/forms';
 
 /**
- * Team usage — side-by-side layout (12-column grid):
+ * Team usage — title + side-by-side layout (12-column grid):
  * ```ts
  * {
+ *   title: isAdd ? 'Add a New Category' : `Update Category: ${name}`,
  *   fields: [
  *     { key: 'title', type: 'text', label: 'Title', width: 'full' },
  *     { key: 'price', type: 'number', label: 'Price', width: 'third' },
@@ -24,7 +25,7 @@ import { ValidatorFn } from '@angular/forms';
  *       multiple: true,
  *     },
  *   ],
- *   submitLabel: 'Add Product',
+ *   submitLabel: isAdd ? 'Add Category' : 'Update Category',
  * }
  * ```
  * Prefer `width` (`full` | `half` | `third` | `twoThirds` | `quarter`)
@@ -97,6 +98,8 @@ export interface DynamicFieldConfig {
 }
 
 export interface DynamicFormConfig {
+  /** Page heading shown above the fields (e.g. "Add a New Category") */
+  title?: string;
   fields: DynamicFieldConfig[];
   submitLabel: string;
   showCancel?: boolean;

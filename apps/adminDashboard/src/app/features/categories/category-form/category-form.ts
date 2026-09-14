@@ -57,6 +57,7 @@ export class CategoryForm implements OnInit {
     const isAdd = this.mode() === 'add';
 
     return {
+      title: this.pageTitle(),
       fields: [
         {
           key: 'title',
