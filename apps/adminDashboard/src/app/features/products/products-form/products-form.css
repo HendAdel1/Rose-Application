@@ -22,7 +22,17 @@
     transform: translateY(0);
   }
 }
-
+.product-form-page__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  color: var(--color-zinc-800, #27272a);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .product-form-page__loading {
   display: flex;
   align-items: center;
@@ -278,6 +288,10 @@
 /* ─── Dark mode ─── */
 :host-context(html.dark) .product-form-page {
   background-color: #09090b;
+}
+
+:host-context(html.dark) .product-form-page__title {
+  color: var(--color-zinc-100, #fafafa);
 }
 
 :host-context(html.dark) .product-form-page__card {
