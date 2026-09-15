@@ -15,6 +15,7 @@
       <span>{{ 'ADMIN_CATEGORIES.LOADING' | translate }}</span>
     </div>
   } @else if (formReady()) {
+    <h1 class="product-form-page__title" [title]="pageTitle()">{{ pageTitle() }}</h1>
     <div class="product-form-page__card">
       <lib-dynamic-form
         [config]="formConfig()"

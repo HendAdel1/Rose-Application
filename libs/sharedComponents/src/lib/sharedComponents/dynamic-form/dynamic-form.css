@@ -17,6 +17,9 @@
   font-weight: 700;
   line-height: 1.25;
   color: #18181b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dynamic-form__fields {
