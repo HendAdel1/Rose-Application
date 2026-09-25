@@ -354,7 +354,7 @@ describe('ProductsForm Component', () => {
       );
     });
 
-    it('should render breadcrumb with Update Product prefix', () => {
+    it('should set page title and breadcrumb custom title with Update Product prefix', () => {
       const productService = TestBed.inject(ProductService);
       vi.spyOn(productService, 'getProductById').mockReturnValue(
         of(mockProduct),
@@ -362,11 +362,7 @@ describe('ProductsForm Component', () => {
 
       fixture.detectChanges();
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const currentCrumb = compiled.querySelector(
-        '.product-form-page__breadcrumb-current',
-      );
-      expect(currentCrumb?.textContent?.trim()).toBe(
+      expect(component.pageTitle()).toBe(
         'Update Product: Best Mum Floral Basket',
       );
     });
@@ -422,29 +418,20 @@ describe('ProductsForm Component', () => {
       fixture.detectChanges();
 
       expect(component.activeModal()).toBe('none');
+      expect(component.dialogVisible()).toBe(false);
 
       component.openCoverModal();
       fixture.detectChanges();
 
       expect(component.activeModal()).toBe('cover');
-      let modal = fixture.nativeElement.querySelector(
-        '.product-form__modal-backdrop',
-      );
-      expect(modal).toBeTruthy();
-
-      const coverImg = fixture.nativeElement.querySelector(
-        '.product-form__modal-cover-img',
-      );
-      expect(coverImg?.getAttribute('src')).toBe(mockProduct.cover);
+      expect(component.dialogVisible()).toBe(true);
+      expect(component.currentImage()).toBe(mockProduct.cover);
 
       component.closeModal();
       fixture.detectChanges();
 
       expect(component.activeModal()).toBe('none');
-      modal = fixture.nativeElement.querySelector(
-        '.product-form__modal-backdrop',
-      );
-      expect(modal).toBeFalsy();
+      expect(component.dialogVisible()).toBe(false);
     });
 
     it('should open and close gallery preview modal', () => {
@@ -459,15 +446,14 @@ describe('ProductsForm Component', () => {
       fixture.detectChanges();
 
       expect(component.activeModal()).toBe('gallery');
-      const galleryImgs = fixture.nativeElement.querySelectorAll(
-        '.product-form__modal-gallery-img',
-      );
-      expect(galleryImgs.length).toBe(2);
+      expect(component.dialogVisible()).toBe(true);
+      expect(component.modalImages().length).toBe(2);
 
       component.onEscape();
       fixture.detectChanges();
 
       expect(component.activeModal()).toBe('none');
+      expect(component.dialogVisible()).toBe(false);
     });
 
     it('should call productService.updateProduct with correct payload on submit in edit mode', () => {

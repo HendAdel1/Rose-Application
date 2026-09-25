@@ -53,3 +53,29 @@
 :host-context(html.dark) .admin-navbar__sep {
   color: #52525b;
 }
+
+.lang-toggle-btn {
+  font-family: inherit;
+  user-select: none;
+}
+
+.lang-toggle-btn:hover {
+  border-color: #d4d4d8;
+}
+
+:host-context(html.dark) .lang-toggle-btn:hover {
+  border-color: #52525b;
+}
+
+.theme-toggle-btn {
+  user-select: none;
+}
+
+.theme-toggle-btn:hover {
+  border-color: #d4d4d8;
+}
+
+:host-context(html.dark) .theme-toggle-btn:hover {
+  border-color: #52525b;
+}
+

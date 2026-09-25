@@ -11,7 +11,16 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { LucideLogOut, LucideMenu, LucideUser } from '@lucide/angular';
+import {
+  LucideLanguages,
+  LucideLogOut,
+  LucideMenu,
+  LucideMoon,
+  LucideSun,
+  LucideUser,
+} from '@lucide/angular';
+import { ThemeService } from '@org/shared-theme';
+import { SharedI18nService } from '@org/shared-i18n';
 import { AdminProfileService } from '../../core/services/admin-profile.service';
 import { AdminLayoutService } from '../services/admin-layout.service';
 
@@ -28,8 +37,11 @@ export interface AdminBreadcrumbItem {
   imports: [
     RouterLink,
     TranslatePipe,
+    LucideLanguages,
     LucideLogOut,
     LucideMenu,
+    LucideMoon,
+    LucideSun,
     LucideUser,
   ],
   templateUrl: './navbar.html',
@@ -42,9 +54,24 @@ export class AdminNavbar {
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
   private readonly elementRef = inject(ElementRef);
+  private readonly i18n = inject(SharedI18nService);
+  private readonly themeService = inject(ThemeService);
 
   readonly logoPath = '/logos/rose-logo.png';
   readonly profileMenuOpen = signal(false);
+
+  readonly currentLanguage = this.i18n.currentLanguage;
+  readonly isDark = computed(() => this.themeService.theme() === 'dark');
+
+  /** Label for target language */
+  readonly languageLabel = computed(() =>
+    this.i18n.currentLanguage() === 'ar' ? 'English' : 'العربية',
+  );
+
+  /** Short language code indicator */
+  readonly languageShortCode = computed(() =>
+    this.i18n.currentLanguage() === 'ar' ? 'EN' : 'عربي',
+  );
 
   readonly userDisplayName = this.profileService.userDisplayName;
   readonly userPhoto = this.profileService.userPhoto;
@@ -206,6 +233,14 @@ export class AdminNavbar {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.closeProfileMenu();
     }
+  }
+
+  toggleLanguage(): void {
+    this.i18n.toggleLanguage();
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggle();
   }
 
   logout(): void {

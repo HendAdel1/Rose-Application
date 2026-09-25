@@ -180,3 +180,12 @@ app-theme-toggle.navbar-theme-toggle .theme-toggle:hover {
     display: none;
   }
 }
+
+:has(.admin-layout) .shell-theme-toggle,
+:has(app-admin-layout) .shell-theme-toggle,
+:has(app-admin-navbar) .shell-theme-toggle,
+.admin-layout ~ .shell-theme-toggle,
+app-admin-layout ~ .shell-theme-toggle {
+  display: none !important;
+}
+

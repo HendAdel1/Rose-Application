@@ -79,4 +79,40 @@ describe('AdminNavbar', () => {
 
     expect(fixture.componentInstance.currentTitle()).toBe('Update Product: Wedding Flowers');
   });
+
+  it('should toggle language via SharedI18nService', () => {
+    const fixture = TestBed.createComponent(AdminNavbar);
+    fixture.detectChanges();
+
+    const initialLang = fixture.componentInstance.currentLanguage();
+    fixture.componentInstance.toggleLanguage();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.currentLanguage()).not.toBe(initialLang);
+  });
+
+  it('should toggle theme via ThemeService', () => {
+    const fixture = TestBed.createComponent(AdminNavbar);
+    fixture.detectChanges();
+
+    const initialThemeState = fixture.componentInstance.isDark();
+    fixture.componentInstance.toggleTheme();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.isDark()).toBe(!initialThemeState);
+  });
+
+  it('should correctly compute language labels based on current language', () => {
+    const fixture = TestBed.createComponent(AdminNavbar);
+    fixture.detectChanges();
+
+    if (fixture.componentInstance.currentLanguage() === 'en') {
+      expect(fixture.componentInstance.languageLabel()).toBe('العربية');
+      expect(fixture.componentInstance.languageShortCode()).toBe('عربي');
+    } else {
+      expect(fixture.componentInstance.languageLabel()).toBe('English');
+      expect(fixture.componentInstance.languageShortCode()).toBe('EN');
+    }
+  });
 });
+
