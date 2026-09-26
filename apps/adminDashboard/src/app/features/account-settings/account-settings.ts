@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthSessionService } from '@org/auth-data-access';
-import { DynamicForm,ConfirmDialog, DynamicFormConfig, DynamicFormSubmitEvent, EmailChangeRequest, EmailChangeResponse, EmailConfirmRequest, ProfileResponse, UpdateProfileRequest, UserProfile } from '@org/shared-components';
+import { DynamicForm,ConfirmDialog, DynamicFormConfig, DynamicFormSubmitEvent, EmailChangeRequest, EmailChangeResponse, EmailConfirmRequest, ProfileResponse, UpdateProfileRequest, UserProfile, ChangePasswordService } from '@org/shared-components';
 import { ToastrService } from 'ngx-toastr';
 import {ProfileService} from '@org/shared-components';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
+import { accountFormConfig, passwordFormConfig } from './config/account-setttings.config';
 
 
 
@@ -18,6 +19,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class AccountSettings {
     private readonly profileService = inject(ProfileService);
+    private readonly changePasswordService = inject(ChangePasswordService);
   private readonly authSession = inject(AuthSessionService);
   private readonly toastr = inject(ToastrService);
   private readonly destroyRef = inject(DestroyRef);
@@ -42,99 +44,11 @@ readonly currentView = signal<'settings' | 'password'>('settings');
     gender: 'male'
   });
 
-  readonly accountConfig: DynamicFormConfig = {
-    columns: 12,
-    submitLabel: 'Save Changes',
-    showCancel: false,
-    fields: [
-      {
-        key: 'avatar',
-        label: 'Upload Photo',
-        type: 'file',
-        // accept: 'image/jpeg,image/png,image/gif',
-        colSpan: 12,
-        validators: { maxSizeMb: 5 }
-      },
-      {
-        key: 'firstName',
-        label: 'First name',
-        type: 'text',
-        colSpan: 6,
-        validators: { required: 'First name is required' }
-      },
-      {
-        key: 'lastName',
-        label: 'Last name',
-        type: 'text',
-        colSpan: 6,
-        validators: { required: 'Last name is required' }
-      },
-      {
-        key: 'email',
-        label: 'Email',
-        type: 'text',
-        colSpan: 12,
-        validators: {
-          required: 'Email is required',
-          pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
-          patternMessage: 'Please enter a valid email address'
-        }
-      },
-      {
-        key: 'phone',
-        label: 'Phone',
-        type: 'text',
-        colSpan: 12,
-        validators: { required: 'Phone number is required' }
-      },
-      {
-        key: 'gender',
-        label: 'Gender',
-        type: 'select',
-        colSpan: 12,
-        options: [
-          { label: 'Male', value: 'male' },
-          { label: 'Female', value: 'female' },
-          { label: 'Other', value: 'other' }
-        ],
-        validators: { required: 'Gender is required' }
-      }
-    ]
-  };
+  readonly accountConfig: DynamicFormConfig = accountFormConfig;
 
-  readonly passwordConfig: DynamicFormConfig = {
-    columns: 12,
-    submitLabel: 'Update Password',
-    showCancel: true,
-    cancelLabel: 'Back to Settings',
-    fields: [
-      {
-        key: 'currentPassword',
-        label: 'Current Password',
-        type: 'password',
-        colSpan: 12,
-        validators: { required: 'Current password is required' }
-      },
-      {
-        key: 'newPassword',
-        label: 'New Password',
-        type: 'password',
-        colSpan: 12,
-        validators: {
-          required: 'New password is required',
-          minLength: 8
-        },
-        helperText: 'Must be at least 8 characters long.'
-      },
-      {
-        key: 'confirmPassword',
-        label: 'Confirm New Password',
-        type: 'password',
-        colSpan: 12,
-        validators: { required: 'Please confirm your new password' }
-      }
-    ]
-  };
+  readonly passwordConfig: DynamicFormConfig = passwordFormConfig;
+  translate: any;
+  form: any;
 
 
   // onSaveAccount(event: DynamicFormSubmitEvent): void {
@@ -171,20 +85,7 @@ readonly currentView = signal<'settings' | 'password'>('settings');
           }
         },
 
-        error: () => {
-          this.isLoading.set(false);
 
-          this.toastr.error('Failed to load profile data');
-
-          /**
-           * Fallback to the current authenticated user.
-           */
-          const user = this.authSession.currentUser();
-
-          if (user) {
-            this.updateInitialValues(user as unknown as UserProfile);
-          }
-        },
       });
   }
 
@@ -280,21 +181,6 @@ readonly currentView = signal<'settings' | 'password'>('settings');
       .subscribe({
         next: (res:EmailChangeResponse) => {
           this.isLoading.set(false);
-
-          if (res.status) {
-            this.isEmailChangeSuccessful.set(true);
-
-            this.toastr.success(
-              res.message || 'Verification code sent successfully.',
-            );
-          } else {
-            this.toastr.error('Failed to send verification code');
-          }
-        },
-
-        error: () => {
-          this.isLoading.set(false);
-          this.toastr.error('Failed to send verification code');
         },
       });
   }
@@ -335,7 +221,6 @@ readonly currentView = signal<'settings' | 'password'>('settings');
               emailVerificationCode: '',
             }));
 
-            this.toastr.success('Email updated successfully');
 
             this.updateAuthSession(res.payload.user);
 
@@ -343,15 +228,9 @@ readonly currentView = signal<'settings' | 'password'>('settings');
              * Now update the rest of the profile.
              */
             this.updateProfile(formValue);
-          } else {
-            this.toastr.error('Failed to confirm email change');
           }
         },
 
-        error: () => {
-          this.isLoading.set(false);
-          this.toastr.error('Failed to confirm email change');
-        },
       });
   }
 
@@ -420,19 +299,10 @@ readonly currentView = signal<'settings' | 'password'>('settings');
 
             updateData.photo = photoUrl;
 
-            this.toastr.success('Photo uploaded successfully');
-
             this.sendUpdateProfile(updateData);
-          } else {
-            this.isLoading.set(false);
-            this.toastr.error('Failed to upload photo');
           }
         },
 
-        error: () => {
-          this.isLoading.set(false);
-          this.toastr.error('Failed to upload photo');
-        },
       });
   }
 
@@ -452,28 +322,13 @@ readonly currentView = signal<'settings' | 'password'>('settings');
           if (res.status) {
             this.uploadedPhotoUrl.set(null);
 
-            this.toastr.success(
-              'Profile updated successfully',
-            );
 
             if (res.payload?.user) {
               this.updateAuthSession(res.payload.user);
 
               this.updateInitialValues(res.payload.user);
             }
-          } else {
-            this.toastr.error(
-              'Failed to update profile',
-            );
           }
-        },
-
-        error: () => {
-          this.isLoading.set(false);
-
-          this.toastr.error(
-            'Failed to update profile',
-          );
         },
       });
   }
@@ -524,28 +379,46 @@ readonly currentView = signal<'settings' | 'password'>('settings');
   /**
    * Password form
    */
-  onSavePassword(event: DynamicFormSubmitEvent): void {
+onSavePassword(event: DynamicFormSubmitEvent): void {
     if (!event.valid) {
       return;
     }
 
     const value = event.value;
 
-    console.log('Password updated:', value);
+    const currentPassword = String(value['currentPassword'] ?? '');
+    const newPassword = String(value['newPassword'] ?? '');
+    const confirmPassword = String(value['confirmPassword'] ?? '');
 
-    /**
-     * Here we will connect your change-password API.
-     *
-     * Example:
-     *
-     * this.profileService.changePassword({
-     *   currentPassword: value['currentPassword'],
-     *   newPassword: value['newPassword'],
-     *   confirmPassword: value['confirmPassword']
-     * })
-     */
+    // التحقق من تطابق كلمة المرور الجديدة مع التأكيد
+    if (newPassword !== confirmPassword) {
+      this.toastr.error('New password and confirmation do not match');
+      return;
+    }
 
-    this.currentView.set('settings');
+    this.isLoading.set(true);
+
+    this.changePasswordService
+      .changePassword({ currentPassword, newPassword, confirmPassword })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: any) => {
+          this.isLoading.set(false);
+
+          if (res.status) {
+            this.toastr.success(res.message || 'Password updated successfully');
+            this.currentView.set('settings');
+          } else {
+            this.toastr.error(res.message || 'Failed to update password');
+          }
+        },
+        error: (err: any) => {
+          this.isLoading.set(false);
+          this.toastr.error(
+            err?.error?.message || 'Failed to update password'
+          );
+        },
+      });
   }
 
   /**
@@ -588,10 +461,6 @@ readonly currentView = signal<'settings' | 'password'>('settings');
             void this.router.navigate([
               '/authApp/login',
             ]);
-          } else {
-            this.toastr.error(
-              'Failed to delete account',
-            );
           }
         }
       });

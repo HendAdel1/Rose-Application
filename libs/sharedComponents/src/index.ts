@@ -12,3 +12,4 @@ export * from './lib/sharedComponents/ui-toast/ui-toast';
 export * from './lib/sharedComponents/ngx-ui-toast/ngx-ui-toast';
 export * from './lib/config/provide-app-toastr';
 export * from './lib/services/profileService.service';
+export * from './lib/services/changePasswordService.service';
