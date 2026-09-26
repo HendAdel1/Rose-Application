@@ -172,6 +172,12 @@ export class AdminNavbar {
         { labelKey: 'DASHBOARD.OVERVIEW', current: true },
       ];
     }
+       if (url.includes('/account-settings')) {
+      return [
+        { labelKey: 'DASHBOARD.TITLE', link: '/adminDashboard/overview' },
+        { labelKey: 'DASHBOARD.ACCOUNT', current: true },
+      ];
+    }
 
     return [{ labelKey: 'DASHBOARD.TITLE', current: true }];
   });

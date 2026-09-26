@@ -276,5 +276,15 @@
       "TITLE": "Oops, something went wrong!",
       "DESCRIPTION": "Our servers encountered a temporary issue. Please try refreshing or check back in a moment."
     }
+  },
+  "ACCOUNT_SETTINGS": {
+    "TITLE": "Account Settings",
+    "CHANGE_PASSWORD": "Change Password",
+    "DELETE_ACCOUNT": "Delete My Account",
+    "DELETE_CONFIRM_MSG": "Are you sure you want to delete your account? This action cannot be undone.",
+    "DELETE_CONFIRM_BTN": "Delete Account"
+  },
+  "COMMON-DIALOG": {
+    "CANCEL": "Cancel"
   }
 }
